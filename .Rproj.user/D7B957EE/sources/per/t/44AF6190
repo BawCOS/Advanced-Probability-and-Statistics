@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588106339463.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "244134404",
+    "id" : "44AF6190",
+    "lastKnownWriteTime" : 1588885965,
+    "last_content_update" : 1588885965211,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/Notes To Instructors.Rmd",
+    "project_path" : "Notes To Instructors.Rmd",
+    "properties" : {
+        "cursorPosition" : "192,158",
+        "ignored_words" : "resampling\n",
+        "scrollLine" : "190"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

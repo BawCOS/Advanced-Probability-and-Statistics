@@ -1,0 +1,6 @@
+"0","stent_study %>%"
+"0","  mutate(patient_id=1:451) %>%"
+"0","  rename(month=outcome30,year=outcome365) %>%"
+"0","  pivot_longer(c('month','year'),names_to = 'time',values_to = 'result') %>%"
+"0","  select(patient_id,group,time,result) %>%"
+"0","  head(n=10)"

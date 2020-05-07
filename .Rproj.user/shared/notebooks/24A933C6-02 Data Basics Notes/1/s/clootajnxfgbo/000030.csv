@@ -1,0 +1,1 @@
+"0","points(county$multiunit[!gp1], county$homeownership[!gp1], pch=20, cex = 0.2, col=COL[5,3])"

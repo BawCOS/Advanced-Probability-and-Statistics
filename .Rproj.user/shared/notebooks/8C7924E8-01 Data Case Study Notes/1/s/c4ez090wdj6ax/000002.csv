@@ -1,0 +1,1 @@
+"0","stent_study <- data.frame(trmt =c(rep('trmt', 224), rep('control', 227)), outcome30 = c(rep(c('stroke', 'no_event'), c(33, 191)), rep(c('stroke', 'no_event'), c(13, 214))), outcome365 = c(rep(c('stroke', 'no_event'), c(45, 179)), rep(c('stroke', 'no_event'), c(28, 199))))"

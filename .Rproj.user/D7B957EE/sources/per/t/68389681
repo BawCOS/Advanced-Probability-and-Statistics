@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588022735689.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2853109135",
+    "id" : "68389681",
+    "lastKnownWriteTime" : 1587052778,
+    "last_content_update" : 1588718806112,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/01V8.tex",
+    "project_path" : "01V8.tex",
+    "properties" : {
+        "cursorPosition" : "161,73",
+        "scrollLine" : "155"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "tex"
+}

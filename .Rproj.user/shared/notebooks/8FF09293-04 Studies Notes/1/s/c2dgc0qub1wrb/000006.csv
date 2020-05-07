@@ -1,0 +1,4 @@
+"0","SAT %>%"
+"0","  gf_point(sat~expend,xlab=""Expenditure per pupil"",ylab=""Average SAT score"",title=""SAT Scores versus Expenditures"") %>%"
+"0","  gf_theme(theme_classic())"
+"0",""

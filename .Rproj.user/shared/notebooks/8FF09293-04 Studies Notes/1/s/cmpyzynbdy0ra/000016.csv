@@ -1,0 +1,8 @@
+"0","SAT %>% "
+"0","  mutate(fracGroup = derivedFactor("
+"0","Hi = (frac > 40),"
+"0","Low = (frac <=40) )) %>%"
+"0","  gf_point(sat~expend,color=~fracGroup,xlab=""Expenditure per pupil"",ylab=""Average SAT score"",title=""SAT Scores versus Expenditures"") %>%"
+"0","  gf_lm() %>%"
+"0","  gf_theme(theme_classic()) %>%"
+"0","  gf_labs(color=""Fraction"")"

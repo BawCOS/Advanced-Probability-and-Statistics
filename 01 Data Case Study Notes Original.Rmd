@@ -1,0 +1,230 @@
+---
+title: "Case Study with Data"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    fig_height: 3
+    fig_width: 5
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Objectives
+
+1) Use R for basic analysis and visualization.
+
+2) Compile a report using `knitr`.
+
+
+
+## Introduction to Block 1 - Descriptive Statistical Modeling
+
+In this first block of material we will focus on
+
+Scientists seek to answer questions using rigorous methods and careful observations. These observations -- collected from the likes of field notes, surveys, and experiments -- form the backbone of a statistical investigation and are called **data**. Statistics is the study of how best to collect, analyze, and draw conclusions from data. It is helpful to put statistics in the context of a general process of investigation:  
+
+1. Identify a question or problem.  
+2. Collect relevant data on the topic. 
+3. Explore and understand the data.
+4. Analyze the data.  
+5. Form a conclusion.  
+6. Make decisions based on the conclusion.  
+
+Statistics as a subject focuses on making stages 2-5 objective, rigorous, and efficient. That is, statistics has three primary components:  
+* How best can we collect data?  
+* How should it be analyzed?  
+* And what can we infer from the analysis?
+
+The topics scientists investigate are as diverse as the questions they ask. However, many of these investigations can be addressed with a small number of data collection techniques, analytic tools, and fundamental concepts in statistical inference. This chapter provides a glimpse into these and other themes we will encounter throughout the rest of the book. We introduce the basic principles of each branch and learn some tools along the way. We will encounter applications from other fields, some of which are not typically associated with science but nonetheless can benefit from statistical study.
+
+
+## Case Study
+
+In this section we will consider an experiment that studies effectiveness of stents in treating patients at risk of stroke. ^[[Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003.](http://www.nejm.org/doi/full/10.1056/NEJMoa1105335)] ^[[NY Times article reporting on the study](http://www.nytimes.com/2011/09/08/health/research/08stent.html)] Stents are small mesh tubes that are placed inside narrow or weak arteries to assist in patient recovery after cardiac events and reduce the risk of an additional heart attack or death. Many doctors have hoped that there would be similar benefits for patients at risk of stroke. We start by writing the principal question the researchers hope to answer:
+
+### Research Question
+
+> Does the use of stents reduce the risk of stroke?
+
+### Collect the Relevant Data
+
+The researchers who asked this question collected data on 451 at-risk patients. Each volunteer patient was randomly assigned to one of two groups:
+
+**Treatment group**. Patients in the treatment group received a stent and medical management. The medical management included medications, management of risk factors, and help in lifestyle modification.
+
+**Control group**. Patients in the control group received the same medical management as the treatment group but did not receive stents.
+
+Researchers randomly assigned 224 patients to the treatment group and 227 to the control group. In this study, the control group provides a reference point against which we can measure the medical impact of stents in the treatment group. 
+
+This is an experiment and not an observational study. We will learn more about these ideas in this block.
+
+Researchers studied the effect of stents at two time points: 30~days after enrollment and 365~days after enrollment. 
+
+#### Import Data 
+
+We begin our first use of `R`
+
+`R` has packages that can be downloaded and installed where they reside on the computer. To use them in a session, we must load them. We will load load `tidyverse` and `mosaic`. 
+
+```{r message=FALSE}
+library(tidyverse)
+library(mosaic)
+```
+
+
+```{r results='hide',echo=FALSE}
+stent_study <- data.frame(trmt =c(rep('trmt', 224), rep('control', 227)), outcome30 = c(rep(c('stroke', 'no_event'), c(33, 191)), rep(c('stroke', 'no_event'), c(13, 214))), outcome365 = c(rep(c('stroke', 'no_event'), c(45, 179)), rep(c('stroke', 'no_event'), c(28, 199))))
+```
+
+Now read in the data into the working environment.
+
+```{r message=FALSE}
+stent_study <- read_csv("data/stent_study.csv")
+```
+
+Let's break this code down. We are saving the results into an object called `stent_study` and once complete. The assignment arrow `<-` means save what is on the right to what is on the left. The `R` function is `read_csv`; you should ask yourself:  
+
+1. What do I want `R` to do?  
+2. What information must I provide for `R` to do this?
+
+We want `R` to read in a csv file. We can get help on this function by typing `?read_csv` at the prompt. We need to provide `R` the file location. We have our data stored in a folder called data under the working directory. We can determine the working directory by typing `getwd()` at the prompt.
+
+```{r}
+getwd()
+```
+
+### Explore Data
+
+Before we attempt to answer the question, let's look at the data. We want `R` to print out the first 10 rows of the data. The command is `head` and it needs the data object and how many rows we want to view.
+
+```{r}
+head(stent_study,n=10)
+```
+
+We also want to `inspect` the data. The command is `inspect` and `R` needs the data object `stent_study`.
+
+```{r}
+inspect(stent_study)
+```
+
+> Exercise: Interpret this table and explain each column
+
+To keep things simple we will only look at the `outcome30`. We will summarize in a table. You will learn to do this using the `tidy` package but for now we use the `mosaic` package. This package makes use of the modeling formula that you will use extensively later in this course and in Math 378.
+
+We want to summarize the data by making a table. In `mosaic` this is the `tally` command. Before using we have to understand the basic formula format.
+
+The basic format will be:
+
+```
+goal( y ~ x, data = MyData, ... ) # pseudo-code for the formula template
+```
+
+Read y ~ x as “y wiggle x” and interpret in the equivalent forms: “y broken down by x”; “y modeled by x”; “y explained by x”; “y depends on x”; or “y accounted for by x.” For graphics, it’s reasonable to read the formula as “y vs. x”, which is exactly the convention used for coordinate axes. 
+
+For us, we want to `tally` the two variables `trmt` and `outcome30`. In this case it does not matter which we call `y` and `x` although it is more natural to think of `outcome30` as a dependent variable. 
+
+```{r}
+tally(outcome30~trmt,data=stent_study,margins = TRUE)
+```
+
+Of the 224 patients in the treatment group, 33 had a stroke by the end of the first year. Using these two numbers, `R` can compute the proportion of patients in the treatment group who had a stroke by the end of their first month. 
+
+```{r}
+33/(33+191)
+```
+
+
+> Exercise: What proportion of the control group had a stroke?
+
+Let's have `R` calculate proportions for us. Again, look at the help menu for `tally`.
+
+```{r}
+tally(outcome30~trmt,data=stent_study,format='proportion',margins = TRUE)
+```
+
+We can compute summary statistics from the table. A **summary statistic** is a single number summarizing a large amount of data.^[Formally, a summary statistic is a value computed from the data. Some summary statistics are more useful than others.] For instance, the primary results of the study after 1~month could be described by two summary statistics: the proportion of people who had a stroke in the treatment and control groups.
+
+* Proportion who had a stroke in the treatment (stent) group: $33/224 = 0.15 = 15\%$.   
+* Proportion who had a stroke in the control group: $13/227 = 0.06 = 6\%$.
+
+
+
+#### Visualize the Data  
+
+It is often important to visualize the data. The table is a type of visualization but in this section we will introduce a graphical method called bar charts.
+
+We will use the [`ggformula`](https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html) package to visualize. It is a wrapper to the `ggplot` package which is becoming the industry standard for generating professional graphics. However, its interface is difficult to learn and we will ease into by using `ggformula` which has a formula interface. The `ggformula` package was loaded when we loaded `mosaic`.^[https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html]
+
+To generate a basic graphic, we need to ask what we want `R` to do and in particular what type of graph and then ask what `R` needs. For categorical data we want a bar chart and `R` needs the data object and the variable(s) of interest.
+
+Here is our first attempt.
+
+```{r}
+gf_bar(~outcome30,data=stent_study)
+```
+
+> Exercise: Explain this graph.
+
+However, this is not what we want. We want to compare the 30-day outcomes for both treatment groups. So we need to break the data into different groups based on treatment type. In the formula language we now update it to the form:
+
+```
+goal( y ~ x|z, data = MyData, ... ) # pseudo-code for the formula template
+```
+
+Read y ~ x|z as “y wiggle x by z” and interpret in the equivalent forms: “y modeled by x for each z”; “y explained by x within each z”; or “y accounted for by x within z.” For graphics, it’s reasonable to read the formula as “y vs. x for each z”, which is exactly the convention used for coordinate axes. 
+
+```{r}
+stent_study %>%
+gf_bar(~outcome30|trmt) 
+```
+
+Notice that we used the pipe operator, `%>%`. This will allow us to string functions together in a manner that makes it easier to read the code. In the above code we are sending the data object `stent_study` into the function `gf_bar` to use as data. In math, this is a composition of functions. Instead of $f(g(x))$ we could use a pipe $f(g(x)) = g(x) \%>\% f()$.
+
+> Exercise: Read both lines of code for the graphs above and make sure you understand the pipe operator.
+
+
+As a prelude for things to come, the above graphic needs work. The labels don't help, there is not title, we could add color, and does it make more sense to use proportions? Here is the code and results for a better graph. Don't worry, this is advanced for now.
+
+```{r}
+stent_study %>%
+gf_props(~trmt,fill=~outcome30,position='fill') %>%
+  gf_labs(title="Impact of Stents of Stroke",
+          subtitle='Experiment with 451 Patients',
+          x="Experimental Group",
+          y="Number of Events")
+```
+
+
+### Conclusion
+
+These two summary statistics are useful in looking for differences in the groups, and we are in for a surprise: an additional 9\% of patients in the treatment group had a stroke! This is important for two reasons. First, it is contrary to what doctors expected, which was that stents would *reduce* the rate of strokes. Second, it leads to a statistical question: do the data show a **real** difference due to the treatment?
+
+This second question is subtle. Suppose you flip a coin 100 times. While the chance a coin lands heads in any given coin flip is 50\%, we probably won't observe exactly 50 heads. This type of fluctuation is part of almost any type of data generating process. It is possible that the 9\% difference in the stent study is due to this natural variation. However, the larger the difference we observe (for a particular sample size), the less believable it is that the difference is due to chance. So what we are really asking is the following: is the difference so large that we should reject the notion that it was due to chance? 
+
+These of the steps 4, analyze the data, and 5, form a conclusion, of the analysis cycle. While we haven't yet covered statistical tools to fully address these steps, we can comprehend the conclusions of the published analysis: there was compelling evidence of harm by stents in this study of stroke patients.
+
+**Be careful:** do not generalize the results of this study to all patients and all stents. This study looked at patients with very specific characteristics who volunteered to be a part of this study and who may not be representative of all stroke patients. In addition, there are many types of stents and this study only considered the self-expanding Wingspan stent (Boston Scientific). However, this study does leave us with an important lesson: we should keep our eyes open for surprises.
+
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+ 
+
