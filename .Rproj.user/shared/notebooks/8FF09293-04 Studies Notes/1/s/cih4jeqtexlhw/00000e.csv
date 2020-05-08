@@ -1,3 +1,0 @@
-"0","#points(cc$housing_multi_unit, cc$home_ownership, pch=""."", cex=1)"
-"0","#rug(county$poverty[county$fed_spend > 40], side=3)"
-"0","mtext(""Percent of Units in Multi-Unit Structures"", 1, 1.9, cex= 1)"

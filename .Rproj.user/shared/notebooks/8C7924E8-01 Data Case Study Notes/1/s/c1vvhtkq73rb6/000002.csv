@@ -1,6 +1,0 @@
-"0","stent_study %>%"
-"0","gf_props(~group,fill=~outcome30,position='fill') %>%"
-"0","  gf_labs(title=""Impact of Stents of Stroke"","
-"0","          subtitle='Experiment with 451 Patients',"
-"0","          x=""Experimental Group"","
-"0","          y=""Number of Events"")"

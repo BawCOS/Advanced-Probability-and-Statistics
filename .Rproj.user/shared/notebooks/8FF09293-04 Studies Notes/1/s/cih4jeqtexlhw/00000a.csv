@@ -1,1 +1,0 @@
-"0","points(county$multiunit[!gp1], county$homeownership[!gp1], pch=pch, col=colPop, xlab="""", ylab=""Percent of Homeownership"", cex=ifelse(cex < 0.32, 0.32, cex)[!gp1])"

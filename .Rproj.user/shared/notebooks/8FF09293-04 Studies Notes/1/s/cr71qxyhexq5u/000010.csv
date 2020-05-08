@@ -1,4 +1,0 @@
-"0","x   <- runif(N, 0, 2)"
-"0","y   <- runif(N)"
-"0","inc <- n"
-"0","points(x, y, col=col, pch=pch)"

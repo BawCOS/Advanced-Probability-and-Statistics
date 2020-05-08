@@ -1,3 +1,0 @@
-"0",""
-"0","these <- sample(N, n)"
-"0","points(x[these], y[these], pch=20, cex=0.8, col=colSamp)"

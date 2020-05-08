@@ -1,3 +1,0 @@
-"0","gpa %>%"
-"0","  gf_point(gpa ~ studyweek,xlab = ""Study hours/week"",ylab=""GPA"",cex=1) %>%"
-"0","  gf_theme(theme_classic())"

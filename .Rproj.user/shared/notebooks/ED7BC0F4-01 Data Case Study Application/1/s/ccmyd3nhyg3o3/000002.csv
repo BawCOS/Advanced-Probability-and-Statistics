@@ -1,1 +1,0 @@
-"0","migraine_study <- data.frame(group =c(rep('treatment', 43), rep('control', 46)), pain_free = c(rep(c('yes', 'no'), c(10, 33)), rep(c('yes', 'no'), c(2, 44))))"

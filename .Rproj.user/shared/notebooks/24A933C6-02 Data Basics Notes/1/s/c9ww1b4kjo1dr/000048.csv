@@ -1,2 +1,0 @@
-"0","#rug(county$poverty[county$fed_spend > 40], side=3)"
-"0","mtext(""Poverty Rate (Percent)"", 1, 1.9)"

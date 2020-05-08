@@ -3,6 +3,7 @@ title: "Case Study with Data"
 author:
 - Lt Col Ken Horton
 - Professor Bradley Warner
+- Lt Col Kris Pruitt
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:

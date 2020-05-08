@@ -1,3 +1,0 @@
-"0","t1 <- county$poverty[1088]"
-"0","t2 <- county$fed_spend[1088]"
-"0","lines(c(t1,t1), c(-10,t2), lty=2, col=COL[4])"
