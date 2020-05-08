@@ -5,16 +5,16 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "244134404",
+    "hash" : "2933805102",
     "id" : "44AF6190",
-    "lastKnownWriteTime" : 1588885965,
-    "last_content_update" : 1588885965211,
+    "lastKnownWriteTime" : 1588961644,
+    "last_content_update" : 1588961644226,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/Notes To Instructors.Rmd",
     "project_path" : "Notes To Instructors.Rmd",
     "properties" : {
-        "cursorPosition" : "192,158",
+        "cursorPosition" : "10,0",
         "ignored_words" : "resampling\n",
-        "scrollLine" : "190"
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
