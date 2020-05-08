@@ -1,0 +1,486 @@
+---
+title: "Observation Studies, Sampling Strategies, and Experiments"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+- Lt Col Kris Pruitt
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Objectives
+
+1) 
+
+2)
+
+```{r echo=FALSE,results='hide',warning=FALSE,message=FALSE}
+library(tidyverse)
+library(mosaic)
+library(openintro)
+```
+
+
+## Numerical Data
+
+This lesson introduces techniques for exploring and summarizing numerical variables, and the `email50` and `county` data sets from the `openintro` package provide rich opportunities for examples. Recall that outcomes of numerical variables are numbers on which it is reasonable to perform basic arithmetic operations. For example, the `pop2010` variable, which represents the populations of counties in 2010, is numerical since we can sensibly discuss the difference or ratio of the populations in two counties. On the other hand, area codes and zip codes are not numerical.
+
+
+### Scatterplots for paired data 
+
+A **scatterplot** provides a case-by-case view of data for two numerical variables. In a Figure 1, we present again a scatterplot used to examine how federal spending and poverty were related in the `county` data set. 
+
+```{r, echo=FALSE,fig.cap="A scatterplot showing fed_spend against poverty. Owsley County of Kentucky, with a poverty rate of 41.5% and federal spending of $21.50 per capita, is highlighted."}
+plot(county$poverty, county$fed_spend, pch=20, cex=0.7, col=COL[1,3], ylim=c(0,31.25), xlab="", ylab="Federal Spending Per Capita", axes=FALSE)
+axis(1)
+axis(2, at=seq(0, 30, 10))
+box()
+points(county$poverty, county$fed_spend, pch=20, cex = 0.18)
+#rug(county$poverty[county$fed_spend > 40], side=3)
+mtext("Poverty Rate (Percent)", 1, 1.9)
+t1 <- county$poverty[1088]
+t2 <- county$fed_spend[1088]
+lines(c(t1,t1), c(-10,t2), lty=2, col=COL[4])
+lines(c(-10,t1), c(t2,t2), lty=2, col=COL[4])
+points(t1, t2, col=COL[4])
+text(43, 29, "32 counties with higher\nfederal spending are not shown", cex=0.8)
+```
+
+Another scatterplot is shown in Figure 2, comparing the number of line breaks `line_breaks` and number of characters `num_char` in emails for the `email50` data set. In any scatterplot, each point represents a single case. Since there are 50 cases in `email50`, there are 50 points in Figure 2.
+
+```{r echo=FALSE,fig.cap="A scatterplot of *line_breaks* versus *num_char* for the `email50` data."}
+data(COL)
+plot(email50$num_char, email50$line_breaks, pch=19, cex=1.3, col=COL[1,4], xlab="", ylab="Number of Lines", axes=FALSE)
+axis(2)
+axis(1)
+box()
+points(email50$num_char, email50$line_breaks, cex=1.3, col=COL[1,1])
+mtext("Number of Characters (in thousands)", 1, 1.9)
+```
+
+
+To put the number of characters in perspective, this paragraph has 363 characters. Looking at Figure 2, it seems that some emails are incredibly long! Upon further investigation, we would actually find that most of the long emails use the HTML format, which means most of the characters in those emails are used to format the email rather than provide text.
+
+> Exercise
+What do scatterplots reveal about the data, and how might they be useful?^[Answers may vary. Scatterplots are helpful in quickly spotting associations between variables, whether those associations represent simple or more complex relationships.]
+
+> Example 
+Consider a new data set of 54 cars with two variables: vehicle price and weight.^[Subset of data from http://www.amstat.org/publications/jse/v1n1/datasets.lock.html] A scatterplot of vehicle price versus weight is shown in Figure 3. What can be said about the relationship between these variables?
+
+```{r echo=FALSE,fig.cap="A scatterplot of *price* versus *weight* for 54 cars."}
+data(cars)
+data(COL)
+plot(cars$weight, cars$price, xlab='Weight (Pounds)', ylab='Price ($1000s)', pch=19, col=COL[1,2], ylim=c(0, max(cars$price)))
+
+w  <- seq(1000, 5000, 100)
+# Rough Model
+g1 <- lm(price ~ weight, cars, weights=1/weight^2)
+g2 <- lm(price ~ weight + I(weight^2), cars, weights=1/weight^2)
+p  <- predict(g2, data.frame(weight=w))
+lines(w, p, lty=2, col=COL[5,3])
+```
+
+
+
+The relationship is evidently nonlinear, as highlighted by the dashed line. This is different from previous scatterplots we've seen which show relationships that are very linear.
+
+> Eexercise  
+Describe two variables that would have a horseshoe shaped association in a scatterplot.^[Consider the case where your vertical axis represents something ``good'' and your horizontal axis represents something that is only good in moderation. Health and water consumption fit this description since water becomes toxic when consumed in excessive quantities.]
+
+### Dot plots and the mean
+
+Sometimes two variables is one too many: only one variable may be of interest. In these cases, a dot plot provides the most basic of displays. A~\term{dot plot} is a one-variable scatterplot; an example using the number of characters from 50 emails is shown in Figure~\ref{emailCharactersDotPlot}. A stacked version of this dot plot is shown in Figure~\ref{emailCharactersDotPlotStacked}.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=\textwidth]{01/figures/emailCharactersDotPlot/emailCharactersDotPlot}
+   \caption{A dot plot of \var{num\_\hspace{0.3mm}char} for the \data{email50} data set.}
+   \label{emailCharactersDotPlot}
+\end{figure}
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.67\textwidth]{01/figures/emailCharactersDotPlot/emailCharactersDotPlotStacked}
+   \caption{A stacked dot plot of \var{num\_\hspace{0.3mm}char} for the \data{email50} data set.}
+   \label{emailCharactersDotPlotStacked}
+\end{figure}
+
+The \term{mean}, sometimes called the \indexthis{average}{mean!average}, is a common way to measure the center of a \term{distribution} of data. To find the mean number of characters in the 50 emails, we add up all the character counts and divide by the number of emails. For computational convenience, the number of characters is listed in the thousands and rounded to the first decimal.
+\begin{eqnarray}
+\bar{x} = \frac{21.7 + 7.0 + \cdots + 15.8}{50} = 11.6
+\label{sampleMeanEquation}
+\end{eqnarray}
+The sample mean is often labeled $\bar{x}$\marginpar[\raggedright$\bar{x}$\\\footnotesize sample\\ mean]{\raggedright$\bar{x}$\\\footnotesize sample\\ mean}, and the letter $x$ is being used as a generic placeholder for the variable of interest, \var{num\_\hspace{0.3mm}char}. The sample mean is shown as a triangle in Figures~\ref{emailCharactersDotPlot} and~\ref{emailCharactersDotPlotStacked}.
+
+\begin{termBox}{\tBoxTitle{Mean}%
+The sample mean of a numerical variable is the sum of all of the observations divided by the number of observations:
+\begin{eqnarray}
+\bar{x} = \frac{x_1+x_2+\cdots+x_n}{n}
+\label{meanEquation}
+\end{eqnarray}
+where $x_1, x_2, \dots, x_n$ represent the $n$ observed values.}
+\end{termBox}\marginpar[\raggedright\vspace{-8mm}
+
+$n$\\\footnotesize sample size]{\raggedright\vspace{-8mm}
+
+$n$\\\footnotesize sample size}\vspace{-2mm}
+
+\begin{exercise}
+Examine Equations~\eqref{sampleMeanEquation} and~\eqref{meanEquation} above. What does $x_1$ correspond to? And $x_2$? Can you infer a general meaning to what $x_i$ might represent?\footnote{$x_1$ corresponds to the number of characters in the first email in the sample (21.7, in thousands), $x_2$ to the number of characters in the second email (7.0, in thousands), and $x_i$ corresponds to the number of characters in the $i^{th}$ email in the data set.}
+\end{exercise}
+
+\begin{exercise}
+What was $n$ in this sample of emails?\footnote{The sample size was $n=50$.}
+\end{exercise}
+
+The \data{email50} data set is a sample from a larger population of emails that were received in January and March. We could compute a mean for this population in the same way as the sample mean. However, there is a difference in notation: the population mean has a special label: $\mu$\marginpar[\raggedright$\mu$\\\footnotesize population\\ mean]{\raggedright$\mu$\\\footnotesize population\\ mean}. \index{Greek!mu@mu ($\mu$)} The symbol $\mu$ is the Greek letter \emph{mu} and represents the average of all observations in the population. Sometimes a subscript, such as $_x$, is used to represent which variable the population mean refers to, e.g. $\mu_x$.
+
+\begin{example}{The average number of characters across all emails can be estimated using the sample data. Based on the sample of 50 emails, what would be a reasonable estimate of $\mu_x$, the mean number of characters in all emails in the \data{email} data set? (Recall that \data{email50} is a sample from \data{email}.)}
+The sample mean, 11,600, may provide a reasonable estimate of $\mu_x$. While this number will not be perfect, it provides a \term{point estimate} of the population mean. In Chapter~\ref{FoundationForInference} and beyond, we will develop tools to characterize the accuracy of point estimates, and we will find that point estimates based on larger samples tend to be more accurate than those based on smaller samples.
+\end{example}
+
+\begin{example}{We might like to compute the average income per person in the US. To do so, we might first think to take the mean of the per capita incomes from the 3,143 counties in the \data{county} data set. What would be a better approach?} \label{wtdMeanOfIncome}
+The \data{county} data set is special in that each county actually represents many individual people. If we were to simply average across the \var{income} variable, we would be treating counties with 5,000 and 5,000,000 residents equally in the calculations. Instead, we should compute the total income for each county, add up all the counties' totals, and then divide by the number of people in all the counties. If we completed these steps with the \data{county} data, we would find that the per capita income for the US is \$27,348.43. Had we computed the \emph{simple} mean of per capita income across counties, the result would have been just \$22,504.70!
+\end{example}
+
+Example~\ref{wtdMeanOfIncome} used what is called a \term{weighted mean}\index{mean!weighted mean}, which will not be a key topic in this textbook. However, we have provided an online supplement on weighted means for interested readers:
+\begin{center}
+\urlwofont{http://www.openintro.org/stat/down/supp/wtdmean.pdf}
+\end{center}
+
+\subsection{Histograms and shape}
+\label{histogramsAndShape}
+
+Dot plots show the exact value of each observation. This is useful for small data sets, but they can become hard to read with larger samples. Rather than showing the value of each observation, think of the value as belonging to a \emph{bin}. For example, in the \data{email50} data set, we create a table of counts for the number of cases with character counts between 0 and 5,000, then the number of cases between 5,000 and 10,000, and so on. Observations that fall on the boundary of a bin (e.g. 5,000) are allocated to the lower bin. This tabulation is shown in Table~\ref{binnedNumCharTable}. These binned counts are plotted as bars in Figure~\ref{email50NumCharHist} into what is called a \term{histogram}, which resembles the stacked dot plot shown in Figure~\ref{emailCharactersDotPlotStacked}.
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{l ccc ccc ccc c}
+  \hline
+Characters & \\
+(in thousands) & \raisebox{1.5ex}[0pt]{0-5} & \raisebox{1.5ex}[0pt]{5-10} & \raisebox{1.5ex}[0pt]{10-15} & \raisebox{1.5ex}[0pt]{15-20} & \raisebox{1.5ex}[0pt]{20-25} & \raisebox{1.5ex}[0pt]{25-30} & \raisebox{1.5ex}[0pt]{$\cdots$} & \raisebox{1.5ex}[0pt]{55-60} & \raisebox{1.5ex}[0pt]{60-65} \\
+  \hline
+Count & 19 & 12 & 6 & 2 & 3 & 5 & $\cdots$ & 0 & 1 \\
+  \hline
+\end{tabular}
+\caption{The counts for the binned \var{num\_\hspace{0.3mm}char} data.}
+\label{binnedNumCharTable}
+\end{table}
+
+\begin{figure}[bth]
+   \centering
+   \includegraphics[width=0.82\textwidth]{01/figures/email50NumCharHist/email50NumCharHist}
+   \caption{A histogram of \var{num\_\hspace{0.3mm}char}. This distribution is very strongly skewed to the right.\index{skew!example: very strong}}
+   \label{email50NumCharHist}
+\end{figure}
+
+Histograms provide a view of the \term{data density}. Higher bars represent where the data are relatively more dense. For instance, there are many more emails between 0 and 10,000 characters than emails between 10,000 and 20,000 characters in the data set. The bars make it easy to see how the density of the data changes relative to the number of characters.
+
+Histograms are especially convenient for describing the shape of the data distribution\label{shapeFirstDiscussed}. Figure~\ref{email50NumCharHist} shows that most emails have a relatively small number of characters, while fewer emails have a very large number of characters. When data trail off to the right in this way and have a longer right \hiddenterm{tail}\index{skew!tail}, the shape is said to be \termsub{right skewed}{skew!right skewed}.\footnote{Other ways to describe data that are skewed to the right: \termni{skewed to the right}, \termni{skewed to the high end}, or \termni{skewed to the positive end}.}
+
+Data sets with the reverse characteristic -- a long, thin tail to the left -- are said to be \termsub{left skewed}{skew!left skewed}. We also say that such a distribution has a long left tail. Data sets that show roughly equal trailing off in both directions are called \term{symmetric}.\index{skew!symmetric}
+
+\begin{termBox}{\tBoxTitle{Long tails to identify skew}%
+When data trail off in one direction, the distribution has a \term{long tail}. \index{skew!long tail|textbf} If a distribution has a long left tail, it is left skewed. If a distribution has a long right tail, it is right skewed.}
+\end{termBox}
+
+\begin{exercise}
+Take a look at the dot plots in Figures~\ref{emailCharactersDotPlot} and~\ref{emailCharactersDotPlotStacked}. Can you see the skew in the data? Is it easier to see the skew in this histogram or the dot plots?\footnote{The skew is visible in all three plots, though the flat dot plot is the least useful. The stacked dot plot and histogram are helpful visualizations for identifying skew.}
+\end{exercise}
+
+\begin{exercise}
+Besides the mean (since it was labeled), what can you see in the dot plots that you cannot see in the histogram?\footnote{Character counts for individual emails.}
+\end{exercise}
+
+In addition to looking at whether a distribution is skewed or symmetric, histograms can be used to identify modes. A \term{mode} is represented by a prominent peak in the distribution.\footnote{Another definition of mode, which is not typically used in statistics, is the value with the most occurrences. It is common to have \emph{no} observations with the same value in a data set, which makes this other definition useless for many real data sets.} There is only one prominent peak in the histogram of \var{num\_\hspace{0.3mm}char}.
+
+Figure~\ref{singleBiMultiModalPlots} shows histograms that have one, two, or three prominent peaks. Such distributions are called \termsub{unimodal}{modality!unimodal}, \termsub{bimodal}{modality!bimodal}, and \termsub{multimodal}{modality!multimodal}, respectively. Any distribution with more than 2 prominent peaks is called multimodal. Notice that there was one prominent peak in the unimodal distribution with a second less prominent peak that was not counted since it only differs from its neighboring bins by a few observations.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=\textwidth]{01/figures/singleBiMultiModalPlots/singleBiMultiModalPlots}
+   \caption{Counting only prominent peaks, the distributions are (left to right) unimodal, bimodal, and multimodal.}
+   \label{singleBiMultiModalPlots}
+\end{figure}
+
+\begin{exercise}
+Figure~\ref{email50NumCharHist} reveals only one prominent mode in the number of characters. Is the distribution unimodal, bimodal, or multimodal?\footnote{Unimodal. Remember that \emph{uni} stands for 1 (think \emph{uni}cycles). Similarly, \emph{bi} stands for~2 (think \emph{bi}cycles). (We're hoping a \emph{multicycle} will be invented to complete this analogy.)}
+\end{exercise}
+
+\begin{exercise}
+Height measurements of young students and adult teachers at a K-3 elementary school were taken. How many modes would you anticipate in this height data set?\footnote{There might be two height groups visible in the data set: one of the students and one of the adults. That is, the data are probably bimodal.}
+\end{exercise}
+
+\begin{tipBox}{\tipBoxTitle{Looking for modes}
+Looking for modes isn't about finding a clear and correct answer about the number of modes in a distribution, which is why \emph{prominent} is not rigorously defined in this book. The important part of this examination is to better understand your data and how it might be structured.}
+\end{tipBox}
+
+
+\subsection{Variance and standard deviation}
+\label{variability}
+
+The mean is used to describe the center of a data set, but the \indexthis{variability}{variability} in the data is also important. Here, we introduce two measures of variability: the variance and the standard deviation. Both of these are very useful in data analysis, even though the formulas are a bit tedious to calculate by hand. The standard deviation is the easier of the two to conceptually understand, and it roughly describes how far away the typical observation is from the mean.
+
+We call the distance of an observation from its mean its \term{deviation}. Below are the deviations for the $1^{st}_{}$, $2^{nd}_{}$, $3^{rd}$, and $50^{th}_{}$ observations in the \var{num\_\hspace{0.3mm}char} variable. For computational convenience, the number of characters is listed in the thousands and rounded to the first decimal.
+\begin{align*}
+x_1^{}-\bar{x} &= 21.7 - 11.6 = 10.1 \hspace{5mm}\text{ } \\
+x_2^{}-\bar{x} &= 7.0 - 11.6 = -4.6 \\
+x_3^{}-\bar{x} &= 0.6 - 11.6 = -11.0 \\
+			&\ \vdots \\
+x_{50}^{}-\bar{x} &= 15.8 - 11.6 = 4.2
+\end{align*}
+% library(openintro); d <- email50$num_char; round(mean(d),1); d[c(1,2,3,50)]; d[c(1,2,3,50)] - round(mean(d),1); (d[c(1,2,3,50)] - round(mean(d)))^2; sum((d - round(mean(d)))^2)/49; sqrt(sum((d - round(mean(d)))^2)/49); var(d); sd(d)
+If we square these deviations and then take an average, the result is about equal to the sample \term{variance}\label{varianceIsDefined}, denoted by $s_{}^2$\marginpar[\raggedright$s^2_{}$\\\footnotesize sample variance]{\raggedright$s^2_{}$\\\footnotesize sample variance}:
+\begin{align*}
+s_{}^2 &= \frac{10.1_{}^2 + (-4.6)_{}^2 + (-11.0)_{}^2 + \cdots + 4.2_{}^2}{50-1} \\
+	&= \frac{102.01 + 21.16 + 121.00 + \cdots + 17.64}{49} \\
+	&= 172.44
+\end{align*}
+We divide by $n-1$, rather than dividing by $n$, when computing the variance; you need not worry about this mathematical nuance for the material in this textbook. Notice that squaring the deviations does two things. First, it makes large values much larger, seen by comparing $10.1^2$, $(-4.6)^2$, $(-11.0)^2$, and $4.2^2$. Second, it gets rid of any negative signs.
+
+The \term{standard deviation} is the square root of the variance:
+$$s=\sqrt{172.44} = 13.13$$
+\marginpar[\raggedright\vspace{-10mm}
+
+$s$\\\footnotesize sample standard deviation]{\raggedright\vspace{-10mm}
+
+$s$\\\footnotesize sample standard deviation
+}\index{s@$s$}The standard deviation of the number of characters in an email is about 13.13 thousand. A subscript of $_x$ may be added to the variance and standard deviation, i.e. $s_x^2$ and $s_x^{}$, as a reminder that these are the variance and standard deviation of the observations represented by $x_1^{}$, $x_2^{}$, ..., $x_n^{}$. The $_{x}$ subscript is usually omitted when it is clear which data the variance or standard deviation is referencing.
+
+\begin{termBox}{\tBoxTitle{Variance and standard deviation}
+The variance is roughly the average squared distance from the mean. The standard deviation is the square root of the variance and describes how close the data are to the mean.}
+\end{termBox}
+
+Formulas and methods used to compute the variance and standard deviation for a population are similar to those used for a sample.\footnote{The only difference is that the population variance has a division by $n$ instead of $n-1$.} However, like the mean, the population values have special symbols: $\sigma_{}^2$\marginpar[\raggedright$\sigma_{}^2$\\\footnotesize population variance\\ \hspace{2mm}]{\raggedright$\sigma_{}^2$\\\footnotesize population variance\\ \hspace{2mm}} for the variance and $\sigma$\marginpar[\raggedright$\sigma$\\\footnotesize population standard deviation\\ \hspace{2mm}]{\raggedright$\sigma$\\\footnotesize population standard deviation\\ \hspace{2mm}} for the standard deviation. The symbol $\sigma$ \index{Greek!sigma@sigma ($\sigma$)} is the Greek letter \emph{sigma}.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\mycaptionwidth]{01/figures/sdAsRuleForEmailNumChar/sdAsRuleForEmailNumChar}
+\caption{In the \var{num\_\hspace{0.3mm}char} data, 41 of the 50 emails (82\%) are within 1~standard deviation of the mean, and 47 of the 50 emails (94\%) are within 2 standard deviations. Usually about 70\% of the data are within 1 standard deviation of the mean and 95\% are within 2 standard deviations, though this rule of thumb is less accurate for skewed data, as shown in this example.}
+\label{sdAsRuleForEmailNumChar}
+\end{figure}
+
+\begin{tipBox}{\tipBoxTitle{standard deviation describes variability}
+Focus on the conceptual meaning of the standard deviation as a descriptor of variability rather than the formulas. Usually 70\% of the data will be within one standard deviation of the mean and about 95\% will be within two standard deviations. However, as seen in Figures~\ref{sdAsRuleForEmailNumChar} and~\ref{severalDiffDistWithSdOf1}, these percentages are not strict rules.}
+\end{tipBox}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.63\textwidth]{01/figures/severalDiffDistWithSdOf1/severalDiffDistWithSdOf1}
+\caption{Three very different population distributions with the same mean $\mu=0$ and standard deviation $\sigma=1$.}
+\label{severalDiffDistWithSdOf1}
+\end{figure}
+
+\begin{exercise}
+On page~\pageref{shapeFirstDiscussed}, the concept of shape of a distribution was introduced. A good description of the shape of a distribution should include modality and whether the distribution is symmetric or skewed to one side. Using Figure~\ref{severalDiffDistWithSdOf1} as an example, explain why such a description is important.\footnote{Figure~\ref{severalDiffDistWithSdOf1} shows three distributions that look quite different, but all have the same mean, variance, and standard deviation. Using modality, we can distinguish between the first plot (bimodal) and the last two (unimodal). Using skewness, we can distinguish between the last plot (right skewed) and the first two. While a picture, like a histogram, tells a more complete story, we can use modality and shape (symmetry/skew) to characterize basic information about a~distribution.}
+\end{exercise}
+
+\begin{example}{Describe the distribution of the \var{num\_\hspace{0.3mm}char} variable using the histogram in Figure~\vref{email50NumCharHist}. The description should incorporate the center, variability, and shape of the distribution, and it should also be placed in context: the number of characters in emails. Also note any especially unusual cases.}
+The distribution of email character counts is unimodal and very strongly skewed to the high end. Many of the counts fall near the mean at 11,600, and most fall within one standard deviation (13,130) of the mean. There is one exceptionally long email with about 65,000 characters.
+\end{example}
+
+In practice, the variance and standard deviation are sometimes used as a means to an end, where the ``end'' is being able to accurately estimate the uncertainty associated with a sample statistic. For example, in Chapter~\ref{FoundationForInference} we will use the variance and standard deviation to assess how close the sample mean is to the population mean.
+
+\subsection{Box plots, quartiles, and the median}
+
+A \term{box plot} summarizes a data set using five statistics while also plotting unusual observations. Figure~\ref{boxPlotLayoutNumVar} provides a vertical dot plot alongside a box plot of the \var{num\_\hspace{0.3mm}char} variable from the \data{email50} data set.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.87\mycaptionwidth]{01/figures/boxPlotLayoutNumVar/boxPlotLayoutNumVar}
+   \caption{A vertical dot plot next to a labeled box plot for the number of characters in 50 emails. The median (6,890), splits the data into the bottom 50\% and the top 50\%, marked in the dot plot by horizontal dashes and open circles, respectively.}
+   \label{boxPlotLayoutNumVar}
+\end{figure}
+
+The first step in building a box plot is drawing a dark line denoting the \term{median}, which splits the data in half. Figure~\ref{boxPlotLayoutNumVar} shows 50\% of the data falling below the median (dashes) and other 50\% falling above the median (open circles). There are 50 character counts in the data set (an even number) so the data are perfectly split into two groups of~25. We take the median in this case to be the average of the two observations closest to the $50^{th}$ percentile: $(\text{6,768} + \text{7,012}) / 2 = \text{6,890}$. When there are an odd number of observations, there will be exactly one observation that splits the data into two halves, and in this case that observation is the median (no average needed).
+
+\begin{termBox}{\tBoxTitle{Median: the number in the middle}
+If the data are ordered from smallest to largest, the \term{median} is the observation right in the middle. If there are an even number of observations, there will be two values in the middle, and the median is taken as their average.}
+\end{termBox}
+
+The second step in building a box plot is drawing a rectangle to represent the middle 50\% of the data. The total length of the box, shown vertically in Figure~\ref{boxPlotLayoutNumVar}, is called the \term{interquartile range} (\hiddenterm{IQR}, for short). It, like the standard deviation, is a measure of \indexthis{variability}{variability} in data. The more variable the data, the larger the standard deviation and~IQR. The two boundaries of the box are called the \term{first quartile} \index{quartile!first quartile} (the $25^{th}$ \hiddenterm{percentile}, i.e. 25\% of the data fall below this value) and the \term{third quartile} \index{quartile!third quartile} (the $75^{th}$ percentile), and these are often labeled $Q_1$ \index{Q$_1$} and $Q_3$\index{Q$_3$}, respectively.
+
+\begin{termBox}{\tBoxTitle{Interquartile range (IQR)}
+The IQR\index{interquartile range} is the length of the box in a box plot. It is computed as
+\begin{eqnarray*}
+IQR = Q_3 - Q_1
+\end{eqnarray*}
+where $Q_1$ and $Q_3$ are the $25^{th}$ and $75^{th}$ percentiles.}
+\end{termBox}
+
+\begin{exercise}
+What percent of the data fall between $Q_1$ and the median? What percent is between the median and $Q_3$?\footnote{Since $Q_1$ and $Q_3$ capture the middle 50\% of the data and the median splits the data in the middle, 25\% of the data fall between $Q_1$ and the median, and another 25\% falls between the median and $Q_3$.}
+\end{exercise}
+
+Extending out from the box, the \term{whiskers} attempt to capture the data outside of the box, however, their reach is never allowed to be more than $1.5\times IQR$.\footnote{While the choice of exactly 1.5 is arbitrary, it is the most commonly used value for box plots.} They capture everything within this reach. In Figure~\ref{boxPlotLayoutNumVar}, the upper whisker does not extend to the last three points, which are beyond $Q_3 + 1.5\times IQR$, and so it extends only to the last point below this limit. The lower whisker stops at the lowest value, 33, since there is no additional data to reach; the lower whisker's limit is not shown in the figure because the plot does not extend down to $Q_1 - 1.5\times IQR$. In a sense, the box is like the body of the box plot and the whiskers are like its arms trying to reach the rest of the data.
+
+Any observation that lies beyond the whiskers is labeled with a dot. The purpose of labeling these points -- instead of just extending the whiskers to the minimum and maximum observed values -- is to help identify any observations that appear to be unusually distant from the rest of the data. Unusually distant observations are called \termsub{outliers}{outlier}. In this case, it would be reasonable to classify the emails with character counts of 41,623, 42,793, and 64,401 as outliers since they are numerically distant from most of the data.
+
+\begin{termBox}{\tBoxTitle{Outliers are extreme}
+An \term{outlier} is an observation that is extreme relative to the rest of the data.}
+\end{termBox}
+
+
+\begin{tipBox}{\tipBoxTitle{Why it is important to look for outliers}
+Examination of data for possible outliers serves many useful purposes, including\vspace{-2mm}
+\begin{enumerate}
+\setlength{\itemsep}{0mm}
+\item Identifying \indexthis{strong skew}{skew!strong skew} in the distribution.
+\item Identifying data collection or entry errors. For instance, we re-examined the email purported to have 64,401 characters to ensure this value was accurate.
+\item Providing insight into interesting properties of the data.\vspace{0.5mm}
+\end{enumerate}}
+\end{tipBox}
+
+\begin{exercise}
+The observation 64,401, an outlier, was found to be an accurate observation. What would such an observation suggest about the nature of character counts in emails?\footnote{That occasionally there may be very long emails.}\end{exercise}
+
+\begin{exercise}
+Using Figure~\ref{boxPlotLayoutNumVar}, estimate the following values for \var{num\_\hspace{0.3mm}char} in the \data{email50} data set: (a) $Q_1$, (b) $Q_3$, and (c) IQR.\footnote{These visual estimates will vary a little from one person to the next: $Q_1\approx$ 3,000, $Q_3\approx$ 15,000, $\text{IQR}=Q_3 - Q_1 \approx $ 12,000. (The true values: $Q_1=$ 2,536, $Q_3=$ 15,411, $\text{IQR} = $ 12,875.)}
+\end{exercise}
+
+\subsection{Robust statistics}
+
+How are the \indexthis{sample statistics}{sample statistic} of the \data{num\_\hspace{0.3mm}char} data set affected by the observation, 64,401? What would have happened if this email wasn't observed? What would happen to these \indexthis{summary statistics}{summary statistic} if the observation at 64,401 had been even larger, say 150,000? These scenarios are plotted alongside the original data in Figure~\ref{email50NumCharDotPlotRobustEx}, and sample statistics are computed under each scenario in Table~\ref{robustOrNotTable}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{01/figures/email50NumCharDotPlotRobustEx/email50NumCharDotPlotRobustEx}
+\caption{Dot plots of the original character count data and two modified data sets.}
+\label{email50NumCharDotPlotRobustEx}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l c cc c cc}
+  \hline
+& \hspace{0mm} & \multicolumn{2}{c}{\bf robust} & \hspace{2mm} & \multicolumn{2}{c}{\bf not robust} \\
+scenario && median & IQR && $\bar{x}$ & $s$ \\ 
+  \hline
+original \var{num\_\hspace{0.3mm}char} data 	&& 6,890 & 12,875 && 11,600 & 13,130 \\
+% library(openintro); data(email50); d <- email50$num_char; median(d); diff(quantile(d, c(0.25,0.75))); mean(d); sd(d)
+drop 66,924 observation		&& 6,768 & 11,702 && 10,521 & 10,798 \\
+% library(openintro); data(email50); d <- email50$num_char; d <- d[-which.max(d)]; median(d); diff(quantile(d, c(0.25,0.75))); mean(d); sd(d)
+move 66,924 to 150,000		&& 6,890 & 12,875 && 13,310 & 22,434 \\
+% library(openintro); data(email50); d <- email50$num_char; d[which.max(d)] <- 100000; median(d); diff(quantile(d, c(0.25,0.75))); mean(d); sd(d)
+   \hline
+\end{tabular}
+\caption{A comparison of how the median, IQR, mean ($\bar{x}$), and standard deviation ($s$) change when extreme observations are present.}
+\label{robustOrNotTable}
+\end{table}
+
+\begin{exercise} \label{numCharWhichIsMoreRobust}
+(a) Which is more affected by extreme observations, the mean or median? Table~\ref{robustOrNotTable} may be helpful. (b) Is the standard deviation or IQR more affected by extreme observations?\footnote{(a) Mean is affected more. (b) Standard deviation is affected more. Complete explanations are provided in the material following Guided Practice~\ref{numCharWhichIsMoreRobust}.}
+\end{exercise}
+
+The median and IQR are called \term{robust estimates} because extreme observations have little effect on their values. The mean and standard deviation are much more affected by changes in extreme observations.
+
+\begin{example}{The median and IQR do not change much under the three scenarios in Table~\ref{robustOrNotTable}. Why might this be the case?}
+The median and IQR are only sensitive to numbers near $Q_1$, the median, and $Q_3$. Since values in these regions are relatively stable -- there aren't large jumps between observations -- the median and IQR estimates are also quite stable.
+\end{example}
+
+\begin{exercise}
+The distribution of vehicle prices tends to be right skewed, with a few luxury and sports cars lingering out into the right tail. If you were searching for a new car and cared about price, should you be more interested in the mean or median price of vehicles sold, assuming you are in the market for a regular car?\footnote{Buyers of a ``regular car'' should be concerned about the median price. High-end car sales can drastically inflate the mean price while the median will be more robust to the influence of those sales.}
+\end{exercise}
+
+\subsection{Transforming data (special topic)}
+\label{transformingDataSubsection}
+
+When data are very strongly skewed, we sometimes transform them so they are easier to model. Consider the histogram of salaries for Major League Baseball players' salaries from 2010, which is shown in Figure~\ref{histMLBSalariesReg}.
+
+\begin{figure}[ht]
+\centering
+\subfigure[]{
+\includegraphics[width=0.46\textwidth]{01/figures/histMLBSalaries/histMLBSalariesReg}
+\label{histMLBSalariesReg}
+}
+\subfigure[]{
+\includegraphics[width=0.46\textwidth]{01/figures/histMLBSalaries/histMLBSalariesLog}
+\label{histMLBSalariesLog}
+}
+\caption{\subref{histMLBSalariesReg} Histogram of MLB player salaries for 2010, in millions of dollars. \subref{histMLBSalariesLog} Histogram of the log-transformed MLB player salaries for 2010.}
+\label{histMLBSalaries}
+\end{figure}
+
+\begin{example}{The histogram of MLB player salaries is useful in that we can see the data are extremely skewed\index{skew!example: extreme} and centered (as gauged by the median) at about \$1 million. What isn't useful about this plot?}
+Most of the data are collected into one bin in the histogram and the data are so strongly skewed that many details in the data are obscured.
+\end{example}
+
+There are some standard transformations that are often applied when much of the data cluster near zero (relative to the larger values in the data set) and all observations are positive. A \term{transformation} is a rescaling of the data using a function. For instance, a plot of the natural logarithm\footnote{Statisticians often write the natural logarithm as $\log$. You might be more familiar with it being written as $\ln$.} of player salaries results in a new histogram in Figure~\ref{histMLBSalariesLog}. Transformed data are sometimes easier to work with when applying statistical models because the transformed data are much less skewed and outliers are usually less extreme.
+
+Transformations can also be applied to one or both variables in a scatterplot. A scatterplot of the \var{line\_\hspace{0.3mm}breaks} and \var{num\_\hspace{0.3mm}char} variables is shown in Figure~\ref{email50LinesCharactersMod}, which was earlier shown in Figure~\ref{email50LinesCharacters}. We can see a positive association between the variables and that many observations are clustered near zero. In Chapter~\ref{linRegrForTwoVar}, we might want to use a straight line to model the data. However, we'll find that the data in their current state cannot be modeled very well. Figure~\ref{email50LinesCharactersModLog} shows a scatterplot where both the \var{line\_\hspace{0.3mm}breaks} and \var{num\_\hspace{0.3mm}char} variables have been transformed using a log (base $e$) transformation. While there is a positive association in each plot, the transformed data show a steadier trend, which is easier to model than the untransformed data.
+
+\begin{figure}
+\centering
+\subfigure[]{
+\includegraphics[width=0.46\textwidth]{01/figures/email50LinesCharactersMod/email50LinesCharactersMod}
+\label{email50LinesCharactersMod}
+}
+\subfigure[]{
+\includegraphics[width=0.46\textwidth]{01/figures/email50LinesCharactersMod/email50LinesCharactersModLog}
+\label{email50LinesCharactersModLog}
+}
+\caption{\subref{email50LinesCharactersMod} Scatterplot of \var{line\_\hspace{0.3mm}breaks} against \var{num\_\hspace{0.3mm}char} for 50 emails. \subref{email50LinesCharactersModLog} A scatterplot of the same data but where each variable has been log-transformed.}
+\label{email50LinesCharactersModMain}
+\end{figure}
+
+Transformations other than the logarithm can be useful, too. For instance, the square root ($\sqrt{\text{original observation}}$) and inverse ($\frac{1}{\text{original observation}}$) are used by statisticians. Common goals in transforming data are to see the data structure differently, reduce skew, assist in modeling, or straighten a nonlinear relationship in a scatterplot.
+
+\index{data!email50|)}
+
+\subsection{Mapping data (special topic)}
+
+\index{data!county|(}
+\index{intensity map|(}
+
+The \data{county} data set offers many numerical variables that we could plot using dot plots, scatterplots, or box plots, but these miss the true nature of the data. Rather, when we encounter geographic data, we should map it using an \term{intensity map}, where colors are used to show higher and lower values of a variable. Figures~\ref{countyIntensityMaps1} and~\ref{countyIntensityMaps2} shows intensity maps for federal spending per capita (\var{fed\_\hspace{0.3mm}spend}), poverty rate in percent (\var{poverty}), homeownership rate in percent (\var{homeownership}), and median household income (\var{med\_\hspace{0.3mm}income}). The color key indicates which colors correspond to which values. Note that the intensity maps are not generally very helpful for getting precise values in any given county, but they are very helpful for seeing geographic trends and generating interesting research questions.
+
+\begin{figure}
+\centering
+\subfigure[]{\includegraphics[width=\textwidth]{01/figures/countyIntensityMaps/countyFedSpendMap}\label{countyFedSpendMap}}
+\subfigure[]{\includegraphics[width=\textwidth]{01/figures/countyIntensityMaps/countyPovertyMap}\label{countyPovertyMap}}
+\caption{\subref{countyFedSpendMap} Map of federal spending (dollars per capita). \subref{countyPovertyMap} Intensity map of poverty rate (percent).}
+\label{countyIntensityMaps1}
+\end{figure}
+
+\begin{figure}
+\centering
+\subfigure[]{\includegraphics[width=\textwidth]{01/figures/countyIntensityMaps/countyHomeownershipMap}\label{countyHomeownershipMap}}
+\subfigure[]{\includegraphics[width=\textwidth]{01/figures/countyIntensityMaps/countyMedIncomeMap}\label{countyMedIncomeMap}}
+\caption{\subref{countyHomeownershipMap} Intensity map of homeownership rate (percent). \subref{countyMedIncomeMap} Intensity map of median household income (\$1000s).}
+\label{countyIntensityMaps2}
+\end{figure}
+
+\begin{example}{What interesting features are evident in the \var{fed\_\hspace{0.3mm}spend} and \var{poverty} intensity maps?}
+The federal spending intensity map shows substantial spending in the Dakotas and along the central-to-western part of the Canadian border, which may be related to the oil boom in this region. There are several other patches of federal spending, such as a vertical strip in eastern Utah and Arizona and the area where Colorado, Nebraska, and Kansas meet. There are also seemingly random counties with very high federal spending relative to their neighbors. If we did not cap the federal spending range at \$18 per capita, we would actually find that some counties have extremely high federal spending while there is almost no federal spending in the neighboring counties. These high-spending counties might contain military bases, companies with large government contracts, or other government facilities with many employees.
+
+Poverty rates are evidently higher in a few locations. Notably, the deep south shows higher poverty rates, as does the southwest border of Texas. The vertical strip of eastern Utah and Arizona, noted above for its higher federal spending, also appears to have higher rates of poverty (though generally little correspondence is seen between the two variables).  High poverty rates are evident in the Mississippi flood plains a little north of New Orleans and also in a large section of Kentucky and West Virginia.
+\end{example}
+
+\begin{exercise}
+What interesting features are evident in the \var{med\_\hspace{0.3mm}income} intensity map?\footnote{Note: answers will vary. There is a very strong correspondence between high earning and metropolitan areas. You might look for large cities you are familiar with and try to spot them on the map as dark spots.}
+\end{exercise}
+
+\index{intensity map|)}
+\index{data!county|)}
+
+
+
+### File creation information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `openintro` package version": `r packageVersion("openintro")`
+ 
+

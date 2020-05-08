@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588966144181.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4041432653",
+    "id" : "522B9E0D",
+    "lastKnownWriteTime" : 1588967314,
+    "last_content_update" : 1588967314666,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/05 Numerical Data Notes.Rmd",
+    "project_path" : "05 Numerical Data Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "95,356",
+        "last_setup_crc32" : "88923A16bb338d19",
+        "scrollLine" : "84"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

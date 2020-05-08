@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588966901671.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3319535978",
+    "id" : "4075154C",
+    "lastKnownWriteTime" : 1587052782,
+    "last_content_update" : 1587052782,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/figures/email50LinesCharacters.R",
+    "project_path" : "figures/email50LinesCharacters.R",
+    "properties" : {
+        "cursorPosition" : "11,52",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
