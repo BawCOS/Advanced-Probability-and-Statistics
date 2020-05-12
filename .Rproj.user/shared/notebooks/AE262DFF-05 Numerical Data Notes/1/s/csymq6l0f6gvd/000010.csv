@@ -1,0 +1,1 @@
+"0","gf_histogram(~x1, breaks=c(-1.05, -0.95, 0.95, 1.05), add=TRUE, probability=TRUE, fill=COL[1], ylim=c(0, 0.75),xlab="""") "

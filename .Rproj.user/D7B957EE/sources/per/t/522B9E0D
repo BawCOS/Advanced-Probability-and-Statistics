@@ -5,16 +5,17 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4041432653",
+    "hash" : "1226181992",
     "id" : "522B9E0D",
-    "lastKnownWriteTime" : 1588967314,
-    "last_content_update" : 1588967314666,
+    "lastKnownWriteTime" : 1589242007,
+    "last_content_update" : 1589242007679,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/05 Numerical Data Notes.Rmd",
     "project_path" : "05 Numerical Data Notes.Rmd",
     "properties" : {
-        "cursorPosition" : "95,356",
-        "last_setup_crc32" : "88923A16bb338d19",
-        "scrollLine" : "84"
+        "cursorPosition" : "348,123",
+        "ignored_words" : "scatterplot,untransformed\n",
+        "last_setup_crc32" : "663002B9bb338d19",
+        "scrollLine" : "341"
     },
     "read_only" : false,
     "read_only_alternatives" : [

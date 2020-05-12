@@ -1,0 +1,2 @@
+"0","gf_histogram(~salary/1000,data=MLB,main="""", bins=15, xlab=""Salary (millions of dollars)"", ylab="""", fill=COL[1]) %>%"
+"0","   gf_theme(theme_classic())"

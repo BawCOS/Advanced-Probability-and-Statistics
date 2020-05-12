@@ -1,0 +1,2 @@
+"0","data(COL)"
+"0","plot(email50$num_char, email50$line_breaks, pch=19, cex=1.3, col=COL[1,4], xlab="""", ylab=""Number of Lines"", axes=FALSE)"

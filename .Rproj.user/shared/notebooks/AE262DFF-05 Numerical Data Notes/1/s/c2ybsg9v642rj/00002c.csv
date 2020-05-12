@@ -1,0 +1,5 @@
+"0","data(email50)"
+"0","data(COL)"
+"0","d   <- email50$num_char"
+"0",""
+"0","boxPlot(d, ylab='Number of Characters (in thousands)', xlim=c(0.3,3), axes=FALSE, ylim=range(d)+sd(d)*c(-1,1)*0.2)"

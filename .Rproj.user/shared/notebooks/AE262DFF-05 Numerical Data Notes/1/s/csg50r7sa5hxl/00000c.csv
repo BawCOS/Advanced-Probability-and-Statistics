@@ -1,1 +1,1 @@
-"0","points(email50$num_char, email50$line_breaks, cex=1.3, col=COL[1,1])"
+"0","mtext(""Number of Characters (in thousands)"", 1, 1.9)"
