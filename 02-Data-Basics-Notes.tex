@@ -1,0 +1,649 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Data Basics},
+  pdfauthor={Lt Col Ken Horton; Professor Bradley Warner},
+  pdfborder={0 0 0},
+  breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-2}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Data Basics}
+\author{Lt Col Ken Horton \and Professor Bradley Warner}
+\date{13 May, 2020}
+
+\begin{document}
+\maketitle
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+\hypertarget{objectives}{%
+\section{Objectives}\label{objectives}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  Define and use properly in context all new terminology to include but
+  not limited to case, observational unit, variables, data frame,
+  associated variables, independent, and discrete and continuous
+  variables.
+\item
+  Identify and define the different types of variables.
+\item
+  From reading a study, explain the research question.
+\item
+  Create a scatterplot in \texttt{R} and determine the association of
+  two numerical variables from the plot.
+\end{enumerate}
+
+\hypertarget{data-basics}{%
+\subsection{Data basics}\label{data-basics}}
+
+Effective presentation and description of data is a first step in most
+analyses. This lesson introduces one structure for organizing data as
+well as some terminology that will be used throughout this book.
+
+\hypertarget{observations-variables-and-data-matrices}{%
+\subsubsection{Observations, variables, and data
+matrices}\label{observations-variables-and-data-matrices}}
+
+For reference we will be using a data set concerning 50 emails received
+in 2012. These observations will be referred to as the \texttt{email50}
+data set, and they are a random sample from a larger data set. This data
+is in the \texttt{openintro} package so let's load our packages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(mosaic)}
+\KeywordTok{library}\NormalTok{(openintro)}
+\KeywordTok{library}\NormalTok{(knitr)}
+\end{Highlighting}
+\end{Shaded}
+
+INCOMPLETE THOUGHT: The table below shows 5 rows of the \texttt{email50}
+data set concerning\ldots{}.? Should we mention that this only contains
+a few observations AND only a few characteristics?
+
+Each row in the table represents a single email or
+\textbf{case}.\footnote{A case is also sometimes called a \textbf{unit
+  of observation} or an \textbf{observational unit}} The columns
+represent characteristics, called \textbf{variables}, for each of the
+emails. For example, the first row represents email 1, which is not
+spam, contains 21,705 characters, 551 line breaks, is written in HTML
+format, and contains only small numbers.
+
+\begin{longtable}[]{@{}lrrrrl@{}}
+\toprule
+& spam & num\_char & line\_breaks & format & number\tabularnewline
+\midrule
+\endhead
+1 & 0 & 21.705 & 551 & 1 & small\tabularnewline
+2 & 0 & 7.011 & 183 & 1 & big\tabularnewline
+3 & 1 & 0.631 & 28 & 0 & none\tabularnewline
+50 & 0 & 15.829 & 242 & 1 & small\tabularnewline
+\bottomrule
+\end{longtable}
+
+Let's look at the first 10 rows of data from \texttt{email50}. Remember
+to ask the two questions:
+
+\emph{What do we want \texttt{R} to do?} and \emph{What must we give
+\texttt{R} for it to do this?}
+
+We want the first 10 rows so we use \texttt{head} and \texttt{R} needs
+the data object and the number of rows. The data object is called
+\texttt{email50} and is accessible once the \texttt{openintro} package
+is loaded.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(email50,}\DataTypeTok{n=}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    spam to_multiple from cc sent_email                time image attach dollar
+## 1     0           0    1  0          1 2012-01-04 06:19:16     0      0      0
+## 2     0           0    1  0          0 2012-02-16 13:10:06     0      0      0
+## 3     1           0    1  4          0 2012-01-04 08:36:23     0      2      0
+## 4     0           0    1  0          0 2012-01-04 10:49:52     0      0      0
+## 5     0           0    1  0          0 2012-01-27 02:34:45     0      0      9
+## 6     0           0    1  0          0 2012-01-17 10:31:57     0      0      0
+## 7     0           0    1  0          0 2012-03-17 22:18:55     0      0      0
+## 8     0           0    1  0          1 2012-03-31 07:58:56     0      0      0
+## 9     0           0    1  1          1 2012-01-10 18:57:54     0      0      0
+## 10    0           0    1  0          0 2012-01-07 12:29:16     0      0     23
+##    winner inherit viagra password num_char line_breaks format re_subj
+## 1      no       0      0        0   21.705         551      1       1
+## 2      no       0      0        0    7.011         183      1       0
+## 3      no       0      0        0    0.631          28      0       0
+## 4      no       0      0        0    2.454          61      0       0
+## 5      no       0      0        1   41.623        1088      1       0
+## 6      no       0      0        0    0.057           5      0       0
+## 7      no       0      0        0    0.809          17      0       0
+## 8      no       0      0        0    5.229          88      1       1
+## 9      no       0      0        0    9.277         242      1       1
+## 10     no       0      0        0   17.170         578      1       0
+##    exclaim_subj urgent_subj exclaim_mess number
+## 1             0           0            8  small
+## 2             0           0            1    big
+## 3             0           0            2   none
+## 4             0           0            1  small
+## 5             0           0           43  small
+## 6             0           0            0  small
+## 7             0           0            0  small
+## 8             0           0            2  small
+## 9             1           0           22  small
+## 10            0           0            3  small
+\end{verbatim}
+
+In practice, it is especially important to ask clarifying questions to
+ensure important aspects of the data are understood. For instance, it is
+always important to be sure we know what each variable means and the
+units of measurement. Descriptions of all variables in the
+\texttt{email50} data set are given in its documentation which can be
+accessed in \texttt{R} by using the \texttt{?} command:
+
+\begin{verbatim}
+?email50
+\end{verbatim}
+
+(Note that not all data sets will have associated documentation; the
+authors of \texttt{openintro} package included this documentation with
+the \texttt{email50} dataset contained in the package.)
+
+The data in \texttt{email50} represent a \textbf{data matrix} or in
+\texttt{R} terminology \textbf{data frame}, which is a common way to
+organize data. Each row of a data matrix corresponds to a unique case,
+and each column corresponds to a variable. This is called \textbf{tidy
+data}.\footnote{For more information on tidy data see the
+  \href{https://simplystatistics.org/2016/02/17/non-tidy-data/}{blog}
+  and the \href{https://r4ds.had.co.nz/tidy-data.html\#pivoting}{book}.}
+The data frame for the stroke study introduced in the previous lesson
+had patients as the cases and there were three variables recorded for
+each patient. If we are thinking of patients as the unit of observation,
+then this data is tidy.
+
+\begin{verbatim}
+## # A tibble: 10 x 3
+##    group   outcome30 outcome365
+##    <chr>   <chr>     <chr>     
+##  1 control no_event  no_event  
+##  2 trmt    no_event  no_event  
+##  3 control no_event  no_event  
+##  4 trmt    no_event  no_event  
+##  5 trmt    no_event  no_event  
+##  6 control no_event  no_event  
+##  7 trmt    no_event  no_event  
+##  8 control no_event  no_event  
+##  9 control no_event  no_event  
+## 10 control no_event  no_event
+\end{verbatim}
+
+If we think of an outcome as a unit of observation then it is not tidy
+since the two outcome columns are variable values, time. The tidy data
+for this case would be:
+
+\begin{verbatim}
+## # A tibble: 10 x 4
+##    patient_id group   time  result  
+##         <int> <chr>   <chr> <chr>   
+##  1          1 control month no_event
+##  2          1 control year  no_event
+##  3          2 trmt    month no_event
+##  4          2 trmt    year  no_event
+##  5          3 control month no_event
+##  6          3 control year  no_event
+##  7          4 trmt    month no_event
+##  8          4 trmt    year  no_event
+##  9          5 trmt    month no_event
+## 10          5 trmt    year  no_event
+\end{verbatim}
+
+There are three interrelated rules which make a dataset tidy:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Each variable must have its own column.\\
+\item
+  Each observation must have its own row.\\
+\item
+  Each value must have its own cell.
+\end{enumerate}
+
+Why ensure that your data is tidy? There are two main advantages:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  There's a general advantage to picking one consistent way of storing
+  data. If you have a consistent data structure, it's easier to learn
+  the tools that work with it because they have an underlying
+  uniformity.
+\item
+  There's a specific advantage to placing variables in columns because
+  it allows \texttt{R}'s vectorised nature to shine. This will be more
+  clear as the semester progresses. Since most built-in \texttt{R}
+  functions work with vectors of values, it makes transforming tidy data
+  feel particularly natural.
+\end{enumerate}
+
+Data frames are a convenient way to record and store data. If another
+individual or case is added to the data set, an additional row can be
+easily added. Similarly, another column can be added for a new variable.
+
+\begin{quote}
+Exercise\\
+We consider a publicly available data set that summarizes information
+about the 3,143 counties in the United States, and we call this the
+\texttt{county} data set. This data set includes information about each
+county: its name, the state where it resides, its population in 2000 and
+2010, per capita federal spending, poverty rate, and four additional
+characteristics. This data set is part of \texttt{openintro} and is
+called \texttt{county}. How might these data be organized in a data
+matrix? \footnote{Each county may be viewed as a case, and there are ten
+  pieces of information recorded for each case. A table with 3,143 rows
+  and 10 columns could hold these data, where each row represents a
+  county and each column represents a particular piece of information.}
+\end{quote}
+
+Using \texttt{R}, we will display seven rows of the \texttt{county} data
+frame. The variables are summarized in help menu built into the
+\texttt{openintro} package.\footnote{\href{http://quickfacts.census.gov/qfd/index.html}{These
+  data were collected from the US Census website.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(county,}\DataTypeTok{n=}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             name   state pop2000 pop2010 fed_spend poverty homeownership
+## 1 Autauga County Alabama   43671   54571  6.068095    10.6          77.5
+## 2 Baldwin County Alabama  140415  182265  6.139862    12.2          76.7
+## 3 Barbour County Alabama   29038   27457  8.752158    25.0          68.0
+## 4    Bibb County Alabama   20826   22915  7.122016    12.6          82.9
+## 5  Blount County Alabama   51024   57322  5.130910    13.4          82.0
+## 6 Bullock County Alabama   11714   10914  9.973062    25.3          76.9
+## 7  Butler County Alabama   21399   20947  9.311835    25.0          69.0
+##   multiunit income med_income
+## 1       7.2  24568      53255
+## 2      22.6  26469      50147
+## 3      11.1  15875      33219
+## 4       6.6  19918      41770
+## 5       3.7  21070      45549
+## 6       9.9  20289      31602
+## 7      13.7  16916      30659
+\end{verbatim}
+
+\hypertarget{types-of-variables}{%
+\subsubsection{Types of variables}\label{types-of-variables}}
+
+Examine the \texttt{fed\_spend}, \texttt{pop2010}, and \texttt{state}
+variables in the \texttt{county} data set. Each of these variables is
+inherently different from the other three yet many of them share certain
+characteristics.
+
+First consider \texttt{fed\_spend}, which is said to be a
+\textbf{numerical variable} since it can take a wide range of numerical
+values, and it is sensible to add, subtract, or take averages with those
+values. On the other hand, we would not classify a variable reporting
+telephone area codes as numerical; even though area codes are made up of
+numerical digits, their average, sum, and difference have no clear
+meaning.
+
+The \texttt{pop2010} variable is also numerical; it is sensible to add,
+subtract, or take averages with those values, although it seems to be a
+little different than \texttt{fed\_spend}. This variable of the
+population count can only be a whole non-negative number (\(0\), \(1\),
+\(2\), \(...\)). For this reason, the population variable is said to be
+\textbf{discrete} since it can only take specific numerical values. On
+the other hand, the federal spending variable is said to be
+\textbf{continuous}. Now technically, there are no truly continuous
+numerical variables since all measurements are finite up to some level
+of accuracy or measurement precision. However, in this course we will
+treat both variables types of numerical variables the same, that is as
+continuous variables. The only place this will be different is in
+probability models which we see in the next block.
+
+The variable \textbf{state} can take up to 51 values after accounting
+for Washington, DC: \emph{AL}, \ldots{}, and \emph{WY}. Because the
+responses themselves are categories, \texttt{state} is called a
+\textbf{categorical} variable,\footnote{Sometimes also called a
+  \textbf{nominal} variable.} and the possible values are called the
+variable's \textbf{levels}.
+
+\begin{figure}
+\centering
+\includegraphics{02-Data-Basics-Notes_files/figure-latex/unnamed-chunk-7-1.pdf}
+\caption{Taxonomy of Variables}
+\end{figure}
+
+Finally, consider a hypothetical variable on education, which describes
+the highest level of education completed and takes on one of the values
+\emph{noHS}, \emph{HS}, \emph{College} or \emph{Graduate\_school}. This
+variable seems to be a hybrid: it is a categorical variable but the
+levels have a natural ordering. A variable with these properties is
+called an \textbf{ordinal} variable. To simplify analyses, any ordinal
+variables in this course will be treated as categorical variables. In
+\texttt{R} categorical variables can be treated in different ways; one
+of the key differences is that we can leave them as character values or
+as factors. When \texttt{R} handles factors, it is only concerned about
+the \emph{levels} of values of the factors. We will learn more about
+this as the semester progresses.
+
+Figure 1 captures this classification of variables.
+
+\begin{quote}
+Exercise\\
+Data were collected about students in a statistics course. Three
+variables were recorded for each student: number of siblings, student
+height, and whether the student had previously taken a statistics
+course. Classify each of the variables as continuous numerical, discrete
+numerical, or categorical.
+\end{quote}
+
+The number of siblings and student height represent numerical variables.
+Because the number of siblings is a count, it is discrete. Height varies
+continuously, so it is a continuous numerical variable. The last
+variable classifies students into two categories -- those who have and
+those who have not taken a statistics course -- which makes this
+variable categorical.
+
+\begin{quote}
+Exercise\\
+Consider the variables \texttt{group} and \texttt{outcome30} from the
+stent study in the case study lesson. Are these numerical or categorical
+variables? \footnote{There are only two possible values for each
+  variable, and in both cases they describe categories. Thus, each is a
+  categorical variable.}
+\end{quote}
+
+\hypertarget{relationships-between-variables}{%
+\subsubsection{Relationships between
+variables}\label{relationships-between-variables}}
+
+Many analyses are motivated by a researcher looking for a relationship
+between two or more variables, this is the heart of statistical
+modeling. A social scientist may like to answer some of the following
+questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Is federal spending, on average, higher or lower in counties with high
+  rates of poverty?\\
+\item
+  If homeownership is lower than the national average in one county,
+  will the percent of multi-unit structures in that county likely be
+  above or below the national average?
+\end{enumerate}
+
+To answer these questions, data must be collected, such as the
+\texttt{county} data set. Examining summary statistics could provide
+insights for each of the three questions about counties. Additionally,
+graphs can be used to visually summarize data and are useful for
+answering such questions as well.
+
+Scatterplots are one type of graph used to study the relationship
+between two numerical variables. Figure 2 compares the variables
+\texttt{fed\_spend} and \texttt{poverty}. Each point on the plot
+represents a single county. For instance, the highlighted dot
+corresponds to County 1088 in the \texttt{county} data set: Owsley
+County, Kentucky, which had a poverty rate of 41.5\% and federal
+spending of \$21.50 per capita. The dense cloud in the scatterplot
+suggests a relationship between the two variables: counties with a high
+poverty rate also tend to have slightly more federal spending. We might
+brainstorm as to why this relationship exists and investigate each idea
+to determine which is the most reasonable explanation.
+
+\begin{figure}
+\centering
+\includegraphics{02-Data-Basics-Notes_files/figure-latex/unnamed-chunk-8-1.pdf}
+\caption{A scatterplot showing fed\_spend against poverty. Owsley County
+of Kentucky, with a poverty rate of 41.5\% and federal spending of
+\$21.50 per capita, is highlighted.}
+\end{figure}
+
+\begin{quote}
+Exercise\\
+Examine the variables in the \texttt{email50} data set. Create two
+questions about the relationships between these variables that are of
+interest to you.\footnote{Two sample questions: (1) Intuition suggests
+  that if there are many line breaks in an email then there would also
+  tend to be many characters: does this hold true? (2) Is there a
+  connection between whether an email format is plain text (versus HTML)
+  and whether it is a spam message?}
+\end{quote}
+
+The \texttt{fed\_spend} and \texttt{poverty} variables are said to be
+associated because the plot shows a discernible pattern. When two
+variables show some connection with one another, they are called
+\textbf{associated variables}. Associated variables can also be called
+\textbf{dependent} variables and vice-versa.
+
+\begin{quote}
+Example\\
+The relationship between the homeownership rate and the percent of units
+in multi-unit structures (e.g.~apartments, condos) is visualized using a
+scatterplot in Figure 3. Are these variables associated?
+\end{quote}
+
+It appears that the larger the fraction of units in multi-unit
+structures, the lower the homeownership rate. Since there is some
+relationship between the variables, they are associated.
+
+\begin{figure}
+\centering
+\includegraphics{02-Data-Basics-Notes_files/figure-latex/unnamed-chunk-9-1.pdf}
+\caption{A scatterplot of the homeownership rate versus the percent of
+units that are in multi-unit structures for all 3,143 counties.}
+\end{figure}
+
+Because there is a downward trend in Figure 3 -- counties with more
+units in multi-unit structures are associated with lower homeownership
+-- these variables are said to be \textbf{negatively associated}. A
+\textbf{positive association} is shown in the relationship between the
+\texttt{poverty} and \texttt{fed\_spend} variables represented in Figure
+2, where counties with higher poverty rates tend to receive more federal
+spending per capita.
+
+If two variables are not associated, then they are said to be
+\textbf{independent}. That is, two variables are independent if there is
+no evident relationship between the two.
+
+\begin{quote}
+A pair of variables are either related in some way (associated) or not
+(independent). No pair of variables is both associated and independent.
+\end{quote}
+
+\hypertarget{creating-a-scatterplot}{%
+\subsubsection{Creating a scatterplot}\label{creating-a-scatterplot}}
+
+In this section we will create a simple scatterplot and then ask you to
+create one on your own. First we will recreate the scatterplot seen in
+Figure 2. This figure uses the \texttt{county} data set.
+
+Here are two questions:
+
+\emph{What do we want \texttt{R} to do?} and
+
+\emph{What must we give \texttt{R} for it to do this?}
+
+We want \texttt{R} to create a scatterplot and to do this it needs, at a
+minimum, the data object, what we want on the \(x\)-axis, and what we
+want on the \(y\)-axis. More information on
+\href{https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html}{\texttt{ggformula}}
+can be found by clicking on the link.\footnote{\url{https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{county }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gf_point}\NormalTok{(fed_spend}\OperatorTok{~}\NormalTok{poverty)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{02-Data-Basics-Notes_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+This plot is bad, there are poor axis labels, no title, dense clustering
+of points, the \(y\)-axis is being driven by a couple of extreme points.
+We will need to clear this up. Again, try to read the code and use
+\texttt{help()} or \texttt{?} to determine the purpose of each command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{county }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(fed_spend}\OperatorTok{<}\DecValTok{32}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gf_point}\NormalTok{(fed_spend}\OperatorTok{~}\NormalTok{poverty,}
+           \DataTypeTok{xlab=}\StringTok{"Poverty Rate (Percent)"}\NormalTok{, }
+           \DataTypeTok{ylab=}\StringTok{"Federal Spending Per Capita"}\NormalTok{,}
+           \DataTypeTok{title=}\StringTok{"A scatterplot showing fed_spend against poverty"}\NormalTok{, }
+           \DataTypeTok{subtitle =}  \StringTok{"Owsley County of Kentucky"}\NormalTok{,}
+           \DataTypeTok{cex=}\DecValTok{1}\NormalTok{,}\DataTypeTok{alpha=}\FloatTok{0.2}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gf_theme}\NormalTok{(}\KeywordTok{theme_classic}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{02-Data-Basics-Notes_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{quote}
+Exercise\\
+Create the scatterplot in Figure 3.
+\end{quote}
+
+\hypertarget{file-creation-information}{%
+\subsubsection{File creation
+information}\label{file-creation-information}}
+
+\begin{itemize}
+\tightlist
+\item
+  File creation date: 2020-05-13
+\item
+  Windows version: Windows 10 x64 (build 15063)
+\item
+  R version 3.6.3 (2020-02-29)
+\item
+  \texttt{mosaic} package version: 1.6.0
+\item
+  \texttt{tidyverse} package version: 1.3.0
+\item
+  \texttt{openintro} package version": 1.7.1
+\end{itemize}
+
+\end{document}
