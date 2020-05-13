@@ -1,0 +1,11 @@
+"0","tally(~spam,data=email,format=""proportion"")"
+"1","spam
+"
+"1","      spam "
+"1","  not spam "
+"1","
+"
+"1","0.09359857 "
+"1","0.90640143 "
+"1","
+"

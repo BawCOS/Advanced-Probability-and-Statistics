@@ -1,0 +1,4 @@
+"0","cc_reduced <- countyComplete %>%"
+"0","  drop_na(pop2000) %>%"
+"0","  select(pop2000,pop2010,median_household_income) %>%"
+"0","  mutate(pop_gain = sign(pop2010-pop2000))"

@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1589308738594.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2315890776",
+    "id" : "8D660FF9",
+    "lastKnownWriteTime" : 1589397703,
+    "last_content_update" : 1589397703718,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/06 Categorical Data Notes.Rmd",
+    "project_path" : "06 Categorical Data Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "11,19",
+        "ignored_words" : "boxplot\n",
+        "last_setup_crc32" : "4AD4824Abb338d19",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

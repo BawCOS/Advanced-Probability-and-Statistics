@@ -1,0 +1,3 @@
+"0","email %>%"
+"0","  gf_props(~number,title=""The proportions of emails with a number in it"",subtitle=""From 2012"",xlab=""Type of number in the email"",ylab=""Proportion of emails"") %>%"
+"0","  gf_theme(theme_bw())"

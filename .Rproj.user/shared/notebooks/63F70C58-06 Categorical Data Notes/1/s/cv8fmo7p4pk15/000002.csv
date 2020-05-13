@@ -1,0 +1,3 @@
+"0","cc_reduced <- cc_reduced %>%"
+"0","  filter(pop_gain != 0) %>%"
+"0","  mutate(pop_gain = factor(pop_gain,levels=c(-1,1),labels=c(""Loss"",""Gain"")))"

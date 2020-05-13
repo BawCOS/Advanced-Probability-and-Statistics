@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Exercises
 
-\indent Identify study components 
+**Identify study components** 
 
 Identify (i) the cases, (ii) the variables and their types, and (iii) the main research question in the studies described below.
 

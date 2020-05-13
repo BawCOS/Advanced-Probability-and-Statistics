@@ -5,9 +5,9 @@ author:
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -22,9 +22,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Objectives
 
-1) 
+1) Define and use properly in context all new terminology. 
 
-2)
+2) From a description of a research project, at a minimum be able to describe the population of interest, the generalizability of the study, the response and predictor variables, differentiate whether it is observational or experimental, and the type of sample. 
+
 
 ```{r echo=FALSE,results='hide',warning=FALSE,message=FALSE}
 library(tidyverse)
@@ -247,7 +248,7 @@ Researchers perform an **observational study** when they collect data in a way t
 
 When researchers want to investigate the possibility of a causal connection, they conduct an **experiment**. Usually there will be both an explanatory and a response variable. For instance, we may suspect administering a drug will reduce mortality in heart attack patients over the following year. To check if there really is a causal connection between the explanatory variable and the response, researchers will collect a sample of individuals and split them into groups. The individuals in each group are *assigned* a treatment. When individuals are randomly assigned to a group, the experiment is called a **randomized experiment**. For example, each heart attack patient in the drug trial could be randomly assigned,  perhaps by flipping a coin, into one of two groups: the first group receives a **placebo** (fake treatment) and the second group receives the drug. The case study at the beginning of the semester is another example of an experiment, though that study did not employ a placebo.
 
-> association $\neq$ causation  
+> association $\neq$ causation  (Association does not imply causation)
 In a data analysis, association does not imply causation, and causation can only be inferred from a randomized experiment.
 
 

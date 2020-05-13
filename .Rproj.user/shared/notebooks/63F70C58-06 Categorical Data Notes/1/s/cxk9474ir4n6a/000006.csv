@@ -1,0 +1,7 @@
+"0","countyComplete %>%"
+"0","  select(pop2000,pop2010,median_household_income) %>%"
+"0","  inspect()"
+"1","
+"
+"1","quantitative variables:  
+"

@@ -1,0 +1,5 @@
+"0","cc_reduced %>%"
+"0","  gf_boxplot(median_household_income~pop_gain,"
+"0","             subtitle=""The income data were collected between 2006 and 2010."","
+"0","             xlab=""Population change from 2000 to 2010"","
+"0","             ylab=""Median Household Income"")"

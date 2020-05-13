@@ -1,0 +1,2 @@
+"0","email <- email %>%"
+"0","  mutate(spam = factor(email$spam,levels=c(1,0),labels=c(""spam"",""not spam"")))"
