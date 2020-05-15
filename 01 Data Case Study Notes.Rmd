@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Objectives
+## Objectives
 
 1) Use R for basic analysis and visualization.
 
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-# Introduction to Block 1 - Descriptive Statistical Modeling
+## Introduction to Block 1 - Descriptive Statistical Modeling
 
 In this first block of material we will focus on data types, collection methods, summaries, and visualizations. We also intend to introduce computing via the `R` package. Programming in `R` requires some focus early in the course and we will supplement with some online courses. There is relatively little mathematics in this first block.
 
@@ -158,7 +158,8 @@ We also want to "inspect" the data. The function is `inspect()` and `R` needs th
 inspect(stent_study)
 ```
 
-> Exercise: Interpret this table and explain each column
+> **Exercise**:  
+Interpret this table and explain each column
 
 To keep things simple we will only look at the `outcome30` variable. We will summarize in a table. Later in the course, we will learn to do this using the `tidy` package; for now we use the `mosaic` package. This package makes use of the modeling formula that you will use extensively later in this course and in Math 378.
 
@@ -182,7 +183,8 @@ Of the 224 patients in the treatment group, 33 had a stroke by the end of the fi
 33/(33+191)
 ```
 
-> Exercise: What proportion of the control group had a stroke? And why is this answer different from what `inspect()` reports?    
+> **Exercise**:  
+What proportion of the control group had a stroke? And why is this answer different from what `inspect()` reports?    
 
 
 Let's have `R` calculate proportions for us. Use `?` to look at the help menu for `tally()`. Note that one of the option arguments of the `tally()` function is `format=`. Setting this equal to `proportion` will output the proportions instead of the counts. 
@@ -211,7 +213,8 @@ Here is our first attempt. In this example, we leave the `y` portion of our form
 gf_bar(~outcome30,data=stent_study)
 ```
 
-> Exercise: Explain this graph.
+> **Exercise**:  
+Explain this graph.
 
 This plot graphically shows us the total number of "stroke" and the total number of "no_event". However, this is not what we want. We want to compare the 30-day outcomes for both treatment groups. So we need to break the data into different groups based on treatment type. In the formula language we now update it to the form:
 

@@ -1,2 +1,0 @@
-"0","gf_histogram(~log(salary/1000), data=MLB , bins=15, xlab=expression(log[e]*""(Salary), where Salary is in millions USD""), ylab="""", fill=COL[1]) %>%"
-"0","   gf_theme(theme_classic())"

@@ -1,0 +1,146 @@
+---
+title: "Numerical Data Applications Solutions"
+author: "Professor Bradley Warner"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE,results='hide',message=FALSE}
+library(openintro)
+library(mosaic)
+library(tidyverse)
+```
+
+
+# Exercises
+
+Create an Rmd file for the work including headers, file creation data, and explanation of your work. Make sure your plots have a title and the axes are labeled.
+
+1. **Mammals exploratory**  
+
+Data were collected on 39 species of mammals distributed over 13 orders.  The data is in the `openintro` package as `mammals`
+
+a. Using help, report the units for the variable `BrainWt`.  
+```{r eval=FALSE}
+?mammals
+```
+
+
+b. Using `inspect` how many variables are numeric?  
+
+```{r}
+inspect(mammals)
+```
+
+c. What type of variable is `Danger`?
+
+Categorical
+
+d. Create a density plot of `TotalSleep` and describe the distribution.  
+
+```{r}
+gf_dens(~TotalSleep,data=mammals)
+```
+
+
+e. Create a boxplot of `LifeSpan` and describe the distribution.  
+
+```{r}
+gf_boxplot(~LifeSpan,data=mammals)
+```
+
+
+f. Report the mean and median life span of a mammal.  
+
+```{r}
+mean(~LifeSpan,data=mammals,na.rm=TRUE)
+```
+
+```{r}
+median(~LifeSpan,data=mammals,na.rm=TRUE)
+```
+
+g. Calculate the summary statistics for `LifeSpan` broken down by `Danger`.
+
+```{r}
+favstats(LifeSpan~Danger,data=mammals)
+```
+
+
+
+2. **Mammals life spans**  
+
+Continue using the `mammals` data set.
+
+a. Create side-by-side boxplots for `LifeSpan` broken down by `Exposure`. Note: you will have to change `Exposure` to a `factor()`. Report on any findings.  
+
+```{r}
+mammals %>%
+gf_boxplot(LifeSpan~factor(Exposure))
+```
+
+
+
+b. What happened to the median and third quartile in exposure group 4?
+
+```{r}
+favstats(LifeSpan~factor(Exposure),data=mammals)
+```
+
+c. Create overlapping density plots. What are the shorcomings of this plot?
+
+```{r}
+gf_dens(~LifeSpan,color=~factor(Exposure),data=mammals)
+```
+
+d. Create a new variable `Exposed` that is a factor with level `Low` if exposure is `1` or `2` and `High` otherwise.
+
+```{r}
+mammals <- mammals %>%
+  mutate(Exposed=factor(ifelse((Exposure==1)|(Exposure==2),"Low","High")))
+```
+
+
+```{r}
+inspect(mammals)
+```
+
+
+e. Repeat part c with the new variable.
+
+```{r}
+gf_dens(~LifeSpan,color=~Exposed,data=mammals)
+```
+
+3. **Mammals life spans continued**  
+
+a. Create a scatterplot of life span versus length of gestation.  
+
+```{r}
+mammals %>%
+gf_point(LifeSpan~Gestation)
+```
+
+
+b. What type of an association is apparent between life span and length of gestation?   
+
+
+c. What type of an association would you expect to see if the axes of the plot were reversed, i.e. if we plotted length of gestation versus life span?
+d. Create the new scatterplot suggested in c.  
+
+```{r}
+mammals %>%
+gf_point(Gestation~LifeSpan)
+```
+
+e. Are life span and length of gestation independent? Explain your reasoning.
+

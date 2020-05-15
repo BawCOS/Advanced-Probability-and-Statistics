@@ -5,9 +5,9 @@ author:
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 \newcommand{\Prob}{\mbox{P}}
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
 
-# Objectives
+## Objectives
 
 1) Define and use properly in context all new terminology. 
 
@@ -50,7 +50,8 @@ Consider the following three research questions:
 
 Each research question refers to a target **population**. In the first question, the target population is all swordfish in the Atlantic ocean, and each fish represents a case. It is usually too expensive to collect data for every case in a population. Instead, a sample is taken. A **sample** represents a subset of the cases and is often a small fraction of the population. For instance, 60 swordfish (or some other number) in the population might be selected, and this sample data may be used to provide an estimate of the population average and answer the research question.
 
-> Exercise For the second and third questions above, identify the target population and what represents an individual case.^[ 2) Notice that the first question is only relevant to students who complete their degree; the average cannot be computed using a student who never finished her degree. Thus, only Duke undergraduate students who have graduated in the last five years represent cases in the population under consideration. Each such student would represent an individual case. 3) A person with severe heart disease represents a case. The population includes all people with severe heart disease.}
+> **Exercise**:  
+For the second and third questions above, identify the target population and what represents an individual case.^[ 2) Notice that the first question is only relevant to students who complete their degree; the average cannot be computed using a student who never finished her degree. Thus, only Duke undergraduate students who have graduated in the last five years represent cases in the population under consideration. Each such student would represent an individual case. 3) A person with severe heart disease represents a case. The population includes all people with severe heart disease.]
 
 ### Anecdotal evidence
 
@@ -115,7 +116,8 @@ for(i in c(2,5,11,10,12)){
 
 Why pick a sample randomly? Why not just pick a sample by hand? Consider the following scenario.
 
-> Example Suppose we ask a student who happens to be majoring in nutrition to select several graduates for the study. What kind of students do you think she might collect? Do you think her sample would be representative of all graduates?
+> *Example*:  
+Suppose we ask a student who happens to be majoring in nutrition to select several graduates for the study. What kind of students do you think she might collect? Do you think her sample would be representative of all graduates?
 ^[Perhaps she would pick a disproportionate number of graduates from health-related fields. Or perhaps her selection would be well-representative of the population. When selecting samples by hand, we run the risk of picking a *biased* sample, even if that bias is unintentional or difficult to discern.]
 
 ```{r echo=FALSE,fig.cap="Instead of sampling from all graduates equally, a nutrition major might inadvertently pick graduates with health-related majors disproportionately often."}
@@ -216,7 +218,8 @@ text(0.46, 0.5+0.06-sqrt(0.115), 'population actually\nsampled', pos=1, cex=0.8)
 
 Another common downfall is a **convenience sample**, where individuals who are easily accessible are more likely to be included in the sample. For instance, if a political survey is done by stopping people walking in the Bronx, it will not represent all of New York City. It is often difficult to discern what sub-population a convenience sample represents.
 
->Exercise We can easily access ratings for products, sellers, and companies through websites. These ratings are based only on those people who go out of their way to provide a rating. If 50\% of online reviews for a product are negative, do you think this means that 50\% of buyers are dissatisfied with the product?^[Answers will vary. From our own anecdotal experiences, we believe people tend to rant more about products that fell below expectations than rave about those that perform as expected. For this reason, we suspect there is a negative bias in product ratings on sites like Amazon. However, since our experiences may not be representative, we also keep an open mind.]
+>**Exercise**:  
+We can easily access ratings for products, sellers, and companies through websites. These ratings are based only on those people who go out of their way to provide a rating. If 50\% of online reviews for a product are negative, do you think this means that 50\% of buyers are dissatisfied with the product?^[Answers will vary. From our own anecdotal experiences, we believe people tend to rant more about products that fell below expectations than rave about those that perform as expected. For this reason, we suspect there is a negative bias in product ratings on sites like Amazon. However, since our experiences may not be representative, we also keep an open mind.]
 
 ### Explanatory and response variables
 

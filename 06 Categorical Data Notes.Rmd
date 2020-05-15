@@ -1,5 +1,5 @@
 ---
-title: "Case Study with Data"
+title: "Categorical Data"
 author:
 - Lt Col Ken Horton
 - Professor Bradley Warner

@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Objectives
+## Objectives
 
 1) Define and use properly in context all new terminology. 
 
@@ -39,7 +39,7 @@ Generally, data in observational studies are collected only by monitoring what o
 
 Making causal conclusions based on experiments is often reasonable. However, making the same causal conclusions based on observational data can be treacherous and is not recommended. Thus, observational studies are generally only sufficient to show associations.
 
->Exercise:  
+>**Exercise**:  
 Suppose an observational study tracked sunscreen use and skin cancer, and it was found that the more sunscreen someone used, the more likely the person was to have skin cancer. Does this mean sunscreen *causes* skin cancer?^[No. See the paragraph following the exercise for an explanation.]
 
 
@@ -72,7 +72,7 @@ Sun exposure is what is called a **confounding variable**,^[Also called a **lurk
 
 Let's look at an example of confounding visually. Using the `SAT` data from the `mosaic` package let's look at expenditure per pupil versus SAT scores.
 
-> Exercise:    
+> **Exercise**:    
 What conclusion to you reach from this plot?^[It appears that average SAT score declines as expenditures per student increases.]
 
 ```{r echo=FALSE,warning=FALSE,fig.dim=c(5,3)}
@@ -104,7 +104,7 @@ Once we account for the fraction of students taking the SAT, the relationship be
 
 In the same way, the `county` data set is an observational study with confounding variables, and its data cannot easily be used to make causal conclusions.
 
-> Exercise:  
+> **Exercise**:  
 Figure 2 shows a negative association between the homeownership rate and the percentage of multi-unit structures in a county. However, it is unreasonable to conclude that there is a causal relationship between the two variables. Suggest one or more other variables that might explain the relationship in the figure.^[Answers will vary. Population density may be important. If a county is very dense, then a larger fraction of residents may live in multi-unit structures. Additionally, the high density may contribute to increases in property value, making homeownership infeasible for many residents.]
 
 ```{r echo=FALSE,fig.cap="A scatterplot of the homeownership rate versus the percent of units that are in multi-unit structures for all 3,143 counties.",fig.dim=c(6,4)}
@@ -293,13 +293,13 @@ text(X, Y+above*(R+0.01), paste("Cluster", 1:length(X)), pos=2+above, cex=1.1)
 
 Stratified sampling is especially useful when the cases in each stratum are very similar with respect to the outcome of interest. The downside is that analyzing data from a stratified sample is a more complex task than analyzing data from a simple random sample. The analysis methods introduced in this course would need to be extended to analyze data collected using stratified sampling.
 
->Example  
+>*Example*:  
 Why would it be good for cases within each stratum to be very similar?^[We might get a more stable estimate for the subpopulation in a stratum if the cases are very similar. These improved estimates for each subpopulation will help us build a reliable estimate for the full population.]
 
 
 In **cluster sampling**, we group observations into clusters, then randomly sample some of the clusters. Sometimes cluster sampling can be a more economical technique than the alternatives. Also, unlike stratified sampling, cluster sampling is most helpful when there is a lot of case-to-case variability within a cluster but the clusters themselves don't look very different from one another. For example, if neighborhoods represented clusters, then this sampling method works best when the neighborhoods are very diverse. A downside of cluster sampling is that more advanced analysis techniques are typically required, though the methods in this course can be extended to handle such data.
 
->Example  
+>*Example*:  
 Suppose we are interested in estimating the malaria rate in a densely tropical portion of rural Indonesia. We learn that there are 30 villages in that part of the Indonesian jungle, each more or less similar to the next. What sampling method should be employed?^[A simple random sample would likely draw individuals from all 30 villages, which could make data collection extremely expensive. Stratified sampling would be a challenge since it is unclear how we would build strata of similar individuals. However, cluster sampling seems like a very good idea. We might randomly select a small number of villages. This would probably reduce our data collection costs substantially in comparison to a simple random sample and would still give us helpful information.]
 
 Another technique called **multistage sampling** is similar to cluster sampling, except that we take a simple random sample within each selected cluster. For instance, if we sampled neighborhoods using cluster sampling, we would next sample a subset of homes within each selected neighborhood if we were using multistage sampling.
@@ -454,7 +454,7 @@ Researchers aren't usually interested in the emotional effect, which might bias 
 
 The patients are not the only ones who should be blinded: doctors and researchers can accidentally bias a study. When a doctor knows a patient has been given the real treatment, she might inadvertently give that patient more attention or care than a patient that she knows is on the placebo. To guard against this bias, which again has been found to have a measurable effect in some instances, most modern studies employ a **double-blind** setup where doctors or researchers who interact with patients are, just like the patients, unaware of who is or is not receiving the treatment.^[There are always some researchers in the study who do know which patients are receiving which treatment. However, they do not interact with the study's patients and do not tell the blinded health care professionals who is receiving which treatment.]
 
->Exercise:  
+>**Exercise**:  
 Look back to the stent study in the first lesson where researchers were testing whether stents were effective at reducing strokes in at-risk patients. Is this an experiment? Was the study blinded? Was it double-blinded?^[The researchers assigned the patients into their treatment groups, so this study was an experiment. However, the patients could distinguish what treatment they received, so this study was not blind. The study could not be double-blind since it was not blind.]
 
 \pagebreak
