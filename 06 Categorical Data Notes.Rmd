@@ -17,11 +17,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Objectives
+## Objectives
 
-1) 
+1) Define and use properly in context all new terminology. 
 
-2) 
+2) Generate in `R` tables for categorical variable(s).
+
+3) Generate in `R` appropriate graphical summaries of categroical and numerical variables.
+
+4) Be able to interpret and explain output but graphically and numerically.
 
 
 ```{r echo=FALSE,results='hide',warning=FALSE,message=FALSE}
@@ -35,23 +39,29 @@ library(mosaic)
 
 ## Categorical data
 
-Like numerical data, categorical data can also be organized and analyzed. This section introduces tables and other basic tools for categorical data. Remember at the beginning of this block of material, our case study had categorical data. The `email50` data set represents a sample from a larger email data set called `email`. This larger data set contains information on 3,921 emails. In this section we will examine whether the presence of numbers, small or large, in an email provides any useful value in classifying email as spam or not spam.
+Like numerical data, categorical data can also be organized and analyzed. This section introduces tables and other basic tools for categorical data. Remember at the beginning of this block of material, our case study had categorical data so we have seen some of the ideas in this section. 
+
+The `email50` data set represents a sample from a larger email data set called `email`. This larger data set contains information on 3,921 emails. In this section we will use the email data set to examine whether the presence of numbers, small or large, in an email provides any useful value in classifying email as spam or not spam.
 
 ### Contingency tables and bar plots
 
-In the `email` data set we have two variables: `spam` and `number` that we want to summarize. Let's use `inspect()` to get and idea about the two variables. We can also type `?email` to learn more about the data.
+In the `email` data set we have two variables: `spam` and `number` that we want to summarize. Let's use `inspect()` to get information and insight about the two variables. We can also type `?email` to learn more about the data. First load the `openintro` library.
+
+```{r message=FALSE,eval=FALSE}
+library(openintro)
+```
+
+
 
 ```{r message=FALSE}
-library(openintro)
-
 email %>%
   select(spam,number) %>%
   inspect()
 ```
 
-Notice the use of the `pipe` operator and how it adds to the ease of reading the code. The `select()` function allows us to narrow the variables down to the two of interest. Then `inspect()` gives us information about those variables. The order is we feed the data set `email` into `select()` and then `inspect()`.
+Notice the use of the `pipe` operator and how it adds to the ease of reading the code. The `select()` function allows us to narrow the variables down to the two of interest. Then `inspect()` gives us information about those variables. We read from top line; we start with the data set `email`, input it into `select()` and select variables from it, and then use `inspect()` to summarize the variables.
 
-As is indicated `number` is a categorical variable that describes whether an email contains no numbers, only small numbers (values under 1 million), or at least one big number (a value of 1 million or more). The variable `spam` is a numeric variable where `1` indicates the email is spam. To treat it as categorical we will want to change it to a factor but first we will build a table that summarizes data for two categorical variables. This table is called a **contingency table**. Each value in the table represents the number of times a particular combination of variable outcomes occurred. We will show you the code to generate the contingency table.
+As is indicated `number` is a categorical variable that describes whether an email contains no numbers, only small numbers (values under 1 million), or at least one big number (a value of 1 million or more). The variable `spam` is a numeric variable where `1` indicates the email is spam. To treat it as categorical we will want to change it to a **factor** but first we will build a table that summarizes data for the two variables. This table is called a **contingency table**. Each value in the table represents the number of times a particular combination of variable outcomes occurred. We will show you the code to generate the contingency table.
 
 ```{r echo=FALSE,message=FALSE}
 tally(~spam+number,data=email,margins = TRUE)
@@ -59,7 +69,7 @@ tally(~spam+number,data=email,margins = TRUE)
 
 The value 149 corresponds to the number of emails in the data set that are spam *and* had no number listed in the email. Row and column totals are also included. The **row totals**  provide the total counts across each row (e.g. $149 + 168 + 50 = 367$), and **column totals** are total counts down each column. The row and column totals are known as **marginal** counts and the values in the table, such as 149, as **joint** counts.
 
-Let's turn `spam` into a factor. We will use `mutate()` to do this.
+Let's turn `spam` into a factor and update the `email` data object. We will use `mutate()` to do this.
 
 ```{r}
 email <- email %>%
@@ -107,7 +117,7 @@ email %>%
 ```
 
 
-Next the counts are converted into proportions (e.g. $549/3921=0.140$ for `none`).
+Next the counts are converted into proportions (e.g. $549/3921=0.140$ for `none`) in Figure 2.
 
 ```{r fig.cap="Bar plot of the variable number as a proportion."}
 email %>%
@@ -121,7 +131,8 @@ email %>%
   gf_props(~number,title="The proportions of emails with a number in it",subtitle="From 2012",xlab="Type of number in the email",ylab="Proportion of emails") %>%
   gf_theme(theme_bw())
 ```
-Factor variable saying whether there was no number, a small number (under 1 million), or a big number.
+
+
 
 
 ### Column proportions
@@ -135,22 +146,23 @@ tally(spam~number,data=email,margins = TRUE,format='proportion')
 
 The `tally()` function will always condition on the variable on the right hand side of the tilde, ~, when calculating proportions and thus only generate column proportions. The more general `table()` function of `R` will allow either column or row proportions.
 
-> Exercise  
+> **Exercise**:   
 Create a table of column proportions where the variable `spam` is the column variable.
 
 ```{r}
 tally(number~spam,data=email,margins = TRUE,format='proportion')
 ```
 
-> Exercise 
+> **Exercise**:   
 In the table you just created, what does 0.748 represent?^[0.748 represents the proportions of emails with no spam that had a small number in it.] 
 
 
->Example
-Data scientists use statistics to filter spam from incoming email messages. By noting specific characteristics of an email, a data scientist may be able to classify some emails as spam or not spam with high accuracy. One of those characteristics is whether the email contains no numbers, small numbers, or big numbers. Another characteristic is whether or not an email has any HTML content. A contingency table for the `spam` and `format` variables is needed.
-1 Make `format` into a categorical factor variable.The levels should be "text" and "HTML".^[From the help menu on the data HTML is coded as a 1]
-2 Create a contingency table from the `email` data set with `format` in the columns and `spam` in the rows.
-The data scientist would be interested in how the proportion of spam changes within each email format. This corresponds to column proportions: the proportion of spam in plain text emails and the proportion of spam in HTML emails.
+>*Example*:  
+Data scientists use statistics to filter spam from incoming email messages. By noting specific characteristics of an email, a data scientist may be able to classify some emails as spam or not spam with high accuracy. One of those characteristics is whether the email contains no numbers, small numbers, or big numbers. Another characteristic is whether or not an email has any HTML content. A contingency table for the `spam` and `format` variables is needed.  
+1 Make `format` into a categorical factor variable.The levels should be "text" and "HTML".^[From the help menu on the data HTML is coded as a 1]  
+2 Create a contingency table from the `email` data set with `format` in the columns and `spam` in the rows.  
+
+In deciding which variable to use as a column, the data scientist would be interested in how the proportion of spam changes within each email format. This corresponds to column proportions based on `format`: the proportion of spam in plain text emails and the proportion of spam in HTML emails.
 
 ```{r}
 email <- email %>%
@@ -166,8 +178,8 @@ In generating the column proportions, we can see that a higher fraction of plain
 
 In constructing a table, we need to think about which variable we want in the column and which in the row. The formula format in some way makes us think about the response and predictor variables. However in some cases, it is not clear which variable should be in the column and row and the analyst must decide the point to be made with the table. Before settling on one form for a table, it is important to consider the audience and the message they are to receive from the table.
 
-> Exercise
-Create tables with `number` and `spam` where both are in the column. Which would be more useful to someone hoping to identify spam emails using the `number` variable?^[The column proportions with `number` in the columns will probably be most useful, which makes it easier to see that emails with small numbers are spam about 5.9\% of the time (relatively rare). We would also see that about 27.1\% of emails with no numbers are spam, and 9.2\% of emails with big numbers are spam.]
+> **Exercise**:  
+Create two tables with `number` and `spam` where both are in the column. Which would be more useful to someone hoping to identify spam emails using the `number` variable?^[The column proportions with `number` in the columns will probably be most useful, which makes it easier to see that emails with small numbers are spam about 5.9\% of the time (relatively rare). We would also see that about 27.1\% of emails with no numbers are spam, and 9.2\% of emails with big numbers are spam.]
 
 ```{r}
 tally(spam~number,email,format='proportion',margin=TRUE)
@@ -179,10 +191,9 @@ tally(number~spam,email,format='proportion',margin=TRUE)
 
 ### Segmented bar and mosaic plots
 
-
 Contingency tables using column proportions are especially useful for examining how two categorical variables are related. Segmented bar and mosaic plots provide a way to visualize the information in these tables.
 
-A **segmented bar plot** is a graphical display of contingency table information. For example, a segmented bar plot representing the table with `number` in the column is shown in Figure 2, where we have first created a bar plot using the `number` variable and then separated each group by the levels of `spam`. 
+A **segmented bar plot** is a graphical display of contingency table information. For example, a segmented bar plot representing the table with `number` in the column is shown in Figure 3, where we have first created a bar plot using the `number` variable and then separated each group by the levels of `spam`. 
 
 ```{r fig.cap="Segmented bar plot for numbers found in emails, where the counts have been further broken down by spam"}
 email %>%
@@ -191,21 +202,21 @@ email %>%
 
 
 
-The column proportions of the table have been translated into a standardized segmented bar plot in Figure 3, which is a helpful visualization of the fraction of spam emails in each level of `number`.
+The column proportions of the table have been translated into a standardized segmented bar plot in Figure 4, which is a helpful visualization of the fraction of spam emails in each level of `number`.
 
-```{r fig.cap="Standardized version of Figure 2"}
+```{r fig.cap="Standardized version of Figure 3"}
 email %>%
   gf_props(~number,fill=~spam,position='fill')
 ```
 
 
 
-> Example
+> *Example*:  
 Examine both of the segmented bar plots. Which is more useful?
 
-Figure 2 contains more information, but Figure 3 presents the information more clearly. This second plot makes it clear that emails with no number have a relatively high rate of spam email -- about 27\%! On the other hand, less than 10\% of email with small or big numbers are spam.
+Figure 3 contains more information, but Figure 4 presents the information more clearly. This second plot makes it clear that emails with no number have a relatively high rate of spam email -- about 27\%! On the other hand, less than 10\% of email with small or big numbers are spam.
 
-Since the proportion of spam changes across the groups in Figure 3, we can conclude the variables are dependent, which is something we were also able to discern using table proportions. Because both the `none` and `big` groups have relatively few observations compared to the `small` group, the association is more difficult to see in Figure 2.
+Since the proportion of spam changes across the groups in Figure 4, we can conclude the variables are dependent, which is something we were also able to discern using table proportions. Because both the `none` and `big` groups have relatively few observations compared to the `small` group, the association is more difficult to see in Figure 3.
 
 In some other cases, a segmented bar plot that is not standardized will be more useful in communicating important information. Before settling on a particular segmented bar plot, create standardized and non-standardized forms and decide which is more effective at communicating features of the data.
 
@@ -213,7 +224,7 @@ In some other cases, a segmented bar plot that is not standardized will be more 
 A **mosaic plot** is a graphical display of contingency table information that is similar to a bar plot for one variable or a segmented bar plot when using two variables. It seems strange, but mosaic plots are not part of the `mosaic` package. We must load another set of packages called `vcd` and `vcdExtra`. Mosaic displays help to visualize the pattern of associations among variables in two-way and larger tables. Mosaic plots are controversial since they rely on the perception of area. Human vision is not good at distinguishing areas. 
 
 
-We will introduce mosaic plots because it is another way to visualize contingency tables. Figure 4 shows a mosaic plot for the `number` variable. Each row represents a level of `number`, and the row heights correspond to the proportion of emails of each number type. For instance, there are fewer emails with no numbers than emails with only small numbers, so the no number email row is shorter. In general, mosaic plots use box *areas* to represent the number of observations. Since there is only one variable, the widths are all constant. Thus area is simply related to row height making this visual easy to read.
+We will introduce mosaic plots because it is another way to visualize contingency tables. Figure 5 shows a mosaic plot for the `number` variable. Each row represents a level of `number`, and the row heights correspond to the proportion of emails of each number type. For instance, there are fewer emails with no numbers than emails with only small numbers, so the `none` outcome row is shorter in height. In general, mosaic plots use box *areas* to represent the number of observations. Since there is only one variable, the widths are all constant. Thus area is simply related to row height making this visual easy to read.
 
 ```{r eval=FALSE}
 library(vcd)
@@ -224,7 +235,7 @@ library(vcd)
 mosaic(~number,data=email)
 ```
 
-This one-variable mosaic plot can be further divided into pieces as in Figure 5 using the `spam` variable. The first variable in the formula is used to determine row height. That is, each row is split proportionally according to the fraction of emails in each number category, these heights are similar to Figure 4. Next each row is split according to the proportion of emails that were spam in that number group. For example, the second row, representing emails with only small numbers, was divided into emails that were spam (left) and not spam (right). The area of the rectangles is proportional to the proportions in the table where each cell count is divided by the total count. First we will generate the table and then represent it as a mosaic plot.
+This one-variable mosaic plot can be further divided into pieces as in Figure 6 using the `spam` variable. The first variable in the formula is used to determine row height. That is, each row is split proportionally according to the fraction of emails in each number category, these heights are similar to Figure 5. Next each row is split horizontally according to the proportion of emails that were spam in that number group. For example, the second row, representing emails with only small numbers, was divided into emails that were spam (left) and not spam (right). The area of the rectangles is proportional to the proportions in the table where each cell count is divided by the total count. First we will generate the table and then represent it as a mosaic plot.
 
 ```{r}
 tally(~number+spam,data=email,format='proportion')
@@ -235,11 +246,11 @@ tally(~number+spam,data=email,format='proportion')
 mosaic(~number+spam,data=email)
 ```
 
-These plots are hard to compare areas. For example, is the area small number spam emails different from no number spam emails? The rectangles have different shapes but from the table we can tell the areas are close.
+These plots are hard to use in a visual comparison of area. For example, is the area for *small* number *spam* emails different from *none* number *spam* emails? The rectangles have different shapes but from the table we can tell the areas are close.
 
 An important use of the mosaic plot is to determine if an association between variables may be present. The bottom of the first column represents spam emails that had big numbers, and the bottom row of the second column represents regular emails that had big numbers. We can again use this plot to see that the `spam` and `number` variables are associated since some rows are divided in different vertical locations than others, which was the same technique used for checking an association in the standardized version of the segmented bar plot.
 
-In a similar way, a mosaic plot representing column proportions where spam is in the column could be constructed. To completely understand the mosaic plot as shown in Figure 7 let's first find the proportions of `spam`. 
+In a similar way, a mosaic plot representing column proportions where *spam* is in the column could be constructed. To completely understand the mosaic plot as shown in Figure 7 let's first find the proportions of `spam`. 
 
 ```{r}
 tally(~spam,data=email,format="proportion")
@@ -262,7 +273,7 @@ mosaic(~spam+number,data=email)
 
 ### The only pie chart you will see in this course, hopefully
 
-While pie charts are well known, they are not typically as useful as other charts in a data analysis. A **pie chart** is shown in Figure 7. It is generally more difficult to compare group sizes in a pie chart than in a bar plot, especially when categories have nearly identical counts or proportions. In the case of the *none* and *big* categories, the difference is so slight you may be unable to distinguish any difference in group sizes.
+While pie charts are well known, they are not typically as useful as other charts in a data analysis. A **pie chart** is shown in Figure 8. It is generally more difficult to compare group sizes in a pie chart than in a bar plot, especially when categories have nearly identical counts or proportions. In the case of the *none* and *big* categories, the difference is so slight you may be unable to distinguish any difference in group sizes.
 
 ```{r fig.cap="A pie chart number for the email data set."}
 pie(table(email$number), col=COL[c(3,1,2)], radius=0.75)
@@ -276,7 +287,7 @@ Some of the more interesting investigations can be considered by examining numer
 
 We will take a look again at the `county` data set and compare the median household income for counties that gained population from 2000 to 2010 versus counties that had no gain. While we might like to make a causal connection here, remember that these are observational data and so such an interpretation would be unjustified.
 
-This section will give us a chance to perform some data wrangling. We will be using the `tidyverse` verbs in the process. Data wrangling is an important of analysis work and typically takes a significant portion of the analysis work.
+This section will give us a chance to perform some data wrangling. We will be using the `tidyverse` verbs in the process. Data wrangling is an important part of analysis work and typically takes a significant portion of the analysis work.
 
 First, as a reminder, let's look at the data. 
 
@@ -318,7 +329,7 @@ cc_reduced <- cc_reduced %>%
 inspect(cc_reduced)
 ```
 
-The **side-by-side box plot** is a traditional tool for comparing across groups. An example is shown in Figure 8 where there are two box plots, one for each group and drawn on the same scale.
+The **side-by-side box plot** is a traditional tool for comparing across groups. An example is shown in Figure 9 where there are two box plots, one for each group and drawn on the same scale.
 
 ```{r fig.cap="Side-by-side box plot for median household income, where the counties are split by whether there was a population gain or loss from 2000 to 2010."}
 cc_reduced %>%
@@ -329,19 +340,19 @@ cc_reduced %>%
 ```
 
 
-Another useful plotting method uses **density plots** to compare numerical data across groups. A histogram bins data but is highly dependent on the number and boundary of the bins. A density plot also estimates the distribution of a numerical variable but does this by estimating the density of data point in a small window around each data point. The overall curve is the sum of this small density estimate. A density plot can be thought of as a smooth version of the histogram. Several options go into a density estimate such as the width of the window and type of smoothing function. This are beyond the point here and we will just use the default options. Figure 9 is a plot of the two density curves.
+Another useful plotting method uses **density plots** to compare numerical data across groups. A histogram bins data but is highly dependent on the number and boundary of the bins. A density plot also estimates the distribution of a numerical variable but does this by estimating the density of data points in a small window around each data point. The overall curve is the sum of this small density estimate. A density plot can be thought of as a smooth version of the histogram. Several options go into a density estimate such as the width of the window and type of smoothing function. This are beyond the point here and we will just use the default options. Figure 10 is a plot of the two density curves.
 
-```{r}
+```{r fig.cap="Density plots ofmedian household income for counties with population gain versus population loss"}
 cc_reduced %>%
   gf_dens(~median_household_income,color=~pop_gain,lwd=1)
 ```
 
 
-> Exercise
+> **Exercise**:  
 Use the box plots and density plots to compare the incomes for counties across the two groups. What do you notice about the approximate center of each group? What do you notice about the variability between groups? Is the shape relatively consistent between groups? How many *prominent* modes are there for each group?^[Answers may vary a little. The counties with population gains tend to have higher income (median of about \$45,000) versus counties without a gain (median of about \$40,000). The variability is also slightly larger for the population gain group. This is evident in the IQR, which is about 50\% bigger in the *gain* group. Both distributions show slight to moderate right skew and are unimodal. There is a secondary small bump at about \$60,000 for the *no gain* group, visible in the density plot, that seems out of place. (Looking into the data set, we would find that 8 of these 15 counties are in Alaska and Texas.) The box plots indicate there are many observations far above the median in each group, though we should anticipate that many observations will fall beyond the whiskers when using such a large data set.]
 
 
-> Exercise 
+> **Exercise**:   
 What components of each plot in Figures 8 and 9 do you find most useful?^[The side-by-side box plots are especially useful for comparing centers and spreads, while the density plots are more useful for seeing distribution shape, skew, and groups of anomalies.]
 
 
