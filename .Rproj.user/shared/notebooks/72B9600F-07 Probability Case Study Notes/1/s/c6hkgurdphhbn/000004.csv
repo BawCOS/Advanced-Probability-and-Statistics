@@ -1,0 +1,2 @@
+"0","(do(1000)*length(unique(sample(days,size=18,replace = TRUE)))) %>%"
+"0","  gf_bar(~length)"

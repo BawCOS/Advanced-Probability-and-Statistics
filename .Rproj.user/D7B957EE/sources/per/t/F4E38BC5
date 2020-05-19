@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1589838514938.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "59300632",
+    "id" : "F4E38BC5",
+    "lastKnownWriteTime" : 1589848534,
+    "last_content_update" : 1589848534370,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/07 Probability Case Study Notes.Rmd",
+    "project_path" : "07 Probability Case Study Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "176,0",
+        "last_setup_crc32" : "74DD3F4Abb338d19",
+        "scrollLine" : "169"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
