@@ -1,0 +1,182 @@
+---
+title: 'Probability Rules Notes'
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(prob)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Objectives
+
+1) Define terms related to probability: outcome, event, sample space, probability.
+
+2) Apply basic set notation (subset, union, intersection, complement) to probability problems.
+
+3) Describe the basic axioms of probability.
+
+4) In "equally likely" scenarios, use `R` to calculate probabilities of events.
+
+## Probability vs Statistics
+
+This course is divided into three general blocks: probability, inference and modeling/prediction. The first block, probability, is the study of stochastic (random) processes and their properties. Specifically, we will explore random experiments. As its name suggests, a random experiment is an experiment whose outcome is not predictable with exact certainty. 
+
+Even though an outcome is determined by chance, this does not mean that we know nothing about the random experiment. My favorite simple example is that of a coin flip. If I flip a coin, the possible outcomes are heads and tails. We don't know for sure what outcome will occur, but this doesn't mean we don't know anything about the experiment. If we assume the coin is fair, we know that each outcome is equally likely. Also, we know that if we flip the coin 100 times (independently), we are likely to see around 50 heads, and very unlikely to see 10 heads or fewer. 
+
+It is important to distinguish probability from inference and modeling. In probability, we consider a known random experiment and answer questions about what we expect to see from this random experiment. In statistics (inference and modeling), we consider data (the results of a mysterious random experiment) and infer about the underlying process. For example, suppose we have a coin and we are unsure whether this coin is fair or unfair. We flipped it 20 times and it landed on heads 14 times. Inferential statistics will help us answer questions about the underlying process (could this coin be unfair?). 
+
+This first block (16 lessons or so) is devoted to the study of random experiments. First, we will explore simple experiments, counting rule problems, and conditional probability. Next, we will introduce the concept of a random variable and the properties of random variables. Following this, we will cover common distributions of discrete and continuous random variables. We will end the block on multivariate probability (joint distributions and covariance). 
+
+## Sample space
+
+Suppose we have a random experiment. The *sample space* of this experiment, $S$, is the set of all possible results of that experiment. For example, in the case of a coin flip, we could write $S=\{H,T\}$. Each element of the sample space is considered an *outcome*. An *event* is a set of outcomes.  
+
+### Example 2.1
+
+Suppose you arrive at a rental car counter and they show you a list of available vehicles, and one is picked for you at random. The sample space in this experiment is 
+$$
+S=\{\mbox{red sedan}, \mbox{blue sedan}, \mbox{red truck}, \mbox{grey truck}, \mbox{grey SUV}, \mbox{black SUV}, \mbox{blue SUV}\}.
+$$ 
+
+Each vehicle represents a possible outcome of the experiment. Let $A$ be the event that a blue vehicle is selected. This event contains the outcomes `blue sedan` and `blue SUV`. 
+
+## Union and intersection
+
+Suppose we have two events $A$ and $B$. 
+
+1) $A$ is considered a *subset* of $B$ if all of the outcomes of $A$ are also contained in $B$. This is denoted as $A \subset B$. 
+
+2) The *intersection* of $A$ and $B$ is all of the outcomes contained in both $A$ and $B$. This is denoted as $A \cap B$. 
+
+3) The *union* of $A$ and $B$ is all of the outcomes contained in either $A$ or $B$, or both. This is denoted as $A \cup B$. 
+
+4) The *complement* of $A$ is all of the outcomes not contained in $A$. This is denoted as $A^C$ or $A'$. 
+
+### Example 2.2
+
+Consider our rental car example above. Let $A$ be the event that a blue vehicle is selected, let $B$ be the event that a black vehicle is selected, and let $C$ be the event that an SUV is selected. 
+
+First, let's list all of the outcomes of each event. $A = \{\mbox{blue sedan},\mbox{blue SUV}\}$, $B=\{\mbox{black SUV}\}$, and $C= \{\mbox{grey SUV}, \mbox{black SUV}, \mbox{blue SUV}\}$. 
+
+Since all outcomes in $B$ are contained in $C$, we know that $B$ is a subset of $C$, or $B\subset C$. Also, since $A$ and $B$ have no outcomes in common, $A \cap B = \emptyset$. Further, $A \cup C = \{\mbox{blue sedan}, \mbox{grey SUV}, \mbox{black SUV}, \mbox{blue SUV}\}$. 
+
+## Probability
+
+*Probability* is a number assigned to an event or outcome that describes how likely it is to occur. There are some basic axioms of probability you should know. Let $S$ be the sample space of a random experiment and let $A$ be an event where $A\subset S$. 
+
+1) $\Prob(A) \geq 0$. 
+
+2) $\Prob(S) = 1$. 
+
+3) For disjoint events $A_1,A_2,A_3,...$, and for any $n$, 
+$$
+\Prob\left(\bigcup_{i=1}^n A_i\right)=\sum_{i=1}^n \Prob(A_i) 
+$$
+
+The first two axioms essentially say that probability must be positive, and the probability of all outcomes must sum to 1. The third axiom says that the total probability of a sequence of non-overlapping events should be equal to the sum of their individual probabilities. For example, in a standard 6-sided die, the probability of rolling a 1 or a 2 should be equal to the probability of rolling a 1 plus the probability of rolling a 2. 
+
+## Probability Properties
+
+Let $A$ and $B$ be events in a random experiment. Most of these can be proven fairly easily. 
+
+1) $\Prob(\emptyset)=0$
+
+2) $\Prob(A')=1-\Prob(A)$
+
+3) If $A\subset B$, then $\Prob(A)\leq \Prob(B)$. 
+
+4) $\Prob(A\cup B) = \Prob(A)+\Prob(B)-\Prob(A\cap B)$. This property can be generalized to more than two events. 
+
+5) Law of Total Probability: Let $B_1, B_2,...,B_n$ be mutually exclusive and exhaustive. Then 
+$$
+\Prob(A)=\Prob(A\cap B_1)+\Prob(A\cap B_2)+...+\Prob(A\cap B_n)
+$$
+
+A specific application of this law appears in Bayes' Rule (more to follow). It says that $\Prob(A)=\Prob(A \cap B)+\Prob(A \cap B')$. Essentially, it points out that $A$ can be partitioned into two parts: 1) everything in $A$ and $B$ and 2) everything in $A$ and not in $B$. 
+
+6) DeMorgan's Laws: 
+$$
+\Prob((A \cup B)')=\Prob(A' \cap B')
+$$
+$$
+\Prob((A \cap B)')=\Prob(A' \cup B')
+$$
+
+## Equally likely scenarios
+
+In some random experiments, outcomes can be defined such that each individual outcome is equally likely. In this case, probability becomes a counting problem. Let $A$ be an event in an experiment where each outcome is equally likely. 
+$$
+\Prob(A)=\frac{\mbox{\# of outcomes in A}}{\mbox{\# of outcomes in S}}
+$$
+
+### Example 2.3
+
+Suppose a family has three children, with each child being either a boy (B) or girl (G). Assume that the likelihood of boys and girls are equal and independent. The sample space can be written as:
+$$
+S=\{\mbox{BBB},\mbox{BBG},\mbox{BGB},\mbox{BGG},\mbox{GBB},\mbox{GBG},\mbox{GGB},\mbox{GGG}\}
+$$
+
+What is the probability that the family has exactly 2 girls? This only happens two ways: BGG, GBG, and GGB. Thus, the probability of exactly 2 girls is 3/8 or 0.375. 
+
+## Using `R` (Equally Likely Scenarios)
+
+Example 2.3 above in an example of an "Equally Likely" scenario, where the sample space of a random experiment contains a list of outcomes that are equally likely. In these cases, we can sometimes use `R` to list out the possible outcomes and count them to determine probability. 
+
+## Example 2.4
+
+Suppose we draw one card out of a standard deck. The `prob` package contains a function `cards` that creates a matrix containing all cards in a deck. Let $A$ be the event that we draw a Club. Let $B$ be the event that we draw a 10 or a face card (Jack, Queen, King or Ace). We can use `R` to define these events and use other built in functions to find related events. 
+
+```{r lesson2a}
+library(prob)
+
+## Define the sample space
+S <- cards(makespace = T)
+
+## Define event A
+A <- subset(S, suit == "Club")
+nrow(A) / nrow(S)
+Prob(A)
+
+## Define event B
+B <- subset(S, rank %in% c(10, "J", "Q", "K", "A"))
+Prob(B)
+
+## Determine the union of A and B
+unionAB <- union(A, B)
+Prob(unionAB)
+
+## Determine the intersect of A and B
+intAB <- intersect(A, B)
+Prob(intAB)
+
+## Determine the complement of B
+Bcomp <- setdiff(S, B)
+Prob(Bcomp)
+
+## Find outcomes in B but not in A
+BnotA <- setdiff(B, A)
+Prob(BnotA)
+```
+
+## Final Note
+
+It may be more interesting to us to explore various events upon drawing 5 cards from a standard deck. Each draw of 5 cards is equally likely, so in order to find the probability of a flush (5 cards of the same suit), we could simply list all the possible flushes and compare that to the sample space. Because of the large number of possible outcomes, this becomes difficult. Next time, we will talk about counting rules that help us solve these problems analytically. 
+
+

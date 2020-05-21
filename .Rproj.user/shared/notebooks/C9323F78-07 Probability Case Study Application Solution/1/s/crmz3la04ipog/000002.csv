@@ -1,0 +1,3 @@
+"0","exactly_two <- function(n){"
+"0","  choose(n,2)*prod(365:(365-(n-2)))/365^n"
+"0","}"
