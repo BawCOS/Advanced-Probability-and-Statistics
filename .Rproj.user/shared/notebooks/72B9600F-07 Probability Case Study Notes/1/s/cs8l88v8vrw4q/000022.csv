@@ -1,0 +1,4 @@
+"0","set.seed(20)"
+"0","(do(1000)*length(unique(sample(days,size=18,replace = TRUE,prob=birth_data_weights)))) %>%"
+"0","  mutate(match=if_else(length==18,0,1)) %>%"
+"0","  summarise(prob=mean(match))"

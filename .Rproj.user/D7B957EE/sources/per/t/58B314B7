@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1590101140369.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2439495224",
+    "id" : "58B314B7",
+    "lastKnownWriteTime" : 1590102085,
+    "last_content_update" : 1590102085497,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/07 Probability Case Study Application.Rmd",
+    "project_path" : "07 Probability Case Study Application.Rmd",
+    "properties" : {
+        "cursorPosition" : "39,2",
+        "last_setup_crc32" : "EE4C4046bb338d19",
+        "scrollLine" : "22"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
