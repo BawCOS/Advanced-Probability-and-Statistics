@@ -1,0 +1,2 @@
+"0","results <- do(10000)*sample(Cards,1)"
+"0","head(results)"

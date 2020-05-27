@@ -91,3 +91,43 @@ gf_line(exactly_two(1:100)~ seq(1,100),
         title="Probability of exactly least 2 people with matching birthdays")
 ```
 
+
+By the way, exactly three matches in simulation is hard. We have to table the data 
+
+```{r}
+set.seed(10)
+temp <- table(sample(days,size=23,replace = TRUE))
+temp
+```
+
+```{r}
+(sum(temp==2) == 2)+0
+```
+
+
+
+```{r}
+(do(10000)*((sum(table(sample(days,size=23,replace = TRUE)) == 3)==1)+0)) %>%
+  summarise(prob=mean(result))
+```
+
+Two sets that have same but different birthday
+
+```{r}
+(do(10000)*((sum(table(sample(days,size=23,replace = TRUE)) == 2)==2)+0)) %>%
+  summarise(prob=mean(result))
+```
+
+```{r}
+(do(10000)*length(unique(sample(days,size=23,replace = TRUE)))) %>%
+  mutate(match=if_else(length==21,1,0)) %>%
+  summarise(prob=mean(match))
+```
+
+Mathematically exactly 3 is easy. Simulation seems to be off a little or the math formula is off.
+
+
+
+```{r}
+choose(23,3)*prod(365:345)/365^23
+```

@@ -1,0 +1,6 @@
+"0","Cards <- read_csv(""data/Cards.csv"")"
+"0","inspect(Cards)"
+"1","
+"
+"1","categorical variables:  
+"

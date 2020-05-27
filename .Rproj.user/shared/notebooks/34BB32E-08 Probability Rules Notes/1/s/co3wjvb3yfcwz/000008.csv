@@ -1,0 +1,3 @@
+"0","results %>%"
+"0","  mutate(face=rank %in% c(10, ""J"", ""Q"", ""K"", ""A""))%>%"
+"0","  summarize(prob=mean(face))"

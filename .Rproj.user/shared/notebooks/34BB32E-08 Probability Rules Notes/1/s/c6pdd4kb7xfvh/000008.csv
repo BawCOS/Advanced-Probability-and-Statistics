@@ -1,0 +1,2 @@
+"0","results <- do(10000)*rflip(3)"
+"0","head(results)"

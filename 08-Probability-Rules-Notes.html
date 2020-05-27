@@ -366,40 +366,59 @@ summary {
 <h1 class="title toc-ignore">Probability Rules Notes</h1>
 <h4 class="author">Lt Col Ken Horton</h4>
 <h4 class="author">Professor Bradley Warner</h4>
-<h4 class="date">21 May, 2020</h4>
+<h4 class="date">26 May, 2020</h4>
 
 </div>
 
 
 
-<div id="objectives" class="section level1">
-<h1>Objectives</h1>
+<div id="objectives" class="section level2">
+<h2>Objectives</h2>
 <ol style="list-style-type: decimal">
-<li><p>Define terms related to probability: outcome, event, sample space, probability.</p></li>
+<li><p>Define and use properly in context all new terminology related to probability to include but not limited to: outcome, event, sample space, probability.</p></li>
 <li><p>Apply basic set notation (subset, union, intersection, complement) to probability problems.</p></li>
 <li><p>Describe the basic axioms of probability.</p></li>
-<li><p>In “equally likely” scenarios, use <code>R</code> to calculate probabilities of events.</p></li>
+<li><p>Use <code>R</code> to calculate probabilities of events.</p></li>
 </ol>
+</div>
 <div id="probability-vs-statistics" class="section level2">
 <h2>Probability vs Statistics</h2>
-<p>This course is divided into three general blocks: probability, inference and modeling/prediction. The first block, probability, is the study of stochastic (random) processes and their properties. Specifically, we will explore random experiments. As its name suggests, a random experiment is an experiment whose outcome is not predictable with exact certainty.</p>
-<p>Even though an outcome is determined by chance, this does not mean that we know nothing about the random experiment. My favorite simple example is that of a coin flip. If I flip a coin, the possible outcomes are heads and tails. We don’t know for sure what outcome will occur, but this doesn’t mean we don’t know anything about the experiment. If we assume the coin is fair, we know that each outcome is equally likely. Also, we know that if we flip the coin 100 times (independently), we are likely to see around 50 heads, and very unlikely to see 10 heads or fewer.</p>
-<p>It is important to distinguish probability from inference and modeling. In probability, we consider a known random experiment and answer questions about what we expect to see from this random experiment. In statistics (inference and modeling), we consider data (the results of a mysterious random experiment) and infer about the underlying process. For example, suppose we have a coin and we are unsure whether this coin is fair or unfair. We flipped it 20 times and it landed on heads 14 times. Inferential statistics will help us answer questions about the underlying process (could this coin be unfair?).</p>
-<p>This first block (16 lessons or so) is devoted to the study of random experiments. First, we will explore simple experiments, counting rule problems, and conditional probability. Next, we will introduce the concept of a random variable and the properties of random variables. Following this, we will cover common distributions of discrete and continuous random variables. We will end the block on multivariate probability (joint distributions and covariance).</p>
+<p>As a review, remember this course is divided into four general blocks: data collection/summary, probability models, inference and statistical modeling/prediction. This second block, probability, is the study of stochastic (random) processes and their properties. Specifically, we will explore random experiments. As its name suggests, a random experiment is an experiment whose outcome is not predictable with exact certainty. In the statistical models we develop in the last two blocks of this course, we will use other variables to explain the variance of the outcome of interest. Any remaining variance is modeled with probability models.</p>
+<p>Even though an outcome is determined by chance, this does not mean that we know nothing about the random experiment. Our favorite simple example is that of a coin flip. If we flip a coin, the possible outcomes are heads and tails. We don’t know for sure what outcome will occur, but this doesn’t mean we don’t know anything about the experiment. If we assume the coin is fair, we know that each outcome is equally likely. Also, we know that if we flip the coin 100 times (independently), we are likely, the highest frequency event, to see around 50 heads, and very unlikely to see 10 heads or fewer.</p>
+<p>It is important to distinguish probability from inference and modeling. In probability, we consider a known random experiment, including knowing the parameters, and answer questions about what we expect to see from this random experiment. In statistics (inference and modeling), we consider data (the results of a mysterious random experiment) and infer about the underlying process. For example, suppose we have a coin and we are unsure whether this coin is fair or unfair, the parameter is unknown. We flipped it 20 times and it landed on heads 14 times. Inferential statistics will help us answer questions about the underlying process (could this coin be unfair?).</p>
+<p>This block (XX lessons or so) is devoted to the study of random experiments. First, we will explore simple experiments, counting rule problems, and conditional probability. Next, we will introduce the concept of a random variable and the properties of random variables. Following this, we will cover common distributions of discrete and continuous random variables. We will end the block on multivariate probability (joint distributions and covariance).</p>
 </div>
-<div id="sample-space" class="section level2">
-<h2>Sample space</h2>
+<div id="basic-probability-terms" class="section level2">
+<h2>Basic probability terms</h2>
+<p>We will start our work with some definitions and examples.</p>
+<div id="sample-space" class="section level3">
+<h3>Sample space</h3>
 <p>Suppose we have a random experiment. The <em>sample space</em> of this experiment, <span class="math inline">\(S\)</span>, is the set of all possible results of that experiment. For example, in the case of a coin flip, we could write <span class="math inline">\(S=\{H,T\}\)</span>. Each element of the sample space is considered an <em>outcome</em>. An <em>event</em> is a set of outcomes.</p>
-<div id="example-2.1" class="section level3">
-<h3>Example 2.1</h3>
-<p>Suppose you arrive at a rental car counter and they show you a list of available vehicles, and one is picked for you at random. The sample space in this experiment is <span class="math display">\[
+<blockquote>
+<p><em>Example</em>:<br />
+Let’s let <code>R</code> flip a coin for us and record the number of heads and tails. We will have <code>R</code> flip the coin twice. What is the sample space, what is an example of an outcome, and what is an example of an event.</p>
+</blockquote>
+<p>We will load the <code>mosaic</code> package as it has a function <code>rflip()</code> that will simulate flipping a coin.</p>
+<pre class="r"><code>library(mosaic)</code></pre>
+<pre class="r"><code>set.seed(18)
+rflip(2)</code></pre>
+<pre><code>## 
+## Flipping 2 coins [ Prob(Heads) = 0.5 ] ...
+## 
+## H H
+## 
+## Number of Heads: 2 [Proportion Heads: 1]</code></pre>
+<p>The sample space is <span class="math inline">\(S=\{HH,TH. HT, TT\}\)</span>, an outcome is <span class="math inline">\(HH\)</span> which we see in the output, and finally an event in the number of heads which takes on the values 0, 1, and 2.</p>
+<blockquote>
+<p><em>Example of Event</em>:<br />
+Suppose you arrive at a rental car counter and they show you a list of available vehicles, and one is picked for you at random. The sample space in this experiment is <span class="math display">\[
 S=\{\mbox{red sedan}, \mbox{blue sedan}, \mbox{red truck}, \mbox{grey truck}, \mbox{grey SUV}, \mbox{black SUV}, \mbox{blue SUV}\}.
 \]</span></p>
+</blockquote>
 <p>Each vehicle represents a possible outcome of the experiment. Let <span class="math inline">\(A\)</span> be the event that a blue vehicle is selected. This event contains the outcomes <code>blue sedan</code> and <code>blue SUV</code>.</p>
 </div>
-</div>
-<div id="union-and-intersection" class="section level2">
-<h2>Union and intersection</h2>
+<div id="union-and-intersection" class="section level3">
+<h3>Union and intersection</h3>
 <p>Suppose we have two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
 <ol style="list-style-type: decimal">
 <li><p><span class="math inline">\(A\)</span> is considered a <em>subset</em> of <span class="math inline">\(B\)</span> if all of the outcomes of <span class="math inline">\(A\)</span> are also contained in <span class="math inline">\(B\)</span>. This is denoted as <span class="math inline">\(A \subset B\)</span>.</p></li>
@@ -407,38 +426,48 @@ S=\{\mbox{red sedan}, \mbox{blue sedan}, \mbox{red truck}, \mbox{grey truck}, \m
 <li><p>The <em>union</em> of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is all of the outcomes contained in either <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span>, or both. This is denoted as <span class="math inline">\(A \cup B\)</span>.</p></li>
 <li><p>The <em>complement</em> of <span class="math inline">\(A\)</span> is all of the outcomes not contained in <span class="math inline">\(A\)</span>. This is denoted as <span class="math inline">\(A^C\)</span> or <span class="math inline">\(A&#39;\)</span>.</p></li>
 </ol>
-<div id="example-2.2" class="section level3">
-<h3>Example 2.2</h3>
-<p>Consider our rental car example above. Let <span class="math inline">\(A\)</span> be the event that a blue vehicle is selected, let <span class="math inline">\(B\)</span> be the event that a black vehicle is selected, and let <span class="math inline">\(C\)</span> be the event that an SUV is selected.</p>
+<p>Note: Here we are treating events as sets and the above definitions are basic set definitions.</p>
+<blockquote>
+<p><em>Example</em>:<br />
+Consider our rental car example above. Let <span class="math inline">\(A\)</span> be the event that a blue vehicle is selected, let <span class="math inline">\(B\)</span> be the event that a black vehicle is selected, and let <span class="math inline">\(C\)</span> be the event that an SUV is selected.</p>
+</blockquote>
 <p>First, let’s list all of the outcomes of each event. <span class="math inline">\(A = \{\mbox{blue sedan},\mbox{blue SUV}\}\)</span>, <span class="math inline">\(B=\{\mbox{black SUV}\}\)</span>, and <span class="math inline">\(C= \{\mbox{grey SUV}, \mbox{black SUV}, \mbox{blue SUV}\}\)</span>.</p>
 <p>Since all outcomes in <span class="math inline">\(B\)</span> are contained in <span class="math inline">\(C\)</span>, we know that <span class="math inline">\(B\)</span> is a subset of <span class="math inline">\(C\)</span>, or <span class="math inline">\(B\subset C\)</span>. Also, since <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> have no outcomes in common, <span class="math inline">\(A \cap B = \emptyset\)</span>. Further, <span class="math inline">\(A \cup C = \{\mbox{blue sedan}, \mbox{grey SUV}, \mbox{black SUV}, \mbox{blue SUV}\}\)</span>.</p>
 </div>
 </div>
 <div id="probability" class="section level2">
 <h2>Probability</h2>
-<p><em>Probability</em> is a number assigned to an event or outcome that describes how likely it is to occur. There are some basic axioms of probability you should know. Let <span class="math inline">\(S\)</span> be the sample space of a random experiment and let <span class="math inline">\(A\)</span> be an event where <span class="math inline">\(A\subset S\)</span>.</p>
+<p><em>Probability</em> is a number assigned to an event or outcome that describes how likely it is to occur. A probability model assigns a probability to each element of the sample space. What makes a probability model is not just the values assigned to each element but the idea this model contains all the information about the outcomes and there are no other explanatory variables involved.</p>
+<p>A probability model can be thought of as a function that maps outcomes, or events, to a real number in the interval <span class="math inline">\([0,1]\)</span>.</p>
+<p>There are some basic axioms of probability you should know. Let <span class="math inline">\(S\)</span> be the sample space of a random experiment and let <span class="math inline">\(A\)</span> be an event where <span class="math inline">\(A\subset S\)</span>.</p>
 <ol style="list-style-type: decimal">
 <li><p><span class="math inline">\(\mbox{P}(A) \geq 0\)</span>.</p></li>
 <li><p><span class="math inline">\(\mbox{P}(S) = 1\)</span>.</p></li>
-<li><p>For disjoint events <span class="math inline">\(A_1,A_2,A_3,...\)</span>, and for any <span class="math inline">\(n\)</span>, <span class="math display">\[
+<li><p>For disjoint events, meaning the intersection is the null set, <span class="math inline">\(A_1,A_2,A_3,...\)</span>, and for any <span class="math inline">\(n\)</span>, <span class="math display">\[
 \mbox{P}\left(\bigcup_{i=1}^n A_i\right)=\sum_{i=1}^n \mbox{P}(A_i) 
 \]</span></p></li>
 </ol>
-<p>The first two axioms essentially say that probability must be positive, and the probability of all outcomes must sum to 1. The third axiom says that the total probability of a sequence of non-overlapping events should be equal to the sum of their individual probabilities. For example, in a standard 6-sided die, the probability of rolling a 1 or a 2 should be equal to the probability of rolling a 1 plus the probability of rolling a 2.</p>
-</div>
-<div id="probability-properties" class="section level2">
-<h2>Probability Properties</h2>
+<p>The first two axioms essentially say that probability must be positive, and the probability of all outcomes must sum to 1. The third axiom says that the total probability of a sequence of non-overlapping events should be equal to the sum of their individual probabilities. For example, in a standard 6-sided die, the probability of rolling a 1 or a 2 should be equal to the probability of rolling a 1 plus the probability of rolling a 2. Or another example is the probability of rolling an even or an odd is the sum of the probability of rolling an even plus the probability of rolling an odd. These events are disjoint because they have no outcomes in common, there are no numbers that are both even and odd.</p>
+<p>It is sometimes helpful when reading probability notation to think of Union as an <em>or</em> and Intersection as an <em>and</em>.</p>
+<div id="probability-properties" class="section level3">
+<h3>Probability properties</h3>
 <p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be events in a random experiment. Most of these can be proven fairly easily.</p>
 <ol style="list-style-type: decimal">
 <li><p><span class="math inline">\(\mbox{P}(\emptyset)=0\)</span></p></li>
-<li><p><span class="math inline">\(\mbox{P}(A&#39;)=1-\mbox{P}(A)\)</span></p></li>
+<li><p><span class="math inline">\(\mbox{P}(A&#39;)=1-\mbox{P}(A)\)</span> We used this in the case study.</p></li>
 <li><p>If <span class="math inline">\(A\subset B\)</span>, then <span class="math inline">\(\mbox{P}(A)\leq \mbox{P}(B)\)</span>.</p></li>
-<li><p><span class="math inline">\(\mbox{P}(A\cup B) = \mbox{P}(A)+\mbox{P}(B)-\mbox{P}(A\cap B)\)</span>. This property can be generalized to more than two events.</p></li>
-<li><p>Law of Total Probability: Let <span class="math inline">\(B_1, B_2,...,B_n\)</span> be mutually exclusive and exhaustive. Then <span class="math display">\[
+<li><p><span class="math inline">\(\mbox{P}(A\cup B) = \mbox{P}(A)+\mbox{P}(B)-\mbox{P}(A\cap B)\)</span>. This property can be generalized to more than two events. The intersection is subtracted because outcomes in both events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> get counted twice in the first sum.</p></li>
+<li><p>Law of Total Probability: Let <span class="math inline">\(B_1, B_2,...,B_n\)</span> be <strong>mutually exclusive</strong>, this means disjoint or no outcomes in common, and <strong>exhaustive</strong>, this means the union of all the events labeled with a <span class="math inline">\(B\)</span> is the sample space. Then <span class="math display">\[
 \mbox{P}(A)=\mbox{P}(A\cap B_1)+\mbox{P}(A\cap B_2)+...+\mbox{P}(A\cap B_n)
 \]</span></p></li>
 </ol>
 <p>A specific application of this law appears in Bayes’ Rule (more to follow). It says that <span class="math inline">\(\mbox{P}(A)=\mbox{P}(A \cap B)+\mbox{P}(A \cap B&#39;)\)</span>. Essentially, it points out that <span class="math inline">\(A\)</span> can be partitioned into two parts: 1) everything in <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> and 2) everything in <span class="math inline">\(A\)</span> and not in <span class="math inline">\(B\)</span>.</p>
+<blockquote>
+<p><em>Example</em>:<br />
+Consider rolling a six sided die. Let event <span class="math inline">\(A\)</span> be the number showing is less than 5. Let event <span class="math inline">\(B\)</span> be the number is even. Then <span class="math display">\[
+\mbox{P}(&lt; 5)=\mbox{P}(&lt;5 \cap Even)+\mbox{P}(&lt;5 \cap Odd)
+\]</span></p>
+</blockquote>
 <ol start="6" style="list-style-type: decimal">
 <li>DeMorgan’s Laws: <span class="math display">\[
 \mbox{P}((A \cup B)&#39;)=\mbox{P}(A&#39; \cap B&#39;)
@@ -447,62 +476,208 @@ S=\{\mbox{red sedan}, \mbox{blue sedan}, \mbox{red truck}, \mbox{grey truck}, \m
 \]</span></li>
 </ol>
 </div>
-<div id="equally-likely-scenarios" class="section level2">
-<h2>Equally likely scenarios</h2>
+<div id="equally-likely-scenarios" class="section level3">
+<h3>Equally likely scenarios</h3>
 <p>In some random experiments, outcomes can be defined such that each individual outcome is equally likely. In this case, probability becomes a counting problem. Let <span class="math inline">\(A\)</span> be an event in an experiment where each outcome is equally likely. <span class="math display">\[
 \mbox{P}(A)=\frac{\mbox{\# of outcomes in A}}{\mbox{\# of outcomes in S}}
 \]</span></p>
-<div id="example-2.3" class="section level3">
-<h3>Example 2.3</h3>
-<p>Suppose a family has three children, with each child being either a boy (B) or girl (G). Assume that the likelihood of boys and girls are equal and independent. The sample space can be written as: <span class="math display">\[
+<blockquote>
+<p><em>Example</em>:</p>
+</blockquote>
+<p>Suppose a family has three children, with each child being either a boy (B) or girl (G). Assume that the likelihood of boys and girls are equal and <strong>independent</strong>, this is the idea that the probability of the gender of the second child does not change based on the gender of the first child. The sample space can be written as: <span class="math display">\[
 S=\{\mbox{BBB},\mbox{BBG},\mbox{BGB},\mbox{BGG},\mbox{GBB},\mbox{GBG},\mbox{GGB},\mbox{GGG}\}
 \]</span></p>
 <p>What is the probability that the family has exactly 2 girls? This only happens two ways: BGG, GBG, and GGB. Thus, the probability of exactly 2 girls is 3/8 or 0.375.</p>
 </div>
+<div id="using-r-equally-likely-scenarios" class="section level3">
+<h3>Using <code>R</code> (Equally Likely Scenarios)</h3>
+<p>The previous example above in an example of an “Equally Likely” scenario, is an example where the sample space of a random experiment contains a list of outcomes that are equally likely. In these cases, we can sometimes use <code>R</code> to list out the possible outcomes and count them to determine probability. We can also use <code>R</code> to simulate.</p>
+<blockquote>
+<p><em>Example</em>:<br />
+Use <code>R</code> to simulate the family of three children where each child has the same probability of being a boy or a girl.</p>
+</blockquote>
+<p>Instead of writing our own function, we can use <code>rflip()</code> in the <code>mosaic</code> package. We will let <span class="math inline">\(H\)</span> stand for girl.</p>
+<p>First simulate one family.</p>
+<pre class="r"><code>set.seed(73)
+rflip(3)</code></pre>
+<pre><code>## 
+## Flipping 3 coins [ Prob(Heads) = 0.5 ] ...
+## 
+## T T H
+## 
+## Number of Heads: 1 [Proportion Heads: 0.333333333333333]</code></pre>
+<p>In this case we got 1 girl. Next we will use the <code>do()</code> function to repeat this simulation.</p>
+<pre class="r"><code>results &lt;- do(10000)*rflip(3)
+head(results)</code></pre>
+<pre><code>##   n heads tails      prop
+## 1 3     1     2 0.3333333
+## 2 3     3     0 1.0000000
+## 3 3     3     0 1.0000000
+## 4 3     3     0 1.0000000
+## 5 3     1     2 0.3333333
+## 6 3     1     2 0.3333333</code></pre>
+<p>Next we can visualize the distribution of the number of girls, heads.</p>
+<pre class="r"><code>results %&gt;%
+  gf_bar(~heads)</code></pre>
+<p><img src="data:image/png;base64,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" width="480" /></p>
+<p>Finally we can estimate the probability of exactly 2 girls. We need the <code>tidyverse</code> library.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>results %&gt;%
+  filter(heads==2) %&gt;%
+  summarize(prob=n()/10000)</code></pre>
+<pre><code>##     prob
+## 1 0.3782</code></pre>
+<p>Not a bad estimate of the exact probability.</p>
+<p>Let’s now use an example of cards to simulate some probabilities. As well as counting. The file <code>Cards.csv</code> contains the data for cards from a 52 card deck. Let’s read it in and summarize.</p>
+<pre class="r"><code>Cards &lt;- read_csv(&quot;data/Cards.csv&quot;)
+inspect(Cards)</code></pre>
+<pre><code>## 
+## categorical variables:  
+##   name     class levels  n missing
+## 1 rank character     13 52       0
+## 2 suit character      4 52       0
+##                                    distribution
+## 1 10 (7.7%), 2 (7.7%), 3 (7.7%) ...            
+## 2 Club (25%), Diamond (25%) ...                
+## 
+## quantitative variables:  
+##    name   class        min         Q1     median         Q3        max
+## 1 probs numeric 0.01923077 0.01923077 0.01923077 0.01923077 0.01923077
+##         mean sd  n missing
+## 1 0.01923077  0 52       0</code></pre>
+<p>We can see 4 suits, and 13 ranks, the value on the face of the card.</p>
+<blockquote>
+<p><em>Example</em>:<br />
+Suppose we draw one card out of a standard deck. Let <span class="math inline">\(A\)</span> be the event that we draw a Club. Let <span class="math inline">\(B\)</span> be the event that we draw a 10 or a face card (Jack, Queen, King or Ace). We can use <code>R</code> to define these events and find probabilities.</p>
+</blockquote>
+<p>Let’s find all the Clubs.</p>
+<pre class="r"><code>Cards %&gt;%
+  filter(suit == &quot;Club&quot;) %&gt;%
+  select(rank,suit)</code></pre>
+<pre><code>## # A tibble: 13 x 2
+##    rank  suit 
+##    &lt;chr&gt; &lt;chr&gt;
+##  1 2     Club 
+##  2 3     Club 
+##  3 4     Club 
+##  4 5     Club 
+##  5 6     Club 
+##  6 7     Club 
+##  7 8     Club 
+##  8 9     Club 
+##  9 10    Club 
+## 10 J     Club 
+## 11 Q     Club 
+## 12 K     Club 
+## 13 A     Club</code></pre>
+<p>So just by counting, we find the probability of drawing a Club is <span class="math inline">\(\frac{13}{52}\)</span> or 0.25.</p>
+<p>We can do this by simulation, this is over kill but gets the idea of simulation across.</p>
+<p>Remember, ask what do we want <code>R</code> to do and what does <code>R</code> need to do this?</p>
+<pre class="r"><code>results &lt;- do(10000)*sample(Cards,1)
+head(results)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   rank  suit   probs orig.id  .row .index
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt;  &lt;dbl&gt;
+## 1 9     Spade 0.0192 47          1      1
+## 2 5     Club  0.0192 4           1      2
+## 3 5     Spade 0.0192 43          1      3
+## 4 7     Heart 0.0192 32          1      4
+## 5 4     Club  0.0192 3           1      5
+## 6 A     Spade 0.0192 52          1      6</code></pre>
+<pre class="r"><code>results %&gt;%
+  filter(suit == &quot;Club&quot;) %&gt;%
+  summarize(prob=n()/10000)</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##    prob
+##   &lt;dbl&gt;
+## 1 0.243</code></pre>
+<p>Now let’s count the number of outcomes in <span class="math inline">\(B\)</span>.</p>
+<pre class="r"><code>Cards %&gt;%
+  filter(rank %in% c(10, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;)) %&gt;%
+  select(rank,suit)</code></pre>
+<pre><code>## # A tibble: 20 x 2
+##    rank  suit   
+##    &lt;chr&gt; &lt;chr&gt;  
+##  1 10    Club   
+##  2 J     Club   
+##  3 Q     Club   
+##  4 K     Club   
+##  5 A     Club   
+##  6 10    Diamond
+##  7 J     Diamond
+##  8 Q     Diamond
+##  9 K     Diamond
+## 10 A     Diamond
+## 11 10    Heart  
+## 12 J     Heart  
+## 13 Q     Heart  
+## 14 K     Heart  
+## 15 A     Heart  
+## 16 10    Spade  
+## 17 J     Spade  
+## 18 Q     Spade  
+## 19 K     Spade  
+## 20 A     Spade</code></pre>
+<p>So just by counting, we find the probability of drawing a 10 or greater is <span class="math inline">\(\frac{20}{52}\)</span> or 0.3846154.</p>
+<blockquote>
+<p><strong>Exercise</strong>:<br />
+Using simulation to estimate the probability of 10 or higher.</p>
+</blockquote>
+<pre class="r"><code>results &lt;- do(10000)*sample(Cards,1)
+head(results)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   rank  suit   probs orig.id  .row .index
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt;  &lt;dbl&gt;
+## 1 10    Heart 0.0192 35          1      1
+## 2 6     Heart 0.0192 31          1      2
+## 3 8     Spade 0.0192 46          1      3
+## 4 J     Heart 0.0192 36          1      4
+## 5 Q     Spade 0.0192 50          1      5
+## 6 10    Club  0.0192 9           1      6</code></pre>
+<pre class="r"><code>results %&gt;%
+  filter(rank %in% c(10, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;)) %&gt;%
+  summarize(prob=n()/10000)</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##    prob
+##   &lt;dbl&gt;
+## 1 0.389</code></pre>
+<p>Notice that this code is not robust to change the number of simulations. If we change from 10000, then we have to change the denominator in the <code>summarize()</code> function. We can change this by using <code>mutate</code> instead of <code>filter</code>.</p>
+<pre class="r"><code>results %&gt;%
+  mutate(face=rank %in% c(10, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;))%&gt;%
+  summarize(prob=mean(face))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##    prob
+##   &lt;dbl&gt;
+## 1 0.389</code></pre>
+<p>Next, let’s find a card that is 10 or greater <strong>and</strong> a club.</p>
+<pre class="r"><code>Cards %&gt;%
+  filter(rank %in% c(10, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;),suit==&quot;Club&quot;) %&gt;%
+  select(rank,suit)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   rank  suit 
+##   &lt;chr&gt; &lt;chr&gt;
+## 1 10    Club 
+## 2 J     Club 
+## 3 Q     Club 
+## 4 K     Club 
+## 5 A     Club</code></pre>
+<p>We find the probability of drawing a 10 or greater club is <span class="math inline">\(\frac{5}{52}\)</span> or 0.0961538.</p>
+<blockquote>
+<p><strong>Exercise</strong>:<br />
+Simulate drawing one card and estimate the probability of a club that is 10 or greater.</p>
+</blockquote>
+<pre class="r"><code>results %&gt;%
+  mutate(face=(rank %in% c(10, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;))&amp;(suit==&quot;Club&quot;))%&gt;%
+  summarize(prob=mean(face))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##     prob
+##    &lt;dbl&gt;
+## 1 0.0963</code></pre>
 </div>
-<div id="using-r-equally-likely-scenarios" class="section level2">
-<h2>Using <code>R</code> (Equally Likely Scenarios)</h2>
-<p>Example 2.3 above in an example of an “Equally Likely” scenario, where the sample space of a random experiment contains a list of outcomes that are equally likely. In these cases, we can sometimes use <code>R</code> to list out the possible outcomes and count them to determine probability.</p>
-</div>
-<div id="example-2.4" class="section level2">
-<h2>Example 2.4</h2>
-<p>Suppose we draw one card out of a standard deck. The <code>prob</code> package contains a function <code>cards</code> that creates a matrix containing all cards in a deck. Let <span class="math inline">\(A\)</span> be the event that we draw a Club. Let <span class="math inline">\(B\)</span> be the event that we draw a 10 or a face card (Jack, Queen, King or Ace). We can use <code>R</code> to define these events and use other built in functions to find related events.</p>
-<pre class="r"><code>library(prob)
-
-## Define the sample space
-S &lt;- cards(makespace = T)
-
-## Define event A
-A &lt;- subset(S, suit == &quot;Club&quot;)
-nrow(A) / nrow(S)</code></pre>
-<pre><code>## [1] 0.25</code></pre>
-<pre class="r"><code>Prob(A)</code></pre>
-<pre><code>## [1] 0.25</code></pre>
-<pre class="r"><code>## Define event B
-B &lt;- subset(S, rank %in% c(10, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;))
-Prob(B)</code></pre>
-<pre><code>## [1] 0.3846154</code></pre>
-<pre class="r"><code>## Determine the union of A and B
-unionAB &lt;- union(A, B)
-Prob(unionAB)</code></pre>
-<pre><code>## [1] 0.5384615</code></pre>
-<pre class="r"><code>## Determine the intersect of A and B
-intAB &lt;- intersect(A, B)
-Prob(intAB)</code></pre>
-<pre><code>## [1] 0.09615385</code></pre>
-<pre class="r"><code>## Determine the complement of B
-Bcomp &lt;- setdiff(S, B)
-Prob(Bcomp)</code></pre>
-<pre><code>## [1] 0.6153846</code></pre>
-<pre class="r"><code>## Find outcomes in B but not in A
-BnotA &lt;- setdiff(B, A)
-Prob(BnotA)</code></pre>
-<pre><code>## [1] 0.2884615</code></pre>
 </div>
 <div id="final-note" class="section level2">
 <h2>Final Note</h2>
-<p>It may be more interesting to us to explore various events upon drawing 5 cards from a standard deck. Each draw of 5 cards is equally likely, so in order to find the probability of a flush (5 cards of the same suit), we could simply list all the possible flushes and compare that to the sample space. Because of the large number of possible outcomes, this becomes difficult. Next time, we will talk about counting rules that help us solve these problems analytically.</p>
-</div>
+<p>It may be more interesting to us to explore various events upon drawing 5 cards from a standard deck. Each draw of 5 cards is equally likely, so in order to find the probability of a flush (5 cards of the same suit), we could simply list all the possible flushes and compare that to the sample space. Because of the large number of possible outcomes, this becomes difficult. Next time, we will talk about counting rules that help us solve these problems analytically. To do this with a simulation is also a little tricky but in the case study we put many of these ideas forward.</p>
 </div>
 
 
