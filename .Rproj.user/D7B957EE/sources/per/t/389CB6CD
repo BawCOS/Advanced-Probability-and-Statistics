@@ -1,25 +1,25 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1590535807160.000,
+    "created" : 1590608613047.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1885617436",
-    "id" : "29D99F97",
-    "lastKnownWriteTime" : 1590538476,
-    "last_content_update" : 1590538476865,
+    "hash" : "354362645",
+    "id" : "389CB6CD",
+    "lastKnownWriteTime" : 1590613761,
+    "last_content_update" : 1590613761975,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/08 Probability Rules Notes.Rmd",
     "project_path" : "08 Probability Rules Notes.Rmd",
     "properties" : {
-        "cursorPosition" : "1,25",
-        "last_setup_crc32" : "5D9EAC604e1ebb03",
-        "scrollLine" : "0"
+        "cursorPosition" : "403,21",
+        "last_setup_crc32" : "803F949C4e1ebb03",
+        "scrollLine" : "396"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 11,
+    "relative_order" : 10,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_markdown"

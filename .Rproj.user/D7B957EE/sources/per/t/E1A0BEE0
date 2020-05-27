@@ -1,19 +1,19 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1590538526129.000,
+    "created" : 1590613804172.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4195198794",
-    "id" : "8FCFCC9C",
-    "lastKnownWriteTime" : 1590538677,
-    "last_content_update" : 1590538677473,
+    "hash" : "2713368524",
+    "id" : "E1A0BEE0",
+    "lastKnownWriteTime" : 1590614313,
+    "last_content_update" : 1590614313069,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/08 Probability Rules Application.Rmd",
     "project_path" : "08 Probability Rules Application.Rmd",
     "properties" : {
-        "cursorPosition" : "60,72",
-        "scrollLine" : "47"
+        "cursorPosition" : "94,45",
+        "scrollLine" : "79"
     },
     "read_only" : false,
     "read_only_alternatives" : [

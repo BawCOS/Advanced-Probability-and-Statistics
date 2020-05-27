@@ -60,5 +60,40 @@ a) Suppose there are $n=20$ people in a classroom. My birthday is April 3rd. Wha
 
 b) In `R`, find the probability that at least one other person shares my birthday for each value of $n$ from 1 to 80. Plot these probabilities with $n$ on the $x$-axis and probability on the $y$-axis. At what value of $n$ would the probability be at least 95%? 
 
+4. Thinking of the cards again. Answer the following questions:
+
+a) Define two events that are mutually exclusive.  
+b) Define two events that are independent.  
+c) Define an event and its complement.  
+
+5. Consider the license plate example from the reading. 
+
+a) What is the probability that a license plate contains **exactly** one "B"? 
+
+
+b) What is the probability that a license plate contains **at least one** "B"?
+
+
+
+6. Consider party example in the reading. 
+
+a) Suppose 8 people showed up to the party dressed as zombies. What is the probability that all three awards are won by people dressed as zombies? 
+
+
+b) What is the probability that zombies win "most creative" and "funniest" but not "scariest"? 
+
+
+7. Consider the cards example from the reading. 
+
+a) How many ways can we obtain a "two pairs" (2 of one number, 2 of another, and the final different)? 
+
+
+b) Consider all of the distinct outcomes of the dice rolls. Is each outcome equally likely? Explain why or why not. 
+
+c) What is the probability of drawing a "four of a kind" (four cards of the same value)? 
+
+8. Advanced Question: Consider rolling 5 dice. What is the **probability** of a pour resulting in a full house?
+
+
 
 
