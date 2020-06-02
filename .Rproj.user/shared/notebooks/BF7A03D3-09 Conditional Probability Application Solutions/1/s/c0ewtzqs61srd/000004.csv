@@ -1,0 +1,8 @@
+"0","data.frame(do(49774)*rflip(3,prob=0.8)) %>%"
+"0","  filter(heads==3) %>%"
+"0","  summarise(count=n()) %>%"
+"0","  pull()"
+"1","[1]"
+"1"," 25512"
+"1","
+"

@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591133253947.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3777210026",
+    "id" : "869F3136",
+    "lastKnownWriteTime" : 1591137457,
+    "last_content_update" : 1591137457704,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/09 Conditional Probability Notes.Rmd",
+    "project_path" : "09 Conditional Probability Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "1,31",
+        "ignored_words" : "mbox\n",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -58,7 +58,7 @@ a) Suppose there are $n=20$ people in a classroom. My birthday is April 3rd. Wha
 
 
 
-b) In `R`, find the probability that at least one other person shares my birthday for each value of $n$ from 1 to 80. Plot these probabilities with $n$ on the $x$-axis and probability on the $y$-axis. At what value of $n$ would the probability be at least 95%? 
+b) In `R`, find the probability that at least one other person shares my birthday for each value of $n$ from 1 to 80. Plot these probabilities with $n$ on the $x$-axis and probability on the $y$-axis. At what value of $n$ would the probability be at least 50%? 
 
 4. Thinking of the cards again. Answer the following questions:
 

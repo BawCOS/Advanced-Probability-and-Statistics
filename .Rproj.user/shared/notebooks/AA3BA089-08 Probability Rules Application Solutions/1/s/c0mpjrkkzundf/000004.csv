@@ -1,0 +1,4 @@
+"0","gf_line(mybday(n)~ n,"
+"0","        xlab=""Number of People"","
+"0","        ylab=""Probability of Match"","
+"0","        title=""Probability of at least 1 person matching my birthday"")"
