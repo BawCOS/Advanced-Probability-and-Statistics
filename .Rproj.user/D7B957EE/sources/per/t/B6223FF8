@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591651760991.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2709264989",
+    "id" : "B6223FF8",
+    "lastKnownWriteTime" : 1591652075,
+    "last_content_update" : 1591652075725,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/11 Continuous Random Variable Application.Rmd",
+    "project_path" : "11 Continuous Random Variable Application.Rmd",
+    "properties" : {
+        "cursorPosition" : "18,17",
+        "scrollLine" : "9"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

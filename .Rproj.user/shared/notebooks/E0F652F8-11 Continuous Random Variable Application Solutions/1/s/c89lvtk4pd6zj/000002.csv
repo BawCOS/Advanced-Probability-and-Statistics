@@ -1,0 +1,1 @@
+"0","my_pdf <- function(x)integrate(function(y)y^2/18,-x,x)$value"

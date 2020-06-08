@@ -1,0 +1,2 @@
+"0","set.seed(9)"
+"0","sim_diffs<-do(10000)*abs(diff(sample(1:6,2,replace=T)))"
