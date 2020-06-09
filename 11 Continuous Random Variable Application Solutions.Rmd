@@ -1,8 +1,8 @@
 ---
 title: "Continuous Random Variables Applications Solutions"
-  author:
-- Lt Col Ken Horton
-- Professor Bradley Warner
+author:
+  - Lt Col Ken Horton
+  - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:
@@ -121,6 +121,11 @@ f) Find the 80th percentile of $X$ (the value $x$ for which 80% of the distribut
 
 Need $x$ such that $F(x)=0.8$. Solving $\frac{x^3}{54}+\frac{1}{2}=0.8$ for $x$ yields $x=2.530$. 
 
+```{r}
+uniroot(function(x)x^3/54+.5-.8,c(-3,3))
+```
+
+
 g) Find the value $x$ such that $\Prob(-x \leq X \leq x)=0.4$. 
 
 Because this distribution is symmetric, finding $x$ is equivalent to finding $x$ such that $\Prob(X>x)=0.3$. (It helps to draw a picture). Thus, we need $x$ such that $F(x)=0.7$. Solving $\frac{x^3}{54}+\frac{1}{2}=0.7$ for $x$ yields $x=2.210$. 
@@ -145,6 +150,30 @@ $$
 $$
 \Var(X)=\E(X^2)-\E(X)^2=5.4-0^2=5.4
 $$
+
+i) This is tricky since we need a cube root function. Just raising to the one-third power won't work. Let's write our own function.
+
+```{r}
+cuberoot <- function(x) {
+  sign(x) * abs(x)^(1/3)}
+```
+
+```{r}
+set.seed(4)
+results <- do(10000)*cuberoot((runif(1)-.5)*54)
+```
+
+```{r}
+results %>%
+  gf_dens(~cuberoot)
+```
+
+```{r}
+inspect(results)
+```
+
+
+
 
 \newpage
 

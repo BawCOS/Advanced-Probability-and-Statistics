@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591738616044.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2379138197",
+    "id" : "319A0250",
+    "lastKnownWriteTime" : 1591739115,
+    "last_content_update" : 1591739115138,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/12 Named Discrete Distributions Application.Rmd",
+    "project_path" : "12 Named Discrete Distributions Application.Rmd",
+    "properties" : {
+        "cursorPosition" : "54,3",
+        "last_setup_crc32" : "C24F9AFBbb338d19",
+        "scrollLine" : "53"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
