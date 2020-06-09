@@ -2,20 +2,20 @@
     "collab_server" : "",
     "contents" : "",
     "created" : 1591649033170.000,
-    "dirty" : false,
+    "dirty" : true,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "1735146956",
     "id" : "C6A623FA",
     "lastKnownWriteTime" : 1591651657,
-    "last_content_update" : 1591651658008,
+    "last_content_update" : 1591725887939,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/11 Continuous Random Variables Notes.Rmd",
     "project_path" : "11 Continuous Random Variables Notes.Rmd",
     "properties" : {
-        "cursorPosition" : "12,16",
+        "cursorPosition" : "81,8",
         "ignored_words" : "pdf,cdf,discretizing,pmf,leq\n",
-        "last_setup_crc32" : "F20922BB25fc991",
-        "scrollLine" : "0"
+        "last_setup_crc32" : "",
+        "scrollLine" : "76"
     },
     "read_only" : false,
     "read_only_alternatives" : [

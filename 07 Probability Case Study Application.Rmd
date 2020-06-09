@@ -1,6 +1,6 @@
 ---
 title: "Case Study with Data Applications"
-author: "Professor Bradley Warner"
+author: "YOUR NAME"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document: default

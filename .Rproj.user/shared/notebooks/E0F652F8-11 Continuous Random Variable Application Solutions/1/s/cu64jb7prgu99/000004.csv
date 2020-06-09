@@ -1,0 +1,2 @@
+"0","ggplot(data.frame(x=c(-3, 3)), aes(x)) + "
+"0"," stat_function(fun=function(x) x^2/18)"

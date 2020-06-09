@@ -1,8 +1,6 @@
 ---
 title: "Probability Rules Applications"
-author:
-- Lt Col Ken Horton
-- Professor Bradley Warner
+author: "YOUR NAME"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:

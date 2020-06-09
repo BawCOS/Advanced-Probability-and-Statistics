@@ -1,6 +1,6 @@
 ---
 title: "Observation Studies, Sampling Strategies, and Experiments"
-author: "Professor Bradley Warner"
+author: "YOUR NAME"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:

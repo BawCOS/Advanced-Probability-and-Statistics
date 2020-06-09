@@ -1,6 +1,6 @@
 ---
 title: "Numerical Data Applications"
-author: "Professor Bradley Warner"
+author: "YOUR NAME"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:

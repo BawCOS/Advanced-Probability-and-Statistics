@@ -14,8 +14,8 @@
     "properties" : {
         "cursorPosition" : "35,55",
         "ignored_words" : "Sys,Cov,pmf,cdf,mbox,discretizing,underbrace,geq,frac,leq,renewcommand,arraystretch\n",
-        "last_setup_crc32" : "F20922BB4e1ebb03",
-        "scrollLine" : "34"
+        "last_setup_crc32" : "",
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [

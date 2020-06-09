@@ -1,0 +1,3 @@
+"0","x<-seq(-3,3,0.001)"
+"0","fx<-x^2"
+"0","gf_line(fx~x,ylab=""f(x)"",main=""pdf of X"")"

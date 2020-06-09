@@ -5,16 +5,16 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "901496184",
+    "hash" : "351151327",
     "id" : "2856A3DF",
-    "lastKnownWriteTime" : 1591652759,
-    "last_content_update" : 1591652759184,
+    "lastKnownWriteTime" : 1591727448,
+    "last_content_update" : 1591727448498,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/11 Continuous Random Variable Application Solutions.Rmd",
     "project_path" : "11 Continuous Random Variable Application Solutions.Rmd",
     "properties" : {
-        "cursorPosition" : "61,0",
-        "last_setup_crc32" : "F20922BB4e1ebb03",
-        "scrollLine" : "55"
+        "cursorPosition" : "115,35",
+        "last_setup_crc32" : "C24F9AFB4e1ebb03",
+        "scrollLine" : "107"
     },
     "read_only" : false,
     "read_only_alternatives" : [
