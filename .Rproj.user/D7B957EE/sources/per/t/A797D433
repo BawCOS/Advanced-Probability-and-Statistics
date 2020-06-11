@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591905098077.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2853023317",
+    "id" : "A797D433",
+    "lastKnownWriteTime" : 1591911494,
+    "last_content_update" : 1591911494064,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/13 Named Continuous Distributions Notes.Rmd",
+    "project_path" : "13 Named Continuous Distributions Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "14,0",
+        "ignored_words" : "Sys,Cov,pdf,cdf,memoryless,Weibull\n",
+        "last_setup_crc32" : "118EB85C25fc991",
+        "scrollLine" : "5"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
