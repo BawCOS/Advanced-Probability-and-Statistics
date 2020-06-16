@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592335730519.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1342678205",
+    "id" : "DD0ED3F6",
+    "lastKnownWriteTime" : 1592337718,
+    "last_content_update" : 1592337718465,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/14 Multivariate Distributions Application.Rmd",
+    "project_path" : "14 Multivariate Distributions Application.Rmd",
+    "properties" : {
+        "cursorPosition" : "1,46",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

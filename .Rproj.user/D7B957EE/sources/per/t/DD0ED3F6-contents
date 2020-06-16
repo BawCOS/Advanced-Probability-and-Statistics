@@ -1,0 +1,108 @@
+---
+title: "Multivariate Distribution Applications"
+author: "YOUR NAME"  
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Let $X$ and $Y$ be continuous random variables with joint pmf: 
+$$
+f_{X,Y}(x,y)=x + y
+$$
+
+where $0 \leq x \leq 1$ and $0 \leq y \leq 1$. 
+
+a) Verify that $f$ is a valid pdf. 
+
+
+b) Find the marginal pdfs of $X$ and $Y$. 
+
+
+c) Find the conditional pdfs of $X|Y=y$ and $Y|X=x$. 
+
+
+d) Find the following probabilities: $\Prob(X<0.5)$; $\Prob(Y>0.8)$; $\Prob(X<0.2,Y\geq 0.75)$; $\Prob(X<0.2|Y\geq 0.75)$; Optional - $\Prob(X\leq Y)$. 
+
+
+
+&nbsp;
+
+\indent 2. Let $X$ and $Y$ be continuous random variables with joint pmf: 
+$$
+f_{X,Y}(x,y)=1
+$$
+
+where $0 \leq x \leq 1$ and $0 \leq y \leq 2x$. 
+
+a) Verify that $f$ is a valid pdf. 
+
+
+b) Find the marginal pdfs of $X$ and $Y$. 
+
+
+c) Find the conditional pdfs of $X|Y=y$ and $Y|X=x$. 
+
+
+d) Find the following probabilities: $\Prob(X<0.5)$; $\Prob(Y>1)$; $\Prob(X<0.5,Y\leq 0.8)$; Optional $\Prob(X<0.5|Y= 0.8)$; $\Prob(Y\leq 1-X)$. (It would probably help to draw some pictures.)
+
+
+&nbsp;
+
+
+\indent 3. In the Notes, we saw that $f_X(x)=f_{X|Y=y}(x)$ and $f_Y(y)=f_{Y|X=x}(y)$. What does this imply about $X$ and $Y$?  
+
+
+\newpage
+
+\indent 4. ADVANCED: Recall on an earlier assignment, we came up with random variables to describe timeliness at an airport. Suppose over the course of 210 days, on each day we recorded the number of customer complaints regarding timeliness. Also on each day, we recorded the weather (our airport is located somewhere without snow and without substantial wind). The data are displayed below. 
+
+$$
+\renewcommand{\arraystretch}{1.1} \begin{array}{cc|ccc} & & \multicolumn{3}{c}{\mbox{Weather Status}}\\ 
+& & \mbox{Clear} & \mbox{Light Rain} & \mbox{Rain}  \\
+\cline{2-5}
+\multirow{6}{*}{\mbox{num complaints}} & 0 & 28 & 11 & 4  \\
+& 1 & 18 & 15 & 8  \\
+& 2 & 17 & 25 & 12  \\
+& 3 & 13 & 15 & 16  \\
+& 4 & 8 & 8 & 10 \\
+& 5 & 0 & 1 & 1 \\
+\end{array} 
+$$
+
+First, define two random variables for this scenario. One of them (# of complaints) is essentially already a random variable. For the other (weather status) you will need to assign a number to each status. 
+
+a) Use the table above to build an empirical joint pmf of the two random variables. 
+
+
+b) Find the marginal pmfs of each random variable. 
+
+
+c) Find the probability of fewer than 3 complaints. 
+
+
+d) Find the probability of fewer than 3 complaints given there is no rain. 
+
+
+

@@ -1,0 +1,2 @@
+"0","set.seed(202)"
+"0","stripplot(cumsum(rexp(30,2/3)),xlab=""Arrival Time"")"

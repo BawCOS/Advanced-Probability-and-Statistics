@@ -1,5 +1,6 @@
 "0","knitr::opts_chunk$set(echo = TRUE)"
 "0","knitr::opts_chunk$set(fig.pos='ht')"
+"0","library(knitr)"
 "0","library(mosaic)"
 "2","Loading required package: dplyr
 "
@@ -22,6 +23,10 @@ Attaching package: ‘dplyr’
 "2","Loading required package: ggformula
 "
 "2","Loading required package: ggplot2
+"
+"2","Want to understand how all the pieces fit
+together? Read R for Data Science:
+https://r4ds.had.co.nz/
 "
 "2","Loading required package: ggstance
 "

@@ -59,6 +59,14 @@ $$
 1-pexp(10,2/3)
 ```
 
+or using simulation:
+
+```{r}
+set.seed(616)
+mean(rpois(10000,40/6) == 0)
+```
+
+
 b) Find the probability that at least 5 minutes will pass before the next arrival.
 
 $Y$: same as in part a
@@ -91,6 +99,14 @@ e) Fill in the blank. There is a probability of 90% that the next vehicle will a
 ```{r hw11f}
 qexp(0.9,2/3)
 ```
+
+f) Use the function `stripplot()` to visualize the arrival of 30 vehicles using a random sample from the appropriate exponential distribution. 
+
+```{r}
+set.seed(202)
+stripplot(cumsum(rexp(30,2/3)),xlab="Arrival Time")
+```
+
 
 \newpage
 

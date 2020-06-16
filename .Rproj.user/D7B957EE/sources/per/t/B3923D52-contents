@@ -46,7 +46,7 @@ d) Find the probability that at least 7 minutes will pass before the next arriva
 e) Fill in the blank. There is a probability of 90% that the next vehicle will arrive within __ minutes. This value is known as the 90% percentile of the random variable. 
 
 
-
+f) Use the function `stripplot()` to visualize the arrival of 30 vehicles using a random sample from the appropriate exponential distribution.
 
 \indent 2. Suppose time until computer errors on the F-35 follows a Gamma distribution with mean 20 hours and variance 10.  
 

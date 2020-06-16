@@ -5,15 +5,16 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "924927855",
+    "hash" : "436322638",
     "id" : "EA17E49A",
-    "lastKnownWriteTime" : 1591911815,
-    "last_content_update" : 1591911815247,
+    "lastKnownWriteTime" : 1592325668,
+    "last_content_update" : 1592325668210,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/13 Named Continuous Distributions Application Solutions.Rmd",
     "project_path" : "13 Named Continuous Distributions Application Solutions.Rmd",
     "properties" : {
-        "cursorPosition" : "19,17",
-        "scrollLine" : "14"
+        "cursorPosition" : "112,0",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
