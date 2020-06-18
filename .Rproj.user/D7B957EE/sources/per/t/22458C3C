@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592516941855.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2080430495",
+    "id" : "22458C3C",
+    "lastKnownWriteTime" : 1592517075,
+    "last_content_update" : 1592517075307,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/15 Multivariate Expectation Application Solutions.Rmd",
+    "project_path" : "15 Multivariate Expectation Application Solutions.Rmd",
+    "properties" : {
+        "cursorPosition" : "38,11",
+        "scrollLine" : "37"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

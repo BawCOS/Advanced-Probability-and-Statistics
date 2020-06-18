@@ -19,6 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.pos='ht')
 library(mosaic)
 library(tidyverse)
+library(mosaicCalc)
 ```
 
 \newcommand{\E}{\mbox{E}}
@@ -82,6 +83,20 @@ Using `R`, we find
 integrate(function(x)2*x,0,1)
 ```
 
+Or we can use the `mosaicCalc` package to find the anit-derivative. If the package is not installed, you can use the `Packages` tab in `RStudio` or type `install.packages("mosaicCalc")` at the command prompt. Load the library.
+
+```{r eval=FALSE}
+library(mosaicCalc)
+```
+
+```{r}
+(Fx<-antiD(2*x~x))
+```
+
+```{r}
+Fx(1)-Fx(0)
+```
+
 
 Graphically, the pdf is displayed below:
 ```{r lesson 9a,fig.align='center',echo=F,fig.cap="pdf of $X$"}
@@ -93,6 +108,7 @@ The cdf of $X$ is found by
 $$
 \int_0^x 2t \diff t = t^2\bigg|_0^x = x^2
 $$
+This is `antiD` found from the calculations above.  
 
 So,
 $$
@@ -134,6 +150,11 @@ integrate(function(x)2*x,.1,.75)
 
 Alternatively, $\Prob(0.1\leq X < 0.75) = F(0.75)-F(0.1)=0.75^2-0.1^2 =0.553$
 
+```{r}
+Fx(0.75)-Fx(0.1)
+```
+
+
 ```{r lesson9e,fig.align='center',echo=F,fig.cap="Probability represented by shaded area"}
 x<-seq(0,1,0.001)
 y<-2*x
@@ -145,9 +166,13 @@ The median of $X$ is the value $x$ such that $\Prob(X\leq x)=0.5$. So we simply 
 
 Or using `R`
 
+
+
+
 ```{r}
-uniroot(function(x)x^2-.5,c(0,1))$root
+uniroot(function(x)(Fx(x)-.5),c(0,1))$root
 ```
+
 
 ### Simulation 
 
@@ -214,6 +239,14 @@ Using `R`.
 integrate(function(x)x*2*x,0,1)
 ```
 
+Or using `antiD()`
+
+```{r}
+Ex<-antiD(2*x^2~x)
+Ex(1)-Ex(0)
+```
+
+
 Using our simulation.
 
 ```{r}
@@ -228,6 +261,14 @@ $$
 ```{r}
 integrate(function(x)x^2*2*x,0,1)$value-(2/3)^2
 ```
+
+or
+
+```{r}
+Vx<-antiD(x^2*2*x~x)
+Vx(1)-Vx(0)-(2/3)^2
+```
+
 
 ```{r}
 var(~sqrt,data=results)*9999/10000

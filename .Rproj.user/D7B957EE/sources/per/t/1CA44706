@@ -5,17 +5,17 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2282841740",
+    "hash" : "3446364150",
     "id" : "1CA44706",
-    "lastKnownWriteTime" : 1592335676,
-    "last_content_update" : 1592335676120,
+    "lastKnownWriteTime" : 1592342727,
+    "last_content_update" : 1592342727860,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/14 Multivariate Distributions Notes.Rmd",
     "project_path" : "14 Multivariate Distributions Notes.Rmd",
     "properties" : {
-        "cursorPosition" : "214,3",
+        "cursorPosition" : "27,0",
         "ignored_words" : "pdfs,pmf,pdf,pmfs,bivariate,univariate\n",
-        "last_setup_crc32" : "BDF3CA5B2f468960",
-        "scrollLine" : "209"
+        "last_setup_crc32" : "156B7B4Da838266c",
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [

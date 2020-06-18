@@ -1,0 +1,189 @@
+---
+title: "Multivariate Expectation Application Solutions"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.pos='ht')
+library(knitr)
+library(mosaic)
+library(tidyverse)
+library(cubature)
+library(mosaicCalc)
+```
+
+
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Let $X$ and $Y$ be continuous random variables with joint pmf: 
+$$
+f_{X,Y}(x,y)=x + y
+$$
+
+where $0 \leq x \leq 1$ and $0 \leq y \leq 1$. 
+
+a) Find $\E(X)$ and $\E(Y)$.  
+$$
+\E(X)=\int_0^1 x\left(x+{1\over 2}\right)\diff x=\frac{x^3}{3}+{x^2\over 4}\bigg|_0^1={1\over3}+{1\over 4}={7\over 12}=0.583
+$$
+
+$$
+\E(Y)=\int_0^1 y\left(y+{1\over 2}\right)\diff y = 0.583
+$$
+
+b) Find $\Var(X)$ and $\Var(Y)$.  
+
+$$
+\Var(X)=\E(X^2)-\E(X)^2
+$$
+$$
+\E(X^2)=\int_0^1 x^2\left(x+\frac{1}{2}\right)\diff x = {x^4\over 4}+{x^3\over 6}\bigg|_0^1={1\over 4}+{1\over 6}={5\over 12}=0.417
+$$
+
+So, $\Var(X)=0.417-0.583^2=0.076$. 
+
+Similarly, $\Var(Y)=0.076$. 
+
+c) Find $\Cov(X,Y)$ and $\rho$. Are $X$ and $Y$ independent? 
+$$
+\Cov(X,Y)=\E(XY)-\E(X)\E(Y)
+$$
+$$
+\E(XY)=\int_0^1\int_0^1 xy(x+y)\diff y \diff x = \int_0^1 {x^2y^2\over 2}+{xy^3\over 3}\bigg|_0^1 \diff x = \int_0^1 {x^2\over 2}+{x\over 3}\diff x
+$$
+$$
+={x^3\over 6}+{x^2\over 6}\bigg|_0^1={1\over 3}=0.333
+$$
+So, 
+$$
+\Cov(X,Y)={1\over 3}-\left({7\over 12}\right)^2=-0.007
+$$
+
+$$
+\rho=\frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(Y)}}={-0.007\over \sqrt{0.076\times0.076}}=-0.909
+$$
+
+With a non-zero covariance, $X$ and $Y$ are not independent. 
+
+d) Find $\Var(3X+2Y)$. 
+$$
+\Var(3X+2Y)=\Var(3X)+\Var(2Y)+2\Cov(3X,2Y)=9\Var(X)+4\Var(Y)+12\Cov(X,Y)
+$$
+$$
+=9*0.076+4*0.076+12*-0.007 = 0.910
+$$
+
+
+
+&nbsp;
+
+\indent 2. Let $X$ and $Y$ be continuous random variables with joint pmf: 
+$$
+f_{X,Y}(x,y)=1
+$$
+
+where $0 \leq x \leq 1$ and $0 \leq y \leq 2x$. 
+
+a) Find $\E(X)$ and $\E(Y)$. 
+$$
+\E(X)=\int_0^1 x\cdot 2x\diff x = {2x^3\over3}\bigg|_0^1=0.667
+$$
+
+$$
+\E(Y)=\int_0^2 y\left(1-{y\over 2}\right)\diff y = {y^2\over 2}-{y^3\over 6}\bigg|_0^2=2-{8\over 6}=0.667
+$$
+
+b) Find $\Var(X)$ and $\Var(Y)$. 
+$$
+\E(X^2)=\int_0^1 x^2\cdot 2x\diff x = {x^4\over2}\bigg|_0^1=0.5
+$$
+
+So, $\Var(X)=0.5-\left({2\over3}\right)^2={1\over 18}=0.056$
+
+$$
+\E(Y^2)=\int_0^2 y^2\left(1-{y\over 2}\right)\diff y = {y^3\over 3}-{y^4\over 8}\bigg|_0^2={8\over 3}-2=0.667
+$$
+
+So, $\Var(Y)={2\over 3}-\left({2\over3}\right)^2={2\over 9}=0.222$
+
+c) Find $\Cov(X,Y)$ and $\rho$. Are $X$ and $Y$ independent?  
+
+$$
+\E(XY)=\int_0^1\int_0^{2x} xy\diff y \diff x = \int_0^1 {xy^2\over 2}\bigg|_0^{2x}\diff x = \int_0^1 2x^3\diff x = {x^4 \over 2}\bigg|_0^1={1\over 2}
+$$
+
+So,
+$$
+\Cov(X,Y)={1\over 2}-{2\over 3}{2\over 3}={1\over 18}=0.056
+$$
+
+$$
+\rho={\Cov(X,Y)\over \sqrt{\Var(X)\Var(Y)}}={{1\over 18}\over\sqrt{{1\over 18}{2\over 9}}}=0.5
+$$
+
+$X$ and $Y$ appear to be positively correlated (thus not independent). 
+
+d) Find $\Var\left({X\over 2}+2Y\right)$. 
+$$
+\Var\left({X\over 2}+2Y\right) = {1\over 4}\Var(X)+4\Var(Y)+2\Cov(X,Y)={1\over 72}+{8\over 9}+{1\over 9}=1.014
+$$
+
+
+&nbsp;
+
+\indent 3. Suppose $X$ and $Y$ are *independent* random variables. Show that $\E(XY)=\E(X)\E(Y)$. 
+
+If $X$ and $Y$ are independent, then $\Cov(X,Y)=0$. So,
+$$
+\Cov(X,Y)=\E(XY)-\E(X)\E(Y)=0
+$$
+
+Thus,
+$$
+\E(XY)=\E(X)\E(Y)
+$$
+&nbsp;
+
+\indent 4. ADVANCED: Let $X_1,X_2,...,X_n$ be independent, identically distributed random variables. (This is often abbreviated as "iid"). Each $X_i$ has mean $\mu$ and variance $\sigma^2$ (i.e., for all $i$, $\E(X_i)=\mu$ and $\Var(X_i)=\sigma^2$). 
+
+Let $S=X_1+X_2+...+X_n=\sum_{i=1}^n X_i$. And let $\bar{X}={\sum_{i=1}^n X_i \over n}$. 
+
+Find $\E(S)$, $\Var(S)$, $\E(\bar{X})$ and $\Var(\bar{X})$. 
+$$
+\E(S)=\E(X_1+X_2+...+X_n)=\E(X_1)+\E(X_2)+...+\E(X_n)=\mu+\mu+...+\mu=n\mu
+$$
+
+Since the $X_i$s are all independent:
+$$
+\Var(S)=\Var(X_1+X_2+...+X_n)=\Var(X_1)+\Var(X_2)+...+\Var(X_n)=n\sigma^2
+$$
+
+$$
+\E(\bar{X})={1\over n}\E(X_1+X_2+...+X_n)={1\over n}n\mu=\mu
+$$
+$$
+\Var(\bar{X})={1\over n^2}\Var(X_1+X_2+...+X_n)={1\over n^2}n\sigma^2={\sigma^2\over n}
+$$
+
+

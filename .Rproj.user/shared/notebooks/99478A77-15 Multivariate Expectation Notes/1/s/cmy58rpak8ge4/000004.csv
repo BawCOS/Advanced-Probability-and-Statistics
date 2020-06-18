@@ -1,0 +1,2 @@
+"0","library(MASS)"
+"0","gf_point(X1~X2,data=data.frame(mvrnorm(40,mu=c(3,10),Sigma=matrix(c(1,.8,.8,1),2,2))))"

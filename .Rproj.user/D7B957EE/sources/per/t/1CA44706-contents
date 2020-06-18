@@ -22,6 +22,8 @@ knitr::opts_chunk$set(fig.pos='ht')
 library(knitr)
 library(mosaic)
 library(tidyverse)
+library(cubature)
+library(mosaicCalc)
 ```
 
 \newcommand{\E}{\mbox{E}}
@@ -235,6 +237,7 @@ f_X(x)=\int_0^1 xy \diff y = \frac{xy^2}{2}\bigg|_0^1=\frac{x}{2}
 $$
 
 where $0 \leq x \leq 2$. 
+
 
 $$
 f_Y(y)=\int_0^2 xy \diff x = \frac{x^2y}{2}\bigg|_0^2= 2y
