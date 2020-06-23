@@ -348,3 +348,15 @@ An easy way to determine if continuous variables are independent is to check the
 
 Thus for our examples $f(x,y)=xy$ were independent while $f(x,y)=x+y$ were not.
 
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `cubature` package version: `r packageVersion("cubature")` 
+  * `mosaicCalc` package version: `r packageVersion("mosaicCalc")`
+  
+
+

@@ -320,3 +320,13 @@ $$
 
 The mean and variance of a random variable with a Weibull distribution can be found by consulting `R` documentation. 
 
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+
+
+

@@ -186,4 +186,15 @@ $$
 
 So, we have shown that $F_X(a)\leq F_X(b)$. Thus, $F_X(x)$ is a non-decreasing function. 
 
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `mosaicCalc` package version: `r packageVersion("mosaicCalc")`
+  
+
+
 

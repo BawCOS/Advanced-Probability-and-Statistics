@@ -258,3 +258,16 @@ f_{Y|X=x}(y)=\frac{f_{X,Y}(x,y)}{f_X(x)}=\frac{xy}{\frac{x}{2}}=2y
 $$
 
 where $0 \leq y \leq 1$. 
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `cubature` package version: `r packageVersion("cubature")` 
+  * `mosaicCalc` package version: `r packageVersion("mosaicCalc")`
+  
+
+

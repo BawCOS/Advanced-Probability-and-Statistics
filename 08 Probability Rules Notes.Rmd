@@ -443,3 +443,15 @@ num/denom
 ```
 
 Why not use $\binom{13}{2}$ instead of $\binom{13}{1}\binom{12}{1}$?
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+
+  
+
+

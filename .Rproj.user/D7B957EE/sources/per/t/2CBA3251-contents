@@ -1,5 +1,5 @@
 ---
-title: "Multivariate Distribution Notes"
+title: "Multivariate Distribution Applications Solutions"
 author:
 - Lt Col Ken Horton
 - Professor Bradley Warner
@@ -234,4 +234,16 @@ d) Find the probability of fewer than 3 complaints given there is no rain.
 $$
 \Prob(Y<3|X=0)=\frac{0.133+0.086+0.081}{0.657}=0.457
 $$
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `cubature` package version: `r packageVersion("cubature")` 
+  * `mosaicCalc` package version: `r packageVersion("mosaicCalc")`
+  
+
+
 

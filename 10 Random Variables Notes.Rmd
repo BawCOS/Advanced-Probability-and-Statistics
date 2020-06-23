@@ -323,6 +323,16 @@ $$
 
 The proof of this is left as an Application problem. 
 
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  
+
+
 
 
 

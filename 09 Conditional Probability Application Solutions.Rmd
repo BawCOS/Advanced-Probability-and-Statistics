@@ -181,3 +181,13 @@ Now we can determine the probability of a fair coin given 3 heads.
 ```
 
 Think about what we just did with this problem. We started with a subjective believe that either coin would be selected with equal probability. This is called the prior probability. We then collected data on three flips of the coin. We used this empirical data to update our belief into a posterior probability. This is the basis for Bayesian statistical analysis. Bayesian statistics is an entire discipline unto itself.
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+
+

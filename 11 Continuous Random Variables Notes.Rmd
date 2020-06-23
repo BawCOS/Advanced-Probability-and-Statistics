@@ -276,3 +276,16 @@ var(~sqrt,data=results)*9999/10000
 
 
 And finally, the standard deviation of $X$ is $\sigma_X = \sqrt{\sigma^2_X}=\sqrt{1/18}=0.236$. 
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `mosaicCalc` package version: `r packageVersion("mosaicCalc")`
+  
+
+
+

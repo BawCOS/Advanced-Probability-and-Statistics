@@ -268,4 +268,15 @@ $$
 =\E(X^2)-2\mu_X\E(X)+\mu_X^2=\E(X^2)-2\mu_X^2+\mu_X^2 = \E(X^2)-\mu_X^2
 $$
 
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  
+
+
+
 

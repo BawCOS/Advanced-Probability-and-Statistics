@@ -131,3 +131,14 @@ Mathematically exactly 3 is easy. Simulation seems to be off a little or the mat
 ```{r}
 choose(23,3)*prod(365:345)/365^23
 ```
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+
+
+
