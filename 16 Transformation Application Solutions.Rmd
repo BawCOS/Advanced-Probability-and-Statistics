@@ -1,0 +1,82 @@
+---
+title: "Lesson 13 Applications"
+author: "Lt Col Ken Horton"
+date: "September 12, 2019"
+header-includes: 
+  - \usepackage{amsmath,multirow}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(prob)
+```
+
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. Give one example (excluding examples from the Lesson 13 narrative) of $X$ and $g$ where $\E[g(X)] \neq g(\E[X])$. What are $\E[g(X)]$ and $g(\E[X])$? Use `R` to find $\E[g(X)]$. 
+
+Let $X\sim \textsf{Expon}(\lambda=0.5)$. Let $g(X)=X^2$. We know that $\E(X)=\frac{1}{0.5}=2$ so $g(\E(X))=\E(X)^2=4$. 
+
+However, let $Y=X^2$. 
+```{r hw13a}
+sims<-rexp(10000,0.5)
+mean(sims^2)
+```
+
+So, $g(\E(X))=4$ and $\E(g(X))\approx 7.84$. 
+
+
+&nbsp;
+
+
+\indent 2. (From Pruim 2011, Section 2.5) Let $X\sim \textsf{Binom}(n,\pi)$. What is the pmf for $X+3$? Make sure you specify the domain of $Y$. [Note, in Lesson 8, we used $p$ for the probability of success in a binomial distribution. In the Pruim text, $\pi$ was used.]
+
+Let $Y=X+3$: 
+$$
+f_Y(y)=\Prob(Y=y)=\Prob(X+3=y)=\Prob(X=y-3)=f_X(y-3)=\binom{n}{y-3}\pi^{y-3}(1-\pi)^{n-y+3}
+$$
+
+where $3\leq Y \leq n+3$. 
+
+&nbsp;
+
+
+\indent 3. Let $X\sim \textsf{Expon}(\lambda)$. Let $Y=X^2$. Find the pdf of $Y$. 
+
+CDF method: 
+$$
+F_Y(y)=\Prob(Y\leq y)=\Prob(X^2\leq y)=\Prob(X\leq \sqrt y)=1-e^{-\lambda \sqrt y}
+$$
+
+So,
+$$
+f_Y(y)=\frac{\diff}{\diff y}F_Y(y)=-e^{-\lambda \sqrt y}\times\frac{-\lambda}{2\sqrt y}=\frac{\lambda e^{-\lambda \sqrt y}}{2\sqrt y}
+$$
+
+for $y >0$. 
+
+PDF method:
+$$
+f_Y(y)=\lambda e^{-\lambda \sqrt{y}}\frac{1}{2\sqrt y}=\frac{\lambda e^{-\lambda \sqrt y}}{2\sqrt y}
+$$
+
+for $y>0$. 
+
+\newpage
+
+\indent 4. ADVANCED: In exercise 3, you found the pdf of $Y=X^2$ when $X\sim \textsf{Expon}(\lambda)$. Rearrange the pdf to show that $Y\sim \textsf{Weibull}$ and find the parameters of that distribution. 
+
+$$
+f_Y(y)=\frac{\lambda e^{-\lambda \sqrt y}}{2\sqrt y}=\frac{\lambda}{2\sqrt y}e^{-\lambda \sqrt y}=\frac{\lambda^2}{2} \frac{1}{\lambda\sqrt y} e^{-\sqrt{\lambda^2 y}}=\frac{1/2}{1/\lambda^2}\left(\frac{y}{1/\lambda^2}\right)^{\frac{1}{2}-1}e^{-\left(\frac{y}{1/\lambda^2}\right)^{\frac{1}{2}}}
+$$
+
+So, $Y\sim \textsf{Weibull}\left(\alpha=\frac{1}{2},\beta=\frac{1}{\lambda^2}\right)$. 
+

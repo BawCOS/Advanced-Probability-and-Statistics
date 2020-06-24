@@ -45,11 +45,11 @@ where $0 \leq x \leq 1$ and $0 \leq y \leq 1$.
 
 a) Find $\E(X)$ and $\E(Y)$.  
 $$
-\E(X)=\int_0^1 x\left(x+{1\over 2}\right)\diff x=\frac{x^3}{3}+{x^2\over 4}\bigg|_0^1={1\over3}+{1\over 4}={7\over 12}=0.583
+\E(X)=\int_0^1 x\left(x+\frac{1}{2}\right)\diff x=\frac{x^3}{3}+\frac{x^2}{4}\bigg|_0^1=\frac{1}{3}+\frac{1}{4}=\frac{7}{12}=0.583
 $$
 
 $$
-\E(Y)=\int_0^1 y\left(y+{1\over 2}\right)\diff y = 0.583
+\E(Y)=\int_0^1 y\left(y+\frac{1}{2}\right)\diff y = 0.583
 $$
 
 b) Find $\Var(X)$ and $\Var(Y)$.  
@@ -58,7 +58,7 @@ $$
 \Var(X)=\E(X^2)-\E(X)^2
 $$
 $$
-\E(X^2)=\int_0^1 x^2\left(x+\frac{1}{2}\right)\diff x = {x^4\over 4}+{x^3\over 6}\bigg|_0^1={1\over 4}+{1\over 6}={5\over 12}=0.417
+\E(X^2)=\int_0^1 x^2\left(x+\frac{1}{2}\right)\diff x = \frac{x^4}{4}+\frac{x^3}{6}\bigg|_0^1=\frac{1}{ 4}+\frac{1}{6}=\frac{5}{12}=0.417
 $$
 
 So, $\Var(X)=0.417-0.583^2=0.076$. 
@@ -70,18 +70,18 @@ $$
 \Cov(X,Y)=\E(XY)-\E(X)\E(Y)
 $$
 $$
-\E(XY)=\int_0^1\int_0^1 xy(x+y)\diff y \diff x = \int_0^1 {x^2y^2\over 2}+{xy^3\over 3}\bigg|_0^1 \diff x = \int_0^1 {x^2\over 2}+{x\over 3}\diff x
+\E(XY)=\int_0^1\int_0^1 xy(x+y)\diff y \diff x = \int_0^1 \frac{x^2y^2}{2}+\frac{xy^3}{3}\bigg|_0^1 \diff x = \int_0^1 \frac{x^2}{2}+\frac{x}{3}\diff x
 $$
 $$
-={x^3\over 6}+{x^2\over 6}\bigg|_0^1={1\over 3}=0.333
+=\frac{x^3}{6}+\frac{x^2}{6}\bigg|_0^1=\frac{1}{ 3}=0.333
 $$
 So, 
 $$
-\Cov(X,Y)={1\over 3}-\left({7\over 12}\right)^2=-0.007
+\Cov(X,Y)=\frac{1}{3}-\left(\frac{7}{12}\right)^2=-0.007
 $$
 
 $$
-\rho=\frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(Y)}}={-0.007\over \sqrt{0.076\times0.076}}=-0.909
+\rho=\frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(Y)}}=\frac{-0.007}{\sqrt{0.076\times0.076}}=-0.909
 $$
 
 With a non-zero covariance, $X$ and $Y$ are not independent. 
@@ -107,46 +107,46 @@ where $0 \leq x \leq 1$ and $0 \leq y \leq 2x$.
 
 a) Find $\E(X)$ and $\E(Y)$. 
 $$
-\E(X)=\int_0^1 x\cdot 2x\diff x = {2x^3\over3}\bigg|_0^1=0.667
+\E(X)=\int_0^1 x\cdot 2x\diff x = \frac{2x^3}{3}\bigg|_0^1=0.667
 $$
 
 $$
-\E(Y)=\int_0^2 y\left(1-{y\over 2}\right)\diff y = {y^2\over 2}-{y^3\over 6}\bigg|_0^2=2-{8\over 6}=0.667
+\E(Y)=\int_0^2 y\left(1-\frac{y}{2}\right)\diff y = \frac{y^2}{2}-\frac{y^3}{6}\bigg|_0^2=2-\frac{8}{ 6}=0.667
 $$
 
 b) Find $\Var(X)$ and $\Var(Y)$. 
 $$
-\E(X^2)=\int_0^1 x^2\cdot 2x\diff x = {x^4\over2}\bigg|_0^1=0.5
+\E(X^2)=\int_0^1 x^2\cdot 2x\diff x = \frac{x^4}{2}\bigg|_0^1=0.5
 $$
 
-So, $\Var(X)=0.5-\left({2\over3}\right)^2={1\over 18}=0.056$
+So, $\Var(X)=0.5-\left(\frac{2}{3}\right)^2=\frac{1}{ 18}=0.056$
 
 $$
-\E(Y^2)=\int_0^2 y^2\left(1-{y\over 2}\right)\diff y = {y^3\over 3}-{y^4\over 8}\bigg|_0^2={8\over 3}-2=0.667
+\E(Y^2)=\int_0^2 y^2\left(1-\frac{y}{2}\right)\diff y = \frac{y^3}{3}-\frac{y^4}{8}\bigg|_0^2=\frac{8}{ 3}-2=0.667
 $$
 
-So, $\Var(Y)={2\over 3}-\left({2\over3}\right)^2={2\over 9}=0.222$
+So, $\Var(Y)=\frac{2}{ 3}-\left(\frac{2}{3}\right)^2=\frac{2}{9}=0.222$
 
 c) Find $\Cov(X,Y)$ and $\rho$. Are $X$ and $Y$ independent?  
 
 $$
-\E(XY)=\int_0^1\int_0^{2x} xy\diff y \diff x = \int_0^1 {xy^2\over 2}\bigg|_0^{2x}\diff x = \int_0^1 2x^3\diff x = {x^4 \over 2}\bigg|_0^1={1\over 2}
+\E(XY)=\int_0^1\int_0^{2x} xy\diff y \diff x = \int_0^1 \frac{xy^2}{2}\bigg|_0^{2x}\diff x = \int_0^1 2x^3\diff x = \frac{x^4}{2}\bigg|_0^1=\frac{1}{2}
 $$
 
 So,
 $$
-\Cov(X,Y)={1\over 2}-{2\over 3}{2\over 3}={1\over 18}=0.056
+\Cov(X,Y)=\frac{1}{2}-\frac{2}{3}\frac{2}{3}=\frac{1}{18}=0.056
 $$
 
 $$
-\rho={\Cov(X,Y)\over \sqrt{\Var(X)\Var(Y)}}={{1\over 18}\over\sqrt{{1\over 18}{2\over 9}}}=0.5
+\rho=\frac{\Cov(X,Y)}{ \sqrt{\Var(X)\Var(Y)}}=\frac{\frac{1}{ 18}}{\sqrt{\frac{1}{18}\frac{2}{9}}}=0.5
 $$
 
 $X$ and $Y$ appear to be positively correlated (thus not independent). 
 
-d) Find $\Var\left({X\over 2}+2Y\right)$. 
+d) Find $\Var\left(\frac{X}{2}+2Y\right)$. 
 $$
-\Var\left({X\over 2}+2Y\right) = {1\over 4}\Var(X)+4\Var(Y)+2\Cov(X,Y)={1\over 72}+{8\over 9}+{1\over 9}=1.014
+\Var\left(\frac{X}{2}+2Y\right) = \frac{1}{ 4}\Var(X)+4\Var(Y)+2\Cov(X,Y)=\frac{1}{72}+\frac{8}{ 9}+\frac{1}{9}=1.014
 $$
 
 
@@ -165,9 +165,94 @@ $$
 $$
 &nbsp;
 
-\indent 4. ADVANCED: Let $X_1,X_2,...,X_n$ be independent, identically distributed random variables. (This is often abbreviated as "iid"). Each $X_i$ has mean $\mu$ and variance $\sigma^2$ (i.e., for all $i$, $\E(X_i)=\mu$ and $\Var(X_i)=\sigma^2$). 
+4. You are playing a game with a friend. Each of you roll a fair sided die and record the result.
 
-Let $S=X_1+X_2+...+X_n=\sum_{i=1}^n X_i$. And let $\bar{X}={\sum_{i=1}^n X_i \over n}$. 
+a) Write the joint probability mass function.
+
+Let $X$ be the number on your die and $Y$ be the number on your friend's die.
+
+$$
+\renewcommand{\arraystretch}{1.1} \begin{array}{cc|cccccc} & & \multicolumn{6}{c}{\mbox{X}}\\ 
+& & 1 & 2 & 3 & 4 & 5 & 6 \\
+\cline{2-8}
+\multirow{6}{*}{\mbox{Y}} & 1 & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{63} \\
+& 2 & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} \\
+& 3 & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} \\
+& 4 & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} \\
+& 5 & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} \\
+& 6 & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36} & \frac{1}{36}  \\
+\end{array} 
+$$
+
+b) Find the expected value of the product of your score and your friends score.
+
+Find $E[XY]$ so we just go through an find all 36 values of the product and multiply by the probabilities. Since the probabilities are all constant, we will take that out. Now
+
+$$E[XY]=\frac{1}{36}(1+2+3+4+5+6+2+4+$$
+$$6+8+10+12+3+6+9+12+15+18+4+8+12+16+20+24+$$
+$$5+10+15+20+25+30+6+12+18+24+30+36)$$
+$$=12.25$$
+
+c) Verify the previous part using simulation.
+
+```{r}
+set.seed(1012)
+(do(100000)*(sample(1:6,size=2,replace=TRUE))) %>%
+  mutate(prod=V1*V2) %>%
+  summarize(Expec=mean(prod))
+```
+
+
+d) Using simulation, find the expected value of the maximum number on the two roles. In the next lesson, we will show how to find this using a transformation method.
+
+```{r}
+(do(100000)*max(sample(1:6,size=2,replace=TRUE))) %>%
+    summarize(Expec=mean(max))
+```
+
+5. A miner is trapped in a mine containing three doors. The first door leads to a tunnel that takes him to safety after two hours of travel. The second door leads to a tunnel that returns him to the mine after three hours of travel. The third door leads to a tunnel that returns him to his mine after five hours. Assuming that the miner is at all times equally likely to choose any one of the doors, yes a bad assumption but it makes for a nice problem, what is the expect length of time until the miner reaches safety?
+
+Simulating this is a little more challenging because we need a conditional but we try it first before going to the mathematical solution.
+
+Let's write a function that takes a vector and returns the sum of the values up to the first time 2 appears. Anytime you are repeating something more than 5 times, it might make sense to write a function.
+
+```{r}
+miner_time <- function(x){
+  index <- which(x==2)[1]
+  total<-cumsum(x)
+  return(total[index])
+}
+```
+
+
+```{r}
+set.seed(113)
+(do(10000)*miner_time(sample(c(2,3,5),size=20,replace=TRUE))) %>% 
+  summarise(Exp=mean(miner_time))
+```
+
+Now let's find it mathematically.
+
+Let $X$ be the time it takes and $Y$ the door. Then we have 
+
+$$E[X] = E[E[X|Y]] $$
+$$ = \frac{1}{3}E[X|Y=1]+\frac{1}{3}E[X|Y=2]+\frac{1}{3}E[X|Y=3]$$
+Now if door 2 is selected
+$$E[X|Y=2]=E[X]+3$$
+since the miner will travel for 3 hours and then be back at the starting point.
+
+Likewise if door 3 is select
+$$E[X|Y=2]=E[X]+5$$
+So
+$$ E[x]= \frac{1}{3}2+\frac{1}{3}\left( E[X]+3 \right)+\frac{1}{3}\left( E[X]+5 \right)$$
+
+$$E[x] -  \frac{2}{3}E[X] = \frac{2}{3}+\frac{3}{3}+\frac{5}{3}$$
+$$\frac{1}{3}E[X]=\frac{10}{3}$$
+
+
+\indent 6. ADVANCED: Let $X_1,X_2,...,X_n$ be independent, identically distributed random variables. (This is often abbreviated as "iid"). Each $X_i$ has mean $\mu$ and variance $\sigma^2$ (i.e., for all $i$, $\E(X_i)=\mu$ and $\Var(X_i)=\sigma^2$). 
+
+Let $S=X_1+X_2+...+X_n=\sum_{i=1}^n X_i$. And let $\bar{X}={\sum_{i=1}^n \frac{X_i}{n}}$. 
 
 Find $\E(S)$, $\Var(S)$, $\E(\bar{X})$ and $\Var(\bar{X})$. 
 $$
@@ -180,9 +265,19 @@ $$
 $$
 
 $$
-\E(\bar{X})={1\over n}\E(X_1+X_2+...+X_n)={1\over n}n\mu=\mu
+\E(\bar{X})=\frac{1}{n}\E(X_1+X_2+...+X_n)=\frac{1}{n}n\mu=\mu
 $$
 $$
-\Var(\bar{X})={1\over n^2}\Var(X_1+X_2+...+X_n)={1\over n^2}n\sigma^2={\sigma^2\over n}
+\Var(\bar{X})=\frac{1}{n^2}\Var(X_1+X_2+...+X_n)=\frac{1}{n^2}n\sigma^2=\frac{\sigma^2}{n}
 $$
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+
+
 

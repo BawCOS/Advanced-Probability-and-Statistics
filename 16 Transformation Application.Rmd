@@ -1,0 +1,43 @@
+---
+title: "Lesson 13 Applications"
+author: "Name"
+date: "Date"
+header-includes: 
+  - \usepackage{amsmath,multirow}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(prob)
+```
+
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. Give one example (excluding examples from the Lesson 13 narrative) of $X$ and $g$ where $\E[g(X)] \neq g(\E[X])$. What are $\E[g(X)]$ and $g(\E[X])$? Use `R` to find $\E[g(X)]$. 
+
+
+&nbsp;
+
+
+\indent 2. (From Pruim 2011, Section 2.5) Let $X\sim \textsf{Binom}(n,\pi)$. What is the pmf for $X+3$? Make sure you specify the domain of $Y$. [Note, in Lesson 8, we used $p$ for the probability of success in a binomial distribution. In the Pruim text, $\pi$ was used.]
+
+
+
+&nbsp;
+
+
+\indent 3. Let $X\sim \textsf{Expon}(\lambda)$. Let $Y=X^2$. Find the pdf of $Y$. 
+
+
+&nbsp;
+
+\indent 4. ADVANCED: In exercise 3, you found the pdf of $Y=X^2$ when $X\sim \textsf{Expon}(\lambda)$. Rearrange the pdf to show that $Y\sim \textsf{Weibull}$ and find the parameters of that distribution. 
+

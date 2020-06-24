@@ -1,0 +1,287 @@
+---
+title: "Transformations Notes"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.pos='ht')
+library(knitr)
+library(mosaic)
+library(tidyverse)
+library(cubature)
+library(mosaicCalc)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand{\diff}{\,\mathrm{d}}
+
+
+## Objectives
+
+1) Given a discrete random variable, determine the distribution of a transformation of that random variable. 
+
+2) Given a continuous random variable, use the cdf method to determine the distribution of a transformation of that random variable.  
+
+3) Given a continuous random variable, use the pdf method to determine the distribution of a transformation of that random variable.  
+
+4) Use simulation methods to find the distribution of a transform of single or multivariate random variables.
+
+## Transformations
+
+Throughout our coverage of random variables, we have mentioned transformations of random variables. These have been in the context of linear transformations. We have discussed expected value and variance of linear transformations. Recall that $\E(aX+b)=a\E(X)+b$ and $\Var(aX+b)=a^2\Var(X)$. 
+
+In this lesson, we will discuss transformations of random variables in general, beyond the linear case. 
+
+### Transformations of Discrete Random Variables
+
+Let $X$ be a discrete random variable and let $g$ be a function. The variable $Y=g(X)$ is a discrete random variable with pmf:
+$$
+f_Y(y)=\Prob(Y=y)=\sum_{g(x)=y}\Prob(X=x)=\sum_{g(x)=y}f(x)
+$$
+
+An example would help since the notation can be confusing. 
+
+> *Example*:  
+This example comes from Pruim, 2011. Suppose $X$ is a discrete random variable with pmf:
+$$
+f_X(x)=\left\{\begin{array}{ll} 0.05, & x=-2 \\ 
+0.10, & x=-1 \\
+0.35, & x=0 \\
+0.30, & x=1 \\
+0.20, & x=2 \\
+0, & \mbox{otherwise} \end{array}\right.
+$$
+
+Find the pmf for $Y=X^2$. 
+
+It helps to identify the domain of $Y$. Since the domain of $X$ is $S_X=\{-2,-1,0,1,2\}$, the domain of $Y$ is $S_Y=\{0,1,4\}$. 
+$$
+f_Y(0)=\sum_{x^2=0}f_X(x)=f_X(0)=0.35
+$$
+
+$$
+f_Y(1)=\sum_{x^2=1}f_X(x)=f_X(-1)+f_X(1)=0.1+0.3=0.4
+$$
+$$
+f_Y(4)=\sum_{x^2=4}f_X(x)=f_X(-2)+f_X(2)=0.05+0.2=0.25
+$$
+
+So,
+$$
+f_Y(y)=\left\{\begin{array}{ll} 0.35, & y=0 \\ 
+0.4, & y=1 \\
+0.25, & y=4 \\
+0, & \mbox{otherwise} \end{array}\right.
+$$
+
+It also helps to confirm that these probabilities add to one. They do, in fact. This is the pmf of $Y=X^2$. 
+
+### Transformations of Continuous Random Variables
+
+The methodology above will not work directly in the case of continuous random variables. This is because in the continuous case, the pdf, $f_X(x)$, represents **density** and not **probability**. 
+
+The **cdf method** can be used for transformations of continuous random variables. Suppose $X$ is a continuous random variable with cdf $F_X(x)$. Let $Y=g(X)$. We can find the cdf of $Y$:
+$$
+F_Y(y)=\Prob(Y\leq y)=\Prob(g(X)\leq y)=\Prob(X\leq g^{-1}(y))=F_X(g^{-1}(y))
+$$
+
+To get the pdf of $Y$, one would need to take the derivative of the cdf. 
+
+This requires the transformation to have an inverse. Sometimes, we break the domain into regions where an inverse exists.
+
+> *Example*:
+
+Let $X\sim \textsf{Unif}(0,1)$ and let $Y=X^2$. Find the pdf of $Y$. 
+
+Since $X$ has the uniform distribution, we know that $F_X(x)=x$ for $0\leq x \leq 1$. So,
+$$
+F_Y(y)=\Prob(Y\leq y)=\Prob(X^2\leq y)=\Prob(X\leq \sqrt{y})=\sqrt{y}
+$$
+
+Taking the derivative of this yields:
+$$
+f_Y(y)=\frac{1}{2\sqrt{y}}
+$$
+
+for $0\leq y \leq 1$ and 0 otherwise. We could verify this integrates to 1: 
+$$
+\int_0^1 \frac{1}{2\sqrt{y}} \diff y = \sqrt{y}\bigg|_0^1 = 1
+$$
+
+### The pdf method
+
+The cdf method of transforming continuous random variables also yields to another method called the **pdf method**. Recall that the cdf method tells us that if $X$ is a continuous random variable with cdf $F_X$, and $Y=g(X)$, then $$
+F_Y(y)=F_X(g^{-1}(y))
+$$
+
+We can find the pdf of $Y$ by differentiating the cdf:
+$$
+f_Y(y)=\frac{\diff}{\diff y}F_Y(y)=\frac{\diff}{\diff y} F_X(g^{-1}(y)) = f_X(g^{-1}(y))\frac{\diff}{\diff y} g^{-1}(y)
+$$
+
+So, as long as $g^{-1}$ is differentiable, we can use this method to directly obtain the pdf of $Y$. 
+
+Note that in some texts, the portion of this expression $\frac{\diff}{\diff y} g^{-1}(y)$ is sometimes referred to as the *Jacobian*. 
+
+> **Exercise**:  
+Repeat the previous example using the pdf method. 
+
+Since $X$ has the uniform distribution, we know that $f_X(x)=1$ for $0\leq x \leq 1$. Also, $g(x)=x^2$ and $g^{-1}(y)=\sqrt{y}$, which is differentiable. So,
+$$
+f_Y(y)=f_X(\sqrt{y})\frac{\diff}{\diff y} \sqrt{y} = \frac{1}{2\sqrt{y}}
+$$
+
+### Simulation  
+
+We can also get an idea of the by simulating the random variable. If we have the cdf and can find its inverse, then just like we did in earlier lessons, we sample from a uniform distribution and apply to inverse to get the distribution.
+
+In an earlier lesson we had
+> Let $X$ be a continuous random variable with $f_X(x)=2x$ where $0 \leq x \leq 1$. 
+
+Now let's find the distribution of $Y = \ln{X}$.
+
+The cdf of $X$ is $F_X(x)=x^2$. Using our same code from before we have:
+
+
+```{r}
+results <- do(10000)*sqrt(runif(1))
+```
+
+```{r}
+inspect(results)
+```
+
+```{r}
+results %>%
+  gf_density(~sqrt,xlab="X")
+```
+
+Now to find the distribution of $Y$ we just apply the transformation.
+
+```{r}
+y_results <- results %>%
+  transmute(y=log(sqrt))
+```
+
+
+```{r}
+y_results %>%
+  gf_density(~y,xlab="X")
+```
+
+```{r}
+inspect(y_results)
+```
+
+### Multivariate Transformations 
+
+Here's the scenario. Suppose $X$ and $Y$ are independent random variables, both uniformly distributed on $[5,6]$. 
+$$
+X\sim \textsf{Unif}(5,6)\hspace{1.5cm} Y\sim \textsf{Unif}(5,6)
+$$
+
+Let $X$ be your arrival time for dinner and $Y$ your friends arrival time. Assume you travel independently.
+
+Define $Z$ as a transformation of $X$ and $Y$ such that $Z=|X-Y|$. Thus $Z$ is the time difference between your arrivals. We would like to explore the distribution of $Z$. We could do this via Calc III methods but we will simulate instead.
+
+We can use `R` to obtain simulated values from $X$ and $Y$ (and thus find $Z$). 
+
+First, simulate 100,000 observations from the uniform distribution with parameters 5 and 6. Assign those random observations to a variable. Next, repeat that process, assigning those to a different variable. These two vectors represent your simulated values from $X$ and $Y$. Finally, obtain your simulated values of $Z$ by taking the absolute value of the difference.
+
+> **Exercise**:  
+
+Complete the code on your own before looking at the code below.
+
+
+```{r lesson16b}
+results <- do(100000)*abs(diff(runif(2,5,6)))
+```
+
+Now, use the `gf` function of your choice to show the desired characteristics. 
+
+```{r}
+results %>%
+  gf_density(~abs)
+```
+
+
+```{r}
+results %>%
+  gf_histogram(~abs)
+```
+
+```{r}
+inspect(results)
+```
+
+>**Exercise**:  
+Now suppose whomever arrives first will only wait 5 minutes and then leave. What is the probability you eat together?  
+
+```{r}
+data.frame(results) %>%
+  summarise(mean(abs<=5/60))
+```
+
+> **Exercise**:  
+How long should the first person wait so that there is at least a 50% probability of you eating together?
+
+Let's write a function to find the cdf.  
+
+```{r}
+z_cdf <- function(x) {
+  mean(results$abs<=x)
+}
+```
+
+
+```{r}
+z_cdf<- Vectorize(z_cdf)
+```
+Now test for 5 minutes.
+
+```{r}
+z_cdf(5/60)
+```
+
+Let's plot to see what it looks like.
+
+```{r}
+gf_line(z_cdf(seq(0,1,.01))~seq(0,1,.01),xlab="Time Difference",ylab="CDF")
+```
+
+It looks like some where around 15 minutes, a quarter of an hour.
+
+```{r}
+uniroot(function(x)z_cdf(x)-.5,c(.25,35))$root
+```
+
+So it is actually 17.4 minutes. So round up and wait 18 minutes.
+
+### File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+ 
+
+
+

@@ -1,6 +1,6 @@
 {
-    "cursorPosition" : "356,64",
-    "ignored_words" : "Sys,Cov,pmf,pdf,covariance,univariate,frac,xy,cdf,covariances\n",
-    "last_setup_crc32" : "",
-    "scrollLine" : "280"
+    "cursorPosition" : "27,0",
+    "ignored_words" : "Sys,Cov,pmf,pdf,covariance,univariate,frac,xy,cdf,covariances,Covariance,pmfs,pdfs\n",
+    "last_setup_crc32" : "47316150a838266c",
+    "scrollLine" : "18"
 }

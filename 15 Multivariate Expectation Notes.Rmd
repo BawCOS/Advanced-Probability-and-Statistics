@@ -348,7 +348,52 @@ An easy way to determine if continuous variables are independent is to check the
 
 Thus for our examples $f(x,y)=xy$ were independent while $f(x,y)=x+y$ were not.
 
-### File Creation Information 
+## Conditional Expectation  
+
+An important idea in graph theory, network analysis, Bayesian networks, and queuing theory is conditional expectation. We will only briefly introduce the ideas here so that you have a basic understanding. This does not imply it is not an important topic.
+
+Let's start with a simple example to illustrate the ideas.
+
+> *Example*:  
+Sam will read either one chapter of his history book or one chapter of his philosophy book. If the number of misprints in a chapter of his history book is Poisson with mean 2 and the if the number of misprints in a chapter of his philosophy book is Poisson with mean 5, then assuming Sam is equally likely to choose either book, what is the expected number of misprints that Same will find?  
+
+Note: in the next lesson we are working with transformations and could attack the problem using that method. 
+
+First let's use simulation to get an idea and then use mathematics.
+
+Simulate 5000 reads from the history book and 5000 from philosophy and combine
+
+```{r}
+my_data<-data.frame(misprints=c(rpois(5000,2),rpois(5000,5)))
+
+```
+
+Let's plot.
+
+```{r}
+gf_histogram(~misprints,data=my_data)
+```
+
+And now find the average.
+
+```{r}
+mean(~misprints,data=my_data)
+```
+
+Now for a mathematical solution. Let $X$ stand for the number of misprints and $Y$ for the book, to make it a random variable let's call 0 history and 1 philosophy. Then $E[X|Y]$ is the expected number of misprints given the book. This is a conditional expectation. For example $E[X|Y=0]$ is the expected number of misprints in the history book.  
+
+Now here is the tricky part, without specifying $Y$ this expectation function is a random variable that depends on $Y$. If we take the expected value of this random variable we get
+
+$$E[X]=E[E[X|Y]]$$
+
+The inner expectation is for the conditional distribution and the outer is for the marginal with respect to $Y$. This seems confusing, so let's go back to our example.
+
+$$E[X]=E[E[X|Y]]$$
+$$=E[X|Y=0]\Prob(Y=0)+E[X|Y=1]\Prob(Y=1)$$
+$$=2*\frac{1}{2}+5*\frac{1}{2}=\frac{7}{2}=3.5$$
+These ideas are going to similar for continuous random variables. Note that we can also use conditional expectations to find probabilities but that is beyond the scope of this course.
+
+## File Creation Information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

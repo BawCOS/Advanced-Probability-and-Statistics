@@ -1,0 +1,4 @@
+"0","set.seed(1012)"
+"0","(do(100000)*(sample(1:6,size=2,replace=TRUE))) %>%"
+"0","  mutate(prod=V1*V2) %>%"
+"0","  summarize(Expec=mean(prod))"
