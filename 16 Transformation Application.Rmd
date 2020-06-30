@@ -1,15 +1,27 @@
 ---
-title: "Lesson 13 Applications"
-author: "Name"
-date: "Date"
-header-includes: 
-  - \usepackage{amsmath,multirow}
-output: pdf_document
+title: "Transformations Applications"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(prob)
+knitr::opts_chunk$set(fig.pos='ht')
+library(knitr)
+library(mosaic)
+library(tidyverse)
+library(cubature)
+library(mosaicCalc)
 ```
 
 
@@ -21,14 +33,13 @@ library(prob)
 
 # Exercises
 
-\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. Give one example (excluding examples from the Lesson 13 narrative) of $X$ and $g$ where $\E[g(X)] \neq g(\E[X])$. What are $\E[g(X)]$ and $g(\E[X])$? Use `R` to find $\E[g(X)]$. 
+\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. Give one example (excluding examples from our notes) of $X$ and $g$ where $\E[g(X)] \neq g(\E[X])$. What are $\E[g(X)]$ and $g(\E[X])$? Use `R` to find $\E[g(X)]$. 
 
 
 &nbsp;
 
 
-\indent 2. (From Pruim 2011, Section 2.5) Let $X\sim \textsf{Binom}(n,\pi)$. What is the pmf for $X+3$? Make sure you specify the domain of $Y$. [Note, in Lesson 8, we used $p$ for the probability of success in a binomial distribution. In the Pruim text, $\pi$ was used.]
-
+\indent 2. (From Pruim 2011, Section 2.5) Let $X\sim \textsf{Binom}(n,\pi)$. What is the pmf for $X+3$? Make sure you specify the domain of $Y$. [Note, we have used $p$ for the probability of success in a binomial distribution. In the Pruim text, $\pi$ was used.]
 
 
 &nbsp;
@@ -41,3 +52,4 @@ library(prob)
 
 \indent 4. ADVANCED: In exercise 3, you found the pdf of $Y=X^2$ when $X\sim \textsf{Expon}(\lambda)$. Rearrange the pdf to show that $Y\sim \textsf{Weibull}$ and find the parameters of that distribution. 
 
+\indent 5. PROBLEM MULTIVARIATE SIMULATION

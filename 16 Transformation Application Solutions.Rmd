@@ -1,15 +1,29 @@
 ---
-title: "Lesson 13 Applications"
-author: "Lt Col Ken Horton"
-date: "September 12, 2019"
-header-includes: 
-  - \usepackage{amsmath,multirow}
-output: pdf_document
+title: "Transformations Application Solutions"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(prob)
+knitr::opts_chunk$set(fig.pos='ht')
+library(knitr)
+library(mosaic)
+library(tidyverse)
+library(cubature)
+library(mosaicCalc)
 ```
 
 

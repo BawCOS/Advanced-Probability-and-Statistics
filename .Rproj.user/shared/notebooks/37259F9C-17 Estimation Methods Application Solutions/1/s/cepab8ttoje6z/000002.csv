@@ -1,0 +1,4 @@
+"0","check <- function(n=10){"
+"0","  temp<-runif(n,max=5)"
+"0","  2*mean(temp)<max(temp)"
+"0","}"

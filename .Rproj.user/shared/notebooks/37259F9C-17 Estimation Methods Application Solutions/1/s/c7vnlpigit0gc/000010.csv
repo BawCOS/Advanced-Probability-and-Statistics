@@ -1,0 +1,2 @@
+"0","(do(1000)*(1/mean(rexp(1000,rate=10)))) %>%"
+"0","  gf_boxplot(~result)"
