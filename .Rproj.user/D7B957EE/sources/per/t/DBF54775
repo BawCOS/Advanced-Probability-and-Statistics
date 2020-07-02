@@ -1,24 +1,24 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1593541354934.000,
+    "created" : 1593725046410.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "291918128",
-    "id" : "3E92E81F",
+    "id" : "DBF54775",
     "lastKnownWriteTime" : 1593551034,
-    "last_content_update" : 1593551034472,
+    "last_content_update" : 1593551034,
     "path" : "~/Classes/Math 377/Advanced Probability and Statistics/17 Estimation Methods Application.Rmd",
     "project_path" : "17 Estimation Methods Application.Rmd",
     "properties" : {
-        "cursorPosition" : "64,337",
-        "scrollLine" : "63"
+        "cursorPosition" : "53,0",
+        "scrollLine" : "46"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 9,
+    "relative_order" : 7,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_markdown"

@@ -1,0 +1,4 @@
+"0","results %>%"
+"0","  gf_histogram(~diffprop) %>%"
+"0","  gf_vline(xintercept =-0.2916667 )"
+"2","geom_vline(): Ignoring `mapping` because `xintercept` was provided."

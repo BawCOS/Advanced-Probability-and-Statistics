@@ -1,0 +1,2 @@
+"0","set.seed(2022)"
+"0","results <- do(1000)*diffprop(decision~shuffle(gender),data=discrim)"
