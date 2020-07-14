@@ -1,0 +1,7 @@
+"0","set.seed(7220)"
+"0","thinner <- data.frame(group =c(rep('control', 50), rep('treatment', 40)), outcome = c(rep(c('survived', 'died'), c(11, 39)), rep(c('survived', 'died'), c(14, 26))))"
+"0",""
+"0","thinner <- thinner %>%"
+"0","sample() %>%"
+"0","select(-orig.id)"
+"0","write_csv(thinner,""data/blood_thinner.csv"")"

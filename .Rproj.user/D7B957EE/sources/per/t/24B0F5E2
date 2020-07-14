@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1594661011223.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2596154479",
+    "id" : "24B0F5E2",
+    "lastKnownWriteTime" : 1594661020,
+    "last_content_update" : 1594661020582,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/18 Hypothesis Testing Case Study Notes.Rmd",
+    "project_path" : "18 Hypothesis Testing Case Study Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "106,0",
+        "ignored_words" : "trmt,csv\n",
+        "last_setup_crc32" : "",
+        "scrollLine" : "95"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

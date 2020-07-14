@@ -1,0 +1,8 @@
+"0","set.seed(371)"
+"0","metric(median(length~shuffle(channel),data=ads))"
+"1","test_stat "
+"1","
+"
+"1","0.9957097 "
+"1","
+"
