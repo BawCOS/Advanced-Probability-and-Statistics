@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1594743916589.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "613669336",
+    "id" : "80E138E4",
+    "lastKnownWriteTime" : 1594756458,
+    "last_content_update" : 1594756458570,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/19 Hypothesis Testing Application Solutions.Rmd",
+    "project_path" : "19 Hypothesis Testing Application Solutions.Rmd",
+    "properties" : {
+        "cursorPosition" : "199,115",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

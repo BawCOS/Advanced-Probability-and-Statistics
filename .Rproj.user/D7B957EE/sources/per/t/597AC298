@@ -5,17 +5,17 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2135543296",
+    "hash" : "135110745",
     "id" : "597AC298",
-    "lastKnownWriteTime" : 1594685518,
-    "last_content_update" : 1594685518313,
-    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/19 Hypothesis Testing Notes.Rmd",
-    "project_path" : "19 Hypothesis Testing Notes.Rmd",
+    "lastKnownWriteTime" : 1594790250,
+    "last_content_update" : 1594790250054,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/20 Empirical p-values Notes.Rmd",
+    "project_path" : "20 Empirical p-values Notes.Rmd",
     "properties" : {
-        "cursorPosition" : "357,165",
+        "cursorPosition" : "220,0",
         "ignored_words" : "trmt,csv\n",
-        "last_setup_crc32" : "F5A163D1b02f585",
-        "scrollLine" : "355"
+        "last_setup_crc32" : "534D4BF1b02f585",
+        "scrollLine" : "206"
     },
     "read_only" : false,
     "read_only_alternatives" : [

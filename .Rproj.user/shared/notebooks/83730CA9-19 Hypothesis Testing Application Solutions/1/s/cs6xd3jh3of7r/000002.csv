@@ -1,0 +1,2 @@
+"0","set.seed(56)"
+"0","results<-do(10000)*diffprop(outcome~shuffle(group),data=yawn)"

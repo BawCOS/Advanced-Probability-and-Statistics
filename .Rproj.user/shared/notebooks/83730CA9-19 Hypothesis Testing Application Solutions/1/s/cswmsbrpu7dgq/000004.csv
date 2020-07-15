@@ -1,0 +1,8 @@
+"0","obs <- diffmean(length~channel,data=ads)"
+"0","obs"
+"1","diffmean "
+"1","
+"
+"1"," -2.3459 "
+"1","
+"

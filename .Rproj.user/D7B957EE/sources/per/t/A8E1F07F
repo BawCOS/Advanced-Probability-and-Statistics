@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1594762194181.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "110739470",
+    "id" : "A8E1F07F",
+    "lastKnownWriteTime" : 1594788271,
+    "last_content_update" : 1594788271654,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/19 Hypothesis Testing Notes.Rmd",
+    "project_path" : "19 Hypothesis Testing Notes.Rmd",
+    "properties" : {
+        "cursorPosition" : "463,0",
+        "ignored_words" : "trmt,csv\n",
+        "last_setup_crc32" : "",
+        "scrollLine" : "451"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
