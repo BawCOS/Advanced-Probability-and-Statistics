@@ -34,16 +34,12 @@ library(tidyverse)
 
 ## Objectives
 
-1) Know and properly use the terminology of a hypothesis test.
-
-2) Conduct a hypothesis test, all four steps, using randomization.
-
-3) Discuss and explain the ideas of decision errors, one-sided versus two-sided, and choice of statistical signficance. 
+1) Conduct a hypothesis test, all four steps, using probability models.
 
 
 ## Hypothesis testing using probability models  
 
-As a lead into the central limit theorem and mathematical sampling distributions, we will look at a class of hypothesis testing where the null hypothesis specifies a probability model. In some cases we can get an exact answer and in others we will use simulation to get an empirical p-value. By the way, the permutation test is an exact test, since the complete enumeration of all permuations is difficult we approxiamte it with randomization.  
+As a lead into the central limit theorem and mathematical sampling distributions, we will look at a class of hypothesis testing where the null hypothesis specifies a probability model. In some cases we can get an exact answer and in others we will use simulation to get an empirical p-value. By the way, the permutation test is an exact test, since the complete enumeration of all permutations is difficult we approximate it with randomization.  
 
 Let's use three examples to illustrate.
 
@@ -157,7 +153,7 @@ Do the data provide statistically significant evidence against the null hypothes
 
 ## Cardiopulmonary resuscitation (CPR)
 
-Let's return to the CPR example from last lesson. As a reminder, we will repeat the backbground material.
+Let's return to the CPR example from last lesson. As a reminder, we will repeat the background material.
 
 Cardiopulmonary resuscitation (CPR) is a procedure used on individuals suffering a heart attack when other emergency resources are unavailable. This procedure is helpful in providing some blood circulation to keep a person alive, but CPR chest compressions can also cause internal injuries. Internal bleeding and other injuries that can result from CPR complicate additional treatment efforts. For instance, blood thinners may be used to help release a clot that is causing the heart attack once a patient arrives in the hospital. However, blood thinners negatively affect internal injuries.
 
@@ -205,7 +201,7 @@ Or since `R` has a built in function, `fisher.test`, we could use that.
 fisher.test(tally(~group+outcome,data=thinner))
 ```
 
-The p-value is slightly different since the `fisher.test` is not symetric and finds and adds all probabilities less than or equal to $\Prob(X = 11)$.
+The p-value is slightly different since the `fisher.test` is not symmetric and finds and adds all probabilities less than or equal to $\Prob(X = 11)$.
 
 The randomization test in the last lesson yielded a p-value of 0.257 so all tests are consistent.
 
@@ -216,11 +212,188 @@ Since this p-value is larger than 0.05, we do not reject the null hypothesis. Th
 
 Notice that in these first two examples, we had a test of a single proportion and a test of two proportions. The single proportion test did not have an equivalent randomization test since there is not a second variable to shuffle. We were able to get answers since we found a probability model that we could use in each case.  
 
-### Golf Balls  
+## Golf Balls  
+
+Out last example will be interesting because the distribution has multiple parameters and a test metrics is not obvious at this point.
+
+The owners of a residence located along a golf course collected the first 500 golf balls that landed on their property. Most golf balls are labeled with the make of the golf ball and a number, for example "Nike 1" or "Titleist 3". the numbers are typically between 1 and 4, and the owners of the residence wondered if these numbers are equally likely (at least among golf balls used by golfers of poor enough quality that they lose them in the yards of the residences along the fairway.)
+
+We will use a significance level of $\alpha = 0.05$ since there is no reason to favor one error over the other.
+
+### Step 1- State the null and alternative hypotheses  
+
+We think that the numbers are not all equally likely. The question of one-sided versus two-sided is not relevant in this test, you will see this when we write the hypotheses. 
+\begin{itemize}
+\item[$H_0$:] All of the numbers are equally likely.$\pi_1 = \pi_2 = \pi_3 = \pi_4$.Or $\pi_1 = \frac{1}{4}, \pi_2 =\frac{1}{4}, \pi_3 =\frac{1}{4}, \pi_4 =\frac{1}{4}$
+\item[$H_A$:] The is some other distribution of percentages in the population. At least one population proportion is not $\frac{1}{4}$.
+\end{itemize}
+
+Notice that we switched to using $\pi$ instead of $p$ for the population parameter. There is no reason other than to make you aware that both are used. This problem is an extension of the binomial, instead of two outcomes, there are four outcomes. This is called a multinomial distribution. You can read more about it if you like, but our methods will not make it necessary to learn the probability mass function.
 
 
+Of the 500 golf balls collected, 486 of them had a number between 1 and 4. Let's get the data from `golf_balls.csv".
 
-### File Creation Information 
+```{r echo=FALSE,eval=FALSE}
+set.seed(1)
+golf_balls <- tibble(number=rep(1:4, c(137,138,107,104)))
+golf_balls <- golf_balls %>%
+sample() %>%
+select(-orig.id)
+write_csv(golf_balls,"data/golf_balls.csv")
+```
+
+
+```{r message=FALSE,warning=FALSE}
+golf_balls <- read_csv("data/golf_balls.csv")
+```
+
+```{r}
+inspect(golf_balls)
+```
+
+```{r}
+tally(~number,data=golf_balls)
+```
+
+### Step 2 - Compute a test statistic. 
+
+If all numbers were equally likely, we would expect to see 121.5 balls of each number, this is a point estimate and thus not an actual value that could be realized. Of course, in a sample we will have variation and thus departure from this state. We need a test statistic that will help us determine if the observed values are reasonable under the null hypothesis. Remember that the test statistics is a single number metric used to evaluate the hypothesis.
+
+>**Exercise**:  
+What would you propose for the test statistic?  
+
+With four proportions, we need a way to combine them. This seems tricky, so let's just use a simple one. Let's take the maximum number of balls in any cell and subtract the minimum, this is called the range and we will denote the parameter as $R$. Under the null this should be zero. We could re-write our hypotheses as: 
+
+\begin{itemize}
+\item[$H_0$:] $R=0$
+\item[$H_A$:] $R>0$
+\end{itemize}
+
+Notice that $R$ will always be non-negative, thus this test is one-sided.
+
+The observed range is 34, $138 - 104$.
+
+```{r}
+obs<-diff(range(tally(~number,data=golf_balls)))
+obs
+```
+
+### Step 3 - Determine the p-value.
+
+We don't know the distribution of our test statistic so we will use simulation. We will simulate data from a multinomial under the null hypothesis and calculate a new value of the test statistic. We will repeat this 10000 times and this we give us an estimate of the sampling distribution.
+
+We will use the `sample()` function again. We are only using a sample size of 12 to keep the printout reasonable.
+
+```{r}
+set.seed(3311)
+diff(range(table(sample(1:4,size=12,replace=TRUE))))
+```
+
+Notice this is not use `tidyverse` coding ideas. We don't think we need tibbles or dataframes so we went straight nested `R` code. You can break this code down by starting with the code in the center.
+
+```{r}
+set.seed(3311)
+sample(1:4,size=12,replace=TRUE)
+```
+
+```{r}
+set.seed(3311)
+table(sample(1:4,size=12,replace=TRUE))
+```
+
+```{r}
+set.seed(3311)
+range(table(sample(1:4,size=12,replace=TRUE)))
+```
+
+Let's simulated the data under the null hypothesis.
+
+```{r}
+results <- do(10000)*diff(range(table(sample(1:4,size=486,replace=TRUE))))
+```
+
+```{r warning=FALSE}
+results %>%
+  gf_histogram(~diff) %>%
+  gf_vline(xintercept = obs) %>%
+  gf_labs(title="Sampling Distribution of Range",subtitle="Multinomial with equal probability",
+          x="Range") %>%
+  gf_theme(theme_classic)
+```
+
+Notice how this distribution is skewed to the right.
+
+The p-value is 0.14, this value is not extreme in either direction. The residents may want to repeat the study with more data.
+
+```{r}
+prop1(~(diff>=obs),data=results)
+```
+
+### Step 4 - Draw a conclusion 
+
+Since this p-value is larger than 0.05, we do not reject the null hypothesis. That is, based on our data, we do not find statistically significant evidence against the claim that the number on the golf balls are equally likely. 
+
+## Repeat with a different test statistic
+
+The test statistic we developed helped but it seems week because we did not use the information in all four cells. So let's devise a metric that does this. We will jump to step 2.
+
+### Step 2 - Compute a test statistic. 
+
+If each number we equally likely, we would have 121.5 balls in each bin. We can find a test statistic by looking at the deviation from 121.5.
+
+```{r}
+tally(~number,data=golf_balls) -121.5
+```
+
+Now we need to collapse these into a single number. Just adding will always result in a value of 0, why? So let's take the absolute value and then add.
+
+```{r}
+obs<-sum(abs(tally(~number,data=golf_balls) -121.5))
+obs
+```
+
+This will be our test statistic.
+
+### Step 3 - Determine the p-value.
+
+We will similar code from above with our new metric.
+
+```{r}
+set.seed(9697)
+results <- do(10000)*sum(abs(table(sample(1:4,size=486,replace=TRUE))-121.5))
+```
+
+```{r warning=FALSE}
+results %>%
+  gf_histogram(~sum) %>%
+  gf_vline(xintercept = obs) %>%
+  gf_labs(title="Sampling Distribution of Absolute Deviations",subtitle="Multinomial with equal probability",
+          x="Range") %>%
+  gf_theme(theme_classic)
+```
+
+Notice how this distribution is skewed to the right and our test statistic seems to be more extreme.
+
+The p-value is 0.014, this value is much smaller than our previous result. The test statistic matters as nothing about this problem has changed except the test statistic.
+
+```{r}
+prop1(~(sum>=obs),data=results)
+```
+
+### Step 4 - Draw a conclusion 
+
+Since this p-value is smaller than 0.05, we reject the null hypothesis. That is, based on our data, we find statistically significant evidence against the claim that the number on the golf balls are equally likely. 
+
+## Summary  
+
+In this lesson we used probability models to help us make decisions from data. This lesson is different from the randomization section in that randomization had two variables and the null hypothesis of no difference. In the case of a 2 x 2 table, we were able to show that we could use the hypergeometric distribution to get an exact p-value under the assumptions of the model.
+
+We also found that the choice of test statistic has an impact on our decision. Even though we get valid p-values and the desired Type 1 error rate, if the information in the data is not used to its fullest, we will lose power. Remember power is the probability of rejecting when the alternative is true.
+
+In this next lesson we will learn about mathematical solutions to finding the sampling distribution. The key difference in all these methods is the selection of the test statistic and the assumptions made to derive a sampling distribution.
+
+
+## File Creation Information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

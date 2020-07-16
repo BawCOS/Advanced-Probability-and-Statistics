@@ -1,0 +1,10 @@
+"0","glimpse(yawn)"
+"1","Observations: 50
+"
+"1","Variables: 2
+"
+"1","$ group   [3m[38;5;246m<chr>[39m[23m ""treatment"", ""treatment"", ""control"", ""treatment"", ""treatment"", ""treatment"", ""treatment"", ""cont...
+"
+"1",""
+"1","$ outcome [3m[38;5;246m<chr>[39m[23m ""no_yawn"", ""no_yawn"", ""no_yawn"", ""no_yawn"", ""no_yawn"", ""yawn"", ""no_yawn"", ""yawn"", ""no_yawn"", ""...
+"

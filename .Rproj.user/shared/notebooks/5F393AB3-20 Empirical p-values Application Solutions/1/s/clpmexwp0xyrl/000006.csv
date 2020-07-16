@@ -1,0 +1,3 @@
+"0","temperature %>%"
+"0","  gf_boxplot(~temperature) %>%"
+"0","  gf_theme(theme_classic)"

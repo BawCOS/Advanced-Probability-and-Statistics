@@ -1,0 +1,6 @@
+"0","obs<-sum(abs(tally(~number,data=golf_balls) -121.5))"
+"0","obs"
+"1","[1]"
+"1"," 64"
+"1","
+"

@@ -1,0 +1,2 @@
+"0","temperature %>%"
+"0","  count(temperature==98.6)"
