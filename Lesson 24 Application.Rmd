@@ -1,0 +1,64 @@
+---
+title: "Lesson 24 Applications"
+author: "Name"
+date: "Date"
+header-includes: 
+  - \usepackage{amsmath,multirow}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(out.width = "75%")
+```
+
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Consider Example 24.1 from the narrative. Using a $t$-based interval, we found a 95% confidence interval of (67.194,70.206). 
+
+a) First, think about your answers to practical application problem 23.2c and 23.2d. We found that the probability that we obtained our sample (or more extreme) given a population mean of 67 inches was 0.0278. Furthermore, the value 67 is not included in the interval found in Example 24.1. Do these two results make sense? Or do they conflict with each other? Explain. 
+
+
+
+b) Based on the same sample, build 80%, 90% and 99% confidence intervals. What do you notice about the intervals as confidence level changes? 
+
+
+c) Based on the same sample, build 95% confidence intervals assuming the sample was based on $n=10$, $n=30$, and $n=100$. Assume the same sample mean and standard deviation. What do you notice about the intervals as sample size changes?
+
+
+
+
+&nbsp;
+
+\indent 2. Let's stay with the same example. Suppose the true mean height at our college is $\mu=67$ inches and the true standard deviation is $\sigma =4.9$. 
+
+a) In theory, in 95% of samples collected from the population, the 95% confidence interval will contain the true mean. Obtain a random sample of size 50 from the population, then use that sample to build a 95% confidence interval for $\mu$. Assume you don't know the true standard deviation (so you'll use the interval based on the $t$-distribution, just like in Example 24.1). Did that interval contain the true value of $\mu$ (67 inches)? Repeat that process 10000 times and report the percentage of time the 95% confidence interval contained the true mean.  
+
+
+
+b) Repeat part a), but instead of using $t$-based intervals, use normal-based intervals. In this case, we will be using our sample standard deviation and just assuming that will be equal to $\sigma$. How does this change the coverage of the confidence intervals? Note that to make a fair comparison, you will need to use the same simulated data. Make use of the `set.seed()` function to do this. 
+
+
+
+&nbsp;
+
+
+\indent 3. In Example 24.2, we directly used the actual distribution of $Y$ (the number of respondents who support a measure) to find a confidence interval for $\pi$. Alternatively, we could use the central limit theorem to find an approximate distribution of $\hat{\pi}$, and use that to build a confidence interval. 
+
+a) Why would we need to use this approximation to find a confidence interval for $\pi$? Hint: imagine you didn't have access to `pbinom` or anything comparable (or even a computer). 
+
+
+
+b) Use the normal approximation to find a 95% confidence interval for $\pi$. Use two methods: the "Wald" interval and the "Score" or "Wilson" interval. You can consult IPSUR or the resource of your choice for more information. 
+
+
+c) BONUS: Conduct a simulation to compare the three methods of finding a 95% confidence interval. Let $n=50$ and consider different values of $\pi$. 
+

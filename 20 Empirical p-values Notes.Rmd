@@ -67,23 +67,34 @@ There is only one variable, if the listener is correct.
 
 ### Step 2 - Compute a test statistic. 
 
-In Newton's study, only 3 out of 120 listeners ($\hat{p} = 0.025$) were able to guess the tune! From the perspective of the null hypothesis, we might wonder, how likely is it that we would get this result from chance alone? That is, what's the chance we would happen to see such a small fraction if $H_0$ were true and the true correct-guess rate is 0.50?
+In Newton's study, only 42, (we changed the number to make this problem more interesting from an educational perspective) out of 120 listeners ($\hat{p} = 0.35$) were able to guess the tune! From the perspective of the null hypothesis, we might wonder, how likely is it that we would get this result from chance alone? That is, what's the chance we would happen to see such a small fraction if $H_0$ were true and the true correct-guess rate is 0.50?
 
-Now before we use simulation, let's frame this as a probability model. The random variable $X$ is the number of correct our of 120. If the observations are independent and the probability of success is constant then we could use a binomial model. We can't answer the validity of these assumptions without knowing more about the experiment, the subjects, and the data collection. For educational purposes, we will assume they are valid. Thus our test statistic is the number of successes. The observed value is 3.
+Now before we use simulation, let's frame this as a probability model. The random variable $X$ is the number of correct our of 120. If the observations are independent and the probability of success is constant then we could use a binomial model. We can't answer the validity of these assumptions without knowing more about the experiment, the subjects, and the data collection. For educational purposes, we will assume they are valid. Thus our test statistic is the number of successes. The observed value is 9.
 
 ### Step 3 - Determine the p-value.
 
-We now want to find the p-value from $\Prob(X \leq 3)$ given the null hypothesis is true, that the probability of success is 0.50. We will use `R` to get the one-sided value and then double.
+We now want to find the p-value from $\Prob(X \leq 48)$ given the null hypothesis is true, that the probability of success is 0.50. We will use `R` to get the one-sided value and then double.
 
 ```{r}
-2*pbinom(3,120,prob=0.5)
+2*pbinom(42,120,prob=0.5)
 ```
 
 That is a small p-value.
 
 ### Step 4 - Draw a conclusion 
 
-Based on our data, if the listeners were guessing correct 50\% of the time, there is less than a $4.3 \times 10^{-31}$ probability that only 3 or less or 117 or more listeners would get it right. This is much less than 0.05, so we reject that the listeners are guessing correctly half of the time.
+Based on our data, if the listeners were guessing correct 50\% of the time, there is less than a $0.0013$ probability that only 42 or less or 78 or more listeners would get it right. This is much less than 0.05, so we reject that the listeners are guessing correctly half of the time.
+
+This decision region looks like the pmf below, any observed value in the red lines would be consistent with the null hypothesis. Any value at the red or more extreme would be in the rejection region.
+
+```{r warning=FALSE}
+gf_dist("binom",size=120,prob=.5,xlim=c(50,115)) %>%
+  gf_vline(xintercept = c(42,78),color="red") %>%
+  gf_labs(title="Binomial pmf",subtitle="Probability of success is 0.5",y="Probability")
+```
+
+
+
 
 ### Repeat using simulation  
 
@@ -94,14 +105,14 @@ We will repeat the analysis using an empirical p-value. Step 1 is the same.
 We will use the proportion of listeners that get the song correct. 
 
 ```{r}
-obs<-3/120
+obs<-42/120
 obs
 ```
 
 
 ### Step 3 - Determine the p-value.
 
-To simulate 120 games under the null hypothesis where $p = 0.50$, we could flip a coin 120 times. Each time the coin came up heads, this could represent the listener guessing correctly, and tails would represent the listener guessing incorrectly. For example, we can simulate 5 tapper-listener pairs by flipping a coin 5~times:
+To simulate 120 games under the null hypothesis where $p = 0.50$, we could flip a coin 120 times. Each time the coin came up heads, this could represent the listener guessing correctly, and tails would represent the listener guessing incorrectly. For example, we can simulate 5 tapper-listener pairs by flipping a coin 5 times:
 \begin{center}
 \begin{tabular}{ccc ccc ccc c}
 H & H & T & H & T \\
@@ -109,7 +120,7 @@ Correct & Correct & Wrong & Correct & Wrong \\
 \end{tabular}
 \end{center}
 
-After flipping the coin 120 times, we got 56 heads for $\hat{p}_{sim} = 0.467$. As we did with the randomization technique, seeing what would happen with one simulation isn't enough. In order to evaluate whether our originally observed proportion of 0.025 is unusual or not, we should generate more simulations. Here we've repeated this simulation 10000 times:
+After flipping the coin 120 times, we got 56 heads for $\hat{p}_{sim} = 0.467$. As we did with the randomization technique, seeing what would happen with one simulation isn't enough. In order to evaluate whether our originally observed proportion of 0.35 is unusual or not, we should generate more simulations. Here we've repeated this simulation 10000 times:
 
 ```{r}
 results <- rbinom(10000, 120, 0.5) / 120
@@ -130,7 +141,7 @@ head(results)
 ```{r warning=FALSE}
 results %>%
   gf_histogram(~mean) %>%
-  gf_vline(xintercept =obs)
+  gf_vline(xintercept =obs,color="red")
 ```
 
 Notice how the sampling distribution is centered at 0.5 and looks symmetrical.
@@ -138,15 +149,15 @@ Notice how the sampling distribution is centered at 0.5 and looks symmetrical.
 The p-value is found using the `prop1` function, in this problem we really need the observed case added back in to prevent a p-value of zero.
 
 ```{r}
-prop1(~(mean<=obs),data=results)
+2*prop1(~(mean<=obs),data=results)
 ```
 
 ### Step 4 - Draw a conclusion 
 
-In these 10,000 simulations, we don't see any results close to 0.025.
+In these 10,000 simulations, we see vary few results close to 0.35.
 
 >**Exercise**:
-In the context of the experiment, what is the p-value for the hypothesis test?^[The p-value is the chance of seeing the data summary or something more in favor of the alternative hypothesis given that guessing has a probability of success of 0.5. Since we didn't observe anything even close to just 3 correct, the p-value will be small, around 1-in-10,000 or smaller.]
+In the context of the experiment, what is the p-value for the hypothesis test?^[The p-value is the chance of seeing the data summary or something more in favor of the alternative hypothesis given that guessing has a probability of success of 0.5. Since we didn't observe many even close to just 42 correct, the p-value will be small, around 1-in-1000 or smaller.]
 
 >**Exercise**:  
 Do the data provide statistically significant evidence against the null hypothesis? State an appropriate conclusion in the context of the research question.^[The p-value is less than 0.05, so we reject the null hypothesis. There is statistically significant evidence, and the data provide strong evidence that the chance a listener will guess the correct tune is less than 50\%.]
@@ -315,7 +326,7 @@ results <- do(10000)*diff(range(table(sample(1:4,size=486,replace=TRUE))))
 ```{r warning=FALSE}
 results %>%
   gf_histogram(~diff) %>%
-  gf_vline(xintercept = obs) %>%
+  gf_vline(xintercept = obs,color="red") %>%
   gf_labs(title="Sampling Distribution of Range",subtitle="Multinomial with equal probability",
           x="Range") %>%
   gf_theme(theme_classic)
@@ -366,7 +377,7 @@ results <- do(10000)*sum(abs(table(sample(1:4,size=486,replace=TRUE))-121.5))
 ```{r warning=FALSE}
 results %>%
   gf_histogram(~sum) %>%
-  gf_vline(xintercept = obs) %>%
+  gf_vline(xintercept = obs,color="red") %>%
   gf_labs(title="Sampling Distribution of Absolute Deviations",subtitle="Multinomial with equal probability",
           x="Range") %>%
   gf_theme(theme_classic)

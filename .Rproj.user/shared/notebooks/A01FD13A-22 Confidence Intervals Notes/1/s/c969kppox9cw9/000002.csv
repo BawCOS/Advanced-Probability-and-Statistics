@@ -1,0 +1,1 @@
+"0","confint(t_test(~temperature,data=temperature,alternative=""less""))"

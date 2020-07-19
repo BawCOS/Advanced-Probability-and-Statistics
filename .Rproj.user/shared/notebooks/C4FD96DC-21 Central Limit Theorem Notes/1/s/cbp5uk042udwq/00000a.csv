@@ -1,0 +1,3 @@
+"0","results %>%"
+"0","  gf_dhistogram(~mean) %>%"
+"0","  gf_labs(x=""Test Statistic"",title=""Sampling distribution of the sample proportion"",y="""")"

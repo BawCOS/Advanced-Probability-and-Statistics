@@ -1,0 +1,2 @@
+"0","set.seed(604)"
+"0","results<-do(10000)*mean(sample(c(0,1),size=120,replace = TRUE))"

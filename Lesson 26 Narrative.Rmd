@@ -1,0 +1,256 @@
+---
+title: "Lesson 26: Hypothesis Testing I"
+author: "Lt Col Ken Horton"
+date: "October 22, 2019"
+header-includes: 
+  - \usepackage{amsmath,multirow}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(out.width = "75%")
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand{\diff}{\,\mathrm{d}}
+
+
+# Objectives
+
+1) Define and understand the common terms of hypothesis testing (null & alternate hypotheses, one-sided vs two-sided, test statistic, $p$-value, reject, fail to reject). 
+
+2) Conduct and interpret a hypothesis test, using both asymptotic and simulation-based methods. 
+
+3) Use bootstrap methods to obtain the distribution of a test statistic. 
+
+4) Obtain and properly interpret the $p$-value for a given hypothesis test. 
+
+5) Describe the relationship between confidence intervals and hypothesis tests. 
+
+
+## Hypothesis Testing
+
+In the last two lessons, we introduced the concept of confidence intervals. We learned how to construct confidence intervals using both traditional asymptotic methods and modern simulation methods. Throughout the discussion of confidence intervals, we have emphasized the importance of interpretation. Several times, we referred to a confidence interval as a "range of feasible values" for an unknown population parameter. 
+
+Suppose that, prior to conducting an experiment, you were interested in whether or not a particular value of a population parameter was feasible. A *hypothesis test* uses a representative random sample of a population to evaluate whether a proposed value (or range of values) of a parameter is feasible. 
+
+How does a hypothesis test do this? Essentially, we assume that the population parameter takes on a hypothesized value. Next, we obtain a random sample from the population; then we evaluate the likelihood of obtaining that random sample given our hypothesized parameter value. If our sample was highly unlikely under that assumption, we *reject* our initial hypothesis. Otherwise we *fail to reject* our hypothesis. 
+
+## Steps of a Hypothesis Test
+
+Recall the four steps of building a confidence interval (identify population parameter, obtain estimate, determine distribution of estimate, build interval). Similarly, there are 5 steps of a hypothesis test. Different texts have differing numbers of steps, but the general process is the same. I will list the steps below, but along the way, I will illustrate with a simple example. Suppose I am handed a coin and I don't know whether that coin is "fair" (equal probability of landing on heads or tails when flipped). 
+
+### Step 1) Identify Hypotheses
+
+I suppose this step could be divided into two, since first, we need to identify the population parameter of interest. Next, we need to identify our *null* hypothesis (denoted as $H_0$) and our *alternate* hypothesis (denoted as $H_1$ or $H_a$). The null hypothesis typically is a statement involving equality and the alternate is a statement involving an inequality. 
+
+Sometimes, this first step is straightforward and other times, it can be challenging. Typically, if we would like to show something is true, we make that our alternate hypothesis. We explain this during the fifth step.  
+
+It is important to distinguish between a *two-sided* hypothesis test and a *one-sided* test. In a two-sided test, we are concerned with whether or not the population parameter could take a particular value. For parameter $\theta$, a set of two-sided hypotheses looks like:
+$$
+H_0: \theta=\theta_0 \hspace{0.75cm} H_1: \theta\neq \theta_0
+$$
+
+In a one-sided test, we are concerned with whether a parameter exceeds or does not exceed a specific value. For example, in Application problem 25.2, manufacturing parts needed to have a tensile strength at or beyond 2500 psi. I don't necessarily care if it's 2501 or 2505 or even 2600, but it needs to be at or beyond 2500 psi. A set of one-sided hypotheses looks like:
+$$
+H_0: \theta = \theta_0 \hspace{0.75cm} H_1:\theta>\theta_0
+$$
+or
+$$
+H_0: \theta = \theta_0 \hspace{0.75cm} H_1:\theta<\theta_0
+$$
+
+In some texts, one-sided null hypotheses include an inequality ($\geq$ or $\leq$). 
+
+#### Step 1) Example
+
+Again, suppose I am handed a coin and I don't know whether that coin is "fair" (equal probability of landing on heads or tails when flipped). Our parameter of interest is $\pi$, the probability that the coin lands heads side up (we could easily use tails instead). In this case, we will assume the coin is fair and see if the random sample reflects that null hypothesis. This is a two-sided test because I am not concerned with whether the coin is biased heads or tails specifically, just whether or not it is biased. 
+$$
+H_0: \pi = 0.5 \hspace{0.75cm} H_1: \pi \neq 0.5
+$$
+
+### Step 2) Collect Random Sample
+
+Now that we have developed our null and alternate hypotheses, we will collect a representative sample from the population of interest. This will help us determine whether the null hypothesis is feasible. 
+
+Note that collecting data comes *after* we formulate a hypothesis. It is considered bad procedure to collect data first and then use that data to determine $H_0$ and $H_1$. This increases your vulnerability to error (more on hypothesis testing errors later). 
+
+#### Step 2) Example
+
+We flipped the coin 25 times and it landed heads side up 17 times. 
+
+### Step 3) Identify Test Statistic and Distribution
+
+Now that we have data, we need to determine whether that data agrees with the null hypothesis. In our null hypothesis, we are assuming that our parameter $\theta$ takes a specific value. We need some way of summarizing our data that can quantify the reasonableness of $H_0$. Many times, a simple estimator of $\theta$ will do. For example, in the case of a quantitative, continuous population, if our parameter of interest is the population mean $\mu$, the sample mean ($\bar{X}$) is a good test statistic. 
+
+Once we identify a test statistic, we need to identify the distribution of that test statistic *under $H_0$*. In other words, if $H_0$ were true, how would we expect the test statistic to behave? Note that we can use either asymptotic or simulation methods to determine the distribution of the test statistic under $H_0$. 
+
+Going back to the case of a quantitative, continuous population: according to the null hypothesis, we assume that $\mu$ takes some value $\mu_0$. So if this is true, the central limit theorem tells us that $\bar{X}$ is approximately normal with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$. However, since we usually don't know $\sigma$, we would have to use the $t$ approximation to this. Thus, our test statistic would be $T={\bar{X}-\mu_0\over S/\sqrt{n}}$. Under certain assumptions about symmetry and sample size, this statistic has the $t$ distribution with $n-1$ degrees of freedom. 
+
+#### Step 3) Example
+
+Again, the population parameter of interest is $\pi$, the probability of the coin landing heads side up. One test statistic is $\hat{\pi}$ or the sample proportion of times the coin landed heads side up. If the coin is fair, as per our null hypothesis, then $\pi=0.5$ and we should expect $\hat{\pi}$ to be around 0.5 as well. In other words, if we keep flipping a fair coin in sets of 25 flips, the sample proportion should usually be around 0.5. Sometimes it will be a little higher, sometimes a little lower. Is 17/25 unusually high? 
+
+The actual distribution of $\hat{\pi}$ (or a function of it) can be estimated with the normal distribution. However, we don't need to do that. Rather, we can recognize that under $H_0$, $X$ (the number of heads out of 25 coin flips) has the binomial distribution with parameters $n=25$ and $\pi=\pi_0=0.5$. From our knowledge about the binomial distribution, $X$ has a mean of $n\pi_0=12.5$ and a standard deviation of $\sqrt{n\pi_0(1-\pi_0)}=2.5$. So, if we keep flipping a fair coin in sets of 25 flips, the number of heads should be around 12.5, with a standard deviation of 2.5. So is 17 unusually high?  
+
+### Step 4) Determine $p$-value
+
+We have identified the value of the test statistic for our sample *and* the behavior of the test statistic *if* $H_0$ were actually true, we need a way to compare the two. In other words, is the test statistic for our sample unusual compared to the distribution of the test statistic under $H_0$? The $p$-value quantifies this. 
+
+Mathematically, the $p$-value is the probability of the test statistic taking the observed value (or more extreme), under $H_0$. Simply put, the $p$-value is the probability of getting the sample we did (or one more unusual) given the null hypothesis is true. 
+
+Low $p$-values indicate low probability of obtaining our sample given $H_0$ is true. Thus, a low $p$-value indicates evidence against $H_0$. Similarly, a high $p$-value indicates a lack of evidence against $H_0$. The $p$-value is **NOT** the probability that the null hypothesis is true. 
+
+#### Step 4) Example
+
+The $p$-value is given by:
+$$
+p\mbox{-value}=\Prob(X>=17\mbox{ or }X<=8|\pi=0.5)
+$$
+
+Since this is a two-sided test, we need to find the probability of $X$ taking the value 17 or more unfair. More unfair could mean values of $X$ greater than or equal to 17 or less than or equal to 8. Graphically, the $p$-value is the probability of outcomes at or further away from the observed value of the test statistic. In this case, the observed test statistic ($X=17$) is represented by the red line on the right. 
+```{r lesson26a,echo=F}
+plot(0:25,dbinom(0:25,25,0.5),type="h",xlab="X: number of heads",ylab="Prob")
+abline(v=c(8.2,16.8),col="red")
+rect(10,0.12,15,0.135,col="white",border=NA)
+text(12.5,0.13,"Less Unfair")
+arrows(c(10,14.7),c(0.128,0.128),c(8.4,16.7),c(0.128,0.128),length=0.1)
+text(c(5,20),c(0.07,0.07),"More Unfair")
+arrows(c(7.8,17.2),c(0.08,0.08),c(4.8,20.2),c(0.08,0.08),length=0.1)
+```
+
+We can use `R` to calculate the $p$-value:
+```{r lesson26b}
+1-pbinom(16,25,0.5)+pbinom(8,25,0.5)
+
+##Or, since the binomial distribution is symmetric when pi=0.5:
+2*(1-pbinom(16,25,0.5))
+
+```
+
+### Step 5) Conclude
+
+All the hard work is done. Now we need to conclude. Again, a low $p$-value indicates evidence against the null. Thus, for low $p$-values, we will *reject* the null hypothesis in favor of the alternate. For high $p$-values, we will *fail to reject* the null hypothesis. How low is low? It depends on the context and field of study, but a common threshold is $0.05$. This threshold is commonly referred to as the *significance level* and is given by $\alpha$. Note that this $\alpha$ has the same meaning as it does in the context of confidence intervals. 
+
+Note we do not use the word *accept*. Some texts use this word, but I prefer not to since it implies that if our $p$-value is high, we have concluded that $H_0$ is true. Under this framework, we cannot conclude that $H_0$ is true. Rather, we say that we have failed to gather sufficient evidence to disprove $H_0$. Going back to the first step, this is why we typically define the alternate hypothesis as what we want to show. *Reject* is a strong conclusion. I have strong evidence that the null is wrong, thus I will reject in favor of the alternate. On the other hand, *fail to reject* is a weaker conclusion. I do not have strong evidence that the null is true; I also don't have strong evidence it is false. I really can't make a definitive statement one way or the other. Thus, I fail to reject the null hypothesis. 
+
+A courtroom analogy is sometimes helpful. At the start of a criminal trial, the defendant is assumed to be innocent. In other words, the null hypothesis is "not guilty". During the trial, it is incumbent on the prosecution to compile evidence that the defendant is in fact guilty. The prosecution presents evidence that would have been unlikely to exist if the null hypothesis were actually true. At the close of the trial, the jury either concludes that the evidence is strong enough to reject the null hypothesis and rules "guilty" OR the jury concludes that the evidence was not strong enough and rules the defendant "not guilty". The criminal trial was not conducted for the purpose of proving someone's innocence; similarly, a hypothesis test is not conducted for the purpose proving $H_0$ true.    
+
+#### Step 5) Example
+
+The $p$-value found in Step 4 was 0.108. While low, we would conclude that this evidence is not strong enough to reject $H_0$. We fail to reject $H_0$: there is not enough evidence to conclude that this coin is unfair. Again, we don't conclude the coin is fair. Rather, it is feasible that the coin is fair. It's reasonable to expect a fair coin to yield the results seen in our random sample. 
+
+
+### Example 26.1
+
+Recall Example 25.1. I am interested in the mean height of students at a local college. I think that the average height at this college exceeds the national average of 5 feet, 6.25 inches. I have collected a random sample of 50 students (contained in vector `x` below). Conduct a hypothesis test to determine whether sufficient evidence exists to back my claim. 
+
+Step 1) Identify Hypotheses
+
+This is a one-sided test. I would like to establish sufficient evidence that students at this college are taller (on average) than 66.25 inches. Let $\mu$ be the true mean height of students at this college. 
+$$
+H_0: \mu = 66.25 \mbox{ (or } \mu \leq 66.25\mbox{)}\hspace{0.75cm} H_1:\mu>66.25
+$$
+
+Step 2) Collect Sample
+
+The random sample has been collected and is denoted in the `R` snippet below. 
+```{r lesson26c}
+x<-c(62.0,73.8,59.8,66.9,75.6,63.3,64.0,63.1,65.0,67.2,73.0,
+     62.3,60.8,65.7,60.8,65.8,63.3,54.9,67.8,65.1,74.8,75.0,
+     77.8,73.7,74.3,68.4,77.5,77.9,66.5,65.5,71.7,75.9,81.7,
+     76.5,77.8,75.0,64.6,59.4,60.7,69.2,78.2,65.7,69.6,80.0,
+     67.6,73.0,65.3,67.6,66.2,69.6)
+```
+
+Step 3) Identify Test Statistic and Distribution
+
+The sample mean would be an obvious test statistic. If the true underlying population mean was $\mu=66.25$, we would expect the mean of a representative random sample to be roughly around 66.25 (and normally distributed according to the central limit theorem.) The actual sample mean is 68.94 (see below), so we have some evidence that the null hypothesis is wrong; it remains to be seen whether that evidence is strong. 
+```{r lesson26d}
+xbar<-mean(x)
+xbar
+```
+
+Since we don't know the true underlying standard deviation of the population, we will have to rely on the $t$ statistic: 
+$$
+T={\bar{X}-\mu_0\over S/\sqrt{n}}
+$$
+
+Under $H_0$, I know this follows the $t$ distribution with $n-1$ degrees of freedom. For this specific sample, the value of $T$ is:
+```{r lesson26d2}
+t.obs<-(mean(x)-66.25)/(sd(x)/sqrt(50))
+```
+
+```{r lesson26d1}
+curve(dt(x,df=49),from=-3.5,to=3.5,xlab="t",ylab="Density",main="Distribution of T")
+arrows(2.5,0.2,t.obs,-0.01,length=0.1)
+text(2.5,0.22,"t.obs = 2.995")
+```
+Using the $t$ statistic requires us to assume our sample size is large enough and/or the underlying distribution of heights is relatively symmetric and unimodal. 
+
+Alternatively, we could find a bootstrapped distribution of $\bar{X}$ under $H_0$. If $H_0$ is true, I know that the mean of $\bar{X}$ should be 66.25. However, I don't know how the sample means would be distributed around that mean. To simulate this, we just obtain a bootstrapped distribution of $\bar{X}$ from our sample, and then *re-center* or *shift* that distribution to have a mean of 66.25:
+```{r lesson26e}
+set.seed(2003)
+xbar.dist<-replicate(10000,{
+  boot.sample<-sample(x,replace=T)
+  mean(boot.sample)
+})
+
+##xbar.dist is centered around the observed sample mean; 
+##We need to shift to be centered around 66.25
+xbar.dist.h0<-xbar.dist+(66.25-mean(xbar.dist))
+
+hist(xbar.dist.h0,freq=F,main="Bootstrap Distribution of X-bar",xlab="x-bar")
+lines(density(xbar.dist.h0))
+arrows(69,0.2,mean(x),-0.01,length=0.1)
+text(69,0.22,"Obs X-bar = 68.94")
+```
+
+Step 4) Determine $p$-value.
+
+In both cases above, it appears that the observed value of the test statistic is far from where it would be expected if the null hypothesis were true. This leads me to believe the $p$-value will be small. In fact, graphically, the $p$-value (or the probability of obtaining our data or more extreme, with respect to $H_0$) is represented by the sliver of area under the curve to the right of the observed value. Why to the right? Because this is a *one-sided* test and more "extreme" values are those that are more consistent with the *alternate* hypothesis ($\mu > 66.25$). This only includes values to the right of our observed test statistic. 
+```{r lesson26f}
+##Asymptotically:
+1-pt(t.obs,49)
+
+##Also, with t.test:
+t.test(x,alternative="greater",mu=66.25)
+
+##Simulation:
+mean(xbar.dist.h0>=mean(x))
+
+```
+
+In both cases, the $p$-value is about 0.0021. This means that if the average student height at this college was at or below the national average (66.25 inches), there would be a 0.21% chance of obtaining a sample with an average at least as high as that observed (68.94 inches). 
+
+Step 5) Conclude.
+
+With such a small $p$-value, we should reject the null hypothesis in favor of the alternate. We have sufficient evidence to say that the average height of students at this college exceeds the national average. 
+
+## Hypothesis Testing and Confidence Intervals
+
+Essentially, confidence intervals and hypothesis tests serve similar purposes, but answer slightly different questions. A confidence interval gives you a range of feasible values of a parameter given a particular sample. A hypothesis test tells you whether a specific value is feasible given a sample. Sometimes you can informally conduct a hypothesis test simply by building an interval and observing whether the hypothesized value is contained in the interval. The disadvantage to this approach is that it does not yield a specific $p$-value. 
+
+### Example 26.2
+
+Consider Example 26.1. Build a one-sided 95% confidence interval for $\mu$. 
+```{r lesson26g}
+##Lower bound (asymptotically)
+xbar-qt(0.95,49)*sd(x)/sqrt(50)
+
+##Lower bound (simulation-based)
+quantile(xbar.dist,0.05)
+
+```
+
+Respectively, the asymptotic-based and simulation based 95% confidence intervals are $(67.43,\infty)$ and $(67.47,\infty)$. Note that the national average (66.25 inches) is NOT contained in either of these intervals. Thus, based solely on the intervals, we know that a hypothesis test of $H_0:\mu =66.25$ vs $H_1: \mu>66.25$ would yield a $p$-value less than 0.05. And as we saw in Example 26.1, it did.  
+
+
+
+

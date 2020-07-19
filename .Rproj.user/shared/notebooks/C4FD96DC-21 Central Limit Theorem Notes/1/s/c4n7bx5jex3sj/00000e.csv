@@ -1,0 +1,1 @@
+"0","clt<-cbind(rbind(do(1000)*mean(rbinom(10,1,0.65)),do(1000)*mean(rbinom(25,1,0.65)),do(1000)*mean(rbinom(100,1,0.65))),samp=rep(c(10,25,100),c(1000,1000,1000)))"

@@ -361,6 +361,25 @@ The previous hypotheses we've seen are called **one-sided hypothesis tests** bec
 
 ## Two-sided hypothesis test
 
+It is important to distinguish between a *two-sided* hypothesis test and a *one-sided* test. In a two-sided test, we are concerned with whether or not the population parameter could take a particular value. For parameter $\theta$, a set of two-sided hypotheses looks like:
+
+$$
+H_0: \theta=\theta_0 \hspace{0.75cm} H_1: \theta\neq \theta_0
+$$
+
+In a one-sided test, we are concerned with whether a parameter exceeds or does not exceed a specific value. A set of one-sided hypotheses looks like:
+$$
+H_0: \theta = \theta_0 \hspace{0.75cm} H_1:\theta>\theta_0
+$$
+or
+$$
+H_0: \theta = \theta_0 \hspace{0.75cm} H_1:\theta<\theta_0
+$$
+
+In some texts, one-sided null hypotheses include an inequality ($\geq$ or $\leq$). We have demonstrated one-sided tests and in the next example we will use a two-sided test.
+
+### Example CPR 
+
 Cardiopulmonary resuscitation (CPR) is a procedure used on individuals suffering a heart attack when other emergency resources are unavailable. This procedure is helpful in providing some blood circulation to keep a person alive, but CPR chest compressions can also cause internal injuries. Internal bleeding and other injuries that can result from CPR complicate additional treatment efforts. For instance, blood thinners may be used to help release a clot that is causing the heart attack once a patient arrives in the hospital. However, blood thinners negatively affect internal injuries.
 
 Here we consider an experiment with patients who underwent CPR for a heart attack and were subsequently admitted to a hospital.^["Efficacy and safety of thrombolytic therapy after initially unsuccessful cardiopulmonary resuscitation: a prospective clinical trial." The Lancet, 2001.] Each patient was randomly assigned to either receive a blood thinner (treatment group) or not receive a blood thinner (control group). The outcome variable of interest was whether the patient survived for at least 24 hours.
@@ -493,7 +512,7 @@ Using the p-value from the analysis, determine whether the data provide statisti
 
 
 
-### File Creation Information 
+## File Creation Information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

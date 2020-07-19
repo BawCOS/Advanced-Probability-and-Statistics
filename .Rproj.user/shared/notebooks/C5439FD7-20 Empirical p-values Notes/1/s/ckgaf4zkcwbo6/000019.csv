@@ -1,0 +1,4 @@
+"0","gf_dist(""binom"",size=120,prob=.5,xlim=c(50,115)) %>%"
+"0","  gf_vline(xintercept = c(42,78),color=""red"") %>%"
+"0","  gf_labs(title=""Binomial pmf"",subtitle=""Probability of success is 0.5"",y=""Probability"")"
+"2","geom_vline(): Ignoring `mapping` because `xintercept` was provided."

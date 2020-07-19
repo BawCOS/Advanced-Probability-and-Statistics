@@ -1,0 +1,2 @@
+"0","set.seed(2003)"
+"0","results<-do(10000)*mean(sample(6,5,replace=T))"

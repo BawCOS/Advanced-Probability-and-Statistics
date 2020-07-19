@@ -1,0 +1,6 @@
+"0","gf_dist(""chisq"",df=1,col=1) %>%"
+"0","   gf_dist(""chisq"",df=5,col=2) %>%"
+"0","   gf_dist(""chisq"",df=10,col=3) %>%"
+"0","   gf_dist(""chisq"",df=50,col=4) %>%"
+"0","   gf_lims(y=c(0,.25)) %>%"
+"0","   gf_labs(y=""f(x)"")"

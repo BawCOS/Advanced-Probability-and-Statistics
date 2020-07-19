@@ -1,0 +1,142 @@
+---
+title: "Lesson 23 Applications"
+author: "Lt Col Ken Horton"
+date: "October 10, 2019"
+header-includes: 
+  - \usepackage{amsmath,multirow}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(out.width = "75%")
+```
+
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Suppose we roll a fair six-sided die and let $X$ be the resulting number. The distribution of $X$ is discrete uniform. (Each of the six discrete outcomes is equally likely.) 
+
+a) Suppose we roll the fair die 5 times and record the value of $\bar{X}$, the *mean* of the resulting rolls. Under the central limit theorem, what should be the distribution of $\bar{X}$? 
+
+The mean of $X$ is 3.5 and the variance of $X$ is 2.9167. So,
+$$
+\bar{X}\overset{approx}{\sim}\textsf{Norm}(3.5,0.764)
+$$
+
+b) Simulate this process in `R`. Plot the resulting empirical distribution of $\bar{X}$ and report the mean and standard deviation of $\bar{X}$. Was it what you expected? 
+
+(HINT: You can simulate a die roll using the `sample` function. Be careful and make sure you use it properly.) 
+
+```{r lesson23a}
+set.seed(2003)
+sim5<-replicate(10000,mean(sample(6,5,replace=T)))
+histogram(sim5,xlim=c(0.8,6.2))
+mean(sim5)
+sd(sim5)
+```
+
+It appears to be roughly normally distributed with the mean and standard deviation we expected. 
+
+c) Repeat parts a) and b) for $n=20$ and $n=50$. Describe what you notice. Make sure all three histograms are plotted on the same $x$-axis scale. 
+
+When $n=20$:
+$$
+\bar{X}\overset{approx}{\sim}\textsf{Norm}(3.5,0.382)
+$$
+
+```{r lesson23b}
+set.seed(2003)
+sim20<-replicate(10000,mean(sample(6,20,replace=T)))
+histogram(sim20,xlim=c(0.8,6.2))
+mean(sim20)
+sd(sim20)
+```
+
+
+When $n=50$:
+$$
+\bar{X}\overset{approx}{\sim}\textsf{Norm}(3.5,0.242)
+$$
+
+```{r lesson23c}
+set.seed(2003)
+sim50<-replicate(10000,mean(sample(6,50,replace=T)))
+histogram(sim50,xlim=c(0.8,6.2))
+mean(sim50)
+sd(sim50)
+```
+
+All results were as expected. As $n$ increased, the variance of the sample mean decreased. 
+
+&nbsp;
+
+\indent 2. Consider Example 23.1 from the narrative. For the moment, assume the population mean ($\mu$) is 67 inches. 
+
+a) What is the distribution of ${\bar{X}-\mu\over S/\sqrt{n}}$ (the $t$-statistic)? 
+$$
+{\bar{X}-\mu\over S/\sqrt{n}}={\bar{X}-67\over S/\sqrt{n}}\sim \textsf{t}(n-1)
+$$
+
+b) You have collected a random sample of 50 student heights. The sample mean turned out to be $\bar{x}=68.7$ and the sample standard deviation was $s=5.3$. Compute the value of the $t$-statistic for this specific sample. 
+$$
+t={\bar{x}-67\over s/\sqrt{n}}={68.7-67\over 5.3/\sqrt{50}}=2.268
+$$
+
+c) We assumed the population mean height is 67 inches; however, simply by chance, our sample mean height was 68.7 inches, which is inconsistent with the population mean. In fact, it is unlikely that we would obtain a sample mean of exactly 67 inches even if the true mean height is 67 inches. What is the probability of obtaining the sample described in part (b)? Specifically, what is the probability we obtained the $t$-statistic in part (b), or further away from 0? 
+$$
+\Prob\left({\bar{X}-\mu\over S/\sqrt{n}}\geq 2.268\right)+\Prob\left({\bar{X}-\mu\over S/\sqrt{n}}\leq -2.268\right)
+$$
+
+From part (a), I know that ${\bar{X}-67\over S/\sqrt{n}}\sim \textsf{t}(n-1)$, so, I can use `pt()` in `R`:
+```{r lesson23d}
+tstat<-(68.7-67)/(5.3/sqrt(50))
+1-pt(tstat,49)+pt(-tstat,49)
+```
+
+The probability of obtaining this sample, or something more extreme, is 2.78%. 
+(d) Based on your answer of part (c), could 67 inches be a feasible value for the population mean student height? 
+
+There's only a 2.78% chance of obtaining this sample (or more extreme). It seems like 67 inches is not very feasible.  
+
+&nbsp;
+
+\indent 3. Exploration of the chi-squared and $t$ distributions. 
+
+a) In `R`, plot the pdf of a random variable with the chi-squared distribution with 1 degree of freedom. On the same plot, include the pdfs with degrees of freedom of 5, 10 and 50. Describe how the behavior of the pdf changes with increasing degrees of freedom. 
+
+```{r lesson23e}
+curve(dchisq(x,df=1),from=0,to=100,col=1,ylab="f(x)")
+curve(dchisq(x,df=5),from=0,to=100,add=T,col=2)
+curve(dchisq(x,df=10),from=0,to=100,add=T,col=3)
+curve(dchisq(x,df=50),from=0,to=100,add=T,col=4)
+legend("topright",c("df=1","df=5","df=10","df=50"),lty=1,col=1:4)
+```
+
+As degrees of freedom increases, the pdf shifts to the right. In fact, if random variable $X$ has a chi-squared distribution with $n$ degrees of freedom, then $\E(X)=n$ and $\Var(X)=2n$. 
+
+b) Repeat part (a) with the $t$ distribution. Add the pdf of a standard normal random variable as well. What do you notice? 
+```{r lesson23f}
+curve(dt(x,df=1),from=-5,to=5,col=1,ylab="f(x)",ylim=c(0,0.5))
+curve(dt(x,df=5),from=-5,to=5,add=T,col=2)
+curve(dt(x,df=10),from=-5,to=5,add=T,col=3)
+curve(dt(x,df=50),from=-5,to=5,add=T,col=4)
+curve(dnorm(x),from=-5,to=5,add=T,col=1,lty=2)
+legend("topright",c("df=1","df=5","df=10","df=50","std norm"),lty=c(1,1,1,1,2),col=c(1:4,1))
+```
+
+As degrees of freedom increases, the $t$-distribution approaches the standard normal distribution. 
+
+
+&nbsp;
+
+\indent 4. In this lesson, we have used the expression *degrees of freedom* a lot. What does this expression mean? When we have sample of size $n$, why does the resulting $t$-distribution have only $n-1$ degrees of freedom? Give a short concise answer (about one paragraph). You will likely have to do a little research on your own. 
+
+Answers will vary. One possible explanation is that the degrees of freedom represents the number of indpendent pieces of information. For example, you'll notice that in order to get an unbiased estimate of $\sigma^2$, we have to divide by $n-1$. This is because in order to estimate $\sigma^2$, we need to first estimate $\mu$, which is done by obtaining the sample mean. Once we know the sample mean, we only have $n-1$ pieces of independent information. For example, suppose we have a sample of size 10, and we know the sample mean. Once we are given the first 9 observations, we know exactly what the 10th observation must be. 

@@ -1,0 +1,3 @@
+"0","gf_dist(""binom"",size=1,prob=.65,plot_size=1) %>%"
+"0","  gf_theme(theme_classic()) %>%"
+"0","  gf_theme(scale_x_continuous(breaks = c(0,1)))"

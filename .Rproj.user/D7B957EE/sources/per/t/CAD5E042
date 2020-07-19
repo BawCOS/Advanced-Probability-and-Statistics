@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1595027099852.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3027055720",
+    "id" : "CAD5E042",
+    "lastKnownWriteTime" : 1595105411,
+    "last_content_update" : 1595105411733,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/21 Central Limit Theorem Application Solutions.Rmd",
+    "project_path" : "21 Central Limit Theorem Application Solutions.Rmd",
+    "properties" : {
+        "cursorPosition" : "289,0",
+        "last_setup_crc32" : "",
+        "scrollLine" : "246"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

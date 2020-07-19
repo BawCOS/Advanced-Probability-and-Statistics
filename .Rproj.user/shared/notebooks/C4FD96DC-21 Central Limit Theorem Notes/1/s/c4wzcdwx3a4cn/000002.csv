@@ -1,0 +1,2 @@
+"0","set.seed(5501)"
+"0","results<-do(10000)*mean(rbinom(25,1,0.65))"

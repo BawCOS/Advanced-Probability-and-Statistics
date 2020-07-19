@@ -1,0 +1,4 @@
+"0","results %>%"
+"0","  gf_dhistogram(~mean) %>%"
+"0","  gf_labs(x=""Test Statistic"",title=""Sampling distribution of the sample proportion"") %>%"
+"0","  gf_dist(""norm"",color=""red"",params=list(mean=.5,sd=sqrt(1/480)))"

@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1595116405443.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "817301444",
+    "id" : "7712EF34",
+    "lastKnownWriteTime" : 1588883585,
+    "last_content_update" : 1588883585,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/data/stent_study.csv",
+    "project_path" : "data/stent_study.csv",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "text"
+}

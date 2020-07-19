@@ -5,17 +5,17 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3011791307",
+    "hash" : "3628271727",
     "id" : "597AC298",
-    "lastKnownWriteTime" : 1594841470,
-    "last_content_update" : 1594841470077,
-    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/20 Empirical p-values Notes.Rmd",
-    "project_path" : "20 Empirical p-values Notes.Rmd",
+    "lastKnownWriteTime" : 1595117072,
+    "last_content_update" : 1595117072257,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/22 Confidence Intervals Notes.Rmd",
+    "project_path" : "22 Confidence Intervals Notes.Rmd",
     "properties" : {
-        "cursorPosition" : "333,228",
+        "cursorPosition" : "200,79",
         "ignored_words" : "trmt,csv,ccc\n",
-        "last_setup_crc32" : "",
-        "scrollLine" : "0"
+        "last_setup_crc32" : "CDB0CD6Db02f585",
+        "scrollLine" : "179"
     },
     "read_only" : false,
     "read_only_alternatives" : [

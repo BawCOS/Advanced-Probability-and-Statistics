@@ -1,5 +1,5 @@
 ---
-title: "Hypothesis Testing Applications"
+title: "Empirical p-values Applications"
 author: "YOUR NAME"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:

@@ -1,0 +1,2 @@
+"0","temperature %>%"
+"0","  summarise(mean=mean(temperature),sd=sd(temperature),test_stat=(mean-98.6)/(sd/sqrt(130)))"

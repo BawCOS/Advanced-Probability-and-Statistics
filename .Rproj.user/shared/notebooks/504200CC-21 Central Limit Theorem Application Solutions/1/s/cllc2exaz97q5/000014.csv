@@ -1,0 +1,7 @@
+"0","gf_dist(""t"",df=1,col=""black"") %>%"
+"0","   gf_dist(""t"",df=5,col=""red"") %>%"
+"0","   gf_dist(""t"",df=10,col=""green"") %>%"
+"0","   gf_dist(""t"",df=50,col=""blue"") %>%"
+"0","   gf_dist(""norm"",lty=2,lwd=1.5) %>%"
+"0","   gf_lims(x=c(-4,4)) %>%"
+"0","   gf_labs(y=""f(x)"")"
