@@ -58,7 +58,7 @@ d. Calculate a p-value.
 e. Draw a conclusion.
 
 
-&nbsp;
+\pagebreak
 
 \indent 3. Exploration of the chi-squared and $t$ distributions. 
 

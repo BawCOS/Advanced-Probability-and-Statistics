@@ -34,11 +34,11 @@ library(tidyverse)
 
 ## Objectives
 
-1) Explain the central limit theorem and describe, in general, how it can be used to make inferences. 
+1) Explain the central limit theorem and when you can use it for inference. 
 
 2) Conduct hypotheses test of a single mean and proportion using the CLT and `R`. 
 
-3) Understand the chi-squared and $t$ distributions and describe their parameters. 
+3) Explain how the chi-squared and $t$ distributions relate to the normal distribution, where we use them, and describe the impact on the shape of the distribution when the parameters are changed. 
 
 
 ## Central Limit Theorem
@@ -299,7 +299,7 @@ Here is the test of a single proportion using `R`.
 prop.test(42,120)
 ```
 
-The p-value is small, reported as $0.0014$. We will study the confidence interval soon so don't worry about that part of the output. The alternative hypothesis is listed.
+The p-value is small, reported as $0.0014$. We will study the confidence interval soon so don't worry about that part of the output. The alternative hypothesis is also listed.
 
 >**Exercise**:  
 How do you conduct a one-sided test? What if the null value where 0.45?^[We will only exact the p-value in this exercise]
@@ -369,11 +369,20 @@ t_test(~temperature,data=temperature,mu=98.6,alternative="less")
 Based our data, if the true mean body temperature is 98.6, then the probability of observing a mean of 98.25 or less is 0.00000012. This is too unlikely so we reject the hypothesis that the average body temperature is 98.6.
 
 
-#### Summary 
+## Summary and rules of thumb
 
-When estimating the mean and standard error from a sample of numerical data, the $t$ distribution is a little more accurate than the normal model. This is true for both small and large samples, though the benefits for larger samples are limited.
+We have covered a great deal in this lesson. At its core, the central limit theorem is a statement about the distribution of a sum of independent identically distributed random variables. This sum is approximately normal.
 
-Use the $t$ distribution for inference of the sample mean when observations are independent and nearly normal. You may relax the nearly normal condition as the sample size increases. For example, the data distribution may be moderately skewed when the sample size is at least 30, in a sense you are using the CLT and the fact that a $t$ is close to a normal.
+### Numerical data
+
+1. The central limit works regardless of the distribution. However, if the parent population is highly skewed, then more data is needed. The CLT works well once the sample sizes exceed 30 to 40. If the data is fairly symmetric, then less data is needed.
+
+2. When estimating the mean and standard error from a sample of numerical data, the $t$ distribution is a little more accurate than the normal model. But there is an assumption that the parent population is normally distributed. This distribution works well even for small samples as long as the data is close to symmetrical and unimodal.
+
+For medium samples, at leas 15, the $t$ still works as long as the data is roughly symmetric.
+
+For large data sets 30-40 or more, the $t$ or even the normal can be used.
+
 
 Before applying the $t$ distribution for inference about a single mean, we check assumptions.
 
@@ -390,7 +399,11 @@ gf_qq(~temperature,data=temperature) %>%
   gf_qqline(~temperature,data=temperature)
 ```
 
-We can also check the impacts of the assumptions by using other methods for the hypothesis test. If all methods lead to the same result, we can be confident in the results.
+We can also check the impacts of the assumptions by using other methods for the hypothesis test. If all methods lead to the same result, we can be confident in the results. Another way to get for robustness is to simulate data from different distributions and evaluate the perform of the tests.
+
+### Binary data  
+
+The distribution of a binomial random variable or simple scalar transformations of it, such as the proportions of success found by dividing by the sample size, are approximately normal by the CLT. Since binomial random variables are bounded by zero and the number of trails, we have to make sure our probability of success is not close to zero or one, that is the number of successes is not close to 0 or $n$. A general rule of thumb is that the number of success and failures be at least 10.
 
 ## File Creation Information 
 

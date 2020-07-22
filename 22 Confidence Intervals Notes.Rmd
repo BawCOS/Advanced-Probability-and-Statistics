@@ -34,16 +34,12 @@ library(tidyverse)
 
 ## Objectives
 
-# Objectives
+1) Using asymptotic method assuming a normal, obtain and interpret a confidence interval for an unknown parameter, based on a random sample. 
 
-1) Define the term confidence interval. 
-
-2) Using asymptotic methods, obtain and interpret a confidence interval for an unknown parameter, based on a random sample. 
-
-3) Describe the relationships between confidence intervals, confidence level, and sample size. 
+2) Describe the relationships between confidence intervals, confidence level, and sample size. 
 
 
-## confidence interval
+## Confidence interval
 
 A point estimate provides a single plausible value for a parameter. However, a point estimate is rarely perfect; usually there is some error in the estimate. In addition to supplying a point estimate of a parameter, a next logical step would be to provide a plausible **range of values** for the parameter.
 
@@ -68,11 +64,11 @@ Generally, what you should know about building confidence intervals is laid out 
 
 2. Identify a good estimate for that parameter (sample mean, $\bar{X}$). 
 
-3. Determine the distribution of your estimate or a function of your estimate. This tells us where our estimate *should* be if we knew the value of our parameter. (According to the central limit theorem, ${\bar{X}-\mu\over\sigma/\sqrt{n}}\sim \textsf{Norm}(0,1)$ and ${\bar{X}-\mu\over S/\sqrt{n}}\sim \textsf{t}(n-1)$). 
+3. Determine the distribution of your estimate or a function of your estimate. This tells us where our estimate *should* be if we knew the value of our parameter. (According to the central limit theorem, $\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim \textsf{Norm}(0,1)$ and $\frac{\bar{X}-\mu}{S/\sqrt{n}}\sim \textsf{t}(n-1)$). 
 
 4. Use this distribution to obtain a range of feasible values (confidence interval) for the parameter. (For $\mu$, we can solve for $\mu$ to find a reasonable range). 
 
-> Constructing a 95\% confidence interval for the mean
+> Constructing a 95\% confidence interval for the mean  
 When the sampling distribution of a point estimate can reasonably be modeled as normal, the point estimate we observe will be within 1.96 standard errors of the true value of interest about 95\% of the time. Thus, a **95\% confidence interval** for such a point estimate can be constructed:  
 
 $$ \hat{\theta} \pm\ 1.96 \times SE_{\hat{\theta}}$$
@@ -90,7 +86,7 @@ In mathematical terms, the derivation of this confidence is as follows:
 
 Let $X_1,X_2,...,X_n$ be an iid sequence of random variables, each with mean $\mu$ and standard deviation $\sigma$. The central limit theorem tells us that
 $$
-{\bar{X}-\mu\over \sigma/\sqrt{n}}\overset{approx}{\sim}\textsf{Norm}(0,1)
+\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\overset{approx}{\sim}\textsf{Norm}(0,1)
 $$
 
 Let $0\leq \alpha \leq 1$ with the confidence level being $1-\alpha$, yes $\alpha$ is the same as the significance level in hypothesis testing.. Then,
@@ -133,9 +129,14 @@ In most applications, the most common value of $\alpha$ is 0.05. In that case, t
 qnorm(1-0.05/2)
 ```
 
+```{r}
+qnorm(.975)
+```
+
+
 #### Unknown Variance
 
-When inferring about the population mean, we usually will have to estimate the underlying standard deviation as well. This introduces an extra level of uncertainty. We found that while ${\bar{X}-\mu\over\sigma/\sqrt{n}}$ has an approximate normal distribution, ${\bar{X}-\mu\over S/\sqrt{n}}$ follows the $t$-distribution with $n-1$ degrees of freedom. 
+When inferring about the population mean, we usually will have to estimate the underlying standard deviation as well. This introduces an extra level of uncertainty. We found that while ${\bar{X}-\mu\over\sigma/\sqrt{n}}$ has an approximate normal distribution, ${\bar{X}-\mu\over S/\sqrt{n}}$ follows the $t$-distribution with $n-1$ degrees of freedom. This adds the additional assumption that the parent population, the distribution of $X$, must be normal. 
 
 Thus, when $\sigma$ is unknown, a $(1-\alpha)*100\%$ confidence interval for the mean is given by: 
 $$
@@ -143,6 +144,10 @@ $$
 $$
 
 Similar to the case above, $t_{\alpha/2,n-1}$ can be found using the `qt()` function in `R`. 
+
+In practice, if $X$ is close to symmetrical and unimodal, we can relax the assumption of normality. Always look at your sample data. Outliers or skewness can be causes of concern. You can always run other methods that don't require the assumption of normality, and compare results.
+
+For large sample sizes, the choice of using the normal distribution or the $t$ distribution is irrelevant since they are close to each other. The $t$ distribution requires you to use the degrees of freedom so be careful.
 
 
 ### Body Temperature Example  
@@ -160,12 +165,13 @@ We need the mean, standard deviation, and sample size from this data. The follow
 temperature %>%
   favstats(~temperature,data=.) %>%
   select(mean,sd,n) %>%
-  summarise(lower_bound=mean-qt(0.975,129)*sd/sqrt(n),upper_bound=mean+qt(0.975,129)*sd/sqrt(n))
+  summarise(lower_bound=mean-qt(0.975,129)*sd/sqrt(n),
+            upper_bound=mean+qt(0.975,129)*sd/sqrt(n))
 ```
 
 The 95% confidence interval for $\mu$ is $(98.12,98.38)$. I am 95% *confident* that $\mu$, the average human body temperature, is in this interval. Also, we could say that 95% of similarly constructed intervals will contain the true mean, $\mu$. 
 
-Remember that is the hypothesis test, the null hypothesis was $H_0$:] The average body temperature is 98.6 $\mu = 98.6$. This value is not in the interval, so we could reject the null hypothesis with this confidence interval.
+Remember that when we used this data in a the hypothesis test, the null hypothesis was $H_0$:] The average body temperature is 98.6 $\mu = 98.6$. This null hypothesized value is not in the interval, so we could reject the null hypothesis with this confidence interval. There is a link between hypothesis testing and confidence intervals.
 
 We could also use ` `R` to find the confidence interval.
 
@@ -179,11 +185,13 @@ Or if you just want the interval:
 confint(t_test(~temperature,data=temperature))
 ```
 
+In reviewing the hypothesis test for a single mean, you can see how this confidence interval was formed by *inverting* the test statistic.
+
 ### One-sided Intervals
 
 If you remember the hypothesis test for temperature in the central limit theorem lesson, you may be crying foul. That was a one-sided hypothesis test and we just conducted a two-sided test. So far, we have discussed only "two-sided" intervals. These intervals have an upper and lower bound. Typically, $\alpha$ is apportioned equally between the two tails. (Thus, we look for $Z_{\alpha/2}$.) 
 
-In "one-sided" intervals, we only bound the interval on one side. We construct one-sided intervals when we are concerned with whether a parameter exceeds some threshold. Building a one-sided interval is similar to building two-sided intervals, except rather than dividing $\alpha$ into two, you simply apportion all of $\alpha$ to the relevant side. The difficult part is to determine if I need an upper bound or lower bound.
+In "one-sided" intervals, we only bound the interval on one side. We construct one-sided intervals when we are concerned with whether a parameter exceeds or stays below some threshold. Building a one-sided interval is similar to building two-sided intervals, except rather than dividing $\alpha$ into two, you simply apportion all of $\alpha$ to the relevant side. The difficult part is to determine if I need an upper bound or lower bound.
 
 For the body temperature study, the alternative hypothesis was that the mean was less than 98.6. In our confidence interval, we want to find the largest value the mean could be and thus we want the upper bound. Repeating the analysis with this in mind.
 
@@ -201,129 +209,198 @@ confint(t_test(~temperature,data=temperature,alternative="less"))
 Notice that upper bound is smaller since all 0.05 is going into the right tail.
 
 
-## Confidence intervals in practice
-In Section~\ref{basicExampleOfStentsAndStrokes} we encountered an experiment that examined whether implanting a stent in the brain of a patient at risk for a stroke helps reduce the risk of a stroke. The results from the first 30 days of this study, which included 451 patients, are summarized in Table~\ref{stentStudyResultsCIsection}. These results are surprising! The point estimate suggests that patients who received stents may have a \emph{higher} risk of stroke: $p_{trmt} - p_{ctrl} = 0.090$.
+## Confidence intervals for two proportions  
 
-\begin{table}[h]
-\centering
-\begin{tabular}{l cc c}
-  \hline
-	& 	stroke 	& no event & Total \\
-  \hline
-treatment 	& 33		& 191	& 224 \\
-control 	& 13		& 214	& 227 \\
-  \hline
-Total		& 46		& 405	& 451 \\
-  \hline
-\end{tabular}
-\caption{Descriptive statistics for 30-day results for the stent study.}
-\label{stentStudyResultsCIsection}
-\end{table}
+In hypothesis testing we had several examples of two proportions. We tested this with a permutation test. In our notes or homework, we have not presented the hypothesis test for two proportions using the asympotic distribution, the central limit theorem. So in this section we will present three methods to answering our research question, a permutation test, a hypothesis test using the normal distribution, and a confidence interval.
 
-\textA{\pagebreak}
+Earlier this semester, in fact in the first lesson, we encountered an experiment that examined whether implanting a stent in the brain of a patient at risk for a stroke helps reduce the risk of a stroke. The results from the first 30 days of this study, which included 451 patients, are summarized in the `R` code below. These results are surprising! The point estimate suggests that patients who received stents may have a **higher** risk of stroke: $p_{trmt} - p_{control} = 0.090$.
 
-\begin{example}{Consider the stent study and results. The conditions necessary to ensure the point estimate $p_{trmt} - p_{ctrl} = 0.090$ is nearly normal have been verified for you, and the estimate's standard error is $SE = 0.028$. Construct a 95\% confidence interval for the change in 30-day stroke rates from usage of the stent.}
-\label{stentStroke95CI_CIsection}
-The conditions for applying the normal model have already been verified, so we can proceed to the construction of the confidence interval:
-\begin{align*}
-\text{point estimate}\ \pm\ 1.96 \times SE \quad \rightarrow \quad
-0.090\ \pm\ 1.96 \times 0.028 \quad \rightarrow \quad
-(0.035, 0.145)
-\end{align*}
-We are 95\% confident that implanting a stent in a stroke patient's brain increased the risk of stroke within 30 days by a rate of 0.035 to 0.145. This confidence interval can also be used in a way analogous to a hypothesis test: since the interval does not contain 0, it means the data provide statistically significant evidence that the stent used in the study \emph{increases} the risk of stroke, contrary to what researchers had expected before this study was published!
-\end{example}
+```{r message=FALSE}
+stent <- read_csv("data/stent_study.csv")
+```
 
-As with hypothesis tests, confidence intervals are imperfect. About 1-in-20 properly constructed 95\% confidence intervals will fail to capture the parameter of interest. Figure~\ref{95PercentConfidenceInterval} shows 25 confidence intervals for a proportion that were constructed from simulations where the true proportion was $p = 0.3$. However, 1 of these 25 confidence intervals happened not to include the true value.
+```{r}
+tally(~group+outcome30,data=stent,margins = TRUE)
+```
 
-\begin{figure}[hht]
-   \centering
-   \includegraphics[width=0.9\textwidth]{02/figures/95PercentConfidenceInterval/95PercentConfidenceInterval}
-   \caption{Twenty-five samples of size $n=300$ were simulated when $p = 0.30$. For each sample, a confidence interval was created to try to capture the true proportion $p$. However,~1~of these~25 intervals did not capture $p = 0.30$.}
-   \label{95PercentConfidenceInterval}
-\end{figure}
+```{r}
+tally(outcome30~group,data=stent,margins = TRUE,format="proportion")
+```
 
-\begin{exercise}
-In Figure~\ref{95PercentConfidenceInterval}, one interval does not contain the true proportion, $p = 0.3$. Does this imply that there was a problem with the simulations run?\footnote{No. Just as some observations occur more than 1.96 standard deviations from the mean, some point estimates will be more than 1.96 standard errors from the parameter. A confidence interval only provides a plausible range of values for a parameter. While we might say other values are implausible based on the data, this does not mean they are impossible.}
-\end{exercise}
+```{r}
+obs<-diffprop(outcome30~group,data=stent)
+obs
+```
+
+Notice that because uses the variables by names in alphabetic order we have $p_{control} - p_{trmt} = - 0.090$. This is not a problem.
+
+### Permutation test for two proportions  
+
+We start with the null hypothesis which is two-sided since we don't know if the treatment is harmful or beneficial.
+
+\begin{itemize}
+\setlength{\itemsep}{0mm}
+\item[$H_0$:] The treatment and outcome are independent. $p_{control} - p_{trmt} = 0$ or $p_{control} = p_{trmt}$.
+\item[$H_A$:] The treatment and outcome are dependent $p_{control} \neq p_{trmt}$.
+\end{itemize}
+
+We will use $\alpha = 0.05$.
+
+The test statistic is the difference in proportions of patients with stroke in the control and treatment groups.
+
+```{r}
+obs<-diffprop(outcome30~group,data=stent)
+obs
+```
+
+To calculate the p-value, we will shuffle the treatment and control labels because under the null hypothesis, there is no difference.
+
+```{r}
+set.seed(2027)
+results <- do(10000)*diffprop(outcome30~shuffle(group),data=stent)
+```
+
+We now create a visual summary of the test statistic under the null hypothesis, the sampling distribution.
+
+```{r warning=FALSE}
+results %>%
+  gf_dhistogram(~diffprop) %>%
+  gf_vline(xintercept =obs ) 
+```
+
+```{r}
+2*prop1(~(diffprop<=obs),data=results)
+```
+
+Based on the data, if there were no difference between the treatment and control groups, the probability of the observed differences in proportion of strokes being - 0.09 or more extreme is 0.0026. This is too unlikely, so we reject that there is no difference between control and stroke groups.
+
+### Hypothesis test for two proportions using normal model
+
+We must check two conditions before applying the normal model to a generic test of $\hat{p}_1 - \hat{p}_2$. First, the sampling distribution for each sample proportion must be nearly normal, and secondly, the samples must be independent. Under these two conditions, the sampling distribution of $\hat{p}_1 - \hat{p}_2$ may be well approximated using the normal model.
+
+The hypotheses are the same as above.
+
+#### Conditions for the sampling distribution of $\hat{p}_1 - \hat{p}_2$ to be normal 
+
+The difference $\hat{p}_1 - \hat{p}_2$ tends to follow a normal model when
+\begin{itemize}
+\setlength{\itemsep}{0mm}
+\item each proportion separately follows a normal model, and
+\item the two samples are independent of each other.
+\end{itemize}
+
+#### Standard error 
+
+The standard error of the difference in sample proportions is
+$$ SE_{\hat{p}_1 - \hat{p}_2}
+	= \sqrt{SE_{\hat{p}_1}^2 + SE_{\hat{p}_2}^2}$$
+$$	= \sqrt{\frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}}$$
+where $p_1$ and $p_2$ represent the population proportions, and $n_1$ and $n_2$ represent the sample sizes.
+
+For our research question the conditions must be verified. Because each group is a simple random sample from less than 10\% of the population, the observations are independent, both within the samples and between the samples. The success-failure condition also holds for each sample, at least 10 in each cell is the easiest way to think about it. Because all conditions are met, the normal model can be used for the point estimate of the difference in proportion of strokes
 
 
-\subsection{Changing the confidence level}
-\label{changingTheConfidenceLevelSection}
+$$p_{control} - p_{trmt} = 0.05726872 - 0.14732143 = - 0.090$$
 
-\index{confidence interval!confidence level|(}
+The calculation of the standard error must be done carefully. Remember in hypothesis testing, we assume the null hypothesis is true; this means the proportions of strokes must be the same. 
+
+$$SE = \sqrt{\frac{p(1-p)}{n_{control}} + \frac{p(1-p)}{n_{trmt}}}$$
+We don't know the exposure rate, $p$, but we can obtain a good estimate of it by **pooling** the results of both samples:
+$$\hat{p} = \frac{\text{\# of ``successes''}}{\text{\# of cases}} = \frac{13 + 33}{451} = 0.102$$
+This is called the *pooled estimate* of the sample proportion, and we use it to compute the standard error when the null hypothesis is that $p_{control} = p_{trmt}$. 
+
+$$SE \approx \sqrt{\frac{\hat{p}(1-\hat{p})}{n_{control}} + \frac{\hat{p}(1-\hat{p})}{n_{trmt}}}$$
+
+m
+$$SE \approx \sqrt{\frac{0.102(1-0.102)}{227} + \frac{0.102(1-0.102)}{224}} = 0.0285$$
+
+The test statistic is 
+$$Z = \frac{\text{point estimate} - \text{null value}}{SE} = \frac{-.09 - 0}{0.0285} = - 3.16  $$  
+
+The p-value is 
+
+```{r}
+2*pnorm(-3.16)
+```
+
+Which is close to what we got with permutation test. This should not surprise us as the sampling distribution under the permutation test looked normal. We plot the empirical sampling distribution from the permutation test again with a normal density curve overlayed.
+
+```{r}
+results %>%
+  gf_dhistogram(~diffprop) %>%
+  gf_vline(xintercept =obs ) %>%
+  gf_dist("norm",sd=0.0285,color="red")
+```
+
+### Confidence interval for two proportions using normal model
+
+The conditions for applying the normal model have already been verified, so we can proceed to the construction of the confidence interval. Remember the form of the confidence interval is
+
+$$\text{point estimate} \ \pm\ z^{\star}SE$$ 
+
+Our point estimate is -0.09. The standard error is different since we can't assume the proportion of strokes are equal. We will estimate the standard error from 
+
+$$SE	= \sqrt{\frac{p_{control}(1-p_{control})}{n_{control}} + \frac{p_{trmt}(1-p_{trmt})}{n_{trmt}}}$$
+
+$$SE \approx \sqrt{\frac{0.057(1-0.057)}{227} + \frac{0.15(1-0.15)}{224}} = 0.0284$$
+
+It is close to the pooled value because of the nearly equal sample sizes.
+
+The critical value is found from the normal quantile.
+
+```{r}
+qnorm(.975)
+```
+
+The 95% confidence interval is 
+
+$$ - 0.09 \ \pm\ 1.96 \times  0.0284 \quad \to \quad (-0.146,- 0.034)$$
+We are 95\% confident that the difference in proportions of strokes in the control and treatment groups is between -0.146 and -0.034. Since this does not include zero, we are confident they are different. This supports the hypothesis tests.
+
+Of course, `R` has a built in function to calculate the hypothesis test and confidence interval for two proportions.
+
+```{r}
+prop_test(outcome30~group,data=stent)
+```
+
+The p-value is a little different from the one we calculated and closer to the permutation test, which is an exact test, because a correction factor was applied. Read online about this correction to learn more. We run the code below with the correction factor off and get the same p-value. The confidence interval is a little different because the function used no stroke as its event, but since zero is not in the interval, we get the same conclusion.
+
+```{r}
+prop_test(outcome30~group,data=stent,correct=FALSE)
+```
+
+Essentially, confidence intervals and hypothesis tests serve similar purposes, but answer slightly different questions. A confidence interval gives you a range of feasible values of a parameter given a particular sample. A hypothesis test tells you whether a specific value is feasible given a sample. Sometimes you can informally conduct a hypothesis test simply by building an interval and observing whether the hypothesized value is contained in the interval. The disadvantage to this approach is that it does not yield a specific $p$-value. The disadvantage of the hypothesis test is that it does not give a range of values for the test statistic.
+
+As with hypothesis tests, confidence intervals are imperfect. About 1-in-20 properly constructed 95\% confidence intervals will fail to capture the parameter of interest. This is similar idea to our Type 1 error. 
+
+
+## Changing the confidence level
 
 Suppose we want to consider confidence intervals where the confidence level is somewhat higher than 95\%: perhaps we would like a confidence level of 99\%. Think back to the analogy about trying to catch a fish: if we want to be more sure that we will catch the fish, we should use a wider net. To create a 99\% confidence level, we must also widen our 95\% interval. On the other hand, if we want an interval with lower confidence, such as 90\%, we could make our original 95\% interval slightly slimmer.
 
 The 95\% confidence interval structure provides guidance in how to make intervals with new confidence levels. Below is a general 95\% confidence interval for a point estimate that comes from a nearly normal distribution:
-\begin{eqnarray}
-\text{point estimate}\ \pm\ 1.96\times SE
-\end{eqnarray}
-There are three components to this interval: the point estimate, ``1.96'', and the standard error. The choice of $1.96\times SE$ was based on capturing 95\% of the data since the estimate is within 1.96 standard errors of the true value about 95\% of the time. The choice of 1.96 corresponds to a 95\% confidence level. 
 
-\begin{exercise} \label{leadInForMakingA99PercentCIExercise}
-If $X$ is a normally distributed random variable, how often will $X$ be within 2.58 standard deviations of the mean?\footnote{This is equivalent to asking how often the $Z$ score will be larger than -2.58 but less than 2.58. (For a picture, see Figure~\ref{choosingZForCI}.) To determine this probability, look up -2.58 and 2.58 in the normal probability table (0.0049 and 0.9951). Thus, there is a $0.9951-0.0049 \approx 0.99$ probability that the unobserved random variable $X$ will be within 2.58 standard deviations of the mean.}
-\end{exercise}
+$$\text{point estimate}\ \pm\ 1.96\times SE $$
 
-To create a 99\% confidence interval, change 1.96 in the 95\% confidence interval formula to be $2.58$. Guided Practice~\ref{leadInForMakingA99PercentCIExercise} highlights that 99\% of the time a normal random variable will be within 2.58 standard deviations of its mean. This approach -- using the Z scores in the normal model to compute confidence levels -- is appropriate when the point estimate is associated with a normal distribution and we can properly compute the standard error. Thus, the formula for a 99\% confidence interval is
-\begin{eqnarray}
-\text{point estimate}\ \pm\ 2.58\times SE
-\label{99PercCIForMean}
-\label{99PercCIForNormalPointEstimate}
-\end{eqnarray}
-%\Comment{I don't know where the equation number above gets referenced. Might drop the equation number.}
+There are three components to this interval: the point estimate, ``1.96'', and the standard error. The choice of $1.96\times SE$, which is also called **margin of error**, was based on capturing 95\% of the data since the estimate is within 1.96 standard errors of the true value about 95\% of the time. The choice of 1.96 corresponds to a 95\% confidence level. 
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{02/figures/choosingZForCI/choosingZForCI}
-\caption{The area between -$z^{\star}$ and $z^{\star}$ increases as $|z^{\star}|$ becomes larger. If the confidence level is 99\%, we choose $z^{\star}$ such that 99\% of the normal curve is between -$z^{\star}$ and $z^{\star}$, which corresponds to 0.5\% in the lower tail and 0.5\% in the upper tail: $z^{\star}=2.58$.}
-\label{choosingZForCI}
-\index{confidence interval!confidence level|)}
-\end{figure}
+>**Exercise**:
+If $X$ is a normally distributed random variable, how often will $X$ be within 2.58 standard deviations of the mean?^[This is equivalent to asking how often a standard normal variable will be larger than -2.58 but less than 2.58. To determine this probability, look up -2.58 and 2.58 in `R` using `pnorm()` (0.0049 and 0.9951). Thus, there is a $0.9951-0.0049 \approx 0.99$ probability that the unobserved random variable $X$ will be within 2.58 standard deviations of the mean.]
 
-The normal approximation is crucial to the precision of these confidence intervals. The next two chapters provides detailed discussions about when the normal model can safely be applied to a variety of situations. When the normal model is not a good fit, we will use alternative distributions that better characterize the sampling distribution.
+To create a 99\% confidence interval, change 1.96 in the 95\% confidence interval formula to be $2.58$. 
 
-\textA{\pagebreak}
+The normal approximation is crucial to the precision of these confidence intervals. We will learn a method called the **bootstrap** that will allow us to find confidence intervals without the assumption of normality.
 
-\begin{exercise} \label{find99CIForRun10AgeExercise}
-Create a 99\% confidence interval for the impact of the stent on the risk of stroke using the data from Example~\ref{stentStroke95CI_CIsection}. The point estimate is 0.090, and the standard error is $SE = 0.028$. It has been verified for you that the point estimate can reasonably be modeled by a normal distribution.\footnote{Since the necessary conditions for applying the normal model have already been checked for us, we can go straight to the construction of the confidence interval: $\text{point estimate}\ \pm\ 2.58 \times  SE \rightarrow (0.018, 0.162)$. We are 99\% confident that implanting a stent in the brain of a patient who is at risk of stroke increases the risk of stroke within 30 days by a rate of 0.018 to 0.162 (assuming the patients are representative of the population).}
-\end{exercise}
+## Interpreting confidence intervals
 
-\begin{termBox}{\tBoxTitle{Confidence interval for any confidence level}
-If the point estimate follows the normal model with standard error $SE$, then a confidence interval for the population parameter is
-\begin{eqnarray*}
-\text{point estimate}\ \pm\ z^{\star} \times SE
-\end{eqnarray*}
-where $z^{\star}$ corresponds to the confidence level selected.}
-\end{termBox}
+A careful eye might have observed the somewhat awkward language used to describe confidence intervals. 
 
-Figure~\ref{choosingZForCI} provides a picture of how to identify $z^{\star}$ based on a confidence level. We select $z^{\star}$ so that the area between -$z^{\star}$ and $z^{\star}$ in the normal model corresponds to the confidence level. 
-
-\begin{termBox}{\tBoxTitle{Margin of error}
-\label{marginOfErrorTermBox}In a confidence interval, $z^{\star}\times SE$ is called the \term{margin of error}.}
-\end{termBox}
-
-\textA{\pagebreak}
-
-\begin{exercise} \label{find90CIForRun10AgeExercise}
-In Example~\ref{stentStroke95CI_CIsection} we found that implanting a stent in the brain of a patient at risk for a stroke \emph{increased} the risk of a stroke. The study estimated a 9\% increase in the number of patients who had a stroke, and the standard error of this estimate was about $SE = 2.8\%$. Compute a 90\% confidence interval for the effect.\footnote{We must find $z^{\star}$ such that 90\% of the distribution falls between -$z^{\star}$ and $z^{\star}$ in the standard normal model, $N(\mu=0, \sigma=1)$. We can look up -$z^{\star}$ in the normal probability table by looking for a lower tail of 5\% (the other 5\% is in the upper tail), thus $z^{\star}=1.65$. The 90\% confidence interval can then be computed as $\text{point estimate}\ \pm\ 1.65\times SE \to (4.4\%, 13.6\%)$. (Note: the conditions for normality had earlier been confirmed for us.) That is, we are 90\% confident that implanting a stent in a stroke patient's brain increased the risk of stroke within 30 days by 4.4\% to 13.6\%.}
-\end{exercise}
-
-\subsection{Interpreting confidence intervals}
-\label{interpretingCIs}
-
-\index{confidence interval!interpretation|(}
-
-A careful eye might have observed the somewhat awkward language used to describe confidence intervals. Correct interpretation:
-\begin{quote}
+> Correct interpretation:  
 We are XX\% confident that the population parameter is between...
-\end{quote}
-\emph{Incorrect} language might try to describe the confidence interval as capturing the population parameter with a certain probability. This is one of the most common errors: while it might be useful to think of it as a probability, the confidence level only quantifies how plausible it is that the parameter is in the interval.
 
-Another especially important consideration of confidence intervals is that they \emph{only try to capture the population parameter}. Our intervals say nothing about the confidence of capturing individual observations, a proportion of the observations, or about capturing point estimates. Confidence intervals only attempt to capture population parameters.
+**Incorrect** language might try to describe the confidence interval as capturing the population parameter with a certain probability. This is one of the most common errors: while it might be useful to think of it as a probability, the confidence level only quantifies how plausible it is that the parameter is in the interval.
 
-\index{confidence interval!interpretation|)}
-\index{confidence interval|)}
-
+Another especially important consideration of confidence intervals is that they **only try to capture the population parameter**. Our intervals say nothing about the confidence of capturing individual observations, a proportion of the observations, or about capturing point estimates. Confidence intervals only attempt to capture population parameters.
 
 
 
@@ -335,6 +412,7 @@ Another especially important consideration of confidence intervals is that they 
   * `mosaic` package version: `r packageVersion("mosaic")`
   * `tidyverse` package version: `r packageVersion("tidyverse")`
  
+
 
 
 

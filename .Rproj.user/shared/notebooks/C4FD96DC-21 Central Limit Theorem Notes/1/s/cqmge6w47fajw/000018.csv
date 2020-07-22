@@ -1,4 +1,0 @@
-"0","clt %>%"
-"0","  gf_histogram(~mean) %>%"
-"0","  gf_facet_grid(~samp) %>%"
-"0","  gf_theme(theme_bw())"

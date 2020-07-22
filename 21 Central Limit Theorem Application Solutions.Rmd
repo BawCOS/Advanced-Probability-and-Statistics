@@ -258,9 +258,9 @@ $\alpha = 0.05$
 d. What are the assumptions of this test?  
 
 i. The observations are independent.  
-ii. There are at least 5 votes for her and 5 against.
+ii. There are at least 10 votes for her and 10 against.
 
-Because this is a simple random sample that includes fewer than 10\% of the population, the observations are independent. In a single proportion hypothesis test, the success-failure condition is checked using the null proportion, $p_0=0.5$: $np_0 = n(1-p_0) = 500\times 0.5 = 250 > 5$. With these conditions verified, the normal model may be applied to $\hat{p}$.
+Because this is a simple random sample that includes fewer than 10\% of the population, the observations are independent. In a single proportion hypothesis test, the success-failure condition is checked using the null proportion, $p_0=0.5$: $np_0 = n(1-p_0) = 500\times 0.5 = 250 \geq 10$. With these conditions verified, the normal model may be applied to $\hat{p}$.
 
 e. Calculate the test statistic.
 

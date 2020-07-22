@@ -1,2 +1,0 @@
-"0","gf_qq(~temperature,data=temperature) %>%"
-"0","  gf_qqline(~temperature,data=temperature)"

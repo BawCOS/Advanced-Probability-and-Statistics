@@ -1,2 +1,0 @@
-"0","results %>%"
-"0"," summarise(low_result=mean(~mean<=0.5))"

@@ -5,16 +5,16 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3027055720",
+    "hash" : "4043519850",
     "id" : "CAD5E042",
-    "lastKnownWriteTime" : 1595105411,
-    "last_content_update" : 1595105411733,
-    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/21 Central Limit Theorem Application Solutions.Rmd",
-    "project_path" : "21 Central Limit Theorem Application Solutions.Rmd",
+    "lastKnownWriteTime" : 1595391265,
+    "last_content_update" : 1595391265708,
+    "path" : "~/Classes/Math 377/Advanced Probability and Statistics/22 Confidence Intervals Application Solutions.Rmd",
+    "project_path" : "22 Confidence Intervals Application Solutions.Rmd",
     "properties" : {
-        "cursorPosition" : "289,0",
-        "last_setup_crc32" : "",
-        "scrollLine" : "246"
+        "cursorPosition" : "293,83",
+        "last_setup_crc32" : "D1982B7Cb02f585",
+        "scrollLine" : "288"
     },
     "read_only" : false,
     "read_only_alternatives" : [
