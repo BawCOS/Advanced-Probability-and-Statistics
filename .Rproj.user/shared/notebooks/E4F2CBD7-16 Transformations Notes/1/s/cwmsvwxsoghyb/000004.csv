@@ -1,2 +1,0 @@
-"0","###Enter R code here"
-"0","results <- do(100000)*abs(diff(runif(2,5,6)))"

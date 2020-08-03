@@ -1,1 +1,0 @@
-"0","gf_line(z_cdf(seq(0,1,.01))~seq(0,1,.01),xlab=""Time Difference"",ylab=""CDF"")"

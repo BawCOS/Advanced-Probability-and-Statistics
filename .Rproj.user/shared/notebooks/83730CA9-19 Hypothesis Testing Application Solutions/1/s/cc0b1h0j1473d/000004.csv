@@ -1,7 +1,0 @@
-"0","set.seed(7220)"
-"0","yawn <- data.frame(group =c(rep('control', 16), rep('treatment', 34)), outcome = c(rep(c('yawn', 'no_yawn'), c(4, 12)), rep(c('yawn', 'no_yawn'), c(10, 24))))"
-"0",""
-"0","yawn <- yawn %>%"
-"0","sample() %>%"
-"0","select(-orig.id)"
-"0","write_csv(yawn,""data/yawn.csv"")"

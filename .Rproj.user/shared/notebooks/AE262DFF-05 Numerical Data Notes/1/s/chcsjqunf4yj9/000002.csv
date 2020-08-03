@@ -1,8 +1,0 @@
-"0","p1 <- email50$num_char"
-"0","p2 <- p1[-which.max(p1)]"
-"0","p3 <- p1"
-"0","p3[which.max(p1)] <- 150"
-"0",""
-"0","robust <- data.frame(value= c(p1,p2,p3),group=c(rep(""Original"",50),rep(""Dropped"",49),rep(""Increased"",50)))"
-"0",""
-"0","favstats(value~group,data=robust)"

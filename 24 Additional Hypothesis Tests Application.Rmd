@@ -1,0 +1,57 @@
+---
+title: "Additional Hypothesis Tests Applications"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+   - \usepackage{changepage}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Golf balls   
+
+Repeat the analysis of the golf ball problem from earlier this semester.
+
+
+a. Load the data and tally the data into a table. The data is in `golf_balls.csv`.  
+b. Using the function `chisq.test` conduct a hypothesis test of equally likely distribution of balls. You may have to read the help menu. 
+c. Repeat part b. but assume balls with the numbers 1 and 2 occur 30\% of the time and balls with 3 and 4 occur 20\%. 
+
+&nbsp;
+
+
+\indent 2. Bootstrap hypothesis testing  
+
+Repeat the analysis of the MLB data from the lesson but this time generate a bootstrap distribution of the $F$ statistic.
+
+
+\indent 3. Test of variance
+
+We have not performed a test of variance so we will create our own.
+
+
+a. Using the MLB from the lesson, subset on `IF` and `OF`.  
+b. Create a side-by-side boxplot.  
+
+The hypotheses are:
+$H_0$: $\sigma^2_{IF}=\sigma^2{OF}$. There is no difference in the variance of on base percentage for infielders and outfielders.
+$H_A$: $\sigma^2_{IF}\neq \sigma^2{OF}$. There is a difference in variances.
+ 
+c. Use the differences in sample standard deviations as your test statistic. Using a permutation test, find the p-value and discuss your decision.  
+d. Create a bootstrap distribution of the differences in sample standard deviations, and report a 95\% confidence interval. Compare with part d.

@@ -1,6 +1,0 @@
-"0","set.seed(7220)"
-"0","discrim <- data.frame(gender =c(rep('male', 24), rep('female', 24)), decision = c(rep(c('promoted', 'not_promoted'), c(21, 3)), rep(c('promoted', 'not_promote'), c(14, 10))))"
-"0",""
-"0","discrim <- discrim %>%"
-"0","sample() %>%"
-"0","select(-orig.id)"

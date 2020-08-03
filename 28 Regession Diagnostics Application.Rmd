@@ -1,0 +1,68 @@
+---
+title: "Regression Diagnostics Applications"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+   - \usepackage{changepage}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Identify relationships 
+
+For each of the six plots, identify the strength of the relationship (e.g. weak, moderate, or strong) in the data and whether fitting a linear model would be reasonable.
+\begin{center}
+\includegraphics[width=0.32\textwidth]{./figures/association1.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/association2.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/association3.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/association4.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/association5.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/association6.pdf}
+\end{center}
+
+
+
+&nbsp;
+
+\indent 2. Beer and blood alcohol content 
+
+We will use the blood alcohol content data again. As a reminder his is the description: *Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood.* 
+
+The data is in the `openintro` package under `bac`.
+
+a) Obtain and interpret $R$-squared for this model.  
+
+b) Evaluate the assumptions of this model. Do we have anything to be concerned about? 
+
+
+
+\indent 3. Outliers 
+
+Identify the outliers in the scatterplots shown below and determine what type of outliers they are. Explain your reasoning.
+
+\begin{center}
+\includegraphics[width=0.32\textwidth]{./figures/outInf1.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/outLev1.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/outOut1.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/outInf2.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/outInf3.pdf}
+\includegraphics[width=0.32\textwidth]{./figures/outOut2.pdf}
+\end{center}
+
+

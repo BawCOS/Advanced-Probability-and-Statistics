@@ -1,6 +1,0 @@
-"0","results <- do(10000)*simple_rv(values,cdf)"
-"0","inspect(results)"
-"1","
-"
-"1","quantitative variables:  
-"

@@ -1,4 +1,0 @@
-"0","simple_rv <- function(values,cdf){"
-"0","ran_num <- runif(1)"
-"0","return(values[which(ran_num < cdf)[1]])"
-"0","}"

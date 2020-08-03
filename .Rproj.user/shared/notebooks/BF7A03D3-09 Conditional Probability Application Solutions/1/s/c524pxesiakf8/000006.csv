@@ -1,8 +1,0 @@
-"0","data.frame(do(50226)*rflip(3)) %>%"
-"0","  filter(heads==3) %>%"
-"0","  summarise(count=n()) %>%"
-"0","  pull()"
-"1","[1]"
-"1"," 6270"
-"1","
-"

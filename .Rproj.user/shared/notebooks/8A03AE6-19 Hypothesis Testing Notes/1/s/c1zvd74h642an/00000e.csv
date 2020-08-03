@@ -1,5 +1,0 @@
-"0","ads %>%"
-"0","  gf_boxplot(channel~length) %>%"
-"0","  gf_labs(title=""Commericial Length"",subtitle = ""Random 30 minute shows for 2 channel types"","
-"0","          x=""Length"",y=""Channel Type"" ) %>%"
-"0","  gf_theme(theme_classic)"

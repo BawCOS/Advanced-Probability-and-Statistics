@@ -1,0 +1,367 @@
+---
+title: "Regression Diagnostics Notes"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(out.width = "75%")
+library(openintro)
+library(knitr)
+library(mosaic)
+library(tidyverse)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand{\diff}{\,\mathrm{d}}
+
+
+## Objectives
+
+1) Obtain and interpret $R$-squared and the $F$-statistic.
+
+2) Use `R` to evaluate the assumptions of a linear model. 
+
+3) Identify and explain outliers and leverage points.
+
+## Introduction
+
+Over the last two lessons, we have detailed simple linear regression. First, we described the model and its underlying assumptions. Next, we obtained parameter estimates using the method of least squares. Finally, we obtained the distributions of parameter estimates and used that information to conduct inference on parameters and predictions. Implementation was relatively straightforward; once we obtained the expressions of interest, we used `R` to find parameters estimates, interval estimates, etc. 
+
+We have been using the `lm()` function. It is simple and intuitive. The first argument is the formula. A formula is given by the response variable, followed by a tilde (`~`) and followed by the predictor variables. If there are more than one predictors, they are separated by `+`. The output is an object of class "lm" which is a list containing several components. For more information, consult the documentation (`?lm`). In this lesson we will explore more tools to assess the quality of our linear regression model. Some these will generalize when we move to multiple predictors.
+
+## Assessing our model
+
+There is more that we can do with the output from the `lm()` function. Let's load our data from the Starbucks example and build the linear regression model.
+
+```{r eval=FALSE}
+library(openintro)
+```
+
+
+```{r}
+star_mod <- lm(calories~carb,data=starbucks)
+```
+
+```{r}
+summary(star_mod)
+```
+
+
+You may have noticed some other information that appeared in the summary of our model. Some of these quantities are familiar and others are new. 
+
+### Residual Standard Error
+
+The "residual standard error" is the estimate of $\sigma$. In our example, this turned out to be 78.26. If we would like more precision, we first recognize that `summary(my.model)` is also a list with several components:
+
+```{r}
+names(summary(star_mod))
+```
+
+As expected, the `sigma` component shows the estimated value of $\sigma$. 
+
+```{r}
+summary(star_mod)$sigma
+```
+Obviously, if this value is smaller the closer the points will be to the regression fit. It is a measure of unexplained variance in the data.
+
+### R-squared
+
+Another quantity that appears is $R$-squared. You may have heard of this value before. $R$-squared is one measure of goodness of fit. Essentially, $R$-squared is a ratio of variance (in the response) explained by the model to overall variance of the response. It helps to describe the decomposition of variance: 
+$$
+\underbrace{\sum_{i=1}^n (y_i-\bar{y})^2}_{SS_{\text{Total}}} = \underbrace{\sum_{i=1}^n (\hat{y}_i-\bar y)^2}_{SS_{\text{Regression}}}+\underbrace{\sum_{i=1}^n(y_i-\hat{y}_i)^2}_{SS_{\text{Error}}}
+$$
+
+In other words, the overall variation in $y$ can be separated into two parts: variation due to the linear relationship between $y$ and the predictor variable(s) and residual variation (due to random scatter or perhaps a poorly chosen model). 
+
+$R$-squared simply measures the ratio between $SS_\text{Regression}$ and $SS_\text{Total}$. A common definition of $R$-squared is the proportion of overall variation in the response that is explained by the linear model. $R$-squared can be between 0 and 1. Values of $R$-squared close to 1 indicate a tight fit (little scatter) around the estimated regression line. Value close to 0 indicate the opposite (large remaining scatter). 
+
+We can obtain $R$-squared "by hand" or by using the output of the `lm()` function:
+```{r}
+summary(star_mod)$r.squared
+```
+
+For simple linear regression, $R$-squared is related to **correlation**. We can compute the correlation using a formula, just as we did with the sample mean and standard deviation. However, this formula is rather complex,^[Formally, we can compute the correlation for observations $(x_1, y_1)$, $(x_2, y_2)$, ..., $(x_n, y_n)$ using the formula 
+$$
+R = \frac{1}{n-1}\sum_{i=1}^{n} \frac{x_i-\bar{x}}{s_x}\frac{y_i-\bar{y}}{s_y}
+$$
+where $\bar{x}$, $\bar{y}$, $s_x$, and $s_y$ are the sample means and standard deviations for each variable.] so we let `R` do the heavy lifting for us. 
+
+```{r}
+starbucks %>%
+  summarize(correlation=cor(carb,calories),correlation_squared=correlation^2)
+```
+
+
+The figure below shows eight plots and their corresponding correlations. Only when the relationship is perfectly linear is the correlation either -1 or 1. If the relationship is strong and positive, the correlation will be near +1. If it is strong and negative, it will be near -1. If there is no apparent linear relationship between the variables, then the correlation will be near zero. 
+
+```{r echo=FALSE}
+library(openintro)
+data(COL)
+data(possum)
+
+COL <- COL[1,2]
+set.seed(1)
+
+par(mfrow=c(2,4), mar=c(2.7, rep(0.5, 3)), mgp=c(1,0,0))
+
+n <- 50
+x <- c(runif(n[1]-2, 0, 4), 2, 2.1)
+y <- 0.8*x + rnorm(n[1], sd=5)
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-0.2, 4.2), ylim=c(-9, 17), xlab='')
+box()
+mtext(paste('R =', round(cor(x,y), 2)), side=1, line=1, cex=1.1)
+
+plot(possum$total_l, possum$head_l, pch=20, col=COL[1], cex=1.351, xlab='', ylab='', axes=FALSE)
+box()
+mtext(paste('R =', round(cor(possum$total_l, possum$head_l), 2)), side=1, line=1, cex=1.1)
+
+n <- 50
+x <- c(runif(n[1]-2, 0, 4), 2, 2.1)
+y <- 2*x + rnorm(n[1], sd=0.5)
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-0.2, 4.2), ylim=c(-2, 9.6), xlab='')
+box()
+mtext(paste('R =', round(cor(x,y), 2)), side=1, line=1, cex=1.1)
+
+n <- 50
+x <- runif(n[1])
+y <- x
+y[y < -2] <- -1.5
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-0.03, 1.03), ylim=c(-.1, 1.1), xlab='')
+box()
+mtext(paste('R =', format(c(round(cor(x,y), 2), 0.01))[1]), side=1, line=1, cex=1.1)
+
+par(mar=c(2.1,0.5,1.1,0.5))
+
+n <- 50
+x <- c(runif(n[1]-2, 0, 4), 2, 2.1)
+y <- -0.5*x + rnorm(n[1], sd=5)
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-0.2, 4.2), ylim=c(-17, 14), xlab='')
+box()
+mtext(paste('R =', round(cor(x,y), 2)), side=1, line=1, cex=1.1)
+
+n <- 50
+x <- runif(n[1], -4.8, 4.8)
+y <- -x+rnorm(n[1], sd=3)
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-5.2, 5.2), ylim=c(-12, 10), xlab='')
+box()
+mtext(paste('R =', format(c(round(cor(x,y), 2), 0.01))[1]), side=1, line=1, cex=1.1)
+
+n <- 50
+x <- runif(n[1])
+y <- -9*x + rnorm(n[1])
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-0.03, 1.03), ylim=c(-10, 2), xlab='')
+box()
+mtext(paste('R =', round(cor(x,y), 2)), side=1, line=1, cex=1.1)
+
+n <- 50
+x <- runif(n[1])
+y <- -x
+y[y < -2] <- -1.5
+plot(x,y, axes=FALSE, pch=20, col=COL[1], cex=1.351, xlim=c(-0.03, 1.03), ylim=c(-1.2, .2), xlab='')
+box()
+mtext(paste('R =', format(c(round(cor(x,y), 2), 0.01))[1]), side=1, line=1, cex=1.1)
+```
+
+> **Exercise**  
+If a linear model has a very strong negative relationship with a correlation of -0.97, how much of the variation in the response is explained by the explanatory variable?^[About $R^2 = (-0.97)^2 = 0.94$ or 94\% of the variation is explained by the linear model.]
+
+Note that one of the components of `summary(lm())` function is `adj.r.squared`. This is a value of $R$-squared adjusted for number of predictors. We'll cover this concept more closely in Math 378. 
+
+### F-Statistic
+
+Another quantity that appears in the summary of the model is the $F$-statistic. This value evaluates the null hypothesis that all of the non-intercept coefficients are equal to 0. Rejecting this hypothesis implies that the model is useful in the sense that at least one of the predictors shares a significant linear relationship with the response. 
+
+$H_0$: $\beta_1 = \beta_2 = \dots = \beta_p = 0$
+$H_a$: At least one coefficient not equal to 0.
+
+where $p$ is the number of predictors in the model. Just like in ANOVA, this is a simultaneous test of all coefficients and does not inform us which one(s) are different from 0.
+
+The $F$-statistic is given by
+$$
+{n-p-1 \over p}{\sum (\hat{y}_i-\bar{y})^2\over \sum e_i^2}
+$$
+
+Under the null hypothesis, the $F$-statistic follows the $F$ distribution with parameters $p$ and $n-p-1$. 
+
+In our example, the $F$-statistic is redundant since there is only one predictor. In fact, the $p$-value associated with the $F$-statistic is equal to the $p$-value associated with the estimate of $\beta_1$. However, when we move to cases with more predictor variables, we may be interested in the $F$-statistic. 
+
+```{r}
+summary(star_mod)$fstatistic
+```
+
+
+## Checking Assumptions
+
+Finally, we can use the "lm" object to check the assumptions of the model. We have discussed the assumptions before but in this lesson we will use `R` to generate visual checks. We will also introduce the ideas of outliers and leverage points.
+
+Applying the `plot()` function to an "lm" object provides several graphs that allow us visually evaluate a linear model's assumptions. Also, applying `plot()` to an "lm" object returns four different plots by default. To obtain all four at once, simply use `plot(my.model)`. However, it's best to walk through each of these four plots in our Starbucks example. 
+
+```{r}
+plot(star_mod)
+```
+
+
+
+### Residuals vs Fitted
+```{r fig.width=5,fig.height=3.5}
+plot(star_mod,1)
+
+```
+
+This plot assesses linearity of the model and homoscedasticity (constant variance). Ideally, the red line should be centered around the dashed horizontal line. Furthermore, the scatter around the dashed line should be relatively constant across the plot. In this case, it looks like there is some minor concern over linearity and non-constant error variance. We noted this earlier with the cluster of points in the lower left hand corner of the scatterplot. The points that are labeled are points with a high residual value. They are extreme. We will discuss outliers shortly. 
+
+### Normal Q-Q Plot
+```{r fig.width=5,fig.height=3.5}
+plot(star_mod,2)
+```
+
+As it's name suggests, this plot evaluates the normality of the residuals. Along the $y$-axis is the actual standardized residuals. Along the $x$-axis is where those should be if the residuals were actually normally distributed. Ideally, the dots should fall along the diagonal dashed line. In this case, it appears there is some positive skew. This is concerning. 
+
+### Scale-Location Plot
+```{r fig.width=5,fig.height=3.5}
+plot(star_mod,3)
+```
+
+The scale-location plot is a better indicator of non-constant error variance. A straight horizontal red line indicates constant error variance. In this case, there is some indication error variance is higher for lower carb counts. 
+
+### Residuals vs Leverage Plot
+```{r fig.width=5,fig.height=3.5}
+plot(star_mod,5)
+```
+
+The residuals vs leverage plot is a good way to identify influential observations. Sometimes, influential observations are representative of the population, but they could also indicate an error in recording data, or an otherwise unrepresentative outlier. It could be worth looking into these cases. In this example, there are three points that may be overly influential. 
+
+## Outliers and leverage  
+
+Outliers in regression are observations that fall far from the ``cloud'' of points. These points are especially important because they can have a strong influence on the least squares line.
+
+> **Exercise**:  
+There are six plots shown in figure below along with the least squares line and residual plots. For each scatterplot and residual plot pair, identify any obvious outliers and note how they influence the least squares line. Recall that an outlier is any point that doesn't appear to belong with the vast majority of the other points.  
+
+\begin{itemize}
+\item[(1)] There is one outlier far from the other points, though it only appears to slightly influence the line.
+\item[(2)] There is one outlier on the right, though it is quite close to the least squares line, which suggests it wasn't very influential.
+\item[(3)] There is one point far away from the cloud, and this outlier appears to pull the least squares line up on the right; examine how the line around the primary cloud doesn't appear to fit very well.
+\item[(4)] There is a primary cloud and then a small secondary cloud of four outliers. The secondary cloud appears to be influencing the line somewhat strongly, making the least square line fit poorly almost everywhere. There might be an interesting explanation for the dual clouds, which is something that could be investigated.
+\item[(5)] There is no obvious trend in the main cloud of points and the outlier on the right appears to largely control the slope of the least squares line.
+\item[(6)] There is one outlier far from the cloud, however, it falls quite close to the least squares line and does not appear to be very influential.
+\end{itemize}
+
+```{r echo=FALSE}
+library(openintro)
+data(COL)
+
+linResPlot <- function(x, y, axes=FALSE, wBox=TRUE, wLine=TRUE, lCol=COL[5], lty=1, lwd=1.5, xlab='', ylab='', marRes=NULL, col=COL[1,2], pch=20, cex=1.25, yR=0.1, ylim=NULL, subset=NULL, main="", ...){
+	if(is.null(ylim)[1]){
+		YR <- range(y) + c(-1,1)*yR*diff(range(y))
+	} else {
+		YR <- ylim
+	}
+	plot(x, y, axes=axes, xlab='', ylab=ylab, col=col,
+		pch=pch, cex=cex, ylim=YR, main=main, ...)
+	if(wBox){
+		box()
+	}
+	g <- lm(y ~ x, subset=subset)
+	if(wLine){
+		abline(g, col=lCol, lty=lty, lwd=lwd)
+	}
+	if(!is.null(marRes)[1]){
+		par(mar=marRes)
+	}
+	X <- list(x=x)
+	y <- y - predict(g, X)
+	YR <- range(y) + c(-1,1)*yR*diff(range(y))
+	plot(x,y, axes=axes, xlab=xlab, ylab='', col=col,
+		pch=pch, cex=cex, ylim=YR, ...)
+	if(wBox){
+		box()
+	}
+	abline(h=0, lty=2, lwd=1, col=lCol)
+}
+
+myMat <- rbind(matrix(1:6,2),matrix(7:12,2))
+myW <- c(1,1,1)
+myH <- c(0.95,0.5,1,0.45)
+layout(myMat, myW, myH)
+set.seed(1)
+
+n <- c(50, 25, 78, 55, 70, 150)
+m <- c(12, -4, 7, -19, 0, 40)
+xr <- list(0.3, c(2), 1.42,
+	runif(4,1.45,1.55), 5.78, -0.6)
+yr <- list(-4, c(-8), 19,
+	c(-17,-20,-21,-19), 12, -23.2)
+for(i in 1:3){
+	par(mar=c(0.25,0.5,1.75,0.5))
+	x <- runif(n[i])
+	y <- m[i]*x + rnorm(n[i])
+	x <- c(x,xr[[i]])
+	y <- c(y,yr[[i]])
+	linResPlot(x,y,col=COL[1,2],marRes=c(4,2,1,2)/4, yR=0.13,
+				main=paste("(", i, ")", sep=""))
+}
+for(i in 4:6){
+	par(mar=c(0.25,0.5,1.75,0.5))
+	x <- runif(n[i])
+	y <- m[i]*x + rnorm(n[i])
+	x <- c(x,xr[[i]])
+	y <- c(y,yr[[i]])
+	linResPlot(x,y,col=COL[1,2],marRes=c(1,2,1,2)/4,
+				yR=ifelse(i==4,c(0.5,0.1),0.1),
+				main=paste("(", i, ")", sep=""))
+}
+
+par(mar=c(0.25,0.25,0.25,0.25))
+
+par(mar=c(0.25,0.25,0.25,0.25))
+```
+
+
+
+Examining the residual plots in the figure, you will probably find that there is some trend in the main clouds of (3) and (4). In these cases, the outliers influenced the slope of the least squares lines. In (5), data with no clear trend were assigned a line with a large trend simply due to one outlier (!).
+ 
+> Leverage 
+Points that fall horizontally away from the center of the cloud tend to pull harder on the line, so we call them points with **high leverage**.
+
+Points that fall horizontally far from the line are points of high leverage; these points can strongly influence the slope of the least squares line. If one of these high leverage points does appear to actually invoke its influence on the slope of the line -- as in cases (3), (4), and (5) -- then we call it an **influential point**. Usually we can say a point is influential if, had we fitted the line without it, the influential point would have been unusually far from the least squares line.
+
+It is tempting to remove outliers. Don't do this without a very good reason. Models that ignore exceptional (and interesting) cases often perform poorly. For instance, if a financial firm ignored the largest market swings -- the ``outliers'' --  they would soon go bankrupt by making poorly thought-out investments.
+
+
+### What If Our Assumptions Are Violated
+
+We will leave it to the reader to research what to do if there appear to be violations of assumptions. Sometimes, it is appropriate to transform the data (either response or predictor). Other times, it is appropriate to explore other models. When confronted with clear violated assumptions, There are entire courses on regression where blocks of material are devoted to diagnostics and transformations. We will use resampling in the next lesson and it does not assume linearity. 
+
+## File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+ 
+
+
+
+
+
+

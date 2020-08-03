@@ -1,2 +1,0 @@
-"0",""
-"0","arrows(2, quantile(d, 0.25)+sd(d)/7, 1.35, quantile(d, 0.25), length=0.08)"

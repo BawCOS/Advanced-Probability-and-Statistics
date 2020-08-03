@@ -1,0 +1,240 @@
+---
+title: "Additional Hypothesis Test Applications Solutions"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+   - \usepackage{changepage}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(out.width = "75%")
+library(knitr)
+library(mosaic)
+library(tidyverse)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Golf balls 
+
+Repeat the analysis of the golf ball problem from earlier this semester.
+
+
+a. Load the data and tally the data into a table. The data is in `golf_balls.csv`.  
+
+```{r message=FALSE}
+golf_balls <- read_csv("data/golf_balls.csv")
+```
+
+```{r}
+head(golf_balls)
+```
+
+
+```{r}
+tally(~number,data=golf_balls)
+```
+
+
+b. Using the function `chisq.test` conduct a hypothesis test of equally likely distribution of balls. You may have to read the help menu. 
+
+
+```{r}
+chisq.test(tally(~number,data=golf_balls),p=c(.25,.25,.25,.25))
+```
+
+
+c. Repeat part b. but assume balls with the numbers 1 and 2 occur 30\% of the time and balls with 3 and 4 occur 20\%. 
+
+```{r}
+chisq.test(tally(~number,data=golf_balls),p=c(.3,.3,.2,.2))
+```
+
+
+&nbsp;
+
+
+\indent 2. Bootstrap hypothesis testing  
+
+Repeat the analysis of the MLB data from the lesson but this time generate a bootstrap distribution of the $F$ statistic.
+
+Read in the data.
+
+```{r message=FALSE}
+mlb_obp <- read_csv("data/mlb_obp.csv")
+```
+
+```{r}
+mlb_obp <- mlb_obp %>%
+  mutate(position=as.factor(position))
+```
+
+```{r}
+favstats(obp~position,data=mlb_obp)
+```
+
+We need a function to resample the data, we will use the `resample()` from the `mosaic` package.
+
+
+```{r}
+library(broom)
+```
+
+```{r}
+f_boot <- function(x){
+  aov(obp~position,data=resample(x)) %>%
+  tidy() %>%
+  summarize(stat=meansq[1]/meansq[2]) %>%
+  pull()
+}
+```
+
+
+```{r}
+set.seed(541)
+results<-do(1000)*f_boot(mlb_obp)
+```
+
+
+```{r}
+results %>%
+  gf_histogram(~f_boot)
+```
+Now the confidence interval for the F-statistic is:
+
+```{r}
+cdata(~f_boot,data=results)
+```
+
+We are 95\% confident that the $F$ statistic is in the interval $(0.35,8.72)$ which includes 1 so we fail to reject.
+
+
+\indent 3. Test of variance
+
+We have not performed a test of variance so we will create our own.
+
+
+a. Using the MLB from the lesson, subset on `IF` and `OF`.  
+
+```{r}
+mlb_prob3 <- mlb_obp %>%
+  filter(position=="IF"|position=="OF") %>%
+  droplevels()
+```
+
+```{r}
+summary(mlb_prob3)
+```
+The function `droplevels()` gets rid of `C` and `DH` in the factor levels.
+
+b. Create a side-by-side boxplot.
+
+```{r}
+mlb_prob3 %>%
+  gf_boxplot(obp~position)
+```
+The hypotheses are:
+$H_0$: $\sigma^2_{IF}=\sigma^2{OF}$. There is no difference in the variance of on base percentage for infielders and outfielders.
+$H_A$: $\sigma^2_{IF}\neq \sigma^2{OF}$. There is a difference in variances.
+ 
+c. Use the differences in sample standard deviations as your test statistic. Using a permutation test, find the p-value and discuss your decision.  
+
+```{r}
+mlb_prob3 %>%
+  group_by(position) %>%
+  summarize(stat=sd(obp))
+```
+
+
+```{r}
+obs <- mlb_prob3 %>%
+  summarize(stat=sd(obp[position=="IF"])-sd(obp[position=="OF"])) %>%
+  pull()
+obs
+```
+Let's write a function to shuffle the position.
+
+```{r}
+perm_stat <- function(x){
+  x %>% 
+  mutate(position=shuffle(position)) %>%
+  summarize(stat=sd(obp[position=="IF"])-sd(obp[position=="OF"])) %>%
+  pull()
+}
+```
+
+```{r}
+set.seed(443)
+results<-do(1000)*perm_stat(mlb_prob3)
+```
+
+```{r}
+results %>% 
+  gf_histogram(~perm_stat) %>%
+  gf_vline(xintercept=obs,color="red")
+```
+
+The p-value is
+
+```{r}
+2*prop1(~(perm_stat>=obs),data=results)
+```
+This is a two sided test since we did not know in advance which variance would be larger. We reject the hypothesis of equal variance but the p-value is too close. The conclusion is suspect. We need more data.
+
+d. Create a bootstrap distribution of the differences in sample standard deviations, and report a 95\% confidence interval. Compare with part c.  
+
+Let's write a function.
+
+```{r}
+var_stat <- function(x){
+  resample(x) %>%
+  summarize(stat=sd(obp[position=="IF"])-sd(obp[position=="OF"])) %>%
+  pull()
+}
+```
+
+```{r}
+set.seed(827)
+results<-do(1000)*var_stat(mlb_prob3)
+```
+
+```{r}
+results %>% 
+  gf_histogram(~var_stat) %>%
+  gf_vline(xintercept=obs,color="red")
+```
+
+## File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `openintro` package version: `r packageVersion("openintro")`
+  * `broom` package version: `r packageVersion("broom")`
+ 
+
+
+
+

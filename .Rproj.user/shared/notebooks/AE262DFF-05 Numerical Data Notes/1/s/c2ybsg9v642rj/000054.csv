@@ -1,2 +1,0 @@
-"0","points(rep(0.4, 25), sort(d)[1:25], cex=rep(1, 25), col=rep(COL[4,3], 25), pch=rep(""-"", 25))"
-"0",""

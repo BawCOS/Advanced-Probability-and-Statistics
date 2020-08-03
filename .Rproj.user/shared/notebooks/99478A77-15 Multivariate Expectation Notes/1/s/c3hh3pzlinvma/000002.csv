@@ -1,5 +1,0 @@
-"0","set.seed(1820)"
-"0","new_data <- data.frame(x=2*sqrt(runif(10000)),y=sqrt(runif(10000)))"
-"0","new_data %>%"
-"0","  mutate(z=x+y) %>%"
-"0","  summarize(Ex=mean(x),Ey=mean(y),Explusy = mean(z))"

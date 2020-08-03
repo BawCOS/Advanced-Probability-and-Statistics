@@ -1,2 +1,0 @@
-"0","set.seed(1213)"
-"0","results <- do(1000)*diffprop(outcome~shuffle(group),data=heart)"

@@ -1,3 +1,0 @@
-"0","birth_data %>%"
-"0","  gf_line(n~day_of_year,xlab=""Day of the year"",ylab=""Number of births"") %>%"
-"0","  gf_vline(xintercept = ~359)"

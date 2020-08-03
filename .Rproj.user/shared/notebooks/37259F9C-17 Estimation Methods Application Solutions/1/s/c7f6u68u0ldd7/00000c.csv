@@ -1,3 +1,0 @@
-"0","my_data %>%"
-"0","  gf_line(Percent~Sample,xlab=""Sample Size"",title=""Percent When Estimator is Valid"") %>%"
-"0","  gf_theme(theme = theme_minimal())"

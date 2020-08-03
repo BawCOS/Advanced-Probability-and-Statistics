@@ -1,2 +1,0 @@
-"0","y_results <- results %>%"
-"0","  transmute(y=log(sqrt))"

@@ -1,2 +1,0 @@
-"0","email <- email %>%"
-"0","  mutate(format = factor(email$format,levels=c(1,0),labels=c(""HTML"",""text"")))"

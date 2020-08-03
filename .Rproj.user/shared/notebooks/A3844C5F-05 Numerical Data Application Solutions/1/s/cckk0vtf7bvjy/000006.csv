@@ -1,2 +1,0 @@
-"0","mammals <- mammals %>%"
-"0","  mutate(Exposed=factor(ifelse((Exposure==1)|(Exposure==2),""Low"",""High"")))"

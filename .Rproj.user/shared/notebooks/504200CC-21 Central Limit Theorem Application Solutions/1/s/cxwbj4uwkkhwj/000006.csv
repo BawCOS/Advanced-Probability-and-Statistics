@@ -1,2 +1,0 @@
-"0","favstats(~mean|n,data=final_results) %>%"
-"0","   select(mean,sd,n)"

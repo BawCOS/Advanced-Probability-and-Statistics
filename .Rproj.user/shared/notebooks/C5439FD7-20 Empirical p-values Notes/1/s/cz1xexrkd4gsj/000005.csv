@@ -1,6 +1,0 @@
-"0","results %>%"
-"0","  gf_histogram(~sum) %>%"
-"0","  gf_vline(xintercept = obs) %>%"
-"0","  gf_labs(title=""Sampling Distribution of Absolute Deviations"",subtitle=""Multinomial with equal probability"","
-"0","          x=""Range"") %>%"
-"0","  gf_theme(theme_classic)"

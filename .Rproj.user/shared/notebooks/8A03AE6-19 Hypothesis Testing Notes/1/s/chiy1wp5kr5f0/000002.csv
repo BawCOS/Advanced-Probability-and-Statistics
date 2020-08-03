@@ -1,5 +1,0 @@
-"0","metric <- function(x){"
-"0","  temp<-x[1]/x[2]"
-"0","  names(temp) <- ""test_stat"""
-"0","  return(temp)"
-"0","}"

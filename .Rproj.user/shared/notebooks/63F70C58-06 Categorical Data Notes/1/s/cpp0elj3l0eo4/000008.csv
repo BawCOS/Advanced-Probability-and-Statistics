@@ -1,2 +1,0 @@
-"0","cc_reduced %>%"
-"0","  gf_dens(~median_household_income,color=~pop_gain,lwd=1)"

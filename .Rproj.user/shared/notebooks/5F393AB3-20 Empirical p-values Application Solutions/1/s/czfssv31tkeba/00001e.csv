@@ -1,3 +1,0 @@
-"0","temperature %>%"
-"0","  mutate(pos=(temperature-98.6)>0) %>%"
-"0","  summarise(num_less=sum(pos))"

@@ -1,4 +1,0 @@
-"0","birth_data <- Births %>%"
-"0","  filter(!(year %in% c(1972,1976,1980,1984,1988))) %>%"
-"0","  group_by(day_of_year) %>%"
-"0","  summarise(n=sum(births)) "

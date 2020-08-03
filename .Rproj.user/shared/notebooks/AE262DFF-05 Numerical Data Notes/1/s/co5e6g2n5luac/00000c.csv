@@ -1,3 +1,0 @@
-"0","email50 %>%"
-"0","   gf_histogram(~num_char,binwidth = 5,boundary=0,xlab=""The Number of Characters (in thousands)"") %>%"
-"0","   gf_theme(theme_classic())"

@@ -1,4 +1,0 @@
-"0","temperature %>%"
-"0","  favstats(~temperature,data=.) %>%"
-"0","  select(mean,sd,n) %>%"
-"0","  summarise(upper_bound=mean+qt(0.95,129)*sd/sqrt(n))"

@@ -1,2 +1,0 @@
-"0","set.seed(4172)"
-"0","results <- do(10000)*diffmean(length~shuffle(channel),data=ads)"

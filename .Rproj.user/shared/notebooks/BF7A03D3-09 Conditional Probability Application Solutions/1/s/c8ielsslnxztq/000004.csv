@@ -1,3 +1,0 @@
-"0","set.seed(501)"
-"0","results <- rflip(100000,summarize = TRUE)"
-"0","results"

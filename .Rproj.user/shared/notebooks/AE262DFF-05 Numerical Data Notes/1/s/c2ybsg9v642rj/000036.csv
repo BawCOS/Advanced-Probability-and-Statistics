@@ -1,1 +1,0 @@
-"0","text(2, quantile(d, 0.25)+sd(d)/6.5, expression(Q[1]~~'(first quartile)'), pos=4)"

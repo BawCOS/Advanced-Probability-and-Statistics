@@ -1,2 +1,0 @@
-"0","(do(10000)*((sum(table(sample(days,size=23,replace = TRUE)) == 2)==2)+0)) %>%"
-"0","  summarise(prob=mean(result))"

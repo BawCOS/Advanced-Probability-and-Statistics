@@ -1,7 +1,0 @@
-"0","heart<-read_csv(""data/Stanford_heart_study.csv"")"
-"2","Parsed with column specification:
-cols(
-  outcome = [31mcol_character()[39m,
-  group = [31mcol_character()[39m
-)
-"

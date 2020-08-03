@@ -1,6 +1,0 @@
-"0","set.seed(3311)"
-"0","diff(range(table(sample(1:4,size=12,replace=TRUE))))"
-"1","[1]"
-"1"," 4"
-"1","
-"

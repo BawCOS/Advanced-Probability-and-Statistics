@@ -1,3 +1,0 @@
-"0","gf_dist(""hyper"",m=16,n=34,k=14) %>%"
-"0","  gf_vline(xintercept =4,color=""red"" )"
-"2","geom_vline(): Ignoring `mapping` because `xintercept` was provided."

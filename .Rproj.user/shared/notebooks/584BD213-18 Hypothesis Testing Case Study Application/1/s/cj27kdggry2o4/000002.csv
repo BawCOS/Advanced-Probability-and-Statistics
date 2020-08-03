@@ -1,7 +1,0 @@
-"0","set.seed(7220)"
-"0","heart <- data.frame(outcome =c(rep('Alive', 28), rep('Dead', 75)), group = c(rep(c('Control', 'Treatment'), c(4, 24)), rep(c('Control', 'Treatment'), c(30, 45))))"
-"0",""
-"0","heart <- heart %>%"
-"0","sample() %>%"
-"0","select(-orig.id)"
-"0","write_csv(heart,""data/Stanford_heart_study.csv"")"

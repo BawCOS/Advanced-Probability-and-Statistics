@@ -1,7 +1,0 @@
-"0","email %>%"
-"0","  select(spam,number) %>%"
-"0","  inspect()"
-"1","
-"
-"1","categorical variables:  
-"

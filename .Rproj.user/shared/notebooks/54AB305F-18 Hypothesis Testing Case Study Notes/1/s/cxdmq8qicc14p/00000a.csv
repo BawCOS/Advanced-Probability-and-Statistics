@@ -1,4 +1,0 @@
-"0","discrim <- discrim %>%"
-"0","  mutate_if(is.character,as.factor) %>%"
-"0","  mutate(gender=fct_relevel(gender,""male""),"
-"0","         decision=fct_relevel(decision,""promoted""))"

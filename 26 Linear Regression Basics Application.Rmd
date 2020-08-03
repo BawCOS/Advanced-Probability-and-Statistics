@@ -1,0 +1,43 @@
+---
+title: "Linear Regression Basics Applications"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+   - \usepackage{changepage}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+# Exercises
+
+\indent 1. Nutrition at Starbucks  
+
+In the `openintro` package there is a data set called `starbucks`. Use it to answer the questions below.
+
+a. Create a scatterplot of between number of calories and amount of carbohydrates.
+b. Describe the relationship in the graph.
+c. In this scenario, what are the explanatory and response variables?
+d. Why might we want to fit a regression line to these data?
+e. Create a scatterplot of between number of calories and amount of carbohydrates with the regression line included.
+f. Using 'lm()` fit a least squares line to the data.
+g. Report and interpret the slope coefficient.  
+h. For a menu item with 51 g of carbs, what is the estimated calorie count?
+i. Could we use the model for a menu item with 100 g of carbs?
+j. Does the assumption of constant variance seem reasonable for this problem?
+k. Verify that the line passes through the mean carb and mean calories, do this mathematically.
+l. What is the estimate of the standard deviation of the residuals? How could you use this information?
+

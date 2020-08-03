@@ -1,7 +1,0 @@
-"0",""
-"0","w  <- seq(1000, 5000, 100)"
-"0","# Rough Model"
-"0","g1 <- lm(price ~ weight, cars, weights=1/weight^2)"
-"0","g2 <- lm(price ~ weight + I(weight^2), cars, weights=1/weight^2)"
-"0","p  <- predict(g2, data.frame(weight=w))"
-"0","lines(w, p, lty=2, col=COL[5,3])"

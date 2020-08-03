@@ -1,3 +1,0 @@
-"0","birth_data_weights <- birth_data %>%"
-"0","  select(n) %>%"
-"0","  pull()"

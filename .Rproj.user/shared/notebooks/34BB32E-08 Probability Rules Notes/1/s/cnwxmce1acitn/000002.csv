@@ -1,3 +1,0 @@
-"0","Cards %>%"
-"0","  filter(rank %in% c(10, ""J"", ""Q"", ""K"", ""A"")) %>%"
-"0","  select(rank,suit)"

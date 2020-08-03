@@ -1,3 +1,0 @@
-"0","results %>%"
-"0","  filter(heads==2) %>%"
-"0","  summarize(prob=n()/10000)"

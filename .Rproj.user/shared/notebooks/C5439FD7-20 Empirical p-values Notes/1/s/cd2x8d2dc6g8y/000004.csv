@@ -1,6 +1,0 @@
-"0","set.seed(1)"
-"0","golf_balls <- tibble(number=rep(1:4, c(137,138,107,104)))"
-"0","golf_balls <- golf_balls %>%"
-"0","sample() %>%"
-"0","select(-orig.id)"
-"0","write_csv(golf_balls,""data/golf_balls.csv"")"

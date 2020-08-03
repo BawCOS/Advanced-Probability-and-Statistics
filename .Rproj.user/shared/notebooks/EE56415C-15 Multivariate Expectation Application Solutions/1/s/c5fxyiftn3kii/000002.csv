@@ -1,5 +1,0 @@
-"0","miner_time <- function(x){"
-"0","  index <- which(x==2)[1]"
-"0","  total<-cumsum(x)"
-"0","  return(total[index])"
-"0","}"

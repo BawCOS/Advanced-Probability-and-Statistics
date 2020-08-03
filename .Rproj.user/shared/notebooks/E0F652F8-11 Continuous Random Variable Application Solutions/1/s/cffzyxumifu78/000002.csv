@@ -1,2 +1,0 @@
-"0","set.seed(4)"
-"0","results <- do(10000)*cuberoot((runif(1)-.5)*54)"

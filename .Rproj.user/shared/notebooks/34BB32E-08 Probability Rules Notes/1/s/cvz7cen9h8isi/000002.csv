@@ -1,7 +1,0 @@
-"0","num<-choose(13,1)*choose(4,3)*choose(12,1)*choose(4,2)"
-"0","denom<-choose(52,5)"
-"0","num/denom"
-"1","[1]"
-"1"," 0.001440576"
-"1","
-"

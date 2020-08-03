@@ -1,2 +1,0 @@
-"0","set.seed(2517)"
-"0","results <- do(10000)*max(abs(table(sample(1:4,size=486,replace=TRUE))-121.5))"

@@ -1,3 +1,0 @@
-"0","(do(1000)*length(unique(sample(days,size=18,replace = TRUE)))) %>%"
-"0","  mutate(match=if_else(length==18,0,1)) %>%"
-"0","  summarise(prob=mean(match))"

@@ -1,2 +1,0 @@
-"0","set.seed(102)"
-"0","results <- do(10000)*which(sample(c(""H"",""T""),1000,replace=TRUE)==""H"")[5]"
