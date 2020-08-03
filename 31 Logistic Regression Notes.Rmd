@@ -36,11 +36,11 @@ library(tidyverse)
 
 ## Objectives
 
-1) 
+1) Perform logistic regression on a data set and interpret the output, check assumptions, and perform model selection. 
 
-2) 
+2) Write the logistic regression model and predict outputs for given inputs.
 
-3) 
+3) Use the bootstrap to find confidence intervals for parameter estimates and predictions.
 
 ## Logistic regression
 
@@ -70,7 +70,7 @@ In the `email` data set there are many variables available that might be useful 
 |exclaim_subj  |Indicates whether any exclamation point was included in the email subject.        |
 
 
-### Modeling the probability of an event3
+### Modeling the probability of an event
 
 The outcome variable for a GLM is denoted by $Y_i$, where the index $i$ is used to represent observation $i$. In the email application, $Y_i$ will be used to represent whether email $i$ is spam ($Y_i=1$) or not ($Y_i=0$). 
 
@@ -388,8 +388,101 @@ In addition to finding more and better predictors, we would need to create a cus
 
 For what is the extremely challenging task of classifying spam messages, we have made a lot of progress. We have seen that simple email variables, such as the format, inclusion of certain words, and other circumstantial characteristics, provide helpful information for spam classification. Many challenges remain, from better understanding logistic regression to carrying out the necessary computer programming, but completing such a task is very nearly within your reach.
 
+## Bootstrap  
+
+This section is experimental since we are not sure how `do()` from the `mosaic` package will work with the `glm()` funtion, but let's experiment.  
+
+### Confidence intervals for parameter
+
+Let's work with the first model and experiment with `do()`.
+
+```{r}
+do(1)*email_mod
+```
+
+```{r}
+summary(email_mod)
+```
+It looks like `do()` is performing as expected. Let's now perform one resample to see what happens.
+
+```{r}
+do(1)*glm(formula = spam ~ to_multiple, family = "binomial", data = resample(email))
+```
+
+Again, it looks like what we expect. Now let's bootstrap the coefficient.
+
+```{r}
+set.seed(5011)
+results <- do(1000)*glm(formula = spam ~ to_multiple, family = "binomial", data = resample(email))
+```
+
+```{r}
+head(results)
+```
+
+```{r}
+results %>%
+  gf_histogram(~to_multiple)
+```
+The printout of from the logistic regression model assumes normality for the sampling distribution of the `to_multiple` coefficient, but it appears to be negatively skewed, skewed to the left. The 95% confidence interval found using `cdata()`.
+
+```{r}
+cdata(~to_multiple,data=results)
+```
+
+Since this does not include the value of zero, we can be 95% confident that it is not zero.
+
+We can use `results` to get a confidence interval on probability of success if the email has more than one recipient in the **To** line.
+
+```{r}
+results_pred <- results %>% 
+  mutate(pred=1/(1+exp(Intercept+to_multiple)))
+```
+
+```{r}
+cdata(~pred,data=results_pred)
+```
+
+We are 95% confident that probability an email with more than one recipient is not spam is between 96.8% and 99.0%.
+
+### Bootstrap for multiple logistic regression
+
+The output from   
+
+```{r}
+summary(email_mod2)
+```
+
+```{r}
+do(1)*glm(formula = spam ~ to_multiple + attach + dollar + winner + 
+    inherit + password + format + re_subj, family = "binomial", 
+    data = email_sub)
+
+```
+```{r warning=FALSE}
+set.seed(54321)
+results <-do(1000)*glm(formula = spam ~ to_multiple + attach + dollar + winner + 
+    inherit + password + format + re_subj, family = "binomial", 
+    data = resample(email_sub))
+```
+
+```{r}
+head(results)
+```
+
+In our model `inherit` had the largest p-value, let's build a confidence interval around it.
+
+```{r}
+results %>%
+  gf_histogram(~inherit)
+```
 
 
+```{r}
+cdata(~inherit,data=results)
+```
+
+In the output, we rejected the null hypothesis that `inherit` was equal to zero, but in the confidence interval we fail to reject. This variable may not be important for the model.
 
 ## File Creation Information 
 
