@@ -332,9 +332,112 @@ There were $n=141$ auctions in the `mariokart` data set and $k=4$ predictor vari
 summary(mario_mod_multi)$adj.r.squared
 ```
 
-> **Exercise*:  
+> **Exercise**:  
 Suppose you added another predictor to the model, but the variance of the errors $Var(e_i)$ didn't go down. What would happen to the $R^2$? What would happen to the adjusted $R^2$?^[The unadjusted $R^2$ would stay the same and the adjusted $R^2$ would go down.
 
+Again, in Math 378 we will spend more time on how to select models. Using internal metrics of performance such as p-values or adjusted $R$ squared are one way but using external measures of predictive performance such as **cross validation** or **hold out** sets will be introduced.
+
+## Interaction and Higher Order Terms
+
+As a final short topic we want to explore **feature engineering**. Thus far we have not done any transformation to the predictors in the data set except maybe making categorical variables into factors. In data analysis competitions, such as Kaggle, often one of the most important steps is feature engineering. In Math 378, we will look at different tools but in this class we will look at simple transformations such as higher order terms and interactions. 
+
+Unfortunately, our `mariokart` data set does not have a quantitative variable that takes on many values, we are going to switch to a different data set.
+
+Load the library `ISLR`, this is a package that you will use a great deal in Math 378.
+
+```{r}
+library(ISLR)
+```
+
+The data set of interest is `Credit`, use the help menu. But it is a simulated data set of credit card debt.
+
+```{r}
+glimpse(Credit)
+```
+
+Suppose we suspected that the relationship between `Balance`, the response, and the predictors `Income` and `Student`. Note: we actually are using this model for educational purposes and did not go through a model selection process. 
+
+The first model simply has these predictors in the model.
+
+```{r}
+credit_mod1<-lm(Balance~Income+Student,data=Credit)
+```
+
+```{r}
+summary(credit_mod1)
+```  
+
+Let's plot the data and the regression line. The impact of putting in the categorical variable `Student` is to just shift the intercept. The slope remains the same.
+
+
+```{r}
+augment(credit_mod1) %>%
+  gf_point(Balance~Income,color=~Student) %>%
+  gf_line(.fitted~Income,data=subset(augment(credit_mod1), Student == "Yes"),color=~Student)%>%
+  gf_line(.fitted~Income,data=subset(augment(credit_mod1), Student == "No"),color=~Student)
+```
+
+
+
+>**Exercise**:  
+Write the equation for the regression model.
+
+In this case, we would want to include an interaction term in the model: 
+
+$$
+\E(Balance)=\beta_0 + \beta_1*\text{Income}+ \beta_2*\text{(Student=Yes)} 
+$$
+
+or 
+
+$$
+\E(Balance)=211.14 + 5.98*\text{Income}+ 382.67*\text{(Student=Yes)} 
+$$
+
+To include an interaction term when building a model in `R`, we use `\*`. 
+
+```{r}
+credit_mod2<-lm(Balance~Income*Student,data=Credit)
+```
+
+```{r}
+summary(credit_mod2)
+```  
+
+```{r}
+augment(credit_mod2) %>%
+  gf_point(Balance~Income,color=~Student) %>%
+  gf_line(.fitted~Income,data=subset(augment(credit_mod1), Student == "Yes"),color=~Student)%>%
+  gf_line(.fitted~Income,data=subset(augment(credit_mod1), Student == "No"),color=~Student)
+```
+
+Now we have a different slope and intercept for each case of the `Student` variable.
+
+
+
+
+
+
+
+
+$$
+\E(Sales)=\beta_0 + \beta_1*\text{Advertising}+ \beta_2*\text{Price}+ \beta_3*\text{(ShelveLoc=Good)}+ 
+$$
+$$
+\beta_4*\text{(ShelveLoc=Medium)} + \beta_5*\text{Price}*\text{(ShelveLoc=Good)} + \beta_6*\text{Price}*\text{(ShelveLoc=Medium)} 
+$$
+
+To include an interaction term when building a model in `R`, we simply need to include the product of the two variables as a predictor. IMPORTANT: If we include interaction terms, we must also include the individual predictor variables as well. 
+```{r lesson36c}
+my.model2<-lm(Sales~Advertising+Price+ShelveLoc+Advertising*ShelveLoc,data=Carseats)
+summary(my.model2)
+```
+
+Furthermore, if you suspect that perhaps a curved relationship exists between two variables, we could include a higher order term. As an example, let's add a quadratic term for `Price` to our model (without the interaction). To do this in `R`, we need to wrap the higher order term in `I()`. Again, if we include a higher order term, we need to include the lower order terms as well:
+```{r lesson36d}
+my.model3<-lm(Sales~Advertising+Price+I(Price^2)+ShelveLoc,data=Carseats)
+summary(my.model3)
+```
 
 
 ## File Creation Information 
