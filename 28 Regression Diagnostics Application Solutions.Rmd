@@ -57,7 +57,7 @@ We will use the blood alcohol content data again. As a reminder his is the descr
 
 The data is in the `openintro` package under `bac`.
 
-a) Obtain and interpret $R$-squared for this model.  
+a. Obtain and interpret $R$-squared for this model.  
 
 ```{r message=FALSE,eval=FALSE}
 library(openintro)
@@ -80,7 +80,7 @@ summary(bac_mod)
 The $R$-squared is 0.7998, this means that almost 80% of the variance in blood alcohol content is explained by the number of beers consumed. This is not surprising. The remaining variance may be due to measurement errors, differences in the students, and environmental impacts.
 
 
-b) Evaluate the assumptions of this model. Do we have anything to be concerned about? 
+b. Evaluate the assumptions of this model. Do we have anything to be concerned about? 
 
 ```{r}
 plot(bac_mod,1)

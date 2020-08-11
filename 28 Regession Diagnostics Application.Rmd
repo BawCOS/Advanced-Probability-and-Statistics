@@ -46,9 +46,9 @@ We will use the blood alcohol content data again. As a reminder his is the descr
 
 The data is in the `openintro` package under `bac`.
 
-a) Obtain and interpret $R$-squared for this model.  
+a. Obtain and interpret $R$-squared for this model.  
 
-b) Evaluate the assumptions of this model. Do we have anything to be concerned about? 
+b. Evaluate the assumptions of this model. Do we have anything to be concerned about? 
 
 
 

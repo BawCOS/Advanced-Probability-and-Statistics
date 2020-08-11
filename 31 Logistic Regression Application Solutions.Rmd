@@ -30,30 +30,21 @@ library(tidyverse)
 
 # Exercises
 
-\indent 1. Loans  
+\indent 1. Possum classification 
 
-We will use the loans data set again to create linear models. Remember this data set represents thousands of loans made through the Lending Club platform, which is a platform that allows individuals to lend to other individuals.
+Let's investigate the `possum` data set again. This time we want to model a binary outcome variable. As a reminder, the common brushtail possum of the Australia region is a bit cuter than its distant cousin, the American opossum. We consider 104 brushtail possums from two regions in Australia, where the possums may be considered a random sample from the population. The first region is Victoria, which is in the eastern half of Australia and traverses the southern coast. The second region consists of New South Wales and Queensland, which make up eastern and northeastern Australia.
 
-a. Read in the data.  
-b. Create a subset of data with 200 with the following three variables `interest_rate`, `loan_amount`, and `term`. Change `term` into a factor and use a stratified sample to keep the proportion of loan term roughly the same as the original data.  
-c. Plot `interest_rate` versus `loan_amount`.  
-d. Fit a linear model to the data.  
-e. Using the $t$ distribution:  
-   i. Find a 95% confidence interval for the slope.  
-   ii. Find and interpret a 90% prediction interval for a loan amount of $20000
-f. Repeat part e using a bootstrap.
-g. Check the assumptions of linear regression.
+We use logistic regression to differentiate between possums in these two regions. The outcome variable, called `pop`, takes value `Vic` when a possum is from Victoria and `other` when it is from New South Wales or Queensland. We consider five predictors: `sex`, `head_l`, `skull_w`, `total_l`, and `tail_l`. 
 
+a. Explore the data by making histograms of the quantitative variables, and bar charts of the discrete variables.  
+Are there any outliers that are likely to have a very large influence on the logistic regression model?
+b. Build a logistic regression model with all the variable.  
+c. Using the p-values decide if you want to remove a variable(S) and if so build that model.
+d. For any variable you decide to remove, build a bootstrap 95% confidence interval.
+e. Explain why the remaining parameter estimates change between the two models.
+f. Write out the form of the model. Also identify which of the following variables are positively associated (when controlling for other variables) with a possum being from Victoria: `head_l`, `skull_w`, `total_l`, and `tail_l`.
+g. Suppose we see a brushtail possum at a zoo in the US, and a sign says the possum had been captured in the wild in Australia, but it doesn't say which part of Australia. However, the sign does indicate that the possum is male, its skull is about 63 mm wide, its tail is 37 cm long, and its total length is 83 cm. What is the reduced model's computed probability that this possum is from Victoria? How confident are you in the model's accuracy of this probability calculation?
 
-\indent 2. Loans II
-
-Again using the `loans_full_schema` dataset use the variable `term` to determine if there is a difference in interest rates for the two different loan lengths.
-
-a. Build a set of three boxplots that summarize interest rate by term. Describe the relationship you see. Note: You will have to convert the `term` variable to a factor prior to continuing.  
-b. Build a linear model fitting interest rate against term. Does there appear to be a significant difference in mean interest rates by term?  
-c. Write out the estimated linear model. In words, interpret the coefficient estimate.   
-d. Construct a bootstrap confidence interval on the coefficient.  
-e. Check model assumptions.  
 
 
 ## File Creation Information 

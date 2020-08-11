@@ -1,0 +1,113 @@
+---
+title: "Multiple Regression Applications Solutions"
+author:
+- Lt Col Ken Horton
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+   - \usepackage{multirow}
+   - \usepackage{multicol}
+   - \usepackage{changepage}
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(out.width = "75%")
+library(openintro)
+library(knitr)
+library(mosaic)
+library(tidyverse)
+```
+
+\newcommand{\E}{\mbox{E}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\Prob}{\mbox{P}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+\indent 1. The `mtcars` dataset contains average mileage (mpg) and other information about specific makes and models of cars. (This dataset is built-in to `R`; for more information about this dataset, reference the documentation with `?mtcars`). 
+
+a. Build and interpret the coefficients of a model fitting `mpg` against displacement (`disp`), horsepower (`hp`), rear axle ratio (`drat`), and weight in 1000 lbs (`wt`). 
+
+```{r}
+cars_mod<-lm(mpg~disp+hp+drat+wt,data=mtcars)
+summary(cars_mod)
+```
+
+$$
+\E(\text{mpg})=29.15+0.004*\text{disp}-0.035*\text{hp}+1.768*\text{drat}-3.480*\text{wt}
+$$
+
+Each coefficient represents the expected increase in `mpg` for a unit increase in the respective variable, leaving all other variables constant. 
+
+b) Given your model, what is the expected mpg for a vehicle with a displacement of 170, a horsepower of 100, a `drat` of 3.80 and a wt of 2,900 lbs. Construct a 95% confidence interval and prediction interval for that expected mpg. 
+
+```{r}
+predict(cars_mod,newdata=data.frame(disp=170,hp=100,drat=3.8,wt=2.9),interval="confidence")
+predict(cars_mod,newdata=data.frame(disp=170,hp=100,drat=3.8,wt=2.9),interval="prediction")
+```
+
+c. Repeat part (b) with a bootstrap.
+
+```{r}
+set.seed(732)
+results <- do(1000)*lm(mpg~disp+hp+drat+wt,data=resample(mtcars))
+```
+
+```{r}
+head(results)
+```
+
+
+```{r}
+results %>%
+mutate(pred=Intercept+disp*170+hp*100+drat*3.8+wt*2.9) %>%
+cdata(~pred,data=.)
+```
+
+```{r}
+results %>%
+mutate(pred=Intercept+disp*170+hp*100+drat*3.8+wt*2.9) %>%
+cbind(resid=sample(cars_mod$residuals,size=1000,replace = TRUE)) %>%
+mutate(pred_ind=pred+resid) %>%
+cdata(~pred_ind,data=.)
+```
+
+
+
+&nbsp;
+
+\indent 2. Is that the best model for predicting mpg? With your group, try a variety of different models. You could explore higher order terms or even interactions. One place to start is my using the `pairs()` function on `mtcars` to plot a large pairwise scatterplot. How high could you get adjusted $R$-squared? Keep in mind that is only one measure of fit. 
+
+Answers will vary, but I tried this and got 0.8694. 
+
+```{r}
+summary(lm(mpg~disp+I(disp^2)+hp+I(hp^2)+wt,data=mtcars))
+```
+
+
+
+
+## File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+  * `openintro` package version: `r packageVersion("openintro")`
+
+ 
+
+
+
+

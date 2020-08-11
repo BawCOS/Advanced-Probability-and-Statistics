@@ -35,13 +35,15 @@ library(tidyverse)
 
 ## Objectives
 
-1) Create and interpret a model with multiple predictors.
+1) Create and interpret a model with multiple predictors and check assumptions.
 
 2) Generate and interpret confidence intervals for estimates.
 
 3) Explain adjusted $R^2$ and and multi-collinearity.
 
-4) Interpret regression coefficients for a linear model with multiple predictors.
+4) Interpret regression coefficients for a linear model with multiple predictors.  
+
+5) Build and interpret models with higher order terms.
 
 ## Introduction to multiple regression  
 
@@ -349,13 +351,13 @@ Load the library `ISLR`, this is a package that you will use a great deal in Mat
 library(ISLR)
 ```
 
-The data set of interest is `Credit`, use the help menu. But it is a simulated data set of credit card debt.
+The data set of interest is `Credit`, use the help menu to read about the variables. This is a simulated data set of credit card debt.
 
 ```{r}
 glimpse(Credit)
 ```
 
-Suppose we suspected that the relationship between `Balance`, the response, and the predictors `Income` and `Student`. Note: we actually are using this model for educational purposes and did not go through a model selection process. 
+Suppose we suspected that there is a relationship between `Balance`, the response, and the predictors `Income` and `Student`. Note: we actually are using this model for educational purposes and did not go through a model selection process. 
 
 The first model simply has these predictors in the model.
 
@@ -394,7 +396,9 @@ $$
 \E(Balance)=211.14 + 5.98*\text{Income}+ 382.67*\text{(Student=Yes)} 
 $$
 
-To include an interaction term when building a model in `R`, we use `\*`. 
+If the observation is a student, then the intercept is increased by 382.67.
+
+an **interaction** term allows the slope to change as well. To include an interaction term when building a model in `R`, we use `\*`. 
 
 ```{r}
 credit_mod2<-lm(Balance~Income*Student,data=Credit)
@@ -407,37 +411,30 @@ summary(credit_mod2)
 ```{r}
 augment(credit_mod2) %>%
   gf_point(Balance~Income,color=~Student) %>%
-  gf_line(.fitted~Income,data=subset(augment(credit_mod1), Student == "Yes"),color=~Student)%>%
-  gf_line(.fitted~Income,data=subset(augment(credit_mod1), Student == "No"),color=~Student)
+  gf_line(.fitted~Income,data=subset(augment(credit_mod2), Student == "Yes"),color=~Student)%>%
+  gf_line(.fitted~Income,data=subset(augment(credit_mod2), Student == "No"),color=~Student)
 ```
 
-Now we have a different slope and intercept for each case of the `Student` variable.
+Now we have a different slope and intercept for each case of the `Student` variable. Thus there is a synergy or interaction between these variables. The student status changes the impact of `Income` on `Balance`. If you are a student, then for every increase in income of 1 the balance increase by 4.219. If you are not a student, every increase in income of 1 increases the balance by 6.2182. 
 
+Furthermore, if you suspect that perhaps a curved relationship exists between two variables, we could include a higher order term. As an example, let's add a quadratic term for `Income` to our model (without the interaction). To do this in `R`, we need to wrap the higher order term in `I()`. If we include a higher order term, we usually want to include the lower order terms as well, in Math 378 you will make the decision on what to include using predictive performance.
 
-
-
-
-
-
-
-$$
-\E(Sales)=\beta_0 + \beta_1*\text{Advertising}+ \beta_2*\text{Price}+ \beta_3*\text{(ShelveLoc=Good)}+ 
-$$
-$$
-\beta_4*\text{(ShelveLoc=Medium)} + \beta_5*\text{Price}*\text{(ShelveLoc=Good)} + \beta_6*\text{Price}*\text{(ShelveLoc=Medium)} 
-$$
-
-To include an interaction term when building a model in `R`, we simply need to include the product of the two variables as a predictor. IMPORTANT: If we include interaction terms, we must also include the individual predictor variables as well. 
-```{r lesson36c}
-my.model2<-lm(Sales~Advertising+Price+ShelveLoc+Advertising*ShelveLoc,data=Carseats)
-summary(my.model2)
+```{r}
+credit_mod3<-lm(Balance~Income+I(Income^2),data=Credit)
 ```
 
-Furthermore, if you suspect that perhaps a curved relationship exists between two variables, we could include a higher order term. As an example, let's add a quadratic term for `Price` to our model (without the interaction). To do this in `R`, we need to wrap the higher order term in `I()`. Again, if we include a higher order term, we need to include the lower order terms as well:
-```{r lesson36d}
-my.model3<-lm(Sales~Advertising+Price+I(Price^2)+ShelveLoc,data=Carseats)
-summary(my.model3)
+```{r}
+summary(credit_mod3)
+```  
+
+```{r}
+augment(credit_mod3) %>%
+  gf_point(Balance~Income) %>%
+  gf_line(.fitted~Income)
 ```
+
+There is not much a a quadratic relationship.
+
 
 
 ## File Creation Information 
