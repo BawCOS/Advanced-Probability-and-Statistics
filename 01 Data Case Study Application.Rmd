@@ -18,71 +18,61 @@ knitr::opts_chunk$set(echo = TRUE)
 \newcommand{\Prob}{\mbox{P}}
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
 
-# Exercises
+## Exercises
 
-1. **Stent study continued**. Complete a similar analysis for the stent data but this time for the one year data. In particular
+Load `tidyverse`,`mosaic`, and `knitr` packages.
 
-  a) Create a new R Markdown file.
+Use this file as your R Markdown file.
 
-
-  b) Read the data into your working directory.
-
-
-  c) Complete similar steps as in the class notes.
-
-
-  d) Compile, `knit`, the report.
-
-
-2. **Migraine and acupuncture**.  A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture. To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 females diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control. 43 patients in the treatment group received acupuncture that is specifically designed to treat migraines. 46 patients in the control group received placebo acupuncture (needle insertion at nonacupoint locations). 24 hours after patients received acupuncture, they were asked if they were pain free.^[G. Allais et al. [“Ear acupuncture in the treatment of migraine attacks:  a randomized trial on the efficacy of appropriate versus inappropriate acupoints”.](http://www.ncbi.nlm.nih.gov/pubmed/21533739) In: Neurological Sci. 32.1 (2011), pp. 173–175.]
-
-
-
-
-
-```{r message=FALSE,echo=FALSE,results='hide'}
+```{r message=FALSE}
 library(tidyverse)
 library(mosaic)
 library(knitr)
 ```
 
 
-```{r results='hide',echo=FALSE}
-migraine_study <- data.frame(group =c(rep('treatment', 43), rep('control', 46)), pain_free = c(rep(c('yes', 'no'), c(10, 33)), rep(c('yes', 'no'), c(2, 44))))
-```
+1. **Stent study continued**. Complete a similar analysis for the stent data but this time for the one year data. In particular
+
+  a. Read the data into your working directory.
 
 
-Results are summarized in the contingency table below.
+  b. Complete similar steps as in the class notes.  
+    i. Use `inspect` on the data.
+    ii. Create a table of `outcome365` and `group`.
+    iii. Create a barchart of the data.
 
-```{r echo=FALSE}
-tally(group~pain_free,migraine_study) %>%
-  kable(row.names = TRUE)
-```
 
-The data is in the file `migraine_study.csv`
+2. **Migraine and acupuncture**.  A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture. To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 females diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control. 43 patients in the treatment group received acupuncture that is specifically designed to treat migraines. 46 patients in the control group received placebo acupuncture (needle insertion at nonacupoint locations). 24 hours after patients received acupuncture, they were asked if they were pain free.^[G. Allais et al. [“Ear acupuncture in the treatment of migraine attacks:  a randomized trial on the efficacy of appropriate versus inappropriate acupoints”.](http://www.ncbi.nlm.nih.gov/pubmed/21533739) In: Neurological Sci. 32.1 (2011), pp. 173–175.]
+
+
+The data is in the file `migraine_study.csv` in the folder `data`.
 
 Complete the following work:
 
-  a) Create a new R Markdown file.
+  a. Read the data an object called `migraine_study`.  
 
-
-  b) Read the data into your working directory.
-
-
-  c) Create a table of the data.
+  b. Create a table of the data.
   
-  d) Report the percent of patients in the treatment group were pain free 24 hours after receiving acupuncture. 
+  c. Report the percent of patients in the treatment group who were pain free 24 hours after receiving acupuncture. 
   
-  e) Repeat for the control group.
+  d. Repeat for the control group.
   
-  f) At first glance, does acupuncture appear to be an effective treatment for migraines? Explain your reasoning.
+  e. At first glance, does acupuncture appear to be an effective treatment for migraines? Explain your reasoning.
   
-  g) Do the data provide convincing evidence that there is a real pain reduction for those patients in the treatment group? Or do you think that the observed difference might just be due to chance?
-
-  h) Compile, `knit`, the report.
+  f. Do the data provide convincing evidence that there is a real pain reduction for those patients in the treatment group? Or do you think that the observed difference might just be due to chance?
 
 
+3. Compile, `knit`, this report into a pdf.
 
+We are documenting the packages we are using.
 
+## File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+ 
 
 

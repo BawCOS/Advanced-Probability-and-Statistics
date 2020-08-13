@@ -1,13 +1,24 @@
 ---
-title: "Lesson 2 Applications"
-author: "Lt Col Ken Horton"
-date: "August ??, 2019"
-output: pdf_document
+title: "Case Study with Data Application Solutions"
+author:
+- Lt Col Kris Pruitt
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(prob)
+library(tidyverse)
+library(mosaic)
+library(knitr)
 ```
 
 \newcommand{\E}{\mbox{E}}
@@ -16,72 +27,119 @@ library(prob)
 \newcommand{\Prob}{\mbox{P}}
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
 
-# Exercises
-
-\indent 1. Let $A$, $B$ and $C$ be events such that $\Prob(A)=0.5$, $\Prob(B)=0.3$, and $\Prob(C)=0.4$. Also, we know that $\Prob(A \cap B)=0.2$, $\Prob(B \cap C)=0.12$, $\Prob(A \cap C)=0.1$, and $\Prob(A \cap B \cap C)=0.05$. Find the following: 
-
-  a) $\Prob(A\cup B)$
-$$
-\Prob(A\cup B) = \Prob(A)+\Prob(B)-\Prob(A\cap B)= 0.5+0.3-0.2 = 0.6
-$$
-
-  b) $\Prob(A\cup B \cup C)$
-$$
-\Prob(A\cup B \cup C) = \Prob(A)+\Prob(B)+\Prob(C)-\Prob(A\cap B)-\Prob(A\cap C)-\Prob(B\cap C)+\Prob(A\cap B \cap C)
-$$
-$$
-= 0.5+0.3+0.4-0.2-0.12-0.1+0.05 = 0.83
-$$
-
-  c) $\Prob(B'\cap C')$
-$$
-\Prob(B'\cap C')=\Prob((B\cup C)') = 1-\Prob(B\cup C) = 1-[\Prob(B)+\Prob(C)-\Prob(B\cap C)]
-$$
-$$
-= 1-(0.3+0.4-0.12) = 0.42
-$$
-
-  d) $\Prob(A\cup (B\cap C))$
-$$
-\Prob(A\cup (B\cap C)) = \Prob(A)+\Prob(B\cap C) -\Prob(A\cap B \cap C) = 0.5+0.12-0.05 = 0.57
-$$
-
-  e) $\Prob((A\cup B \cup C)\cap (A\cap B \cap C)')$
-$$
-\Prob((A\cup B \cup C)\cap (A\cap B \cap C)')=\Prob(A\cup B \cup C)-\Prob(A\cap B \cap C) = 0.83-0.05 = 0.78
-$$
-
-  f) Advanced: Find $\Prob(A|B)$, the probability of $A$ given we know $B$ has occurred. 
-$$
-\Prob(A|B)=\frac{\Prob(A \cap B)}{\Prob(B)} = \frac{0.2}{0.3}=0.667
-$$
-
-\indent 2. Consider Example 2.3 in the reading. What is the probability that the family has at least one boy? 
-$$
-\Prob(\mbox{at least one boy})=1-\Prob(\mbox{no boys})=1-\Prob(\mbox{GGG})=1-\frac{1}{8} = 0.875
-$$
-
-
-
-\indent 3. The Birthday Problem. 
-
-a) Suppose there are $n=20$ people in a classroom. What is the probability that at least two people share a birthday? Assume only 365 days in a year and assume that all birthdays are equally likely. 
-$$
-\Prob(\mbox{at least two people share bday})=1-\Prob(\mbox{all unique bdays}) = 1-\frac{365 \cdot 364 \cdot ... \cdot 346}{365^{20}} = 0.4114
-$$
-
-
-
-b) In `R`, find the probability that at least two people share a birthday for each value of $n$ from 1 to 80. Plot these probabilities with $n$ on the $x$-axis and probability on the $y$-axis. At what value of $n$ would the probability be at least 95%? 
-
-Generalizing,
-$$
-\Prob(\mbox{at least two people share bday})=1-\Prob(\mbox{all unique bdays}) = 1-\frac{365 \cdot 364 \cdot ... \cdot (365-n+1)}{365^n}
-$$
-```{r lesson2app1}
-n<-1:80
-prob<-sapply(n, function(x) 1-prod(365:(365-x+1))/(365^x))
-plot(n,prob)
-n[prob>=0.95][1]
+```{r results='hide',echo=FALSE,eval=FALSE}
+migraine_study <- data.frame(group =c(rep('treatment', 43), rep('control', 46)), pain_free = c(rep(c('yes', 'no'), c(10, 33)), rep(c('yes', 'no'), c(2, 44))))
 ```
+
+## Exercises
+
+Load `tidyverse`,`mosaic`, and `knitr` packages.
+
+Use this file as your R Markdown file.
+
+```{r message=FALSE,eval=FALSE}
+library(tidyverse)
+library(mosaic)
+library(knitr)
+```
+
+
+
+1. **Stent study continued**. Complete a similar analysis for the stent data but this time for the one year data. In particular
+
+  a. Read the data into your working directory.
+  
+```{r message=FALSE}
+stent_study <-read_csv('data/stent_study.csv')
+```
+  
+
+
+  b. Complete similar steps as in the class notes.  
+    i. Use `inspect` on the data.
+    ii. Create a table of `outcome365` and `group`. Comment on the results.
+    iii. Create a barchart of the data.
+
+```{r}
+inspect(stent_study)
+```
+
+
+
+```{r}
+tally(outcome365~group,data=stent_study,format="proportion",margins = TRUE)
+```
+
+Patients in the treatment group had a higher proportion of strokes than those in the control group after one year. The treatment does not appear to help the rate of strokes and in fact may hurt it.
+
+
+
+```{r}
+stent_study %>%
+  gf_props(~group,fill=~outcome365,position='fill') %>%
+  gf_labs(title="Impact of Stents of Stroke",
+  subtitle='Experiment with 451 Patients',
+  x="Experimental Group",
+  y="Number of Events")
+```
+
+2. **Migraine and acupuncture**.  A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture. To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 females diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control. 43 patients in the treatment group received acupuncture that is specifically designed to treat migraines. 46 patients in the control group received placebo acupuncture (needle insertion at nonacupoint locations). 24 hours after patients received acupuncture, they were asked if they were pain free.^[G. Allais et al. [“Ear acupuncture in the treatment of migraine attacks:  a randomized trial on the efficacy of appropriate versus inappropriate acupoints”.](http://www.ncbi.nlm.nih.gov/pubmed/21533739) In: Neurological Sci. 32.1 (2011), pp. 173–175.]
+
+
+The data is in the file `migraine_study.csv` in the folder `data`.
+
+Complete the following work:
+
+  a. Read the data an object called `migraine_study`.  
+  
+```{r message=FALSE}
+migraine_study <- read_csv("data/migraine_study.csv")
+```
+  
+```{r}
+head(migraine_study)
+```
+  
+
+  b. Create a table of the data.
+  
+```{r}
+tally(pain_free~group,data=migraine_study,format="proportion",margin=TRUE)
+```
+   
+  
+  c. Report the percent of patients in the treatment group who were pain free 24 hours after receiving acupuncture.
+  
+  There are 23.2% of the treatment group pain free.
+  
+  d. Repeat for the control group.
+  
+  There are only 4.3% of the control group pain free.
+  
+  e. At first glance, does acupuncture appear to be an effective treatment for migraines? Explain your reasoning.
+  
+  Yes, a substantial increase in the percentage of patients pain free after acupuncture versus those with no acupuncture, so it appears to be effective.
+  
+  f. Do the data provide convincing evidence that there is a real pain reduction for those patients in the treatment group? Or do you think that the observed difference might just be due to chance?
+  
+  Either of these is acceptable: 
+ i. We could get slightly different group estimates even if there is no real difference. Though the difference is big, I'm skeptical the results show a real difference and think this might be due to chance.  
+ ii. The difference in these rates looks pretty big, and so I suspect acupuncture is having a positive impact on pain.
+
+
+3. Compile, `knit`, this report into a pdf.
+
+We are documenting the packages we are using.
+
+## File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+ 
+
+
+
 

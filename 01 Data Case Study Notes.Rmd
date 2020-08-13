@@ -2,6 +2,7 @@
 title: "Case Study with Data"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -53,12 +54,12 @@ Statistics as a subject focuses on making stages 2-5 objective, rigorous, and ef
 * How should it be analyzed?  
 * And what can we infer from the analysis?
 
-The topics scientists investigate are as diverse as the questions they ask. However, many of these investigations can be addressed with a small number of data collection techniques, analytic tools, and fundamental concepts in statistical inference. This chapter provides a glimpse into these and other themes we will encounter throughout the rest of the book. We introduce the basic principles of each branch and learn some tools along the way. We will encounter applications from other fields, some of which are not typically associated with science but nonetheless can benefit from statistical study.
+The topics scientists investigate are as diverse as the questions they ask. However, many of these investigations can be addressed with a small number of data collection techniques, analytic tools, and fundamental concepts in statistical inference. This lesson provides a glimpse into these and other themes we will encounter throughout the rest of the course. 
 
   
 ## Case study
 
-In this section we will consider an experiment that studies effectiveness of stents in treating patients at risk of stroke. ^[[Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003.](http://www.nejm.org/doi/full/10.1056/NEJMoa1105335)] ^[[NY Times article reporting on the study](http://www.nytimes.com/2011/09/08/health/research/08stent.html)] Stents are small mesh tubes that are placed inside narrow or weak arteries to assist in patient recovery after cardiac events and reduce the risk of an additional heart attack or death. Many doctors have hoped that there would be similar benefits for patients at risk of stroke. We start by writing the principal question the researchers hope to answer:  
+In this lesson we will consider an experiment that studies effectiveness of stents in treating patients at risk of stroke. ^[[Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003.](http://www.nejm.org/doi/full/10.1056/NEJMoa1105335)] ^[[NY Times article reporting on the study](http://www.nytimes.com/2011/09/08/health/research/08stent.html)] Stents are small mesh tubes that are placed inside narrow or weak arteries to assist in patient recovery after cardiac events and reduce the risk of an additional heart attack or death. Many doctors have hoped that there would be similar benefits for patients at risk of stroke. We start by writing the principal question the researchers hope to answer:  
 
 ### Research question
 
@@ -82,12 +83,10 @@ Researchers studied the effect of stents at two time points: 30 days after enrol
 
 We begin our first use of `R`
 
-If you need to install a package, most likely it will be
-on CRAN, . Before
-a package can be used, it must be installed (once per
-computer or account) and loaded (once per R session).
+If you need to install a package, most likely it will be on CRAN, the Comprehensive R Archive Network. Before
+a package can be used, it must be installed on the computer (once per computer or account) and loaded into a session (once per `R` session). When you exit `R`, the package stays installed on the computer but will not be reloaded when `R` is started again.
 
-`R` has packages that can be downloaded and installed from online repositories such as CRAN, the Comprehensive R Archive Network. When you install a package, which only needs to be done once per computer or account, in `R` all it is doing is placing the source code in a library folder designated during the installation of `R`. Packages are typically collections of functions and variables that are specific to a certain task or subject matter. 
+In summary, `R` has packages that can be downloaded and installed from online repositories such as CRAN. When you install a package, which only needs to be done once per computer or account, in `R` all it is doing is placing the source code in a library folder designated during the installation of `R`. Packages are typically collections of functions and variables that are specific to a certain task or subject matter. 
 
 For example, to install the mosaic package, enter:
 
@@ -97,7 +96,7 @@ install.packages("mosaic") # fetch package from CRAN
 
 In RStudio there is a *Packages* tab that makes it easy to add and maintain packages.
 
-To use a package in a session, we must load it which makes it available to the current session only. When you start `R` again, you will have to load packages. The command `library()` with the package name supplied as the argument is all that is needed. For this session, we will load load `tidyverse` and `mosaic`. Note: the box below is executing the `R` commands, this is known as reproducible research since you can see the code and run or modify as you need.
+To use a package in a session, we must load it which makes it available to the current session only. When you start `R` again, you will have to load packages again. The command `library()` with the package name supplied as the argument is all that is needed. For this session, we will load load `tidyverse` and `mosaic`. Note: the box below is executing the `R` commands, this is known as reproducible research since you can see the code and then you can run or modify as you need.
 
 ```{r message=FALSE}
 library(tidyverse)
@@ -113,7 +112,7 @@ sample() %>%
 select(-orig.id)
 ```
 
-Now read in the data into the working environment.
+Next read in the data into the working environment.
 
 ```{r message=FALSE}
 stent_study <- read_csv("data/stent_study.csv")
@@ -146,7 +145,7 @@ view(stent_study)
 
 ### Explore data
 
-Before we attempt to answer the question, let's look at the data. We want `R` to print out the first 10 rows of the data. The appropriate function is `head()` and it needs the data object. By default, `R` will output the first 6 rows. By using the `n=` argument, we can specify how many rows we want to view.
+Before we attempt to answer the research question, let's look at the data. We want `R` to print out the first 10 rows of the data. The appropriate function is `head()` and it needs the data object. By default, `R` will output the first 6 rows. By using the `n=` argument, we can specify how many rows we want to view.
 
 ```{r}
 head(stent_study,n=10)
@@ -154,14 +153,12 @@ head(stent_study,n=10)
 
 We also want to "inspect" the data. The function is `inspect()` and `R` needs the data object `stent_study`.
 
-```{r}
+```{r warning=FALSE}
 inspect(stent_study)
 ```
 
-> **Exercise**:  
-Interpret this table and explain each column
 
-To keep things simple we will only look at the `outcome30` variable. We will summarize in a table. Later in the course, we will learn to do this using the `tidy` package; for now we use the `mosaic` package. This package makes use of the modeling formula that you will use extensively later in this course and in Math 378.
+To keep things simple we will only look at the `outcome30` variable in this case study. We will summarize the data in a table. Later in the course, we will learn to do this using the `tidy` package; for now we use the `mosaic` package. This package makes use of the modeling formula that you will use extensively later in this course and in Math 378.
 
 We want to summarize the data by making a table. In `mosaic` this is the `tally()` function. Before using this function, we have to understand the basic formula notation that `mosaic` uses. The basic format is:
 
@@ -177,7 +174,9 @@ For this exercise, we want to apply `tally()` to the variables `group` and `outc
 tally(outcome30~group,data=stent_study,margins = TRUE)
 ```
 
-Of the 224 patients in the treatment group, 33 had a stroke by the end of the first year. Using these two numbers, we can use `R` to compute the proportion of patients in the treatment group who had a stroke by the end of their first month. 
+The `margins` option totals the columns.
+
+Of the 224 patients in the treatment group, 33 had a stroke by the end of the first month. Using these two numbers, we can use `R` to compute the proportion of patients in the treatment group who had a stroke by the end of their first month. 
 
 ```{r}
 33/(33+191)
