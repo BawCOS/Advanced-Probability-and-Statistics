@@ -96,7 +96,7 @@ install.packages("mosaic") # fetch package from CRAN
 
 In RStudio there is a *Packages* tab that makes it easy to add and maintain packages.
 
-To use a package in a session, we must load it which makes it available to the current session only. When you start `R` again, you will have to load packages again. The command `library()` with the package name supplied as the argument is all that is needed. For this session, we will load load `tidyverse` and `mosaic`. Note: the box below is executing the `R` commands, this is known as reproducible research since you can see the code and then you can run or modify as you need.
+To use a package in a session, we must load it which makes it available to the current session only. When you start `R` again, you will have to load packages again. The command `library()` with the package name supplied as the argument is all that is needed. For this session, we will load `tidyverse` and `mosaic`. Note: the box below is executing the `R` commands, this is known as reproducible research since you can see the code and then you can run or modify as you need.
 
 ```{r message=FALSE}
 library(tidyverse)
@@ -105,7 +105,7 @@ library(mosaic)
 
 
 ```{r results='hide',echo=FALSE}
-stent_study <- data.frame(group =c(rep('trmt', 224), rep('control', 227)), outcome30 = c(rep(c('stroke', 'no_event'), c(33, 191)), rep(c('stroke', 'no_event'), c(13, 214))), outcome365 = c(rep(c('stroke', 'no_event'), c(45, 179)), rep(c('stroke', 'no_event'), c(28, 199))))
+stent_study <- tibble(group =c(rep('trmt', 224), rep('control', 227)), outcome30 = c(rep(c('stroke', 'no_event'), c(33, 191)), rep(c('stroke', 'no_event'), c(13, 214))), outcome365 = c(rep(c('stroke', 'no_event'), c(45, 179)), rep(c('stroke', 'no_event'), c(28, 199))))
 
 stent_study <- stent_study %>%
 sample() %>%
