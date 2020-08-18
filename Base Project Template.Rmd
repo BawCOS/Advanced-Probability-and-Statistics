@@ -1,0 +1,35 @@
+---
+title: "Base Project"
+author:
+- Lt Col Ken Horton
+- Lt Col Kris Pruitt
+- Professor Bradley Warner
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    fig_height: 3
+    fig_width: 5
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load_packages,echo=FALSE,message=FALSE}
+library(fastR2)
+library(Stat2Data)
+library(mosaic)
+library(openintro)
+library(ISLR)
+library(tidyverse)
+library(broom)
+library(knitr)
+```
+
+
+## Objectives
+
+This files sets up all the packages 

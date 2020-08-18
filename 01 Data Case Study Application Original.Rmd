@@ -34,42 +34,13 @@ library(knitr)
 1. **Stent study continued**. Complete a similar analysis for the stent data but this time for the one year data. In particular
 
   a. Read the data into your working directory.
-  
-```{r message=FALSE}
-stent_study <-read_csv(___)
-```
-  
 
 
   b. Complete similar steps as in the class notes.  
     i. Use `inspect` on the data.
-    ii. Create a table of `outcome365` and `group`. Comment on the results.
+    ii. Create a table of `outcome365` and `group`.
     iii. Create a barchart of the data.
 
-i. This is a summary of the data.  
-
-```{r}
-inspect(___)
-```
-
-ii.
-
-```{r}
-tally(outcome365~___,data=stent_study,format=___,margins = TRUE)
-```
-
-COMMENT HERE
-
-
-
-```{r}
-stent_study %>%
-  gf_props(~___,fill=~___,position='fill') %>%
-  gf_labs(title=___
-  subtitle=___,
-  x=___,
-  y=___)
-```
 
 2. **Migraine and acupuncture**.  A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture. To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 females diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control. 43 patients in the treatment group received acupuncture that is specifically designed to treat migraines. 46 patients in the control group received placebo acupuncture (needle insertion at nonacupoint locations). 24 hours after patients received acupuncture, they were asked if they were pain free.^[G. Allais et al. [“Ear acupuncture in the treatment of migraine attacks:  a randomized trial on the efficacy of appropriate versus inappropriate acupoints”.](http://www.ncbi.nlm.nih.gov/pubmed/21533739) In: Neurological Sci. 32.1 (2011), pp. 173–175.]
 
@@ -79,38 +50,16 @@ The data is in the file `migraine_study.csv` in the folder `data`.
 Complete the following work:
 
   a. Read the data an object called `migraine_study`.  
-  
-```{r message=FALSE}
-migraine_study <- read_csv("data/___")
-```
-  
-```{r}
-head(migraine_study)
-```
-  
 
   b. Create a table of the data.
   
-```{r}
-tally(___)
-```
-   
-  
-  c. Report the percent of patients in the treatment group who were pain free 24 hours after receiving acupuncture.
-  
-  
+  c. Report the percent of patients in the treatment group who were pain free 24 hours after receiving acupuncture. 
   
   d. Repeat for the control group.
   
- 
-  
   e. At first glance, does acupuncture appear to be an effective treatment for migraines? Explain your reasoning.
   
-  
-  
   f. Do the data provide convincing evidence that there is a real pain reduction for those patients in the treatment group? Or do you think that the observed difference might just be due to chance?
-  
-  
 
 
 3. Compile, `knit`, this report into a pdf.
@@ -120,11 +69,10 @@ We are documenting the packages we are using.
 ## File Creation Information 
 
   * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
   * `r R.version.string`
   * `mosaic` package version: `r packageVersion("mosaic")`
   * `tidyverse` package version: `r packageVersion("tidyverse")`
  
-
-
 
 

@@ -10,6 +10,7 @@
 
 
 <meta name="author" content="Lt Col Ken Horton" />
+<meta name="author" content="Lt Col Kris Pruitt" />
 <meta name="author" content="Professor Bradley Warner" />
 
 
@@ -1636,8 +1637,9 @@ summary {
 
 <h1 class="title toc-ignore">Case Study with Data</h1>
 <h4 class="author">Lt Col Ken Horton</h4>
+<h4 class="author">Lt Col Kris Pruitt</h4>
 <h4 class="author">Professor Bradley Warner</h4>
-<h4 class="date">13 May, 2020</h4>
+<h4 class="date">17 August, 2020</h4>
 
 </div>
 
@@ -1649,9 +1651,10 @@ summary {
 <li><p>Compile a report using <code>knitr</code>.</p></li>
 </ol>
 </div>
-<div id="introduction-to-block-1---descriptive-statistical-modeling" class="section level1">
-<h1>Introduction to Block 1 - Descriptive Statistical Modeling</h1>
+<div id="introduction-to-block-1---descriptive-statistical-modeling" class="section level2">
+<h2>Introduction to Block 1 - Descriptive Statistical Modeling</h2>
 <p>In this first block of material we will focus on data types, collection methods, summaries, and visualizations. We also intend to introduce computing via the <code>R</code> package. Programming in <code>R</code> requires some focus early in the course and we will supplement with some online courses. There is relatively little mathematics in this first block.</p>
+</div>
 <div id="the-data-analytic-process" class="section level2">
 <h2>The data analytic process</h2>
 <p>Scientists seek to answer questions using rigorous methods and careful observations. These observations – collected from the likes of field notes, surveys, and experiments – form the backbone of a statistical investigation and are called <strong>data</strong>. Statistics is the study of how best to collect, analyze, and draw conclusions from data. It is helpful to put statistics in the context of a general process of investigation:</p>
@@ -1672,11 +1675,11 @@ summary {
 </li>
 <li>And what can we infer from the analysis?</li>
 </ul>
-<p>The topics scientists investigate are as diverse as the questions they ask. However, many of these investigations can be addressed with a small number of data collection techniques, analytic tools, and fundamental concepts in statistical inference. This chapter provides a glimpse into these and other themes we will encounter throughout the rest of the book. We introduce the basic principles of each branch and learn some tools along the way. We will encounter applications from other fields, some of which are not typically associated with science but nonetheless can benefit from statistical study.</p>
+<p>The topics scientists investigate are as diverse as the questions they ask. However, many of these investigations can be addressed with a small number of data collection techniques, analytic tools, and fundamental concepts in statistical inference. This lesson provides a glimpse into these and other themes we will encounter throughout the rest of the course.</p>
 </div>
 <div id="case-study" class="section level2">
 <h2>Case study</h2>
-<p>In this section we will consider an experiment that studies effectiveness of stents in treating patients at risk of stroke. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Stents are small mesh tubes that are placed inside narrow or weak arteries to assist in patient recovery after cardiac events and reduce the risk of an additional heart attack or death. Many doctors have hoped that there would be similar benefits for patients at risk of stroke. We start by writing the principal question the researchers hope to answer:</p>
+<p>In this lesson we will consider an experiment that studies effectiveness of stents in treating patients at risk of stroke. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Stents are small mesh tubes that are placed inside narrow or weak arteries to assist in patient recovery after cardiac events and reduce the risk of an additional heart attack or death. Many doctors have hoped that there would be similar benefits for patients at risk of stroke. We start by writing the principal question the researchers hope to answer:</p>
 <div id="research-question" class="section level3">
 <h3>Research question</h3>
 <blockquote>
@@ -1695,15 +1698,15 @@ summary {
 <div id="import-data" class="section level3">
 <h3>Import data</h3>
 <p>We begin our first use of <code>R</code></p>
-<p>If you need to install a package, most likely it will be on CRAN, . Before a package can be used, it must be installed (once per computer or account) and loaded (once per R session).</p>
-<p><code>R</code> has packages that can be downloaded and installed from online repositories such as CRAN, the Comprehensive R Archive Network. When you install a package, which only needs to be done once per computer or account, in <code>R</code> all it is doing is placing the source code in a library folder designated during the installation of <code>R</code>. Packages are typically collections of functions and variables that are specific to a certain task or subject matter.</p>
+<p>If you need to install a package, most likely it will be on CRAN, the Comprehensive R Archive Network. Before a package can be used, it must be installed on the computer (once per computer or account) and loaded into a session (once per <code>R</code> session). When you exit <code>R</code>, the package stays installed on the computer but will not be reloaded when <code>R</code> is started again.</p>
+<p>In summary, <code>R</code> has packages that can be downloaded and installed from online repositories such as CRAN. When you install a package, which only needs to be done once per computer or account, in <code>R</code> all it is doing is placing the source code in a library folder designated during the installation of <code>R</code>. Packages are typically collections of functions and variables that are specific to a certain task or subject matter.</p>
 <p>For example, to install the mosaic package, enter:</p>
 <pre><code>install.packages(&quot;mosaic&quot;) # fetch package from CRAN</code></pre>
 <p>In RStudio there is a <em>Packages</em> tab that makes it easy to add and maintain packages.</p>
-<p>To use a package in a session, we must load it which makes it available to the current session only. When you start <code>R</code> again, you will have to load packages. The command <code>library()</code> with the package name supplied as the argument is all that is needed. For this session, we will load load <code>tidyverse</code> and <code>mosaic</code>. Note: the box below is executing the <code>R</code> commands, this is known as reproducible research since you can see the code and run or modify as you need.</p>
+<p>To use a package in a session, we must load it which makes it available to the current session only. When you start <code>R</code> again, you will have to load packages again. The command <code>library()</code> with the package name supplied as the argument is all that is needed. For this session, we will load <code>tidyverse</code> and <code>mosaic</code>. Note: the box below is executing the <code>R</code> commands, this is known as reproducible research since you can see the code and then you can run or modify as you need.</p>
 <pre class="r"><code>library(tidyverse)
 library(mosaic)</code></pre>
-<p>Now read in the data into the working environment.</p>
+<p>Next read in the data into the working environment.</p>
 <pre class="r"><code>stent_study &lt;- read_csv(&quot;data/stent_study.csv&quot;)</code></pre>
 <p>Let’s break this code down. We are reading from a .csv file and assigning the results into an object called <code>stent_study</code>. The assignment arrow <code>&lt;-</code> means we assign what is on the right to what is on the left. The <code>R</code> function we use in this case is <code>read_csv()</code>; when using <code>R</code> functions, you should ask yourself:</p>
 <ol style="list-style-type: decimal">
@@ -1712,7 +1715,7 @@ library(mosaic)</code></pre>
 </ol>
 <p>We want <code>R</code> to read in a .csv file. We can get help on this function by typing <code>?read_csv</code> at the prompt. The only required input to <code>read_csv()</code> is the file location. We have our data stored in a folder called “data” under the working directory. We can determine the working directory by typing <code>getwd()</code> at the prompt.</p>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/Brad.Warner/Documents/Classes/Math 377/Advanced Probability and Statistics&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/Brad.Warner/Documents/Math 377/Advanced Probability and Statistics&quot;</code></pre>
 <p>Similarly, if we wish to change the working directory, we can do so by using the <code>setwd()</code> function:</p>
 <pre class="r"><code>setwd(&#39;C:/Users/Brad.Warner/Documents/Classes/Math 377/Another Folder&#39;)</code></pre>
 <p>In <code>R</code> if you use the <code>view()</code>, you will see the data in what looks like a standard spreadsheet.</p>
@@ -1720,7 +1723,7 @@ library(mosaic)</code></pre>
 </div>
 <div id="explore-data" class="section level3">
 <h3>Explore data</h3>
-<p>Before we attempt to answer the question, let’s look at the data. We want <code>R</code> to print out the first 10 rows of the data. The appropriate function is <code>head()</code> and it needs the data object. By default, <code>R</code> will output the first 6 rows. By using the <code>n=</code> argument, we can specify how many rows we want to view.</p>
+<p>Before we attempt to answer the research question, let’s look at the data. We want <code>R</code> to print out the first 10 rows of the data. The appropriate function is <code>head()</code> and it needs the data object. By default, <code>R</code> will output the first 6 rows. By using the <code>n=</code> argument, we can specify how many rows we want to view.</p>
 <pre class="r"><code>head(stent_study,n=10)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1739,11 +1742,7 @@ library(mosaic)</code></pre>
 ## 1 control (50.3%), trmt (49.7%)                
 ## 2 no_event (89.8%), stroke (10.2%)             
 ## 3 no_event (83.8%), stroke (16.2%)</code></pre>
-<blockquote>
-<p><strong>Exercise</strong>:<br />
-Interpret this table and explain each column</p>
-</blockquote>
-<p>To keep things simple we will only look at the <code>outcome30</code> variable. We will summarize in a table. Later in the course, we will learn to do this using the <code>tidy</code> package; for now we use the <code>mosaic</code> package. This package makes use of the modeling formula that you will use extensively later in this course and in Math 378.</p>
+<p>To keep things simple we will only look at the <code>outcome30</code> variable in this case study. We will summarize the data in a table. Later in the course, we will learn to do this using the <code>tidy</code> package; for now we use the <code>mosaic</code> package. This package makes use of the modeling formula that you will use extensively later in this course and in Math 378.</p>
 <p>We want to summarize the data by making a table. In <code>mosaic</code> this is the <code>tally()</code> function. Before using this function, we have to understand the basic formula notation that <code>mosaic</code> uses. The basic format is:</p>
 <pre><code>goal( y ~ x, data = MyData, ... ) # pseudo-code for the formula template</code></pre>
 <p>We read <code>y ~ x</code> as “y tilde x” and interpret it in the equivalent forms: “y broken down by x”; “y modeled by x”; “y explained by x”; “y depends on x”; or “y accounted for by x.” For graphics, it’s reasonable to read the formula as “y vs. x”, which is exactly the convention used for coordinate axes.</p>
@@ -1754,7 +1753,8 @@ Interpret this table and explain each column</p>
 ##   no_event     214  191
 ##   stroke        13   33
 ##   Total        227  224</code></pre>
-<p>Of the 224 patients in the treatment group, 33 had a stroke by the end of the first year. Using these two numbers, we can use <code>R</code> to compute the proportion of patients in the treatment group who had a stroke by the end of their first month.</p>
+<p>The <code>margins</code> option totals the columns.</p>
+<p>Of the 224 patients in the treatment group, 33 had a stroke by the end of the first month. Using these two numbers, we can use <code>R</code> to compute the proportion of patients in the treatment group who had a stroke by the end of their first month.</p>
 <pre class="r"><code>33/(33+191)</code></pre>
 <pre><code>## [1] 0.1473214</code></pre>
 <blockquote>
@@ -1811,25 +1811,30 @@ gf_props(~group,fill=~outcome30,position=&#39;fill&#39;) %&gt;%
 <p>This is a preview of step 4, analyze the data, and step 5, form a conclusion, of the analysis cycle. While we haven’t yet covered statistical tools to fully address these steps, we can comprehend the conclusions of the published analysis: there was compelling evidence of harm by stents in this study of stroke patients.</p>
 <p><strong>Be careful:</strong> do not generalize the results of this study to all patients and all stents. This study looked at patients with very specific characteristics who volunteered to be a part of this study and who may not be representative of all stroke patients. In addition, there are many types of stents and this study only considered the self-expanding Wingspan stent (Boston Scientific). However, this study does leave us with an important lesson: we should keep our eyes open for surprises.</p>
 </div>
-<div id="file-creation-information" class="section level3">
-<h3>File Creation Information</h3>
+</div>
+<div id="homework-instruction" class="section level2">
+<h2>Homework Instruction</h2>
+<p>Open the file <code>01 Data Case Study Application.Rmd</code> in RStudio Cloud and start by inserting your name in the header. Code blocks have been inserted and you need to complete the code and answer the questions. When you are done, <code>knit</code> it into a pdf file.</p>
+<p>To create an <code>R</code> code chunk, use CTRL-ALT-I or on the <code>insert</code> tab of the window, use the drop down to select <code>R</code>. Anything between the dashes is interpreted as <code>R</code> code.</p>
+<p>For more on RMarkdown see the video, <a href="https://www.youtube.com/watch?v=DNS7i2m4sB0" class="uri">https://www.youtube.com/watch?v=DNS7i2m4sB0</a> This video assumes you are using <code>R</code> on your computer but we are using RStudio Cloud. Thus we can <code>knit</code> to a pdf since it is setup for us. You can also take the first chapter of the Data Camp course Reporting with R Markdown to learn more.</p>
+</div>
+<div id="file-creation-information" class="section level2">
+<h2>File Creation Information</h2>
 <ul>
-<li>File creation date: 2020-05-13</li>
-<li>Windows version: Windows 10 x64 (build 17763)</li>
+<li>File creation date: 2020-08-17</li>
+<li>Windows version: Windows 10 x64 (build 18362)</li>
 <li>R version 3.6.3 (2020-02-29)</li>
-<li><code>mosaic</code> package version: 1.6.0</li>
+<li><code>mosaic</code> package version: 1.7.0</li>
 <li><code>tidyverse</code> package version: 1.3.0</li>
 </ul>
-</div>
-</div>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p><a href="http://www.nejm.org/doi/full/10.1056/NEJMoa1105335">Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003.</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p><a href="http://www.nytimes.com/2011/09/08/health/research/08stent.html">NY Times article reporting on the study</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>Formally, a summary statistic is a value computed from the data. Some summary statistics are more useful than others.<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p><a href="https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html" class="uri">https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html</a><a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p><a href="http://www.nejm.org/doi/full/10.1056/NEJMoa1105335">Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003.</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><a href="http://www.nytimes.com/2011/09/08/health/research/08stent.html">NY Times article reporting on the study</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Formally, a summary statistic is a value computed from the data. Some summary statistics are more useful than others.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html" class="uri">https://cran.r-project.org/web/packages/ggformula/vignettes/ggformula-blog.html</a><a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

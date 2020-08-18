@@ -55,7 +55,6 @@ iii. The research question was **Do asthmatic patients who practice the Buteyko 
 ### File Creation Information 
 
   * File creation date: `r Sys.Date()`
-  * Windows version: `r win.version()`
   * `r R.version.string`
   * `mosaic` package version: `r packageVersion("mosaic")`
   * `tidyverse` package version: `r packageVersion("tidyverse")`

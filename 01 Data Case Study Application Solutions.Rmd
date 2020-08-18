@@ -5,10 +5,10 @@ author:
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-  pdf_document:
+  html_document:
     fig_height: 3
     fig_width: 5
-  html_document:
+  pdf_document:
     fig_height: 3
     fig_width: 5
 ---
@@ -134,7 +134,6 @@ We are documenting the packages we are using.
 ## File Creation Information 
 
   * File creation date: `r Sys.Date()`
-  * Windows version: `r win.version()`
   * `r R.version.string`
   * `mosaic` package version: `r packageVersion("mosaic")`
   * `tidyverse` package version: `r packageVersion("tidyverse")`
