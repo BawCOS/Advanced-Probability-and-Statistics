@@ -24,28 +24,28 @@ library(tidyverse)
 
 # Exercises
 
-Create an Rmd file for the work including headers, file creation data, and explanation of your work. Make sure your plots have a title and the axes are labeled.
+Create this Rmd file for the work including headers, file creation data, and explanation of your work. Make sure your plots have a title and the axes are labeled. We are asking you to do more in this application to get ready for your Oral Board.
 
 1. **Mammals exploratory**  
 
 Data were collected on 39 species of mammals distributed over 13 orders.  The data is in the `openintro` package as `mammals`
 
-a. Using help, report the units for the variable `BrainWt`.  
+a. Using help, report the units for the variable `brain_Wt`.  
 b. Using `inspect` how many variables are numeric?  
-c. What type of variable is `Danger`?
-d. Create a density plot of `TotalSleep` and describe the distribution.  
-e. Create a boxplot of `LifeSpan` and describe the distribution.  
+c. What type of variable is `danger`?
+d. Create a density plot of `total_sleep` and describe the distribution.  
+e. Create a boxplot of `life_span` and describe the distribution.  
 f. Report the mean and median life span of a mammal.  
-g. Calculate the summary statistics for `LifeSpan` broken down by `Danger`. What is the standard deviation of life span in danger outcome 5?
+g. Calculate the summary statistics for `life_span` broken down by `danger`. What is the standard deviation of life span in danger outcome 5?
 
 2. **Mammals life spans**  
 
 Continue using the `mammals` data set.
 
-a. Create side-by-side boxplots for `LifeSpan` broken down by `Exposure`. Note: you will have to change `Exposure` to a `factor()`. Report on any findings.  
+a. Create side-by-side boxplots for `life_span` broken down by `exposure`. Note: you will have to change `exposure` to a `factor()`. Report on any findings.  
 b. What happened to the median and third quartile in exposure group 4?
 c. Create overlapping density plots. What are the shortcomings of this plot?
-d. Create a new variable `Exposed` that is a factor with level `Low` if exposure is `1` or `2` and `High` otherwise.
+d. Create a new variable `exposed` that is a factor with level `Low` if exposure is `1` or `2` and `High` otherwise.
 e. Repeat part c with the new variable. Explain what you see in the plot.
 
 

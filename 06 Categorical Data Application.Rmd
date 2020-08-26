@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r echo=FALSE,results='hide',message=FALSE}
 library(openintro)
+library(vcd)
+library(vcdExtra)
 library(mosaic)
 library(tidyverse)
 ```
@@ -55,8 +57,10 @@ b. Based on the mosaic plot, are views on the DREAM Act and political ideology i
 
 The Stanford University Heart Transplant Study was conducted to determine whether an experimental heart transplant program increased lifespan. Each patient entering the program was designated an official heart transplant candidate, meaning that he was gravely ill and would most likely benefit from a new heart. Some patients got a transplant and some did not. The variable *transplant* indicates which group the patients were in; patients in the treatment group got a transplant and those in the control group did not. Another variable called *survived* was used to indicate whether or not the patient was alive at the end of the study.
 
+The data is in the `openintro` package and is called `heart_transplant`.
+
 a. Create a **mosiac** plot.
 b. Based on the mosaic plot, is survival independent of whether or not the patient got a transplant? Explain your reasoning.
-c. Using *survtime* create side-by-side boxplots.
+c. Using *survtime* create side-by-side boxplots for the control and treatment groups.
 d. What do the box plots suggest about the efficacy (effectiveness) of transplants?
 

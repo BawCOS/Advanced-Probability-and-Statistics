@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 3) Generate in `R` appropriate graphical summaries of categroical and numerical variables.
 
-4) Be able to interpret and explain output but graphically and numerically.
+4) Be able to interpret and explain output both graphically and numerically.
 
 
 ```{r echo=FALSE,results='hide',warning=FALSE,message=FALSE}
@@ -39,7 +39,7 @@ library(mosaic)
 
 ## Categorical data
 
-Like numerical data, categorical data can also be organized and analyzed. This section introduces tables and other basic tools for categorical data. Remember at the beginning of this block of material, our case study had categorical data so we have seen some of the ideas in this section. 
+Like numerical data, categorical data can also be organized and analyzed. This section introduces tables and other basic tools for categorical data. Remember at the beginning of this block of material, our case study had categorical data so we have seen some of the ideas in this lesson. 
 
 The `email50` data set represents a sample from a larger email data set called `email`. This larger data set contains information on 3,921 emails. In this section we will use the email data set to examine whether the presence of numbers, small or large, in an email provides any useful value in classifying email as spam or not spam.
 
@@ -53,7 +53,7 @@ library(openintro)
 
 
 
-```{r message=FALSE}
+```{r message=FALSE,warning=FALSE}
 email %>%
   select(spam,number) %>%
   inspect()
@@ -63,7 +63,7 @@ Notice the use of the `pipe` operator and how it adds to the ease of reading the
 
 As is indicated `number` is a categorical variable that describes whether an email contains no numbers, only small numbers (values under 1 million), or at least one big number (a value of 1 million or more). The variable `spam` is a numeric variable where `1` indicates the email is spam. To treat it as categorical we will want to change it to a **factor** but first we will build a table that summarizes data for the two variables. This table is called a **contingency table**. Each value in the table represents the number of times a particular combination of variable outcomes occurred. We will show you the code to generate the contingency table.
 
-```{r echo=FALSE,message=FALSE}
+```{r message=FALSE}
 tally(~spam+number,data=email,margins = TRUE)
 ```
 
@@ -128,7 +128,8 @@ Again, let's clean up the plot
 
 ```{r}
 email %>%
-  gf_props(~number,title="The proportions of emails with a number in it",subtitle="From 2012",xlab="Type of number in the email",ylab="Proportion of emails") %>%
+  gf_props(~number,title="The proportions of emails with a number in it",
+           subtitle="From 2012",xlab="Type of number in the email",ylab="Proportion of emails") %>%
   gf_theme(theme_bw())
 ```
 
@@ -285,30 +286,46 @@ Pie charts are popular in the Air Force due to the ease of generating them in Ex
 
 Some of the more interesting investigations can be considered by examining numerical data across groups. This is the case where one variable is categorical and the other in numerical. The methods required here aren't really new. All that is required is to make a numerical plot for each group. Here two convenient methods are introduced: side-by-side box plots and density plots.
 
-We will take a look again at the `county` data set and compare the median household income for counties that gained population from 2000 to 2010 versus counties that had no gain. While we might like to make a causal connection here, remember that these are observational data and so such an interpretation would be unjustified.
+We will take a look again at the subset of `county_complete` data set and compare the median household income for counties that gained population from 2000 to 2010 versus counties that had no gain. While we might like to make a causal connection here, remember that these are observational data and so such an interpretation would be unjustified.
 
 This section will give us a chance to perform some data wrangling. We will be using the `tidyverse` verbs in the process. Data wrangling is an important part of analysis work and typically takes a significant portion of the analysis work.
 
+Here is the code to generate the data we need.
+
+```{r message=FALSE,warning=FALSE,message=FALSE}
+library(usdata)
+```
+
+
+```{r warning=FALSE,warning=FALSE,message=FALSE}
+county_M377 <- county_complete %>% 
+  select(name, state, pop2000, pop2010, fed_spend=fed_spending_2009, poverty=poverty_2010, 
+         homeownership = homeownership_2010, multi_unit = housing_multi_unit_2010, 
+         income = per_capita_income_2010, med_income = median_household_income_2010) %>%
+  mutate(fed_spend=fed_spend/pop2010)
+```
+
+
 First, as a reminder, let's look at the data. 
 
-*What do we want `R` to do*? We want to select the variables `pop2000`, `pop2010`, and `median_household_income`.  
+*What do we want `R` to do*? We want to select the variables `pop2000`, `pop2010`, and `med_income`.  
 
 *What does `R` need*? It needs the data object, and variable names.
 
 We will use the `select()` and `inspect()` functions. 
 
 ```{r}
-countyComplete %>%
-  select(pop2000,pop2010,median_household_income) %>%
+county_M377 %>%
+  select(pop2000,pop2010,med_income) %>%
   inspect()
 ```
 
 Notice that three counties are missing population values, reported as `NA`. Let's remove them and find which counties increased population by creating a new variable.
 
 ```{r}
-cc_reduced <- countyComplete %>%
+cc_reduced <- county_M377 %>%
   drop_na(pop2000) %>%
-  select(pop2000,pop2010,median_household_income) %>%
+  select(pop2000,pop2010,med_income) %>%
   mutate(pop_gain = sign(pop2010-pop2000))
 ```
 
@@ -317,7 +334,7 @@ tally(~pop_gain,data=cc_reduced)
 ```
 
 
-There were 2,041 counties where the population increased from 2000 to 2010, and there were 1,099 counties with no gain, only 1 county had a net of zero, or a loss. Let's just look at the counties with a gain or loss in side-by-side boxplot. Again, we will use `filter()` to select the two groups and then make the variable `pop_gain` into a categorical variable, more data wrangling.
+There were 2,041 counties where the population increased from 2000 to 2010, and there were 1,098 counties with no gain, only 1 county had a net of zero, or a loss. Let's just look at the counties with a gain or loss in side-by-side boxplot. Again, we will use `filter()` to select the two groups and then make the variable `pop_gain` into a categorical variable, more data wrangling.
 
 ```{r}
 cc_reduced <- cc_reduced %>%
@@ -333,7 +350,7 @@ The **side-by-side box plot** is a traditional tool for comparing across groups.
 
 ```{r fig.cap="Side-by-side box plot for median household income, where the counties are split by whether there was a population gain or loss from 2000 to 2010."}
 cc_reduced %>%
-  gf_boxplot(median_household_income~pop_gain,
+  gf_boxplot(med_income~pop_gain,
              subtitle="The income data were collected between 2006 and 2010.",
              xlab="Population change from 2000 to 2010",
              ylab="Median Household Income")
@@ -344,7 +361,7 @@ Another useful plotting method uses **density plots** to compare numerical data 
 
 ```{r fig.cap="Density plots ofmedian household income for counties with population gain versus population loss"}
 cc_reduced %>%
-  gf_dens(~median_household_income,color=~pop_gain,lwd=1)
+  gf_dens(~med_income,color=~pop_gain,lwd=1)
 ```
 
 
