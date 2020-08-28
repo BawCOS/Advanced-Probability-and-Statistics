@@ -33,7 +33,7 @@ Create an Rmd file for the work including headers, file creation data, and expla
 
 910 randomly sampled registered voters from Tampa, FL were asked if they thought workers who have illegally entered the US should be (i) allowed to keep their jobs and apply for US citizenship, (ii) allowed to keep their jobs as temporary guest workers but not allowed to apply for US citizenship, or (iii) lose their jobs and have to leave the country.
 
-The data is in the `openintro` pacakge in the `immigration` data object.
+The data is in the `openintro` package in the `immigration` data object.
 
 a. How many levels of *political* are there?  
 
@@ -97,12 +97,12 @@ The percentages of Tampa, FL conservatives, moderates, and liberals who are in f
 
 2. **Views on the DREAM Act** The same survey from Exercise 1 also asked respondents if they support the DREAM Act, a proposed law which would provide a path to citizenship for people brought illegally to the US as children. 
 
-The data is in the `openintro` pacakge in the `dream` data object.
+The data is in the `openintro` package in the `dream` data object.
 
-a. Create a **mosiac** plot.  
+a. Create a **mosaic** plot.  
 
-```{r}
-mosaic(stance~ideology,data=dream,sub="Views on the DREAM Act")
+```{r fig.height=5}
+mosaic(stance~ideology,data=dream,sub="Voter views on illegal worker status")
 ```
 
 
@@ -120,7 +120,7 @@ The Stanford University Heart Transplant Study was conducted to determine whethe
 The data is in the `openintro` package and is called `heart_transplant`.
 
 
-a. Create a **mosiac** plot.
+a. Create a **mosaic** plot.
 
 ```{r}
 mosaic(survived~transplant,data=heart_transplant)

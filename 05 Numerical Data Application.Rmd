@@ -33,7 +33,7 @@ Data were collected on 39 species of mammals distributed over 13 orders.  The da
 a. Using help, report the units for the variable `brain_Wt`.  
 b. Using `inspect` how many variables are numeric?  
 c. What type of variable is `danger`?
-d. Create a density plot of `total_sleep` and describe the distribution.  
+d. Create a histogram of `total_sleep` and describe the distribution.  
 e. Create a boxplot of `life_span` and describe the distribution.  
 f. Report the mean and median life span of a mammal.  
 g. Calculate the summary statistics for `life_span` broken down by `danger`. What is the standard deviation of life span in danger outcome 5?
@@ -44,7 +44,7 @@ Continue using the `mammals` data set.
 
 a. Create side-by-side boxplots for `life_span` broken down by `exposure`. Note: you will have to change `exposure` to a `factor()`. Report on any findings.  
 b. What happened to the median and third quartile in exposure group 4?
-c. Create overlapping density plots. What are the shortcomings of this plot?
+c. Create faceted histograms. What are the shortcomings of this plot?
 d. Create a new variable `exposed` that is a factor with level `Low` if exposure is `1` or `2` and `High` otherwise.
 e. Repeat part c with the new variable. Explain what you see in the plot.
 

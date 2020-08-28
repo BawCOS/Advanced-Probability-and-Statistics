@@ -45,12 +45,17 @@ c. What type of variable is `danger`?
 
 Categorical
 
-d. Create a density plot of `total_sleep` and describe the distribution.  
+d. Create a histogram of `total_sleep` and describe the distribution.  
+
+```{r}
+gf_histogram(~total_sleep,data=mammals,binwidth = 2)
+```
 
 ```{r}
 gf_dens(~total_sleep,data=mammals)
 ```
 
+The distribution is unimodal and skewed to the right. It appears it is centered around the value of 11.
 
 e. Create a boxplot of `life_span` and describe the distribution.  
 
@@ -96,11 +101,29 @@ b. What happened to the median and third quartile in exposure group 4?
 favstats(life_span~factor(exposure),data=mammals)
 ```
 
-c. Create overlapping density plots. What are the shorcomings of this plot?
+c. Create faceted histograms. What are the shortcomings of this plot?
+
+```{r}
+gf_histogram(~life_span,color=~factor(exposure),data=mammals)
+```
+
+This is awful.
+
+```{r}
+gf_histogram(~life_span|factor(exposure),data=mammals)
+```
+
+Not enough data for each histogram; some of the histograms provide little to no information. Let's do denisty plots.
 
 ```{r}
 gf_dens(~life_span,color=~factor(exposure),data=mammals)
 ```
+
+```{r}
+gf_dens(~life_span|factor(exposure),data=mammals)
+```
+
+Which do you think is the best graph?
 
 d. Create a new variable `exposed` that is a factor with level `Low` if exposure is `1` or `2` and `High` otherwise.
 
