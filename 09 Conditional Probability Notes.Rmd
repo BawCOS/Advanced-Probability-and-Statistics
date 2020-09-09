@@ -2,6 +2,7 @@
 title: 'Conditional Probability Notes'
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -29,11 +30,11 @@ library(tidyverse)
 
 1) Define conditional probability and distinguish it from joint probability.
 
-2) Obtain conditional probability using its definition. 
+2) Find a conditional probability using its definition. 
 
 3) Using conditional probability, determine whether two events are independent. 
 
-4) Describe and apply Bayes' Rule. 
+4) Apply Bayes' Rule mathematically and via simulation. 
 
 ## Conditional Probability
 
@@ -96,8 +97,12 @@ $$
 Let's use an example to dig into where this comes from. 
 
 > *Example*:  
-Suppose a doctor has developed a blood test for a certain rare disease (only one out of every 10,000 people have this disease). After careful and extensive evaluation of this blood test, the doctor determined the test's sensitivity and specificity. **Sensitivity** is the probability of detecting the disease for those who actually have it. Note that this is a conditional probability.  
+Suppose a doctor has developed a blood test for a certain rare disease (only one out of every 10,000 people have this disease). After careful and extensive evaluation of this blood test, the doctor determined the test's sensitivity and specificity.  
+
+**Sensitivity** is the probability of detecting the disease for those who actually have it. Note that this is a conditional probability.  
+
 **Specificity** is the probability of correctly identifying "no disease" for those who do not have it. Again, another conditional probability.  
+
 In fact, this test had a sensitivity of 100% and a specificity of 99.9%. Now suppose a patient walks in, the doctor administers the blood test, and it returns positive. What is the probability that that patient actually has the disease? 
 
 This is a classic example of how probability could be misunderstood. Upon reading this question, you might guess that the answer to our question is quite high. After all, this is a nearly perfect test. After exploring the problem more in depth, we find a different result. 
@@ -168,7 +173,7 @@ Now 959 tested positive. Thus the probability of having the disease given a posi
 100/(100+959)
 ```
 
-### File Creation Information 
+## File Creation Information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

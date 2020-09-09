@@ -1,7 +1,7 @@
 ---
 title: "Conditional Probability Applications Solutions"
 author:
-- Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -30,11 +30,11 @@ library(tidyverse)
 
 \indent 1. Consider Exercise 1 from Lesson 2. Recall: $A$, $B$ and $C$ are events such that $\Prob(A)=0.5$, $\Prob(B)=0.3$, $\Prob(C)=0.4$, $\Prob(A \cap B)=0.2$, $\Prob(B \cap C)=0.12$, $\Prob(A \cap C)=0.1$, and $\Prob(A \cap B \cap C)=0.05$.
 
-a) Are $A$ and $B$ independent?  
+a. Are $A$ and $B$ independent?  
 
 No. $\Prob(A)\Prob(B)=0.15\neq \Prob(A\cap B)$. 
 
-b) Are $B$ and $C$ independent? 
+b. Are $B$ and $C$ independent? 
 
 Yes. $\Prob(B)\Prob(C)=0.12 = \Prob(B\cap C)$. Also, 
 $$
@@ -45,25 +45,25 @@ $$
 
 \indent 2. Suppose I have a biased coin (the probability I flip a heads is 0.6). I flip that coin twice. Assume that the coin is memoryless (flips are independent of one another). 
 
-a) What is the probability that the second flip results in heads? 
+a. What is the probability that the second flip results in heads? 
 
 0.6
 
-b) What is the probability that the second flip results in heads, given the first also resulted in heads? 
+b. What is the probability that the second flip results in heads, given the first also resulted in heads? 
 
 The coin is memoryless. So,
 $$
 \Prob(\mbox{2nd flip heads}|\mbox{1st flip heads}) = 0.6
 $$
 
-c) What is the probability both flips result in heads? 
+c. What is the probability both flips result in heads? 
 
 Since the flips are independent, 
 $$
 \Prob(\mbox{both heads})=\Prob(\mbox{1st flip heads})\Prob(\mbox{2nd flip heads}) = 0.6*0.6=0.36
 $$
 
-d) What is the probability exactly one coin flip results in heads? 
+d. What is the probability exactly one coin flip results in heads? 
 
 This could happen in two ways. The first could be heads OR the second could be heads. 
 $$
@@ -73,7 +73,7 @@ $$
 0.6*0.4+0.4*0.6 = 0.48
 $$
 
-e) Now assume I flip the coin five times. What is the probability the result is 5 heads? 
+e. Now assume I flip the coin five times. What is the probability the result is 5 heads? 
 $$
 \Prob(\mbox{5 heads})= 0.6^5 = 0.0778
 $$
@@ -82,7 +82,7 @@ $$
 0.6^5
 ```
 
-f) What is the probability the result is exactly 2 heads (out of 5 flips)? 
+f. What is the probability the result is exactly 2 heads (out of 5 flips)? 
 
 There are $\binom{5}{2} = 10$ ways for this to happen (\{HHTTT\},\{HTHTT\},...). So,
 $$
@@ -113,9 +113,9 @@ Similarly, $\Prob(L|E)=0.4054$ and $\Prob(C|E)=0.2702$.
 
 Larry is the assistant most likely to have committed the error. 
 
-4. You are playing a game where there are two coins. One coin is fair and the other comes up *heads* 80% of the time. One coin is flipped 3 times and the result is three *heads*, what is the probability that the coin flipped is the fair coin? You will need to make an assumption about the probability of either coin being selected.
+\indent 4. You are playing a game where there are two coins. One coin is fair and the other comes up *heads* 80% of the time. One coin is flipped 3 times and the result is three *heads*, what is the probability that the coin flipped is the fair coin? You will need to make an assumption about the probability of either coin being selected.
 
-a) Use Bayes formula to solve this problem.
+a. Use Bayes formula to solve this problem.
 
 I will assume either coin is selected with a 50% probability.
 
@@ -145,9 +145,41 @@ $$
 ```
 
 
-b) Use simulation to solve this problem.
+b. Use simulation to solve this problem.
 
-Let's use the same assumptions. First let's get how many times the fair coin was flipped out of 1,000,000.
+Let's use the same assumptions. We could do this problem in two ways. We could flip each coin a fixed number of times and combine the information or use a random process to pick a flipped coin and then flip it three times. Let's do the first.
+
+Let's flip a fair coin 50,000 times and count how many heads we get.
+
+```{r}
+set.seed(1154)
+data.frame(do(50000)*rflip(3)) %>%
+  filter(heads==3) %>%
+  summarise(count=n()) %>%
+  pull()
+```
+
+Now flip the biased coin.
+
+```{r}
+data.frame(do(50000)*rflip(3,prob=0.8)) %>%
+  filter(heads==3) %>%
+  summarise(count=n()) %>%
+  pull()
+```
+
+So we have a total 6157 + 25743 heads of which 6157 came from the fair coin.
+
+Thus the probability of the coin being fair given 3 heads on the flips is:
+
+```{r}
+6157/(6157 + 25743)
+```
+
+Or 19.3%.
+
+
+Next pick a one of the coins with equal probability 100,000 times.
 
 ```{r}
 set.seed(501)
@@ -157,7 +189,7 @@ results
 
 Now the fair coin was flipped 50226 times.
 
-Let's see how many times we get 3 heads.
+Let's see how many times we get 3 heads when we flip that coin 3 times.
 ```{r}
 data.frame(do(50226)*rflip(3)) %>%
   filter(heads==3) %>%
@@ -179,6 +211,42 @@ Now we can determine the probability of a fair coin given 3 heads.
 ```{r}
 6270/(6270+25512)
 ```
+
+This code we could easily adapt if we don't think each coin is being selected with the same frequency. Suppose we think the fair coin has a 75% chance of being selected. The analysis would look like this:
+
+
+```{r}
+set.seed(9021)
+results <- rflip(100000,prob=.75,summarize = TRUE)
+results
+```
+
+Now the fair coin was flipped 75023 times.
+
+Let's see how many times we get 3 heads when we flip that coin 3 times.
+```{r}
+data.frame(do(75023)*rflip(3)) %>%
+  filter(heads==3) %>%
+  summarise(count=n()) %>%
+  pull()
+```
+
+We have 9579 cases with 3 heads. Now for the biased coin.
+
+```{r}
+data.frame(do(24977)*rflip(3,prob=0.8)) %>%
+  filter(heads==3) %>%
+  summarise(count=n()) %>%
+  pull()
+```
+
+Now we can determine the probability of a fair coin given 3 heads.
+
+```{r}
+9579/(9579+12789)
+```
+
+A much different answer. That is because prior to getting the data we believed the fair coin would be selected with a 75% probability. The data indicates that we need to update and lower this probability. We only flipped 3 times but the evidence is so in favor of the biased coin, that our probability dropped substantially. This is why Bayes is such a powerful tool.
 
 Think about what we just did with this problem. We started with a subjective believe that either coin would be selected with equal probability. This is called the prior probability. We then collected data on three flips of the coin. We used this empirical data to update our belief into a posterior probability. This is the basis for Bayesian statistical analysis. Bayesian statistics is an entire discipline unto itself.
 

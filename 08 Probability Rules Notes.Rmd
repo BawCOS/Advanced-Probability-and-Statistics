@@ -2,6 +2,7 @@
 title: 'Probability Rules Notes'
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -51,7 +52,7 @@ We will start our work with some definitions and examples.
 
 ### Sample space
 
-Suppose we have a random experiment. The *sample space* of this experiment, $S$, is the set of all possible results of that experiment. For example, in the case of a coin flip, we could write $S=\{H,T\}$. Each element of the sample space is considered an *outcome*. An *event* is a set of outcomes.  
+Suppose we have a random experiment. The *sample space* of this experiment, $S$, is the set of all possible results of that experiment. For example, in the case of a coin flip, we could write $S=\{H,T\}$. Each element of the sample space is considered an *outcome*. An *event* is a set of outcomes, it is a subset of the sample space.  
 
 > *Example*:  
 Let's let `R` flip a coin for us and record the number of heads and tails. We will have `R` flip the coin twice. What is the sample space, what is an example of an outcome, and what is an example of an event.
@@ -67,7 +68,7 @@ set.seed(18)
 rflip(2)
 ```
 
-The sample space is $S=\{HH,TH. HT, TT\}$, an outcome is $HH$ which we see in the output, and finally an event in the number of heads which takes on the values 0, 1, and 2.
+The sample space is $S=\{HH, TH, HT, TT\}$, an example of an outcome is $HH$ which we see in the output from `R`, and finally an example of an event is the number of heads, which in this case takes on the values 0, 1, and 2. Another example of an event is "At least one heads". In this case the event would be $\{HH,TH, HT\}$. Also notice that $TH$ is different from $HT$ as an outcome; this is because those are different outcomes from flipping a coin twice.
 
 > *Example of Event*:  
 Suppose you arrive at a rental car counter and they show you a list of available vehicles, and one is picked for you at random. The sample space in this experiment is 
@@ -89,7 +90,9 @@ Suppose we have two events $A$ and $B$.
 
 4) The *complement* of $A$ is all of the outcomes not contained in $A$. This is denoted as $A^C$ or $A'$. 
 
-Note: Here we are treating events as sets and the above definitions are basic set definitions.
+Note: Here we are treating events as sets and the above definitions are basic set operations.
+
+It is sometimes helpful when reading probability notation to think of Union as an *or* and Intersection as an *and*.
 
 > *Example*:  
 Consider our rental car example above. Let $A$ be the event that a blue vehicle is selected, let $B$ be the event that a black vehicle is selected, and let $C$ be the event that an SUV is selected.  
@@ -104,20 +107,16 @@ Since all outcomes in $B$ are contained in $C$, we know that $B$ is a subset of 
 
 A probability model can be thought of as a function that maps outcomes, or events, to a real number in the interval $[0,1]$.
 
-There are some basic axioms of probability you should know. Let $S$ be the sample space of a random experiment and let $A$ be an event where $A\subset S$. 
+There are some basic axioms of probability you should know, although this list is not complete. Let $S$ be the sample space of a random experiment and let $A$ be an event where $A\subset S$. 
 
 1) $\Prob(A) \geq 0$. 
 
 2) $\Prob(S) = 1$. 
 
-3) For disjoint events, meaning the intersection is the null set, $A_1,A_2,A_3,...$, and for any $n$, 
-$$
-\Prob\left(\bigcup_{i=1}^n A_i\right)=\sum_{i=1}^n \Prob(A_i) 
-$$
 
-The first two axioms essentially say that probability must be positive, and the probability of all outcomes must sum to 1. The third axiom says that the total probability of a sequence of non-overlapping events should be equal to the sum of their individual probabilities. For example, in a standard 6-sided die, the probability of rolling a 1 or a 2 should be equal to the probability of rolling a 1 plus the probability of rolling a 2. Or another example is the probability of rolling an even or an odd is the sum of the probability of rolling an even plus the probability of rolling an odd. These events are disjoint because they have no outcomes in common, there are no numbers that are both even and odd.
 
-It is sometimes helpful when reading probability notation to think of Union as an *or* and Intersection as an *and*.
+These two axioms essentially say that probability must be positive, and the probability of all outcomes must sum to 1. 
+
 
 ### Probability properties
 
@@ -132,6 +131,7 @@ Let $A$ and $B$ be events in a random experiment. Most of these can be proven fa
 4) $\Prob(A\cup B) = \Prob(A)+\Prob(B)-\Prob(A\cap B)$. This property can be generalized to more than two events. The intersection is subtracted because outcomes in both events $A$ and $B$ get counted twice in the first sum.
 
 5) Law of Total Probability: Let $B_1, B_2,...,B_n$ be **mutually exclusive**, this means disjoint or no outcomes in common, and **exhaustive**, this means the union of all the events labeled with a $B$ is the sample space. Then 
+
 $$
 \Prob(A)=\Prob(A\cap B_1)+\Prob(A\cap B_2)+...+\Prob(A\cap B_n)
 $$
@@ -139,7 +139,11 @@ $$
 A specific application of this law appears in Bayes' Rule (more to follow). It says that $\Prob(A)=\Prob(A \cap B)+\Prob(A \cap B')$. Essentially, it points out that $A$ can be partitioned into two parts: 1) everything in $A$ and $B$ and 2) everything in $A$ and not in $B$. 
 
 > *Example*:  
-Consider rolling a six sided die. Let event $A$ be the number showing is less than 5. Let event $B$ be the number is even. Then $$
+Consider rolling a six sided die. Let event $A$ be the number showing is less than 5. Let event $B$ be the number is even. Then  
+
+$$\Prob(A)=\Prob(A \cap B) + \Prob(A \cap B')$$ 
+
+$$
 \Prob(< 5)=\Prob(<5 \cap Even)+\Prob(<5 \cap Odd)
 $$
 
@@ -166,11 +170,11 @@ $$
 S=\{\mbox{BBB},\mbox{BBG},\mbox{BGB},\mbox{BGG},\mbox{GBB},\mbox{GBG},\mbox{GGB},\mbox{GGG}\}
 $$
 
-What is the probability that the family has exactly 2 girls? This only happens two ways: BGG, GBG, and GGB. Thus, the probability of exactly 2 girls is 3/8 or 0.375. 
+What is the probability that the family has exactly 2 girls? This only happens in three ways: BGG, GBG, and GGB. Thus, the probability of exactly 2 girls is 3/8 or 0.375. 
 
-### Using `R` (Equally Likely Scenarios)
+### Using `R` (Equally likely scenarios)
 
-The previous example above in an example of an "Equally Likely" scenario, is an example where the sample space of a random experiment contains a list of outcomes that are equally likely. In these cases, we can sometimes use `R` to list out the possible outcomes and count them to determine probability. We can also use `R` to simulate. 
+The previous example above is an example of an "Equally Likely" scenario, where the sample space of a random experiment contains a list of outcomes that are equally likely. In these cases, we can sometimes use `R` to list out the possible outcomes and count them to determine probability. We can also use `R` to simulate. 
 
 > *Example*:  
 Use `R` to simulate the family of three children where each child has the same probability of being a boy or a girl. 
@@ -213,14 +217,28 @@ results %>%
   summarize(prob=n()/10000)
 ```
 
+Or slightly different code.
+
+```{r warning=FALSE,message=FALSE}
+results %>%
+  count(heads) %>%
+  mutate(prop=n/sum(n))
+```
+
+
 Not a bad estimate of the exact probability.
 
-Let's now use an example of cards to simulate some probabilities. As well as counting. The file `Cards.csv` contains the data for cards from a 52 card deck. Let's read it in and summarize.
+Let's now use an example of cards to simulate some probabilities as well as learning more about counting. The file `Cards.csv` contains the data for cards from a 52 card deck. Let's read it in and summarize.
 
-```{r message=FALSE}
+```{r message=FALSE,warning=FALSE}
 Cards <- read_csv("data/Cards.csv")
 inspect(Cards)
 ```
+
+```{r}
+head(Cards)
+```
+
 
 We can see 4 suits, and 13 ranks, the value on the face of the card.
 
@@ -253,6 +271,12 @@ results %>%
   summarize(prob=n()/10000)
 ```
 
+```{r}
+results %>%
+  count(suit) %>%
+  mutate(prob=n/sum(n))
+```
+
 
 Now let's count the number of outcomes in $B$.
 
@@ -278,13 +302,15 @@ results %>%
   summarize(prob=n()/10000)
 ```
 
-Notice that this code is not robust to change the number of simulations. If we change from 10000, then we have to change the denominator in the `summarize()` function. We can change this by using `mutate` instead of `filter`.
+Notice that this code is not robust to change the number of simulations. If we change from 10000, then we have to change the denominator in the `summarize()` function. We can change this by using `mutate()` instead of `filter()`.
 
 ```{r}
 results %>%
   mutate(face=rank %in% c(10, "J", "Q", "K", "A"))%>%
   summarize(prob=mean(face))
 ```
+
+Notice that in the `mutate()` function, we are creating a new logical variable called `face`. This variable takes on the values of TRUE and FALSE. In the next line we use a `summarize()` command with the function `mean()`. In `R` a function that requires numeric input takes a logical variable and converts the TRUE into 1 and the FALSE into 0. Thus the `mean()` will find the proportion of TRUE values and that is why we report it as a probability.
 
 Next, let's find a card that is 10 or greater **and** a club.
 
@@ -310,11 +336,11 @@ results %>%
 
 ### Note
 
-We have been using `R` to count the number of outcomes in an event. This helped us to determine probabilities. We limited the problems to simple ones. In our cards example, it would be more interesting to us to explore more complex events such as drawing 5 cards from a standard deck. Each draw of 5 cards is equally likely, so in order to find the probability of a flush (5 cards of the same suit), we could simply list all the possible flushes and compare that to the sample space. Because of the large number of possible outcomes, this becomes difficult. Thus we need to explore counting rules in more detail to help us solve more complex problems. In this course we will limit our discussion to three basic cases. Note that there are entire courses on discrete math and counting rules, so we will still be limited in our methods.
+We have been using `R` to count the number of outcomes in an event. This helped us to determine probabilities. We limited the problems to simple ones. In our cards example, it would be more interesting for us to explore more complex events such as drawing 5 cards from a standard deck. Each draw of 5 cards is equally likely, so in order to find the probability of a flush (5 cards of the same suit), we could simply list all the possible flushes and compare that to the sample space. Because of the large number of possible outcomes, this becomes difficult. Thus we need to explore counting rules in more detail to help us solve more complex problems. In this course we will limit our discussion to three basic cases. You should know that there are entire courses on discrete math and counting rules, so we will still be limited in our methods and the type of problems we can solve in this course.
 
 ## Counting rules 
 
-There are three types of counting problems we will consider. In each case, the multiplication rule is being used all that changes is whether an object is allowed to be reused, replacement, and the order of selection matters, This latter question is difficult.  Each case will be demonstrated with an example. 
+There are three types of counting problems we will consider. In each case, the multiplication rule is being used and all that changes is whether an element is allowed to be reused, replacement, and whether the order of selection matters. This latter question is difficult.  Each case will be demonstrated with an example. 
 
 ### Multiplication rule 1: Order matters, sample with replacement 
 
@@ -323,9 +349,9 @@ The multiplication rule is at the center of each of the three methods. In this f
 > *Example*:  
 A license plate consists of three numeric digits (0-9) followed by three single letters (A-Z). How many possible license plates exist? 
 
-We can divide this problem into two sections. In the numeric section, we are selecting 3 objects from 10, with replacement. This means that a number can be used more than once. Order clearly matters because a license plate starting with "432" is distinct from a license plate starting with "234". There are $10^3 = 1000$ ways to select the first three digits; 10 for the first, 10 for the second, and 10 for the third. Why do you multiply and not add? 
+We can divide this problem into two sections. In the numeric section, we are selecting 3 objects from 10, with replacement. This means that a number can be used more than once. Order clearly matters because a license plate starting with "432" is distinct from a license plate starting with "234". There are $10^3 = 1000$ ways to select the first three digits; 10 for the first, 10 for the second, and 10 for the third. Why do you multiply and not add?^[Multiplication is repeated adding so in a sense we are adding. However in a more serious tone, for this problem for every first number there are 10 possibilities for the second number and for every second number there are 10 possibilities for the third numbers. This is multiplication.] 
 
-In the alphabet section, we are selecting 3 objects from 26, where order matters. Thus, there are $26^3=17576$ ways to select the last three digits. Combined, there are $10^3 \times 26^3 = 17576000$ ways to select license plates. Visually, 
+In the alphabet section, we are selecting 3 objects from 26, where order matters. Thus, there are $26^3=17576$ ways to select the last three letters of the plate. Combined, there are $10^3 \times 26^3 = 17576000$ ways to select license plates. Visually, 
 $$
 \underbrace{\underline{\quad 10 \quad }}_\text{number} \times \underbrace{\underline{\quad 10 \quad }}_\text{number} \times \underbrace{\underline{\quad 10 \quad }}_\text{number} \times \underbrace{\underline{\quad 26 \quad }}_\text{letter} \times \underbrace{\underline{\quad 26 \quad }}_\text{letter} \times \underbrace{\underline{\quad 26 \quad }}_\text{letter} = 17,576,000
 $$
@@ -348,7 +374,7 @@ num<-2*10*10*26*26*1
 num/denom
 ```
 
-The probability of obtaining a license plate starting with "8" or "0" and ending with "B" is 0.0077. Simulating this would be difficult because we would need special functions to check the first number and last letter. This gets into **text mining** an important subject in data science.
+The probability of obtaining a license plate starting with "8" or "0" and ending with "B" is 0.0077. Simulating this would be difficult because we would need special functions to check the first number and last letter. This gets into **text mining** an important subject in data science but unfortunately we don't have much time in this course for the topic.
 
 ### Multiplication rule 2 (Permutation): Order Matters, Sampling Without Replacement
 
@@ -367,14 +393,14 @@ $$
 \underbrace{\underline{\quad 25 \quad }}_\text{most creative} \times \underbrace{\underline{\quad 24 \quad }}_\text{scariest} \times \underbrace{\underline{\quad 23 \quad }}_\text{funniest} = 13,800
 $$
 
-Notice that is what difficult to determne if order mattered, but the name of the prize was a hint that indeed, order matters.  
+Notice that it is sometime difficult to determine if order matters or not in a problem, but in this example the name of the prize was a hint that indeed order matters.  
 
-Let's use this idea to calculate a probability.
+Let's use the idea of a permutation to calculate a probability.
 
 >*Exercise*:   
 Assume that all 25 participants are equally likely to win any one of the three prizes. What is the probability that Tom doesn't win any of them? 
 
-Just like in the previous probability calculation, we simply need to count the number of ways Tom doesn't win any prize. In other words, we need to count the number of ways that prizes are distributed without Tom. So, remove Tom from the group of 25 eligible participants. The number of ways Tom doesn't get a prize is ${}_{24}P_3 = \frac{24!}{21!}=12,144$. Also,
+Just like in the previous probability calculation, we simply need to count the number of ways Tom doesn't win any prize. In other words, we need to count the number of ways that prizes are distributed without Tom. So, remove Tom from the group of 25 eligible participants. The number of ways Tom doesn't get a prize is ${}_{24}P_3 = \frac{24!}{21!}=12,144$. Again visually:
 $$
 \underbrace{\underline{\quad 24 \quad }}_\text{most creative} \times \underbrace{\underline{\quad 23 \quad }}_\text{scariest} \times \underbrace{\underline{\quad 22 \quad }}_\text{funniest} = 12,144
 $$
@@ -394,7 +420,7 @@ $$
 \binom{n}{k} = \frac{n!}{(n-k)!k!} 
 $$
 
-This is read as "$n$ choose $k$". Take a moment to compare combinations to permutations, discussed in Case 2. The difference between these two cases is that in Case 4, order no longer matters. A combination is equivalent to a permutation divided by $k!$, the number of ways to arrange the $k$ things selected. 
+This is read as "$n$ choose $k$". Take a moment to compare combinations to permutations, discussed in Rule 2. The difference between these two rules is that in a combination, order no longer matters. A combination is equivalent to a permutation divided by $k!$, the number of ways to arrange the $k$ objects selected. 
 
 > *Example*:  
 Suppose we draw 5 cards out of a standard deck (52 cards, no jokers). How many possible 5 card hands are there? 
@@ -412,7 +438,7 @@ $$
 \Prob(\mbox{5 clubs})=\frac{\binom{13}{5}\binom{39}{0}}{\binom{52}{5}}
 $$
 
-The second part of the numerator ($\binom{39}{0}$) isn't necessary, since it simply represents the number of ways to select 0 objects from a group (0), but it helps clearly lay out the events. 
+The second part of the numerator ($\binom{39}{0}$) isn't necessary, since it simply represents the number of ways to select 0 objects from a group (1 way), but it helps clearly lay out the events. This brings up the point of what $0!$ equals. By definition it is 1. This allows us to use $0!$ in our work.
 
 Now, we expand this to all four suits by multiplying by 4, or $\binom{4}{1}$ since we are selecting 1 suit out of the 4:
 $$
@@ -425,26 +451,29 @@ denom<-choose(52,5)
 num/denom
 ```
 
-There is a probability of 0.0020 of drawing a flush in a draw of 5 cards from a standard deck. 
+There is a probability of 0.0020 of drawing a flush in a draw of 5 cards from a standard deck of cards. 
 
 > **Exercise**:  
 When drawing 5 cards, what is the probability of drawing a "full house" (3 cards of the same rank and the other 2 of the same rank)?
 
-This one uses several ideas. We need to pick the rank of the the three of a kind. Then pick 3 cards from the 4 possible. Next we pick the rank of the pair from the remaining 12 ranks. Finally pick 2 cards of that rank from the 4 possible.
+This problem uses several ideas from this lesson. We need to pick the rank of the three of a kind. Then pick 3 cards from the 4 possible. Next we pick the rank of the pair from the remaining 12 ranks. Finally pick 2 cards of that rank from the 4 possible.
 
 $$
 \Prob(\mbox{full house})=\frac{\binom{13}{1}\binom{4}{3}\binom{12}{1}\binom{4}{2}}{\binom{52}{5}}
 $$
 
-```{r lesson3c}
+```{r}
 num<-choose(13,1)*choose(4,3)*choose(12,1)*choose(4,2)
 denom<-choose(52,5)
 num/denom
 ```
 
-Why not use $\binom{13}{2}$ instead of $\binom{13}{1}\binom{12}{1}$?
+Why not use $\binom{13}{2}$ instead of $\binom{13}{1}\binom{12}{1}$?^[Because this implies the order selection of the ranks does not matter. In other words, this assumes that for example 3 Kings and 2 fours is the same full house as 3 fours and 2 Kings. This is not true so we break the rank selection about essentially making it a permutation.]
 
-### File Creation Information 
+We have just determined that a full house has a lower probability of occurring than a flush. This is why in gambling, a flush is valued less than a full house.
+
+
+## File Creation Information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`
