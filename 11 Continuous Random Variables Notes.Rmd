@@ -2,6 +2,7 @@
 title: "Continuous Random Variables Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -31,9 +32,9 @@ library(mosaicCalc)
 
 # Objectives
 
-1) Define the terms probability density function (pdf) and cumulative distribution function (cdf). 
+1) Define and properly use the new terms to include probability density function (pdf) and cumulative distribution function (cdf) for continuous random variables. 
 
-2) Given a continuous random variable, describe probability using the pdf and cdf.
+2) Given a continuous random variable, find probabilities using the pdf and/or the cdf.
 
 3) Find the mean and variance of a continuous random variable. 
 
@@ -63,7 +64,7 @@ The pdf is a *function*. The input of a pdf is any real number. The output is kn
 
 3) $\Prob(X\in A)=\int_{x\in A} f_X(x)\diff x$
 
-Properties 2) and 3) imply that the area underneath a pdf represents probability.
+Properties 2) and 3) imply that the area underneath a pdf represents probability. The pdf is a non-negative function, it cannot have negative values.
 
 ### Cumulative Distribution Function
 
@@ -83,7 +84,7 @@ Using `R`, we find
 integrate(function(x)2*x,0,1)
 ```
 
-Or we can use the `mosaicCalc` package to find the anit-derivative. If the package is not installed, you can use the `Packages` tab in `RStudio` or type `install.packages("mosaicCalc")` at the command prompt. Load the library.
+Or we can use the `mosaicCalc` package to find the anti-derivative. If the package is not installed, you can use the `Packages` tab in `RStudio` or type `install.packages("mosaicCalc")` at the command prompt. Load the library.
 
 ```{r eval=FALSE}
 library(mosaicCalc)
@@ -124,7 +125,7 @@ plot(x,y,type="l",ylab="F(x)",main="cdf of X")
 
 Probabilities are found either by integrating the pdf or using the cdf:
 
-$\Prob(X < 0.5)=\Prob(X\leq 0.5)=F_X(0.5)=0.5^2=0.25$
+$\Prob(X < 0.5)=\Prob(X\leq 0.5)=F_X(0.5)=0.5^2=0.25$. See Figure 3.
 
 ```{r lesson9c, fig.height=3,fig.width=4,fig.align='center',echo=F,fig.cap="Probability represented by shaded area"}
 x<-seq(0,1,0.001)
@@ -132,7 +133,8 @@ y<-2*x
 plot(x,y,type="l",ylab="f(x)",main="P(X<0.5)")
 polygon(c(0,0.5,0.5),c(0,0,1),density=15,angle=135)
 ```
-$\Prob(X > 0.5) = 1-\Prob(X\leq 0.5)=1-0.25 = 0.75$
+$\Prob(X > 0.5) = 1-\Prob(X\leq 0.5)=1-0.25 = 0.75$ See Figure 4.
+
 
 ```{r lesson9d,fig.align='center',echo=F,fig.cap="Probability represented by shaded area"}
 x<-seq(0,1,0.001)
@@ -148,12 +150,13 @@ integrate(function(x)2*x,.1,.75)
 ```
 
 
-Alternatively, $\Prob(0.1\leq X < 0.75) = F(0.75)-F(0.1)=0.75^2-0.1^2 =0.553$
+Alternatively, $\Prob(0.1\leq X < 0.75) = \Prob(X < 0.75) -\Prob(x \leq  0.1) = F(0.75)-F(0.1)=0.75^2-0.1^2 =0.553$
 
 ```{r}
 Fx(0.75)-Fx(0.1)
 ```
 
+Notice for a continuous random variable, we are loose with the use of the `=` sign. This is because for a continuous random variable $\Prob(X=x)=0$. Do not get sloppy when working with discrete random variables.
 
 ```{r lesson9e,fig.align='center',echo=F,fig.cap="Probability represented by shaded area"}
 x<-seq(0,1,0.001)
@@ -162,11 +165,9 @@ plot(x,y,type="l",ylab="f(x)",main="P(0.1 <= X < 0.75)")
 polygon(c(0.1,0.75,0.75,0.1),c(0,0,1.5,0.2),density=15,angle=135)
 ```
 
-The median of $X$ is the value $x$ such that $\Prob(X\leq x)=0.5$. So we simply solve $x^2=0.5$ for $x$. Thus, the median of $X$ is $\sqrt{0.5}=0.707$. 
+The median of $X$ is the value $x$ such that $\Prob(X\leq x)=0.5$, the area under a single point is 0. So we simply solve $x^2=0.5$ for $x$. Thus, the median of $X$ is $\sqrt{0.5}=0.707$. 
 
 Or using `R`
-
-
 
 
 ```{r}
@@ -189,7 +190,7 @@ sqrt(runif(1))
 results <- do(10000)*sqrt(runif(1))
 ```
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(results)
 ```
 
@@ -220,7 +221,7 @@ $$
 \sigma^2_X = \Var(X)=\E[(X-\mu_X)^2]= \int_{S_X} (x-\mu_X)^2\cdot f_X(x) \diff x
 $$
 
-Recall Application problem 3 from last lesson. In this problem, you showed that $\Var(X)=\E(X^2)-\E(X)^2$. Thus,
+Recall Application problem 6 from last lesson. In this problem, you showed that $\Var(X)=\E(X^2)-\E(X)^2$. Thus,
 $$
 \Var(X)=\E(X^2)-\E(X)^2 = \int_{S_X} x^2\cdot f_X(x)\diff x - \mu_X^2 
 $$

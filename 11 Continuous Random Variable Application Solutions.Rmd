@@ -2,6 +2,7 @@
 title: "Continuous Random Variables Applications Solutions"
 author:
   - Lt Col Ken Horton
+  - Lt Col Kris Pruitt
   - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -28,9 +29,9 @@ library(tidyverse)
 
 # Exercises
 
-1. Let $X$ be a continuous random variable on the domain $-k \leq X \leq k$. Also, let $f(x)=\frac{x^2}{18}$. 
+\indent 1. Let $X$ be a continuous random variable on the domain $-k \leq X \leq k$. Also, let $f(x)=\frac{x^2}{18}$. 
 
-a) Assume that $f(x)$ is a valid pdf. Find the value of $k$. 
+a. Assume that $f(x)$ is a valid pdf. Find the value of $k$. 
 
 Because $f$ is a valid pdf, we know that $\int_{-k}^k \frac{x^2}{18}\diff x = 1$. So, 
 $$
@@ -61,7 +62,7 @@ uniroot(function(x)my_pdf(x)-1,c(-10,10))$root
 
 
 
-b) Plot the pdf of $X$. 
+b. Plot the pdf of $X$. 
 
 ```{r}
 x<-seq(-3,3,0.001)
@@ -79,7 +80,7 @@ ggplot(data.frame(x=c(-3, 3)), aes(x)) +
 curve(x^2/18,from=-3,to=3,ylab="f(x)",main="pdf of X")
 ```
 
-c) Find and plot the cdf of $X$.
+c. Find and plot the cdf of $X$.
 $$
 F_X(x)=\Prob(X\leq x)=\int_{-3}^x \frac{t^2}{18}\diff t = \frac{t^3}{54}\bigg|_{-3}^x = \frac{x^3}{54}+\frac{1}{2}
 $$
@@ -97,7 +98,7 @@ fx<-pmin(1,(1*(x>=-3)*(x^3/54+1/2)))
 gf_line(fx~x,ylab="F(x)",main="cdf of X")
 ```
 
-d) Find $\Prob(X<1)$. 
+d. Find $\Prob(X<1)$. 
 $$
 \Prob(X<1)=F(1)=\frac{1}{54}+\frac{1}{2}=0.519
 $$
@@ -107,7 +108,7 @@ integrate(function(x)x^2/18,-3,1)
 ```
 
 
-e) Find $\Prob(1.5<X\leq 2.5)$.
+e. Find $\Prob(1.5<X\leq 2.5)$.
 $$
 \Prob(1.5< X \leq 2.5)=F(2.5)-F(1.5)=\frac{2.5^3}{54}+\frac{1}{2}-\frac{1.5^3}{54}-\frac{1}{2}=0.227
 $$
@@ -117,7 +118,7 @@ integrate(function(x)x^2/18,1.5,2.5)
 ```
 
 
-f) Find the 80th percentile of $X$ (the value $x$ for which 80% of the distribution is to the left of that value). 
+f. Find the 80th percentile of $X$ (the value $x$ for which 80% of the distribution is to the left of that value). 
 
 Need $x$ such that $F(x)=0.8$. Solving $\frac{x^3}{54}+\frac{1}{2}=0.8$ for $x$ yields $x=2.530$. 
 
@@ -126,7 +127,7 @@ uniroot(function(x)x^3/54+.5-.8,c(-3,3))
 ```
 
 
-g) Find the value $x$ such that $\Prob(-x \leq X \leq x)=0.4$. 
+g. Find the value $x$ such that $\Prob(-x \leq X \leq x)=0.4$. 
 
 Because this distribution is symmetric, finding $x$ is equivalent to finding $x$ such that $\Prob(X>x)=0.3$. (It helps to draw a picture). Thus, we need $x$ such that $F(x)=0.7$. Solving $\frac{x^3}{54}+\frac{1}{2}=0.7$ for $x$ yields $x=2.210$. 
 ```{r hw9c}
@@ -138,7 +139,7 @@ text(-2.3,0.4,"0.3")
 text(2.3,0.4,"0.3")
 ```
 
-h) Find the mean and variance of $X$. 
+h. Find the mean and variance of $X$. 
 $$
 \E(X)=\int_{-3}^3 x\cdot\frac{x^2}{18}\diff x = \frac{x^4}{72}\bigg|_{-3}^3=\frac{81}{72}-\frac{81}{72} = 0
 $$
@@ -151,7 +152,9 @@ $$
 \Var(X)=\E(X^2)-\E(X)^2=5.4-0^2=5.4
 $$
 
-i) This is tricky since we need a cube root function. Just raising to the one-third power won't work. Let's write our own function.
+i. Simulate 10000 values from this distribution and plot the density.
+
+This is tricky since we need a cube root function. Just raising to the one-third power won't work. Let's write our own function.
 
 ```{r}
 cuberoot <- function(x) {
@@ -168,7 +171,7 @@ results %>%
   gf_dens(~cuberoot)
 ```
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(results)
 ```
 
@@ -179,17 +182,16 @@ inspect(results)
 
 \indent 2. Let $X$ be a continuous random variable. Prove that the cdf of $X$, $F_X(x)$ is a non-decreasing function. (Hint: show that for any $a < b$, $F_X(a) \leq F_X(b)$.)
 
-Let $a<b$, where $a$ and $b$ are both in the domain of $X$. Note that $F_X(a)=\Prob(X\leq a)$ and $F_X(b)=\Prob(X\leq b)$. Since $a<b$, we can partition $\Prob(X\leq b)$ as $\Prob(X\leq a)+\Prob(a < X \leq b)$. One of the axioms of probability is that it must be non-negative, so I know that $\Prob(a < X \leq b)\geq 0$. Thus, 
+Let $a<b$, where $a$ and $b$ are both in the domain of $X$. Note that $F_X(a)=\Prob(X\leq a)$ and $F_X(b)=\Prob(X\leq b)$. Since $a<b$, we can partition $\Prob(X\leq b)$ as $\Prob(X\leq a)+\Prob(a < X \leq b)$. One of the axioms of probability is that a probability must be non-negative, so I know that $\Prob(a < X \leq b)\geq 0$. Thus, 
 $$
 \Prob(X\leq b)=\Prob(X\leq a)+\Prob(a < X \leq b) \geq \Prob(X\leq a)
 $$
 
 So, we have shown that $F_X(a)\leq F_X(b)$. Thus, $F_X(x)$ is a non-decreasing function. 
 
-### File Creation Information 
+## File Creation Information 
 
   * File creation date: `r Sys.Date()`
-  * Windows version: `r win.version()`
   * `r R.version.string`
   * `mosaic` package version: `r packageVersion("mosaic")`
   * `tidyverse` package version: `r packageVersion("tidyverse")`

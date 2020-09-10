@@ -2,6 +2,7 @@
 title: "Named Discrete Distribution Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -28,18 +29,18 @@ library(tidyverse)
 
 ## Objectives
 
-1) Recognize common discrete distributions (Uniform, Binomial, Poisson, Hypergeometric). 
+1) Recognize and setup for use common discrete distributions (Uniform, Binomial, Poisson, Hypergeometric) to include parameters, assumptions, and moments. 
 
 2) Use `R` to calculate probabilities and quantiles involving random variables with common discrete distributions. 
 
 
 ## Named Distributions
 
-In previous lessons, we've introduced the concept of random variables, distribution functions, expectations, and empirical distributions. In some cases, the nature of an experiment may yield random variables with common distributions. In these cases, we can rely on easy-to-use distribution functions and built-in `R` functions in order to calculate probabilities and quantiles. 
+In previous two lessons, we've introduced the concept of random variables, distribution functions, and expectations. In some cases, the nature of an experiment may yield random variables with common distributions. In these cases, we can rely on easy-to-use distribution functions and built-in `R` functions in order to calculate probabilities and quantiles. 
 
 ### Discrete Uniform Distribution
 
-The first distribution we will discuss in the discrete uniform distribution. It is not a very commonly used distribution, especially compared to its continuous counterpart. A discrete random variable has the discrete uniform distribution if probability is evenly allocated to each value in the sample space. A variable with this distribution has parameters $a$ and $b$ representing the minimum and maximum of the sample space, respectively. (By default, that sample space is assumed to consist of integers only, but that is by no means always the case.) 
+The first distribution we will discuss is the discrete uniform distribution. It is not a very commonly used distribution, especially compared to its continuous counterpart. A discrete random variable has the discrete uniform distribution if probability is evenly allocated to each value in the sample space. A variable with this distribution has parameters $a$ and $b$ representing the minimum and maximum of the sample space, respectively. (By default, that sample space is assumed to consist of integers only, but that is by no means always the case.) 
 
 > *Example*:  
 Rolling a fair die is an example of the discrete uniform. Each side of the die has an equal probability.
@@ -58,15 +59,19 @@ $$
 
 The expected value of $X$ is found by:
 $$
-\E(X)=\sum_{x=a}^b x\cdot\frac{1}{b-a+1}= \frac{1}{b-a+1}\cdot\frac{b-a+1}{2}\cdot (a+b) = \frac{a+b}{2}
+\E(X)=\sum_{x=a}^b x\cdot\frac{1}{b-a+1}= \frac{1}{b-a+1} \cdot \sum_{x=a}^b x=\frac{1}{b-a+1}\cdot\frac{b-a+1}{2}\cdot (a+b) = \frac{a+b}{2}
 $$
+
+Where the sum of consecutive integers is a common result from discrete math, google it for more information.
 
 The variance of $X$ is found by: (derivation not included)
 $$
 \Var(X)=\E[(X-\E(X))^2]=\frac{(b-a+1)^2-1}{12}
 $$
 
-Summarizing for the die.  Let $X$ be the result of a single roll of a fair die. Find the distribution of $X$. Also, report the pmf, $\E(X)$ and $\Var(X)$. 
+Summarizing for the die:  
+
+Let $X$ be the result of a single roll of a fair die. We will report the distribution of $X$, the pmf, $\E(X)$ and $\Var(X)$. 
 
 The domain of $X$ is $S_X=\{1,2,3,4,5,6\}$. Since each of those outcomes is equally likely, $X$ follows the discrete uniform distribution with $a=1$ and $b=6$. Thus, 
 $$
@@ -74,7 +79,7 @@ f_X(x)=\left\{\begin{array}{ll}\frac{1}{6}, & x \in \{1,2,3,4,5,6\} \\
 0, & \mbox{otherwise} \end{array}\right.
 $$
 
-As expected, $\E(X)=\frac{1+6}{2}=3.5$. This value makes since. Also, $\Var(X)=\frac{(6-1+1)^2-1}{12}=\frac{35}{12}=2.917$. 
+Finally, $\E(X)=\frac{1+6}{2}=3.5$. Also, $\Var(X)=\frac{(6-1+1)^2-1}{12}=\frac{35}{12}=2.917$. 
 
 ### Simulating
 
@@ -89,9 +94,31 @@ sample(1:6,4,replace=TRUE)
 ```
 
 
+Let's roll it 10,000 times and find 
+
+```{r}
+results<-do(10000)*sample(1:6,1,replace=TRUE)
+```
+
+```{r}
+tally(~sample,data=results,format="percent")
+```
+
+```{r}
+mean(~sample,data=results)
+```
+
+```{r}
+var(~sample,data=results)*(10000-1)/10000
+```
+
+
+
 ### Binomial Distribution
 
-The binomial distribution is extremely common, and appears in many situations. In fact, we have already discussed several examples where the binomial distribution is heavily involved. Consider an experiment involving repeated *independent trials* of a binary process (two outcomes), where in each trial, there is a *constant probability* of "success" (one of the outcomes which is arbritary). If the random variable $X$ represents the number of successes out of $n$ independent trials, then $X$ is said to follow the binomial distribution with parameters $n$ and $p$ (the probability of a success in each trial). 
+The binomial distribution is extremely common, and appears in many situations. In fact, we have already discussed several examples where the binomial distribution is heavily involved. 
+
+Consider an experiment involving repeated *independent trials* of a binary process (two outcomes), where in each trial, there is a *constant probability* of "success" (one of the outcomes which is arbitrary). If the random variable $X$ represents the number of successes out of $n$ independent trials, then $X$ is said to follow the binomial distribution with parameters $n$ and $p$ (the probability of a success in each trial). 
 
 The pmf of $X$ is given by:
 $$
@@ -100,7 +127,7 @@ $$
 
 for $x \in \{0,1,...,n\}$ and 0 otherwise. 
 
-Let's take a moment to dissect this pmf. We are looking for the probability of obtaining $x$ successes out of $n$ trials. The $p^x$ represents the $x$ successes. The term $(1-p)^{n-x}$ represents the remainder of the trials as failures. Finally, the $n\choose x$ term represents the number of ways to obtain $x$ successes out of $n$ trials. For example, there are three ways to obtain 1 success out of 3 trials (one success followed by two failures; one success, one failure then one success; or two failures followed by a success). 
+Let's take a moment to dissect this pmf. We are looking for the probability of obtaining $x$ successes out of $n$ trials. The $p^x$ represents the probability of $x$ successes, using the multiplication rule because of the independence assumption. The term $(1-p)^{n-x}$ represents the probability of the remainder of the trials as failures. Finally, the $n\choose x$ term represents the number of ways to obtain $x$ successes out of $n$ trials. For example, there are three ways to obtain 1 success out of 3 trials (one success followed by two failures; one success, one failure then one success; or two failures followed by a success). 
 
 The expected value of a binomially distributed random variable is given by $\E(X)=np$ and the variance is given by $\Var(X)=np(1-p)$. 
 
@@ -172,7 +199,7 @@ sum(dbinom(0:8,20,0.5))
 
 ### Poisson Distribution
 
-The Poisson distribution is very common when considering count or arrival data. Consider a random process where events occur according to some rate over time (think arrivals to a retail register). Often, these events are modeled with the *Poisson process*. The Poisson process assumes a consistent rate of arrival and a memoryless arrival process (the time until the next arrival is independent of time since the last arrival). If we assume a particular process is a Poisson process, then there are two random variables that take common named distributions. The number of arrivals in a specified amount of time follows the *Poisson* distribution. Also, the amount of time until the next arrival follows the *exponential* distribution. We will defer discussion of the exponential distribution until a later lesson. What is random in the *Poisson* is the number of occurences while the interval is fixed. That is why it is a discrete distribution. The parameter $\lambda$ must be the same size as the interval in the random variable. 
+The Poisson distribution is very common when considering count or arrival data. Consider a random process where events occur according to some rate over time (think arrivals to a retail register). Often, these events are modeled with the *Poisson process*. The Poisson process assumes a consistent rate of arrival and a memoryless arrival process (the time until the next arrival is independent of time since the last arrival). If we assume a particular process is a Poisson process, then there are two random variables that take common named distributions. The number of arrivals in a specified amount of time follows the *Poisson* distribution. Also, the amount of time until the next arrival follows the *exponential* distribution. We will defer discussion of the exponential distribution until the next lesson. What is random in the *Poisson* is the number of occurrences while the interval is fixed. That is why it is a discrete distribution. The parameter $\lambda$ is the average number of occurrences in the specific interval, note that the interval must be the same as is specified in the random variable. 
 
 Let $X$ be the number of arrivals in a length of time, $T$, where arrivals occur according to a Poisson process with an average of $\lambda$ arrivals in length of time $T$. Then $X$ follows a Poisson distribution with parameter $\lambda$:
 $$

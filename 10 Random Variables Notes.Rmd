@@ -2,6 +2,7 @@
 title: "Discrete Random Variables Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -29,11 +30,11 @@ library(tidyverse)
 
 1) Define and use properly in context all new terminology. 
 
-2) Given a discrete random variable, describe probability associated with each outcome of the variable.
+2) Given a discrete random variable, obtain the pmf and cdf, and use them to obtain probabilities of events.
 
-3) Given a discrete random variable, obtain the pmf and cdf, and use them to obtain probabilities of events.
+3) Simulate random variable for a discrete distribution. 
 
-4) Simulate random variable for a discrete distribution. 
+4) Find the moments of a discrete random variable.
 
 5) Find the expected value of a linear transformation of a random variable. 
 
@@ -77,7 +78,7 @@ A *discrete* random variable has a domain that consists of a countable range of 
 
 A *continuous* random variable has a domain that is a continuous interval. For example, let $Y$ be the random variable corresponding to the height of a randomly selected individual. $Y$ is a continuous random variable because a person could measure 68.1 inches, 68.2 inches, or perhaps any value in between. Note that when we measure height, our precision is limited by our measuring device, so we are technically "discretizing" height. However, even in these cases, we typically consider height to be a continuous random variable. 
 
-A *mixed* random variable is exactly what it sounds like. It has a domain that is both discrete and continuous. How could such a thing occur? Consider an experiment where a person rolls a standard six-sided die. If it lands on anything other than one, the result of the die roll is recorded. If it lands on one, the person spins a wheel, and the angle in degrees of the resulting spin, divided by 360, is recorded. If our random variable $Z$ is the number that is recorded in this experiment, the domain of $Z$ is $[0,1] \cup \{2,3,4,5,6\}$. We will not be spending much time on mixed random variables. 
+A *mixed* random variable is exactly what it sounds like. It has a domain that is both discrete and continuous. How could such a thing occur? Consider an experiment where a person rolls a standard six-sided die. If it lands on anything other than one, the result of the die roll is recorded. If it lands on one, the person spins a wheel, and the angle in degrees of the resulting spin, divided by 360, is recorded. If our random variable $Z$ is the number that is recorded in this experiment, the domain of $Z$ is $[0,1] \cup \{2,3,4,5,6\}$. We will not be spending much time on mixed random variables. However they do occur in practice, consider the job of analyzing bomb data error. If the bomb hits within a certain radius, the error is 0. Otherwise it is measured in a radial direction. This data is mixed.
 
 
 ### Discrete Distribution Functions
@@ -118,7 +119,7 @@ Note that this function specifies the probability that $X$ takes any of the four
 
 Graphically, the pmf is not terribly interesting. The pmf is 0 at all values of $X$ except for 0, 1, 2 and 3. 
 
-```{r echo=FALSE, fig.height=3, fig.width=4, fig.cap="Probability Mass Function of $X$ from Example 6.1"}
+```{r echo=FALSE, fig.height=3, fig.width=4, fig.cap="Probability Mass Function of $X$ from Coin Flip Example"}
 plot(c(0,1,2,3),c(1/8,3/8,3/8,1/8),type="h",ylim=c(0,1),
      xlab="x",ylab="P(X=x)",main="pmf of X")
 ```
@@ -157,9 +158,9 @@ F_X(x)=\Prob(X\leq x)=\left\{\renewcommand{\arraystretch}{1.4} \begin{array}{ll}
 1, & x\geq 3 \end{array}\right .
 $$
 
-Visually, the cdf of a discrete random variable has a stairstep appearance. In this example, the cdf takes a value 0 up until $X=0$, at which point the cdf increases to 1/8. It stays at this value until $X=1$, and so on. At and beyond $X=3$, the cdf is equal to 1. 
+Visually, the cdf of a discrete random variable has a stairstep appearance. In this example, the cdf takes a value 0 up until $X=0$, at which point the cdf increases to 1/8. It stays at this value until $X=1$, and so on. At and beyond $X=3$, the cdf is equal to 1. See the figure below, Figure 2. 
 
-```{r lesson6b, echo=FALSE, fig.height=3, fig.width=4, fig.cap="Cumulative Distribution Function of $X$ from Example 6.1"}
+```{r lesson6b, echo=FALSE, fig.height=3, fig.width=4, fig.cap="Cumulative Distribution Function of $X$ from Coin Flip Example"}
 x<-c(0,1,2,3)
 y<-c(0,1/8,1/2,7/8)
 y2<-c(1/8,1/2,7/8,1)
@@ -231,7 +232,7 @@ return(values[which(ran_num < cdf)[1]])
 
 Now let's generate 10000 values from this random variable.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 results <- do(10000)*simple_rv(values,cdf)
 inspect(results)
 ```
@@ -244,7 +245,7 @@ Not a bad approximation.
 
 ## Moments
 
-Distribution functions are excellent characterizations of random variables. The pmf and cdf will tell you exactly how often the random variables takes particular values. However, distribution functions provide a lot of information. Sometimes, we may want to describe a random variable $X$ with a single value or small set of values. For example, we may want to know the average or some measure of center of $X$. We also may want to know a measure of spread of $X$. *Moments* are values that summarize random variables with single numbers. 
+Distribution functions are excellent characterizations of random variables. The pmf and cdf will tell you exactly how often the random variables takes particular values. However, distribution functions are often a lot of information. Sometimes, we may want to describe a random variable $X$ with a single value or small set of values. For example, we may want to know the average or some measure of center of $X$. We also may want to know a measure of spread of $X$. *Moments* are values that summarize random variables with single numbers. Since we are dealing with the population, these moments are population vales and not summary statistics as we used in the first block of material.
 
 ### Expectation
 
@@ -261,7 +262,7 @@ $$
 \mu_X=\E(X)=\sum_x x \cdot f_X(x)
 $$
 
-The mean is also known as the first moment of $X$ around the origin. 
+The mean is also known as the first moment of $X$ around the origin. It is a weighted sum with the weight being the probability. If each outcome were equally likely, the expected value would just be the average of the values of the random variable since each wight is the reciprocal of the number of values.  
 
 > *Example*:  
 Find the expected value (or mean) of $X$: the number of heads in three flips of a fair coin. 
@@ -269,7 +270,9 @@ $$
 \E(X)=\sum_x x\cdot f_X(x) = 0*\frac{1}{8} + 1*\frac{3}{8} + 2*\frac{3}{8} + 3*\frac{1}{8}=1.5
 $$
 
-From our simulation above, we can find the mean as an estimate of the expected value.
+We are using $\mu$ because it is a population parameter.
+
+From our simulation above, we can find the mean as an estimate of the expected value, this really a statistic since our simulation is data from the population and thus will have variance from sample to sample.
 
 ```{r}
 mean(~simple_rv,data=results)

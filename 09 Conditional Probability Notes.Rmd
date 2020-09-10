@@ -61,7 +61,7 @@ Another common misunderstanding involves the direction of conditional probabilit
 
 ## Independence
 
-Two events, $A$ and $B$, are said to be independent if the probability of one occurring does not change whether or not the other has occurred. We looked at this last lesson but now we have another way of looking at using conditional probabilities. For example, let's say the probability that a randomly selected student has seen the latest superhero movie is 0.55. What if we randomly select a student and we see that he/she is wearing a black backpack? Does that probability change? Likely not, since movie attendance is probably not related to choice of backpack color. These two events are independent. 
+Two events, $A$ and $B$, are said to be independent if the probability of one occurring does not change whether or not the other has occurred. We looked at this last lesson but now we have another way of looking at it using conditional probabilities. For example, let's say the probability that a randomly selected student has seen the latest superhero movie is 0.55. What if we randomly select a student and we see that he/she is wearing a black backpack? Does that probability change? Likely not, since movie attendance is probably not related to choice of backpack color. These two events are independent. 
 
 Mathematically, $A$ and $B$ are considered independent if and only if
 $$
@@ -107,9 +107,9 @@ In fact, this test had a sensitivity of 100% and a specificity of 99.9%. Now sup
 
 This is a classic example of how probability could be misunderstood. Upon reading this question, you might guess that the answer to our question is quite high. After all, this is a nearly perfect test. After exploring the problem more in depth, we find a different result. 
 
-### No proportions  
+### Approach using whole numbers  
 
-Without going directly to the formulaic expression above, let's consider a collection 100,000 randomly selected people. What do we know? 
+Without going directly to the formulaic expression above, let's consider a collection of 100,000 randomly selected people. What do we know? 
 
 1) Based on the prevalence of this disease (one out of every 10,000 people have this disease), we know that 10 of them should have the disease. 
 
@@ -119,7 +119,7 @@ Without going directly to the formulaic expression above, let's consider a colle
 
 Thus, of our 100,000 randomly selected people, 110 will test positive. Of these 110, only 10 actually have the disease. Thus, the probability that someone has the disease given they've tested positive is actually around $10/110 = 0.0909$. 
 
-### Mathematical Approach  
+### Mathematical approach  
 
 Now let's put this in context of Bayes' Rule as stated above. First, let's define some events. Let $D$ be the event that someone has the disease. Thus, $D'$ would be the event that someone does not have the disease. Similarly, let $T$ be the event that someone has tested positive. What do we already know?
 $$
@@ -167,7 +167,7 @@ In this case 100 people had the disease. Now let's find the positive test result
 rflip(as.numeric(results['tails']),prob=.001,summarize = TRUE)
 ```
 
-Now 959 tested positive. Thus the probability of having the disease given a positive test results is approximately
+Now 959 tested positive. Thus the probability of having the disease given a positive test result is approximately:
 
 ```{r}
 100/(100+959)

@@ -30,9 +30,9 @@ For each of the problems below, **_1)_** define a random variable that will help
 
 We will demonstrate using 1a and 1b. 
 
-1. The T-6 training aircraft is used during UPT. Suppose that on each training sortie, aircraft return with a maintenance-related failure at a rate of 1 per 100 sorties. 
+\indent 1. The T-6 training aircraft is used during UPT. Suppose that on each training sortie, aircraft return with a maintenance-related failure at a rate of 1 per 100 sorties. 
 
-a) Find the probability of no maintenance failures in 15 sorties. 
+a. Find the probability of no maintenance failures in 15 sorties. 
 
 $X$: the number of maintenance failures in 15 sorties. 
 
@@ -54,7 +54,7 @@ This probability makes sense, since the expected value is fairly low. Because, o
 gf_dist("binom",size=15,prob=0.01)
 ```
 
-b) Find the probability of at least two maintenance failures in 15 sorties. 
+b. Find the probability of at least two maintenance failures in 15 sorties. 
 
 We can use the same $X$ as above. Now, we are looking for $\Prob(X\geq 2)$. This is equivalent to finding $1-\Prob(X\leq 1)$:
 ```{r hw8c}
@@ -74,32 +74,32 @@ sum(dbinom(2:15,15,0.01))
 pbinom(1,15,0.01,lower.tail = F)
 ```
 
-c) Find the probability of at least 30 successful (no mx failures) sorties before the first failure.
+c. Find the probability of at least 30 successful (no mx failures) sorties before the first failure.
 
 
-d) Find the probability of at least 50 successful sorties before the third failure. 
-
-
-
-2. On a given Saturday, suppose vehicles arrive at the USAFA North Gate according to a Poisson process at a rate of 40 arrivals per hour. 
-
-a) Find the probability no vehicles arrive in 10 minutes. 
-
-
-b) Find the probability at least 50 vehicles arrive in an hour. 
+d. Find the probability of at least 50 successful sorties before the third failure. 
 
 
 
-c) Find the probability that at least 5 minutes will pass before the next arrival.
+\indent 2. On a given Saturday, suppose vehicles arrive at the USAFA North Gate according to a Poisson process at a rate of 40 arrivals per hour. 
+
+a. Find the probability no vehicles arrive in 10 minutes. 
+
+
+b. Find the probability at least 50 vehicles arrive in an hour. 
+
+
+
+c. Find the probability that at least 5 minutes will pass before the next arrival.
 
 
 
 
-3. Suppose there are 12 male and 7 female cadets in a classroom. I select 5 completely at random (without replacement). 
+\indent 3. Suppose there are 12 male and 7 female cadets in a classroom. I select 5 completely at random (without replacement). 
 
-a) Find the probability I select no female cadets. 
+a. Find the probability I select no female cadets. 
 
 
-b) Find the probability I select more than 2 female cadets. 
+b. Find the probability I select more than 2 female cadets. 
 
 
