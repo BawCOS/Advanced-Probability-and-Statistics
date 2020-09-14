@@ -39,7 +39,7 @@ library(tidyverse)
 5) Find the expected value of a linear transformation of a random variable. 
 
 
-## Random Variables
+## Random variables
 
 We have already discussed random experiments. We have also discussed $S$, the sample space for an experiment. A random variable essentially maps the events in the sample space to the real number line. For a formal definition: A random variable $X$ is a function $X: S\rightarrow \mathbb{R}$ that assigns exactly one number to each outcome in an experiment.  
 
@@ -49,21 +49,21 @@ $$
 S=\{\mbox{HHH}, \mbox{HHT}, \mbox{HTH}, \mbox{HTT}, \mbox{THH}, \mbox{THT}, \mbox{TTH}, \mbox{TTT}\}
 $$ 
 
-Let the random variable $X$ be the number of heads in three coin flips. Whenever introduced to a new random variable, you should take a moment to think about the domain of that variable. What possible values can $X$ take? When tossing a coin 3 times, we can get no heads, one head, two heads or three heads. The random variable $X$ assigns each outcome in our experiment to one of these values. Visually: 
+Let the random variable $X$ be the number of heads in three coin flips. Whenever introduced to a new random variable, you should take a moment to think about what possible values can $X$ take? When tossing a coin 3 times, we can get no heads, one head, two heads or three heads. The random variable $X$ assigns each outcome in our experiment to one of these values. Visually: 
 $$
 S=\{\underbrace{\mbox{HHH}}_{X=3}, \underbrace{\mbox{HHT}}_{X=2}, \underbrace{\mbox{HTH}}_{X=2}, \underbrace{\mbox{HTT}}_{X=1}, \underbrace{\mbox{THH}}_{X=2}, \underbrace{\mbox{THT}}_{X=1}, \underbrace{\mbox{TTH}}_{X=1}, \underbrace{\mbox{TTT}}_{X=0}\}
 $$ 
 
-The sample space of $X$ is the list of numerical values that $X$ can take. 
+The sample space of $X$, the support, is the list of numerical values that $X$ can take. 
 $$
 S_X=\{0,1,2,3\}
 $$
 
-Because the domain (or support) of $X$ is a countable list of numbers, we consider $X$ to be a *discrete* random variable (more on that later). 
+Because the sample space of $X$ is a countable list of numbers, we consider $X$ to be a *discrete* random variable (more on that later). 
 
-### How Does This Help?
+### How does this help?
 
-Sticking with our example, we can now frame a problem of interest in the context of our random variable $X$. For example, suppose we wanted to know that probability of at least two heads. Without our random variable, we have to write this as:
+Sticking with our example, we can now frame a problem of interest in the context of our random variable $X$. For example, suppose we wanted to know the probability of at least two heads. Without our random variable, we have to write this as:
 $$
 \Prob(\mbox{at least two heads})= \Prob(\{\mbox{HHH},\mbox{HHT},\mbox{HTH},\mbox{THH}\})
 $$
@@ -74,27 +74,27 @@ Essentially, a random variable often helps us reduce a complex random experiment
 
 ### Discrete vs Continuous
 
-A *discrete* random variable has a domain that consists of a countable range of values. $X$ in our example above is a discrete random variable. Note that "countable" does not necessarily mean "finite". For example, a random variable with a Poisson distribution (a topic for a later lesson) has a domain of $\{0,1,2,...\}$. This domain stretches to infinity, but the domain is considered *countably* infinite, and thus the random variable would be considered discrete. 
+A *discrete* random variable has a sample space that consists of a countable set of values. $X$ in our example above is a discrete random variable. Note that "countable" does not necessarily mean "finite". For example, a random variable with a Poisson distribution (a topic for a later lesson) has a sample space of $\{0,1,2,...\}$. This sample space stretches to infinity, but it is considered *countably* infinite, and thus the random variable would be considered discrete. 
 
-A *continuous* random variable has a domain that is a continuous interval. For example, let $Y$ be the random variable corresponding to the height of a randomly selected individual. $Y$ is a continuous random variable because a person could measure 68.1 inches, 68.2 inches, or perhaps any value in between. Note that when we measure height, our precision is limited by our measuring device, so we are technically "discretizing" height. However, even in these cases, we typically consider height to be a continuous random variable. 
+A *continuous* random variable has a sample space that is a continuous interval. For example, let $Y$ be the random variable corresponding to the height of a randomly selected individual. $Y$ is a continuous random variable because a person could measure 68.1 inches, 68.2 inches, or perhaps any value in between. Note that when we measure height, our precision is limited by our measuring device, so we are technically "discretizing" height. However, even in these cases, we typically consider height to be a continuous random variable. 
 
-A *mixed* random variable is exactly what it sounds like. It has a domain that is both discrete and continuous. How could such a thing occur? Consider an experiment where a person rolls a standard six-sided die. If it lands on anything other than one, the result of the die roll is recorded. If it lands on one, the person spins a wheel, and the angle in degrees of the resulting spin, divided by 360, is recorded. If our random variable $Z$ is the number that is recorded in this experiment, the domain of $Z$ is $[0,1] \cup \{2,3,4,5,6\}$. We will not be spending much time on mixed random variables. However they do occur in practice, consider the job of analyzing bomb data error. If the bomb hits within a certain radius, the error is 0. Otherwise it is measured in a radial direction. This data is mixed.
+A *mixed* random variable is exactly what it sounds like. It has a sample space that is both discrete and continuous. How could such a thing occur? Consider an experiment where a person rolls a standard six-sided die. If it lands on anything other than one, the result of the die roll is recorded. If it lands on one, the person spins a wheel, and the angle in degrees of the resulting spin, divided by 360, is recorded. If our random variable $Z$ is the number that is recorded in this experiment, the sample space of $Z$ is $[0,1] \cup \{2,3,4,5,6\}$. We will not be spending much time on mixed random variables. However they do occur in practice, consider the job of analyzing bomb data error. If the bomb hits within a certain radius, the error is 0. Otherwise it is measured in a radial direction. This data is mixed.
 
 
-### Discrete Distribution Functions
+### Discrete distribution functions
 
-Once we have defined a random variable, we need a way to describe its behavior. In other words, how is that variable *random*? 
+Once we have defined a random variable, we need a way to describe its behavior and we will use probabilities for this purpose. 
 
 *Distribution functions* describe the behavior of random variables. We can use these functions to determine the probability that a random variable takes a value or a range of values. For discrete random variables, there are two distribution functions of interest: the *probability mass function* (pmf) and the *cumulative distribution function* (cdf). 
 
-### Probability Mass Function
+### Probability mass function
 
 Let $X$ be a discrete random variable. The probability mass function (pmf) of $X$, given by $f_X(x)$ is a function that assigns probability to each possible outcome of $X$. 
 $$
 f_X(x)=\Prob(X=x)
 $$
 
-Note that the pmf is a *function*. Functions have input and output. The input of a pmf is any real number. The output of a pmf is the probability that the random variable takes the inputted value. The pmf must follow the axioms of probability described in lesson 2. Primarily,
+Note that the pmf is a *function*. Functions have input and output. The input of a pmf is any real number. The output of a pmf is the probability that the random variable takes the inputted value. The pmf must follow the axioms of probability described in the Probability Rules lesson. Primarily,
 
 1) For all $x \in \mathbb{R}$, $0 \leq f_X(x) \leq 1$.
 
@@ -132,7 +132,7 @@ $$
 
 Alternatively, we can recognize that $\Prob(X\geq 1)=1-\Prob(X=0)=1-\frac{1}{8}=\frac{7}{8}$. 
 
-### Cumulative Distribution Function
+### Cumulative distribution function
 
 Let $X$ be a discrete random variable. The cumulative distribution function (cdf) of $X$, given by $F_X(x)$ is a function that assigns to each value of $X$ the probability that $X$ takes that value or lower:
 $$
@@ -173,7 +173,7 @@ segments(c(-0.3,x),c(y,1),c(x,3.3))
 
 ### Simulating random variables  
 
-We can simulate values from a random variable using the cdf, we will use a similar idea for continuous random variables. Since range is in the interval $[0,1]$ we will generate a random number in that same interval and then use the inverse function to find the value of the random variable. The pseudo code is:  
+We can simulate values from a random variable using the cdf, we will use a similar idea for continuous random variables. Since the range of the cdf is in the interval $[0,1]$ we will generate a random number in that same interval and then use the inverse function to find the value of the random variable. The pseudo code is:  
 1) Generate a random number, $U$.  
 2) Find the index $k$ such that $\sum_{j=1}^{k-1}x_{j} \leq U < \sum_{j=1}^{k}x_{j}$ or $F_x(k-1) \leq U < F_{x}(k)$.
 
@@ -272,14 +272,14 @@ $$
 
 We are using $\mu$ because it is a population parameter.
 
-From our simulation above, we can find the mean as an estimate of the expected value, this really a statistic since our simulation is data from the population and thus will have variance from sample to sample.
+From our simulation above, we can find the mean as an estimate of the expected value. This is really a statistic since our simulation is data from the population and thus will have variance from sample to sample.
 
 ```{r}
 mean(~simple_rv,data=results)
 ```
 
 
-### Variance 
+### Variance  
 Variance is a measure of spread of a random variable. The variance of $X$ is denoted as $\sigma^2_X$ or $\Var(X)$. It is equivalent to the average squared deviation from the mean:
 $$
 \sigma^2_X=\Var(X)=\E[(X-\mu_X)^2]

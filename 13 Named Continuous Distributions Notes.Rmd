@@ -2,6 +2,7 @@
 title: "Named Continuous Distribution Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -29,49 +30,53 @@ library(tidyverse)
 
 ## Objectives
 
-1) Recognize common continuous distributions (Uniform, Exponential, Gamma, Normal, Beta, Weibull).  
+1) Recognize when to use common continuous distributions (Uniform, Exponential, Gamma, Normal, Beta, Weibull), identify parameters, and find moments.  
 
 2) Use `R` to calculate probabilities and quantiles involving random variables with common continuous distributions.
 
-3) Describe the relationship between the Poisson process and the Poisson & Exponential distributions. 
+3) Understand the relationship between the Poisson process and the Poisson & Exponential distributions. 
 
-4) Describe the memoryless property. 
+4) Know when to apply and then use the memoryless property. 
 
-## Continuous Distributions 
+## Continuous distributions 
 
-In this lesson we will explore continuous distributions. This means we work with probability density functions and to find probabilities we must integrate, either numerical, graphically, or mathematically. The cumulative distribution function will also play an important role. There are many more distributions than the ones in this lesson but these are the most common and will set you up to learn and use any others in the future.
+In this lesson we will explore continuous distributions. This means we work with probability density functions and use them to find probabilities. Thus we must integrate, either numerical, graphically, or mathematically. The cumulative distribution function will also play an important role in this lesson. 
 
-### Uniform Distribution
+There are many more distributions than the ones in this lesson but these are the most common and will set you up to learn and use any others in the future.
+
+### Uniform distribution
 
 The first continuous distribution we will discuss is the uniform distribution. By default, when we refer to the uniform distribution, we are referring to the continuous version. When referring to the discrete version, we use the full term "discrete uniform distribution."
 
-A continuous random variable has the uniform distribution if probability is evenly distributed throughout the sample space. The parameters of this distribution are $a$ and $b$, representing the minimum and maximum of the sample space. It is commonly denoted as $U(a,b)$.
+A continuous random variable has the uniform distribution if probability density is constant, **uniform**. The parameters of this distribution are $a$ and $b$, representing the minimum and maximum of the sample space. This distribution is commonly denoted as $U(a,b)$.
 
 Let $X$ be a continuous random variable with the uniform distribution. This is denoted as $X\sim \textsf{Unif}(a,b)$. The pdf of $X$ is given by:
 $$
 f_X(x)=\left\{\begin{array}{ll} \frac{1}{b-a}, & a\leq x \leq b \\ 0, & \mbox{otherwise} \end{array}\right.
 $$
 
-The mean of $X$ is $\E(X)=\frac{a+b}{2}$ and the variance is $\Var(X)=\frac{(b-a)^2}{12}$. The derivations of these quantities is left to the practical application. 
+The mean of $X$ is $\E(X)=\frac{a+b}{2}$ and the variance is $\Var(X)=\frac{(b-a)^2}{12}$. The derivations of the mean is left to the Application. 
 
-The most common uniform distribution is $U(0,1)$ which we have already used several times in this course. Notice that the plot of the **pdf** is constant or uniform.
+The most common uniform distribution is $U(0,1)$ which we have already used several times in this course. Again, notice that the plot of the **pdf** is a constant or uniform value.
 
 ```{r}
-gf_dist("unif")
+gf_dist("unif",title="Pdf of Uniform random variable",ylab="f(x)") %>%
+  gf_theme(theme_classic())
 ```
 
-To check it is a proper pdf, all values must be non-negative and the total probability must be 1.
+To check it is a proper pdf, all values must be non-negative and the total probability must be 1. In `R` the function for probability density will start with the letter **d** and have some short descriptor for the distribution. For the uniform we use `dunif()`.
 
 ```{r}
 integrate(function(x)dunif(x),0,1)
 ```
 
 
-### Exponential Distribution
+### Exponential distribution
 
-Recall from the lesson on named discrete distributions, we discussed the Poisson process. If arrivals follow a Poisson process, we know that the number of arrivals in a specified amount of time follows a Poisson distribution, and the time until the next arrival follows the *exponential* distribution. So in the Poisson, the number of arrivals is random and the interval is fixed. In the exponential we change this, the interval is random and the arrivals are fixed at 1. This is a subtle point but worth the time to make sure you understand. 
+Recall from the lesson on named discrete distributions, we discussed the Poisson process. If arrivals follow a Poisson process, we know that the number of arrivals in a specified amount of time follows a Poisson distribution, and the time until the next arrival follows the *exponential* distribution. In the Poisson distribution, the number of arrivals is random and the interval is fixed. In the exponential distribution we change this, the interval is random and the arrivals are fixed at 1. This is a subtle point but worth the time to make sure you understand. 
 
-Let $X$ be the number of arrivals in a time interval $T$, where arrivals occur according to a Poisson process with an average of $\lambda$ arrivals per time interval. From the previous lesson, we know that $X\sim \textsf{Poisson}(\lambda T)$. Now let $Y$ be the time until the next arrival. Then $Y$ follows the exponential distribution with parameter $\lambda$ which has unit of inverse base time unit:
+Let $X$ be the number of arrivals in a time interval $T$, where arrivals occur according to a Poisson process with an average of $\lambda$ arrivals per time interval. From the previous lesson, we know that $X\sim \textsf{Poisson}(\lambda T)$. Now let $Y$ be the time until the next arrival. Then $Y$ follows the exponential distribution with parameter $\lambda$ which has units of inverse base time:
+
 $$
 Y \sim \textsf{Expon}(\lambda)
 $$
@@ -83,7 +88,7 @@ $$
 f_Y(y)=\lambda e^{-\lambda y}, \hspace{0.3cm} y>0
 $$
 
-The mean and variance of $Y$ are: $\E(Y)=\frac{1}{\lambda}$ and $\Var(Y)=\frac{1}{\lambda^2}$. The derivations are left as a practical application exercise. 
+The mean and variance of $Y$ are: $\E(Y)=\frac{1}{\lambda}$ and $\Var(Y)=\frac{1}{\lambda^2}$. You should be able to derive these results but they require integration by parts and can be lengthy algebraic exercises. 
 
 > *Example*:  
 Suppose at a local retail store, customers arrive to a checkout counter according to a Poisson process with an average of one arrival every three minutes. Let $Y$ be the time (in minutes) until the next customer arrives to the counter. What is the distribution (and parameter) of $Y$? What are $\E(Y)$ and $\Var(Y)$? Find $\Prob(Y>5)$, $\Prob(Y\leq 3)$, and $\Prob(1 \leq Y < 5)$? Also, find the median and 95th percentile of $Y$. Finally, plot the pdf of $Y$. 
@@ -92,7 +97,10 @@ Since one arrival shows every three minutes, the average number of arrivals per 
 
 To find $\Prob(Y>5)$, we could integrate the pdf of $Y$:
 $$
-\Prob(Y>5)=\int_5^\infty \frac{1}{3}e^{-\frac{1}{3}y}\diff y = -e^{-\frac{1}{3}y}\bigg|_5^\infty=0-(-e^{-\frac{5}{3}})= 0.189
+\Prob(Y>5)=\int_5^\infty \frac{1}{3}e^{-\frac{1}{3}y}\diff y = \lim_{a \to +\infty}\int_5^a \frac{1}{3}e^{-\frac{1}{3}y}\diff y = $$
+
+
+$$\lim_{a \to +\infty} -e^{-\frac{1}{3}y}\bigg|_5^a=\lim_{a \to +\infty} -e^{-\frac{a}{3}}-(-e^{-\frac{5}{3}})= 0 + 0.189 = 0.189
 $$
 
 Alternatively, we could use `R`:
@@ -109,7 +117,7 @@ integrate(function(x)1/3*exp(-1/3*x),5,Inf)
 
 
 For the remaining probabilities, we will use `R`:
-```{r lesson11b}
+```{r}
 ##Prob(Y<=3)
 pexp(3,1/3)
 
@@ -133,24 +141,29 @@ qexp(0.95,1/3)
 ```
 
 ```{r ,fig.align='center',echo=F,fig.cap="pdf of $Y$"}
-gf_dist("exp")
+gf_dist("exp") %>%
+  gf_theme(theme_classic())
 ```
 
-### Memoryless Property
+Both from the figure and the mean and median, we know that the exponential distribution is skewed to the right.
+
+### Memoryless property
 
 The Poisson process is known for its *memoryless* property. Essentially, this means that the time until the next arrival is independent of time since last arrival. Thus, the probability of an arrival within the next 5 minutes is the same regardless of whether an arrival just occurred or an arrival has not occurred for a long time. 
 
-To show this, let's consider random variable $Y$ (in minutes) where $Y\sim\textsf{Expon}(\lambda)$. I will show that, given it has been at least $t$ minutes since the last arrival, the probability we wait at least $y$ additional minutes is equal to the marginal probability that we wait $y$ additional minutes. 
+To show this let's consider random variable $Y$ ( time until the next arrival in minutes) where $Y\sim\textsf{Expon}(\lambda)$. We will show that, given it has been at least $t$ minutes since the last arrival, the probability we wait at least $y$ additional minutes is equal to the marginal probability that we wait $y$ additional minutes. 
 
-First, note that the cdf of $Y$, $F_Y(y)=\Prob(Y\leq y)=1-e^{-\lambda y}$. So,
+First, note that the cdf of $Y$, $F_Y(y)=\Prob(Y\leq y)=1-e^{-\lambda y}$, you should be able to derive this. So,
 $$
 \Prob(Y\geq y+t|Y\geq t) = \frac{\Prob(Y\geq y+t \cap Y\geq t)}{\Prob(Y\geq t)}=\frac{\Prob(Y\geq y +t)}{\Prob(Y\geq t)} = \frac{1-(1-e^{-(y+t)\lambda})}{1-(1-e^{-t\lambda})}
 $$
 $$
-=\frac{e^{-\lambda y }e^{-\lambda t}}{e^{-\lambda t }}=e^{-\lambda y} = 1-(1-e^{-\lambda y})=\Prob(Y\geq y)
-$$
+=\frac{e^{-\lambda y }e^{-\lambda t}}{e^{-\lambda t }}=e^{-\lambda y} = 1-(1-e^{-\lambda y})=\Prob(Y\geq y). 
+\blacksquare$$
 
-Let's simulate values for a Poisson. The Poisson is often used in modeling customer service situations such as service at Chipotle. However, some people has the mistaken idea that arrivals will be equally spaced. In fact, arrivals will come in clusters and bunches. Maybe this is the root of the common expression, "Bad news comes in threes"?  
+
+
+Let's simulate values for a Poisson. The Poisson is often used in modeling customer service situations such as service at Chipotle. However, some people have the mistaken idea that arrivals will be equally spaced. In fact, arrivals will come in clusters and bunches. Maybe this is the root of the common expression, "Bad news comes in threes"?  
 
 ```{r echo=FALSE}
 set.seed(9)
@@ -169,10 +182,10 @@ panel=function(x,y,...){
 })
 ```
 
-The number of events in a box is $X\sim \textsf{Poisson}(\lambda = 5)$. As you can see, some boxes have more than 5 and some less because 5 is the average number of arrivals. Also note that the spacing is not equal. The runs are just repeated simulations of the same process.
+The number of events in a box is $X\sim \textsf{Poisson}(\lambda = 5)$. As you can see, some boxes have more than 5 and some less because 5 is the average number of arrivals. Also note that the spacing is not equal. The runs are just repeated simulations of the same process. We can spacing and clusters in each run.
 
 
-### Gamma Distribution
+### Gamma distribution
 
 The gamma distribution is a generalization of the exponential distribution. In the exponential distribution, the parameter $\lambda$ is sometimes referred to as the *rate* parameter. The gamma distribution is sometimes used to model wait times (as with the exponential distribution), but in cases without the memoryless property. The gamma distribution has two parameters, *rate* and *shape*. In some texts, *scale* (the inverse of rate) is used as an alternative parameter to rate. 
 
@@ -188,7 +201,7 @@ $$
 
 and 0 otherwise. The mean and variance of $X$ are $\E(X)=\frac{\alpha}{\lambda}$ and $\Var(X)=\frac{\alpha}{\lambda^2}$. Looking at the pdf, the mean and the variance, one can easily see that if $\alpha=1$, the resulting distribution is equivalent to $\textsf{Expon}(\lambda)$.  
 
-#### Gamma Function
+#### Gamma function
 
 You may have little to no background with the Gamma function ($\Gamma (\alpha)$). This is different from the gamma distribution. The gamma function is simply a function and is defined by:
 $$
@@ -227,14 +240,17 @@ qgamma(0.95,5,1)
 
 ```
 
-### Normal Distribution
+### Normal distribution
 
 The normal distribution (also referred to as Gaussian) is a common distribution found in natural processes. You have likely seen a *bell curve* in various contexts. The bell curve is often indicative of an underlying normal distribution. There are two parameters of the normal distribution: $\mu$ (the mean of $X$) and $\sigma$ (the standard deviation of $X$). 
 
-Suppose a random variable $X$ has a normal distribution with parameters $\mu$ and $\sigma$. The pdf of $X$ is given by:
+Suppose a random variable $X$ has a normal distribution with parameters $\mu$ and $\sigma$. The pdf of $X$ is given by: 
+
 $$
 f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}, \hspace{0.3cm} -\infty < x <\infty
 $$
+
+Some plots of normal distributions for different parameters are plotted in Fibure 3.
 
 ```{r lesson11g,fig.height=4,fig.width=5,fig.align='center',echo=F,fig.cap="pdf of Normal for various values of mu and sigma"}
 curve(dnorm(x,0,1),from=-7,to=7,ylim=c(0,0.8),ylab="f(x)")
@@ -245,7 +261,7 @@ curve(dnorm(x,-1,1),from=-7,to=7,add=T,col=5)
 legend("topright",c("mu=0,sig=1","mu=2,sig=1","mu=0,sig=3","mu=0,sig=0.5","mu=-1,sig=1"),lty=1,col=1:5,cex=0.75)
 ```
 
-#### Standard Normal
+#### Standard normal
 
 When random variable $X$ is normally distributed with $\mu=0$ and $\sigma=1$, $X$ is said to follow the *standard normal* distribution. Sometimes, the standard normal pdf is denoted by $\phi(x)$. 
 
@@ -262,7 +278,7 @@ $$
 \Var(Z)=\Var\left(\frac{X-\mu}{\sigma}\right)=\frac{1}{\sigma^2}\left(\Var(X)-0\right)=\frac{1}{\sigma^2} \sigma^2=1
 $$
 
-Note that this does not prove that $Z$ follows the standard normal distribution; we have merely shown that $Z$ has a mean of 0 and a variance of 1. We will discuss distributions of transformations in a later lesson. 
+Note that this does not prove that $Z$ follows the standard normal distribution; we have merely shown that $Z$ has a mean of 0 and a variance of 1. We will discuss transformation of random variables in a later lesson. 
 
 > *Example*:  
 Let $X \sim \textsf{Norm}(\mu=200,\sigma=15)$. Compute $\Prob(X\leq 160)$, $\Prob(180\leq X < 230)$, and $\Prob(X>\mu+\sigma)$. Find the median and 95th percentile of $X$. 
@@ -288,18 +304,18 @@ qnorm(0.95,200,15)
 
 ### Beta distribution
 
-Another common continuous distribution is the beta distribution. This has a unique application in that the domain of variable with the beta distribution is $[0,1]$. The beta distribution has two parameters, $\alpha$ and $\beta$. (In `R`, these are denoted as `shape1` and `shape2`.) 
+Another common continuous distribution is the beta distribution. This has a unique application in that the domain of a random variable with the beta distribution is $[0,1]$. Thus it is typically used to model proportions. The beta distribution has two parameters, $\alpha$ and $\beta$. (In `R`, these are denoted not so cleverly as `shape1` and `shape2`.) 
 
 Let $X \sim \textsf{Beta}(\alpha,\beta)$. The pdf of $X$ is given by: 
 $$
 f_X(x)=\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1}, \hspace{0.3cm} 0\leq x \leq 1
 $$
 
-In some resources, $\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}$ is written as $\frac{1}{B(\alpha,\beta)}$, where $B$ is known as the beta function. 
+Yes, our old friend the Gamma function.  In some resources, $\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}$ is written as $\frac{1}{B(\alpha,\beta)}$, where $B$ is known as the beta function. 
 
 Note that $\E(X)=\frac{\alpha}{\alpha+\beta}$ and $\Var(X)=\frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$. 
 
-For various values $\alpha$ and $\beta$, the pdf of a beta distributed random variable is shown below.
+For various values $\alpha$ and $\beta$, the pdf of a beta distributed random variable is shown in Figure 4. 
 
 ```{r lesson11i,fig.height=4,fig.width=5,fig.align='center',echo=F,fig.cap="pdf of Beta for various values of alpha and beta"}
 curve(dbeta(x,0.5,0.5),from=0.01,to=.99,ylim=c(0,2.5),ylab="f(x)")
@@ -310,7 +326,13 @@ curve(dnorm(x,2,5),from=0.01,to=.99,add=T,col=5)
 legend("top",c("a=0.5,b=0.5","a=5,b=1","a=1,b=3","a=2,b=2","a=2,b=5"),lty=1,col=1:5,cex=0.75)
 ```
 
-### Weibull Distribution
+>**Exercise**  
+What is the distribution if $\alpha=\beta=1$?  
+
+It is the uniform. It is easy to verify that $\Gamma(1)=1$ so that $B(1,1)=1$.
+
+
+### Weibull distribution
 
 The last common distribution we will explore is the Weibull distribution. Like the gamma, the Weibull distribution is a generalization of the exponential distribution and is meant to model wait times. A random variable with the Weibull distribution has parameters $\alpha$ and $\beta$. In `R`, these are referred to as `shape` and `scale` respectively. Note that in some resources, these are represented by $k$ and $\lambda$ or even $k$ and $\theta$. 
 Let $X \sim \textsf{Weibull}(\alpha,\beta)$. The pdf of $X$ is given by:
@@ -318,9 +340,10 @@ $$
 f_X(x)=\frac{\alpha}{\beta} \left(\frac{x}{\beta}\right)^{\alpha-1} e^{-\left(\frac{x}{\beta}\right)^\alpha}, \hspace{0.3cm} x\geq 0
 $$
 
-The mean and variance of a random variable with a Weibull distribution can be found by consulting `R` documentation. 
+The mean and variance of a random variable with a Weibull distribution can be found by consulting `R` documentation. Look them up and make sure you can use them.
 
-### File Creation Information 
+
+## File creation information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

@@ -39,20 +39,20 @@ library(mosaicCalc)
 3) Find the mean and variance of a continuous random variable. 
 
 
-## Continuous Random Variables
+## Continuous random variables
 
 In the last lesson, we introduced random variables, and explored discrete random variables. In this lesson, we will move into continuous random variables, their properties, their distribution functions, and how they differ from discrete random variables. 
 
 Recall that a continuous random variable has a domain that is a continuous interval (or possibly a group of intervals). For example, let $Y$ be the random variable corresponding to the height of a randomly selected individual. While our measurement will necessitate "discretizing" height to some degree, technically, height is a continuous random variable since a person could measure 67.3 inches or 67.4 inches or anything in between. 
 
-### Continuous Distribution Functions
+### Continuous distribution functions
 
 So how do we describe the randomness of continuous random variables? In the case of discrete random variables, the probability mass function (pmf) and the cumulative distribution function (cdf) are used to describe randomness. However, recall that the pmf is a function that returns the probability that the random variable takes the inputted value. Due to the nature of continuous random variables, the probability that a continuous random variable takes on any one individual value is technically 0. Thus, a pmf cannot apply to a continuous random variable. 
 
 Rather, we describe the randomness of continuous random variables with the *probability density function* (pdf) and the *cumulative distribution function* (cdf). Note that the cdf has the same interpretation and application as in the discrete case. 
 
 \newpage
-### Probability Density Function
+### Probability density function
 
 Let $X$ be a continuous random variable. The probability density function (pdf) of $X$, given by $f_X(x)$ is a function that describes the behavior of $X$. It is important to note that in the continuous case, $f_X(x)\neq \Prob(X=x)$, as the probability of $X$ taking any one individual value is 0. 
 
@@ -62,11 +62,11 @@ The pdf is a *function*. The input of a pdf is any real number. The output is kn
 
 2) $\int_{S_X} f_X(x)\diff x = 1$
 
-3) $\Prob(X\in A)=\int_{x\in A} f_X(x)\diff x$
+3) $\Prob(X\in A)=\int_{x\in A} f_X(x)\diff x$ or another way to write this $\Prob(a \leq X \leq b)=\int_{a}^{b} f_X(x)\diff x$ 
 
 Properties 2) and 3) imply that the area underneath a pdf represents probability. The pdf is a non-negative function, it cannot have negative values.
 
-### Cumulative Distribution Function
+### Cumulative distribution function
 
 The cumulative distribution function (cdf) of a continuous random variable has the same interpretation as it does for a discrete random variable. It is a *function*. The input of a cdf is any real number, and the output is the probability that the random variable takes a value less than or equal to the inputted value. It is denoted as $F$ and is given by:
 $$
@@ -143,7 +143,7 @@ plot(x,y,type="l",ylab="f(x)",main="P(X>0.5)")
 polygon(c(0.5,1,1,0.5),c(0,0,2,1),density=15,angle=135)
 ```
 
-$\Prob(0.1\leq X < 0.75) = \int_{0.1}^{0.75}2x\diff x = 0.75^2 - 0.1^2 = 0.553$
+$\Prob(0.1\leq X < 0.75) = \int_{0.1}^{0.75}2x\diff x = 0.75^2 - 0.1^2 = 0.553$ See Figure 5.
 
 ```{r}
 integrate(function(x)2*x,.1,.75)
@@ -190,9 +190,13 @@ sqrt(runif(1))
 results <- do(10000)*sqrt(runif(1))
 ```
 
+\pagebreak 
+
 ```{r warning=FALSE,message=FALSE}
 inspect(results)
 ```
+
+\pagebreak 
 
 ```{r}
 results %>%
@@ -209,7 +213,7 @@ $$
 \E(g(X)) = \int_{S_X} g(x)f_X(x)\diff x
 $$
 
-### Mean and Variance
+### Mean and variance
 
 Let $X$ be a continuous random variable. The mean of $X$, or $\mu_X$, is simply $\E(X)$. Thus, 
 $$
@@ -278,7 +282,7 @@ var(~sqrt,data=results)*9999/10000
 
 And finally, the standard deviation of $X$ is $\sigma_X = \sqrt{\sigma^2_X}=\sqrt{1/18}=0.236$. 
 
-### File Creation Information 
+## File creation information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

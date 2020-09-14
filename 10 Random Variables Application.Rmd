@@ -51,7 +51,7 @@ d. Find the theoretical distribution, use math to come up with a closed for solu
 
 &nbsp;
 
-
+\pagebreak 
 
 \indent 3. Suppose you are a data analyst for a large international airport. Your boss, the head of the airport, is dismayed that this airport has received negative attention in the press for inefficiencies and sluggishness. In a staff meeting, your boss gives you a week to build a report addressing the "timeliness" at the airport. Your boss is in a big hurry and gives you no further information or guidance on this task. 
 

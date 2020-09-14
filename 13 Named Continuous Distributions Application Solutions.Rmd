@@ -63,8 +63,13 @@ or using simulation:
 
 ```{r}
 set.seed(616)
-mean(rpois(10000,40/6) == 0)
+mean(rpois(100000,40/6) == 0)
 ```
+
+```{r}
+mean(rexp(100000,2/3) >=10)
+```
+
 
 
 b) Find the probability that at least 5 minutes will pass before the next arrival.
@@ -75,7 +80,7 @@ $$
 \Prob(\mbox{at least 5 minutes until next arrival})=\Prob(Y\geq 5)=\int_{5}^\infty \frac{2}{3}e^{-\frac{2}{3}y}\diff y
 $$
 
-```{r hw11c}
+```{r}
 1-pexp(5,2/3)
 ```
 
@@ -94,6 +99,8 @@ $$
 ```{r hw11e}
 (1-pexp(7,2/3))/(1-pexp(2,2/3))
 ```
+
+This is the same answer and a result of the memoryless property.
 
 e) Fill in the blank. There is a probability of 90% that the next vehicle will arrive within __ minutes. This value is known as the 90% percentile of the random variable. 
 ```{r hw11f}
@@ -115,13 +122,17 @@ stripplot(cumsum(rexp(30,2/3)),xlab="Arrival Time")
 
 a) Find the probability that 20 hours pass without a computer error. 
 
-$X$: time until next computer error. 
+$X$: time in hours until next computer error. 
 
 $X\sim \textsf{Gamma}(\alpha = 40, \lambda = 2)$
 
-$\E(X) = 20$
+We need to find $\alpha$ and $\lambda$ from the given moments.
 
-$\Var(X) = 10$
+$\E(X) = 20 = \frac{\alpha}{\lambda}$
+
+$\Var(X) = 10 = \frac{\alpha}{\lambda^2}$
+
+Notice that $\frac{\E(X)}{\Var(X)} = \lambda = \frac{20}{10}=2$ and then using $\E(X) = 20 = \frac{\alpha}{\lambda}$ we get $\alpha = 40$.  
 
 $\Prob(X\geq 20)$:
 ```{r hw11k}
@@ -138,11 +149,18 @@ $$
 
 No, the memoryless property does not apply to the Gamma distribution. 
 
-c) Find $a$ and $b$: There is a 95% probability time until next computer error will be between $a$ and $b$. (note: technically, there are many anwers to this question, but find $a$ and $b$ such that each tail has equal probability.) 
+c) Find $a$ and $b$ where there is a 95% probability that the time until next computer error will be between $a$ and $b$. (Note: technically, there are many answers to this question, but find $a$ and $b$ such that each tail has equal probability.) 
 
-```{r hw11m}
+```{r}
 qgamma(c(0.025,0.975),40,2)
 ```
+So in the time interval $[14,29,26.66]$.
+
+```{r}
+qgamma(.95,40,2)
+```
+Another answer is between $[0,25,47]$.
+
 
 \newpage
 
@@ -179,12 +197,20 @@ qnorm(0.95,330,50)
 d) Find the probability a randomly selected cadet has a PFT score higher than 450 given he/she is among the top 10% of cadets. 
 
 Need $\Prob(X>450|X>x_{0.9})$ where $x_{0.9}$ is the 90th percentile of $X$. 
+
+The 90th percentile is:
+
+```{r}
+qnorm(0.9,330,50)
+```
+
+
 $$
-\Prob(X>450|X>x_{0.9})=\frac{\Prob(X>450, X>x_{0.9})}{\Prob(X>x_{0.9})}=\frac{\Prob(X>450)}{0.1}
+\Prob(X>450|X>x_{0.9})=\frac{\Prob(X>450, X>x_{0.9})}{\Prob(X>x_{0.9})}=\frac{\Prob(X>450, X>394.08)}{\Prob(X>x_{0.9})}=\frac{\Prob(X>450)}{0.1}
 $$
 
 This is assuming that $x_{0.9}<450$. Otherwise the problem is trivial and the probability is 1. 
-```{r hw11j}
+```{r}
 (1-pnorm(450,330,50))/0.1
 ```
 
@@ -218,15 +244,35 @@ The `dgamma` function returns the value of probability density function. While t
 
 \indent 6. Advanced. You may have heard of the 68-95-99.7 rule. This is a helpful rule of thumb that says if a population has a normal distribution, then 68% of the data will be within one standard deviation of the mean, 95% of the data will be within two standard deviations and 99.7% of the data will be within three standard deviations. Create a function in `R` that has two inputs (a mean and a standard deviation). It should return a vector with three elements: the probability that a randomly selected observation from the normal distribution with the inputted mean and standard deviation lies within one, two and three standard deviations. Test this function with several values of mu and sd. You should get the same answer each time. 
 
-```{r hw11n}
+```{r}
 rulethumb<-function(mu,sd){
   pnorm(mu+c(1,2,3)*sd,mu,sd)-pnorm(mu-c(1,2,3)*sd,mu,sd)
 }
+```
 
+
+```{r}
 rulethumb(15,12)
 ```
 
-### File Creation Information 
+
+```{r}
+rulethumb(0,1)
+```
+
+\indent 7. Derive the mean of a general uniform distribution, $U(a,b)$.
+
+From the definition
+
+$$E(X)=\int_{a}^{b}xf(x)dx=$$
+$$ =\int_{a}^{b}\frac{x}{b-a}dx =$$
+
+$$ =\frac{1}{b-a}\int_{a}^{b}xdx = \frac{1}{b-a}\cdot\frac{x^2}{2}\bigg|_{a}^{b}=$$
+
+$$ =\frac{1}{b-a}\cdot\frac{b^2-a^2}{2}= \frac{1}{b-a}\cdot\frac{(b-a)(b+a)}{2}=\frac{(b+a)}{2}$$
+
+
+## File creation information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

@@ -50,11 +50,15 @@ my_pdf <- function(x)integrate(function(y)y^2/18,-x,x)$value
 my_pdf<-Vectorize(my_pdf)
 ```
 
-```{r}
+```{r warning=FALSE}
 domain <- seq(.01,5,.1)
-gf_line(my_pdf(domain)~domain)
+gf_line(my_pdf(domain)~domain) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Cumulative probability for different values of k",x="k",y="Cummulative Probability") %>%
+  gf_hline(yintercept = 1,color = "blue")
 ```
 
+Looks like $k \approx 3$ from the plot.
 
 ```{r}
 uniroot(function(x)my_pdf(x)-1,c(-10,10))$root
@@ -64,16 +68,19 @@ uniroot(function(x)my_pdf(x)-1,c(-10,10))$root
 
 b. Plot the pdf of $X$. 
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 x<-seq(-3,3,0.001)
 fx<-x^2
-gf_line(fx~x,ylab="f(x)",main="pdf of X")
+gf_line(fx~x,ylab="f(x)",title="pdf of X") %>%
+  gf_theme(theme_classic())
 ```
 
 
 ```{r}
 ggplot(data.frame(x=c(-3, 3)), aes(x)) + 
- stat_function(fun=function(x) x^2/18)
+ stat_function(fun=function(x) x^2/18) +
+  theme_classic() +
+  labs(y="f(x)",title="pdf of X")
 ```
 
 ```{r hw9a}
@@ -92,10 +99,11 @@ $$
 
 
 
-```{r hw9b}
+```{r}
 x<-seq(-3.5,3.5,0.001)
 fx<-pmin(1,(1*(x>=-3)*(x^3/54+1/2)))
-gf_line(fx~x,ylab="F(x)",main="cdf of X")
+gf_line(fx~x,ylab="F(x)",title="cdf of X") %>%
+  gf_theme(theme_classic())
 ```
 
 d. Find $\Prob(X<1)$. 
@@ -130,7 +138,7 @@ uniroot(function(x)x^3/54+.5-.8,c(-3,3))
 g. Find the value $x$ such that $\Prob(-x \leq X \leq x)=0.4$. 
 
 Because this distribution is symmetric, finding $x$ is equivalent to finding $x$ such that $\Prob(X>x)=0.3$. (It helps to draw a picture). Thus, we need $x$ such that $F(x)=0.7$. Solving $\frac{x^3}{54}+\frac{1}{2}=0.7$ for $x$ yields $x=2.210$. 
-```{r hw9c}
+```{r echo=FALSE}
 curve(x^2/18,from=-3,to=3,ylab="f(x)",main="pdf of X")
 t<-seq(2.21,3,0.001)
 polygon(c(2.21,t,3),c(0,t^2/18,0),density=15)
@@ -168,8 +176,13 @@ results <- do(10000)*cuberoot((runif(1)-.5)*54)
 
 ```{r}
 results %>%
-  gf_dens(~cuberoot)
+  gf_dens(~cuberoot) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="pdf from simulation",x="x",y="f(x)") 
 ```
+
+Notice that the smoothing operation goes past the support of $X$ and thus shows a concave down curve. We could clean up by limiting the x-axis to the interval [-3,3].
+
 
 ```{r warning=FALSE,message=FALSE}
 inspect(results)
