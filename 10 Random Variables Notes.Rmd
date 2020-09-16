@@ -245,7 +245,7 @@ Not a bad approximation.
 
 ## Moments
 
-Distribution functions are excellent characterizations of random variables. The pmf and cdf will tell you exactly how often the random variables takes particular values. However, distribution functions are often a lot of information. Sometimes, we may want to describe a random variable $X$ with a single value or small set of values. For example, we may want to know the average or some measure of center of $X$. We also may want to know a measure of spread of $X$. *Moments* are values that summarize random variables with single numbers. Since we are dealing with the population, these moments are population vales and not summary statistics as we used in the first block of material.
+Distribution functions are excellent characterizations of random variables. The pmf and cdf will tell you exactly how often the random variables takes particular values. However, distribution functions are often a lot of information. Sometimes, we may want to describe a random variable $X$ with a single value or small set of values. For example, we may want to know the average or some measure of center of $X$. We also may want to know a measure of spread of $X$. *Moments* are values that summarize random variables with single numbers. Since we are dealing with the population, these moments are population values and not summary statistics as we used in the first block of material.
 
 ### Expectation
 

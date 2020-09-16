@@ -2,6 +2,7 @@
 title: "Multivariate Distribution Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -41,29 +42,29 @@ library(mosaicCalc)
 
 3) Use joint, marginal and conditional pmfs/pdfs to obtain probabilities. 
 
-## Multivariate Distributions  
+## Multivariate distributions  
 
-This is one of the more mathematical sections of the course. There are some ways to reduce the mathematics using computational resources but by it nature it is still mathematical.
+This is one of the more mathematical sections of the course. There are some ways to reduce the mathematics using computational resources but by its nature this lesson is still mathematical.
 
-Multivariate situations are the more common in practice. We are often dealing with more than one variable. We have seen this in the previous block of material and will see multivariate distributions in the remainder of the course.
+Multivariate situations are the more common in practice. We are often dealing with more than one variable. We have seen this in the previous block of material and will see multivariate distributions in the remainder of the course and through Math 378.
 
-The basic idea is that we want to either determine the relationship between two variable or conditional on a variable(s) and determine the distribution of the remaining variable(s). 
+The basic idea is that we want to determine the relationship between two or more variables to include variable(s) conditional on variables. 
 
-## Joint Probability
+## Joint probability
 
-Thus far, we have only considered situations involving one random variable. In some cases, we might be concerned with the behavior multiple random variables simultaneously. The next three lessons are dedicated to jointly distributed random variables. 
+Thus far, we have only considered situations involving one random variable. In some cases, we might be concerned with the behavior of multiple random variables simultaneously. The next three lessons are dedicated to jointly distributed random variables. 
 
-### Discrete Variables
+### Discrete random variables
 
-In the discrete case, joint probability is described by the *joint probability mass function*. In the bivariate case, suppose $X$ and $Y$ are discrete random variables. The joint pmf is given by $f_{X,Y}(x,y)$ and represents $\Prob(X=x,Y=y)$. 
+In the discrete case, joint probability is described by the *joint probability mass function*. In the bivariate case, suppose $X$ and $Y$ are discrete random variables. The joint pmf is given by $f_{X,Y}(x,y)$ and represents $\Prob(X=x,Y=y) = \Prob(X=x \cap Y=y)$. Note: it is common in statistical and probability models to use a comma to represent **and**, if fact the `select()` function in `tidyverse` does this.
 
 The same rules of probability apply to the joint pmf. Each value of $f$ must be between 0 and 1, and the total probability must sum to 1:
 $$
 \sum_{x\in S_X}\sum_{y \in S_Y} f_{X,Y}(x,y) = 1
 $$
-This notation means that if we sum the joint probabilities over all values of the random variables $X$ and $Y$ we will get one.  
+This notation means that if we sum the joint probabilities over all values of the random variables $X$ and $Y$ we will get 1.  
 
-If given a joint pmf, one can obtain the *marginal pmf* of individual variables. The marginal pmf is simply the mass function of an individual random variable, ignoring all other variables. In the bivariate case, the marginal pmf of $X$, $f_X(x)$ is found by:
+If given a joint pmf, one can obtain the *marginal pmf* of individual variables. The marginal pmf is simply the mass function of an individual random variable, summing over the possible values of all the other variables. In the bivariate case, the marginal pmf of $X$, $f_X(x)$ is found by:
 $$
 f_X(x)=\sum_{y \in S_Y}f_{X,Y}(x,y)
 $$
@@ -108,7 +109,7 @@ f_X(x)=\left\{\begin{array}{ll} 0.10+0.08+0.11, & x=0 \\
 \end{array}\right.
 $$
 
-Similarly, $f_Y(y)$ can be found by summing across the columns of the joint pmf:
+Similarly, $f_Y(y)$ can be found by summing down the columns of the joint pmf:
 $$
 f_Y(y)=\left\{\begin{array}{ll} 0.35, & y=0 \\
 0.33, & y=1 \\
@@ -160,16 +161,16 @@ $$
 
 Together, these pmfs can be used to find relevant probabilities. For example, see the practical application exercises. 
 
-### Continuous Random Variables
+### Continuous random variables
 
-Much of the above applies to the case of multiple continuous random variables. Suppose $X$ and $Y$ are continuous random variables. Their joint probability is described by the *joint probability density function*. As in the discrete case, the joint pdf is represented by $f_{X,Y}(x,y)$. Recall that while pmfs return probabilities, pdfs return *densities*, which are not equivalent to probabilities. In order to obtain probability from a pdf, one has to integrate the pdf across the applicable range. 
+Much of the ideas above for discrete random variables also applies to the case of multiple continuous random variables. Suppose $X$ and $Y$ are continuous random variables. Their joint probability is described by the *joint probability density function*. As in the discrete case, the joint pdf is represented by $f_{X,Y}(x,y)$. Recall that while pmfs return probabilities, pdfs return *densities*, which are not equivalent to probabilities. In order to obtain probability from a pdf, one has to integrate the pdf across the applicable subset of the domain. 
 
 The rules of a joint pdf are analogous to the univariate case. For all $x$ and $y$, $f_{X,Y}(x,y)\geq 0$ and the probability must sum to one:
 $$
 \int_{S_X}\int_{S_Y}f_{X,Y}(x,y)\diff y \diff x = 1
 $$
 
-The marginal pdf is the density function of an individual random variable, ignoring all others. In the bivariate case, the marginal pdf of $X$, $f_X(x)$, is found by summing across the other variable:
+The marginal pdf is the density function of an individual random variable, integrating out all others. In the bivariate case, the marginal pdf of $X$, $f_X(x)$, is found by *summing*, integrating, across the other variable:
 $$
 f_X(x)=\int_{S_Y}f_{X,Y}(x,y)\diff y
 $$
@@ -188,6 +189,9 @@ Similarly,
 $$
 f_{Y|X=x}(y)=\frac{f_{X,Y}(x,y)}{f_X(x)}
 $$
+
+Note that we are working with the pdf and not probabilities in this case. That is because we can't determine the probability at a point for a continuous random variable. Thus we work with conditional pdfs to find probabilities for conditional statements.  
+
 
 > *Example*:  
 Let $X$ and $Y$ be continuous random variables with joint pdf:  
@@ -208,7 +212,7 @@ $$
 \int_0^1 \int_0^2 xy \diff x \diff y = \int_0^1 \frac{x^2y}{2}\bigg|_0^2 \diff y = \int_0^1 2y\diff y = y^2\bigg|_0^1 = 1
 $$
 
-Using `R` to do this requires a new package `cubature`. You can install it from `RStudio` package tab or the command line using `install.packages("cubature")`.  Then we can use it as follows:
+Using `R` to do this requires a new package `cubature`. You can install it from `RStudio` package tab or the command line using `install.packages("cubature")`.  It is installed as part of our RStudio Cloud server. Then we can use it as follows:
 
 ```{r}
  library(cubature) # load the package "cubature"
@@ -259,7 +263,7 @@ $$
 
 where $0 \leq y \leq 1$. 
 
-### File Creation Information 
+## File creation information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`
