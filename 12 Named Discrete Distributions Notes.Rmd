@@ -34,18 +34,18 @@ library(tidyverse)
 2) Use `R` to calculate probabilities and quantiles involving random variables with common discrete distributions. 
 
 
-## Named Distributions
+## Named distributions
 
-In previous two lessons, we've introduced the concept of random variables, distribution functions, and expectations. In some cases, the nature of an experiment may yield random variables with common distributions. In these cases, we can rely on easy-to-use distribution functions and built-in `R` functions in order to calculate probabilities and quantiles. 
+In the previous two lessons, we introduced the concept of random variables, distribution functions, and expectations. In some cases, the nature of an experiment may yield random variables with common distributions. In these cases, we can rely on easy-to-use distribution functions and built-in `R` functions in order to calculate probabilities and quantiles. 
 
-### Discrete Uniform Distribution
+### Discrete uniform distribution
 
 The first distribution we will discuss is the discrete uniform distribution. It is not a very commonly used distribution, especially compared to its continuous counterpart. A discrete random variable has the discrete uniform distribution if probability is evenly allocated to each value in the sample space. A variable with this distribution has parameters $a$ and $b$ representing the minimum and maximum of the sample space, respectively. (By default, that sample space is assumed to consist of integers only, but that is by no means always the case.) 
 
 > *Example*:  
 Rolling a fair die is an example of the discrete uniform. Each side of the die has an equal probability.
 
-Let $X$ be a discrete random variable with the uniform distribution. This is denoted as $X\sim\textsf{DUnif}(a,b)$. The pmf of $X$ is given by:
+Let $X$ be a discrete random variable with the uniform distribution. If the sa,ple space is consecutive integers, this distribution is denoted as $X\sim\textsf{DUnif}(a,b)$. The pmf of $X$ is given by:
 $$
 f_X(x)=\left\{\begin{array}{ll}\frac{1}{b-a+1}, & x \in \{a, a+1,...,b\} \\ 
 0, & \mbox{otherwise} \end{array}\right.
@@ -62,7 +62,7 @@ $$
 \E(X)=\sum_{x=a}^b x\cdot\frac{1}{b-a+1}= \frac{1}{b-a+1} \cdot \sum_{x=a}^b x=\frac{1}{b-a+1}\cdot\frac{b-a+1}{2}\cdot (a+b) = \frac{a+b}{2}
 $$
 
-Where the sum of consecutive integers is a common result from discrete math, google it for more information.
+Where the sum of consecutive integers is a common result from discrete math, research it for more information.
 
 The variance of $X$ is found by: (derivation not included)
 $$
@@ -73,7 +73,7 @@ Summarizing for the die:
 
 Let $X$ be the result of a single roll of a fair die. We will report the distribution of $X$, the pmf, $\E(X)$ and $\Var(X)$. 
 
-The domain of $X$ is $S_X=\{1,2,3,4,5,6\}$. Since each of those outcomes is equally likely, $X$ follows the discrete uniform distribution with $a=1$ and $b=6$. Thus, 
+The sample space of $X$ is $S_X=\{1,2,3,4,5,6\}$. Since each of those outcomes is equally likely, $X$ follows the discrete uniform distribution with $a=1$ and $b=6$. Thus, 
 $$
 f_X(x)=\left\{\begin{array}{ll}\frac{1}{6}, & x \in \{1,2,3,4,5,6\} \\ 
 0, & \mbox{otherwise} \end{array}\right.
@@ -111,10 +111,10 @@ mean(~sample,data=results)
 ```{r}
 var(~sample,data=results)*(10000-1)/10000
 ```
+Again as a reminder, we multiply by $\frac{(10000-1)}{10000}$ because the function `var()` is calculating a smaple variance using $n-1$ in the denominator but we need the population variance. 
 
 
-
-### Binomial Distribution
+### Binomial distribution
 
 The binomial distribution is extremely common, and appears in many situations. In fact, we have already discussed several examples where the binomial distribution is heavily involved. 
 
@@ -132,7 +132,7 @@ Let's take a moment to dissect this pmf. We are looking for the probability of o
 The expected value of a binomially distributed random variable is given by $\E(X)=np$ and the variance is given by $\Var(X)=np(1-p)$. 
 
 > *Example*:  
-Let $X$ be the number of heads out of 20 independent flips of a fair coin. Note that this is a binomial because the trials are independent and the probability of success, in this case a heas, is constant, and there are two outcomes. Find the distribution, mean and variance of $X$. Find $\Prob(X=8)$. Find $\Prob(X\leq 8)$. 
+Let $X$ be the number of heads out of 20 independent flips of a fair coin. Note that this is a binomial because the trials are independent and the probability of success, in this case a heads, is constant, and there are two outcomes. Find the distribution, mean and variance of $X$. Find $\Prob(X=8)$. Find $\Prob(X\leq 8)$. 
 
 $X$ has the binomial distribution with $n=20$ and $p=0.5$. The pmf is given by:
 $$
@@ -158,7 +158,7 @@ x<-0:8
 sum(choose(20,x)*0.5^x*(1-.5)^(20-x))
 ```
 
-### Software Packages
+### Software packages
 
 One of the advantages of using named distributions is that most software packages have built-in functions that compute probabilities and quantiles for common named distributions. Over the course of this lesson, you will notice that each named distribution is treated similarly in `R`. There are four main functions tied to each distribution. For the binomial distribution, these are `dbinom()`, `pbinom()`, `qbinom()`, and `rbinom()`. 
 
@@ -172,7 +172,7 @@ $$
 \Prob(X\leq x)=\sum_{k=0}^x{n\choose{k}}p^k(1-p)^{n-k}=\textsf{pbinom(x,n,p)}
 $$
 
-`qbinom()`: This is the inverse of the cumulative distribution function. This function has three inputs: `p` (a probability), `size` and `prob`. It returns the smallest value $x$ such that $\Prob(X\leq x) \geq p$. 
+`qbinom()`: This is the inverse of the cumulative distribution function and will return a percentile. This function has three inputs: `p` (a probability), `size` and `prob`. It returns the smallest value $x$ such that $\Prob(X\leq x) \geq p$. 
 
 `rbinom()`: This function is used to randomly generate values from the binomial distribution. It takes three inputs: `n` (the number of values to generate), `size` and `prob`. It returns a vector containing the randomly generated values. 
 
@@ -197,7 +197,7 @@ pbinom(8,20,0.5)
 sum(dbinom(0:8,20,0.5))
 ```
 
-### Poisson Distribution
+### Poisson distribution
 
 The Poisson distribution is very common when considering count or arrival data. Consider a random process where events occur according to some rate over time (think arrivals to a retail register). Often, these events are modeled with the *Poisson process*. The Poisson process assumes a consistent rate of arrival and a memoryless arrival process (the time until the next arrival is independent of time since the last arrival). If we assume a particular process is a Poisson process, then there are two random variables that take common named distributions. The number of arrivals in a specified amount of time follows the *Poisson* distribution. Also, the amount of time until the next arrival follows the *exponential* distribution. We will defer discussion of the exponential distribution until the next lesson. What is random in the *Poisson* is the number of occurrences while the interval is fixed. That is why it is a discrete distribution. The parameter $\lambda$ is the average number of occurrences in the specific interval, note that the interval must be the same as is specified in the random variable. 
 

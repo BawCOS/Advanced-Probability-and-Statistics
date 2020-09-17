@@ -2,6 +2,7 @@
 title: "Multivariate Expectation Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -41,8 +42,10 @@ library(mosaicCalc)
 
 3) Given a joint pmf/pdf, determine whether random variables are independent of one another.  
 
+4) Find conditional expectations.
 
-## Expectation
+
+## Expectation - moments
 
 Computing expected values of random variables in the joint context is similar to the univariate case. Let $X$ and $Y$ be discrete random variables with joint pmf $f_{X,Y}(x,y)$. Let $g(X,Y)$ be some function of $X$ and $Y$. Then:
 $$
@@ -56,14 +59,14 @@ $$
 \E[g(X,Y)]=\int_x\int_y g(x,y)f_{X,Y}(x,y)\diff y \diff x
 $$
 
-### Expectation of a single variable
+### Expectation of discrete random variables
 
-Given a joint pmf or pdf, one can find the mean of $X$ by using the joint function or by finding the marginal pmf/pdf first and then using that to find $\E(X)$. Demonstrating using the discrete case:
+Given a joint pmf or pdf, one can find the mean of $X$ by using the joint function or by finding the marginal pmf/pdf first and then using that to find $\E(X)$. In the end, both ways are the same. For the discrete case:
 $$
 \E(X)=\sum_x\sum_y xf_{X,Y}(x,y) = \sum_x x \sum_y f_{X,Y}(x,y)
 $$
 
-The $x$ can be moved outside the inner sum since the inner sum is with respect to variable $y$ and $x$ is a constant with respect to $y$. Now, note that the inner sum is the expression for the marginal pmf of $X$. So,
+The $x$ can be moved outside the inner sum since the inner sum is with respect to variable $y$ and $x$ is a constant with respect to $y$. NOte that the inner sum is the expression for the marginal pmf of $X$. So,
 $$
 \E(X)=\sum_x x \sum_y f_{X,Y}(x,y)=\sum_x x f_X(x)
 $$
@@ -83,7 +86,12 @@ $$
 \end{array} 
 $$
 
-Find $\E(X)$ first by using the joint pmf directly, then by finding the marginal pmf of $X$ and using that. 
+
+>*Example*:  
+Find $\E(X)$ 
+
+First we will use the joint pmf directly, then we find the marginal pmf of $X$ and use that as we would in a univariate case. 
+. 
 $$
 \E(X)=\sum_{x=0}^2 \sum_{y=0}^2 x f_{X,Y}(x,y)=0*0.10+0*0.08+0*0.11+1*0.18+...+2*0.09 = 0.92
 $$
@@ -106,12 +114,17 @@ So, $\E(X)=0*0.29+1*0.5+2*0.21=0.92$.
 > **Exercise**:
 Let $X$ and $Y$ be defined above. Find $\E(Y)$, $\E(X+Y)$, $\E(XY)$, and $\E\left(\frac{1}{2X+Y+1}\right)$. 
 
-As with $\E(X)$, $\E(Y)$ can be found in two ways. Using the marginal pmf of $Y$, which we will not derive, we will use that:  
+### E(Y)
+
+As with $\E(X)$, $\E(Y)$ can be found in two ways. We will use the marginal pmf of $Y$, which we will not derive:  
+
 $$
 \E(Y)=\sum_{y=0}^2 f_Y(y)=0*0.35+1*0.33+2*0.32 = 0.97
 $$
 
-To find $\E(X+Y)$ we will use the joint pmf. In the discrete case, it helps to first identify all of the possible values of $X+Y$ and then figure out what probabilities are associated with each value. This problem is really a transformation problem where we are finding the distribution of $X+Y$. In this example, $X+Y$ can take on values 0, 1, 2, 3, and 4. The value 0 only happens when $X=Y=0$ and the probability of this outcome is 0.10. The value 1 occurs when $X=0$ and $Y=1$ or when $X=1$ and $Y=0$. This occurs with probability 0.08 + 0.18. We continue in this fashion: 
+### E(X+Y)
+
+To find $\E(X+Y)$ we will use the joint pmf. In the discrete case, it helps to first identify all of the possible values of $X+Y$ and then figure out what probabilities are associated with each value. This problem is really a transformation problem where we are finding the distribution of $X+Y$. In this example, $X+Y$ can take on values 0, 1, 2, 3, and 4. The value 0 only happens when $X=Y=0$ and the probability of this outcome is 0.10. The value 1 occurs when $X=0$ and $Y=1$ or when $X=1$ and $Y=0$. This occurs with probability 0.08 + 0.18. We continue in this manner: 
 $$
 \E(X+Y)=\sum_{x=0}^2\sum_{y=0}^2 (x+y)f_{X,Y}(x,y) = 0*0.1+1*(0.18+0.08)+2*(0.11+0.07+0.20)
 $$
@@ -120,6 +133,8 @@ $$
 $$
 
 Note that $\E(X+Y)=\E(X)+\E(Y)$. (The proof of this is left to the reader.)
+
+### E(XY)
 
 $$
 \E(XY)=\sum_{x=0}^2\sum_{y=0}^2 xyf_{X,Y}(x,y) = 0*(0.1+0.08+0.11+0.18+0.07)+1*0.20
@@ -130,12 +145,17 @@ $$
 
 Note that $\E(XY)$ is not necessarily equal to $\E(X)\E(Y)$. 
 
+### E(1/2X+Y+1)
+
+
 $$
 \E\left(\frac{1}{2X+Y+1}\right) = \sum_{x=0}^2\sum_{y=0}^2 \frac{1}{2x+y+1}f_{X,Y}(x,y) = 1*0.1+\frac{1}{2}*0.08+\frac{1}{3}*(0.11+0.18)
 $$
 $$
 +\frac{1}{4}*0.20+\frac{1}{5}*(0.12+0.07)+\frac{1}{6}*0.05+\frac{1}{7}*0.09 = 0.3125
 $$
+
+### Expectation of continuous random variables
 
 Let's consider an example with continuous random variables where summation is replaced with integration:
 
@@ -144,28 +164,30 @@ Let $X$ and $Y$ be continuous random variables with joint pdf:
 $$
 f_{X,Y}(x,y)=xy
 $$
-
 for $0\leq x \leq 2$ and $0 \leq y \leq 1$. 
 
 Find $\E(X)$, $\E(X+Y)$, $\E(XY)$, and $\Var(XY)$. 
 
-We found the marginal pdf of $X$ in a previous lesson, so we should use that: 
+### E(X)
+
+We found the marginal pdf of $X$ in a previous lesson, so we should use that now: 
 $$
 \E(X)=\int_0^2 x\frac{x}{2}\diff x = \frac{x^3}{6}\bigg|_0^2= \frac{4}{3} 
 $$
+### E(X+Y)  
 
-To find $\E(X+Y)$, we could use the joint pdf directly, or use the marginal pdf of $Y$ to find $\E(Y)$ and then add the result to $\E(X)$. The reason for this is because when we integrate $x$ with the joint pdf, integrating with respect to $y$ we can treat $x$ as a constant and bring it out side the integral of $y$.  
+To find $\E(X+Y)$, we could use the joint pdf directly, or use the marginal pdf of $Y$ to find $\E(Y)$ and then add the result to $\E(X)$. The reason this is valid is because when we integrate $x$ with the joint pdf, integrating with respect to $y$ first, we can treat $x$ as a constant and bring it out side the integral. Then we are integrating the joint pdf with respect $y$ which results in the marginal pdf of $X$.  
 
 We'll use the joint pdf:
 $$
-\E(X+Y)=\int_0^2\int_0^1 (x+y)xy\diff y \diff x=\int_0^2\int_0^1 (x^2y+xy^2)\diff y \diff x = \int_0^2 \frac{x^2y^2}{2}+\frac{xy^3}{3} \bigg|_0^1\diff x
+\E(X+Y)=\int_0^2\int_0^1 (x+y)xy\diff y \diff x=\int_0^2\int_0^1 (x^2y+xy^2)\diff y \diff x = \int_0^2 \frac{x^2y^2}{2}+\frac{xy^3}{3} \bigg|_{y=0}^{y=1}\diff x
 $$
 
 $$
 = \int_0^2 \frac{x^2}{2}+\frac{x}{3} \diff x= \frac{x^3}{6}+\frac{x^2}{6}\bigg|_0^2=\frac{8}{6}+\frac{4}{6}=2
 $$
 
-If we wanted to simulate, we could simulate variables from the marginal of $X$ and $Y$ and then add them together to create a new variable. 
+If we wanted to use simulation to find this expectation, we could simulate variables from the marginal of $X$ and $Y$ and then add them together to create a new variable. 
 
 The cdf for $X$ is $\frac{x}{2}$ so we simulation by sampling from a random uniform and then taking the inverse of the cdf. For $Y$ the cdf is $2y$.
 
@@ -178,6 +200,8 @@ new_data %>%
 ```
 
 We can see that $E(X + Y) = E(X) + E(Y)$.
+
+### E(XY)  
 
 Next, we have
 
@@ -197,6 +221,7 @@ new_data %>%
   summarize(Ex=mean(x),Ey=mean(y),Extimesy = mean(z))
 ```
 
+### V(XY)  
 
 Recall that the variance of a random variable is the expected value of the squared difference from its mean. So,
 $$
@@ -206,7 +231,7 @@ $$
 =\int_0^2\int_0^1 \left(xy-\frac{8}{9}\right)^2 xy\diff y \diff x =\int_0^2\int_0^1 \left(x^2y^2-\frac{16xy}{9}+\frac{64}{81}\right)xy\diff y \diff x 
 $$
 
-Yuck!! But we can continue because we are determined to integrate.
+Yuck!! But we will continue because we are determined to integrate after so much Calculus in our core curriculum.
 
 $$
 =\int_0^2\int_0^1 \left(x^3y^3-\frac{16x^2y^2}{9}+\frac{64xy}{81}\right)\diff y \diff x 
@@ -228,7 +253,7 @@ new_data %>%
   summarize(Var = mean(z))
 ```
 
-That was much easier. Notice that we are really just estimating these expectations with the simulations. The mathematical answers are the true population values while are simulations are sample estimate. In a few lessons we will discuss estimators in more detail.
+That was much easier. Notice that we are really just estimating these expectations with the simulations. The mathematical answers are the true population values while are simulations are sample estimates. In a few lessons we will discuss estimators in more detail.
 
 ## Covariance/Correlation
 
@@ -269,9 +294,9 @@ $$
 \rho = \frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(Y)}}
 $$
 
-While covariance could take on any real number, correlation is bounded by -1 and 1. Two random variables with a correlation of 1 are said to be perfectly positively correlated, while a correlation of -1 implies perfect negative correlation. Two random variables with a correlation (and thus covariance) of 0 are said to be uncorrelated, that is they do not have a linear relationship but could have a non-linear relationship. 
+While covariance could take on any real number, correlation is bounded by -1 and 1. Two random variables with a correlation of 1 are said to be perfectly positively correlated, while a correlation of -1 implies perfect negative correlation. Two random variables with a correlation (and thus covariance) of 0 are said to be uncorrelated, that is they do not have a linear relationship but could have a non-linear relationship. This last point is important, random variables with no relationship will have a 0 covariance. HOwever, a 0 covariance only implies that the random variables do not have a linear relationship. 
 
-Let's look at some plots of different correlations. Remember that the correlation we are calculating in this section is for the population. The plots are showing sample points from a population.
+Let's look at some plots of different correlations. Remember that the correlation we are calculating in this section is for the population, while the plots are showing sample points from a population.
 
 
 ```{r echo=FALSE,fig.align='center',fig.cap="Correlation of 1",message=FALSE}
@@ -344,22 +369,54 @@ $$
 
 If $X$ and $Y$ are independent, then $\Cov(X,Y) = 0$. The converse is not necessarily true, however because they could have a non-linear relationship.
 
-An easy way to determine if continuous variables are independent is to check the the domain only contains constants, it is rectangular, and the the joint pdf can be written as a product of a function of $X$ only and a function of $Y$ only.
+For a discrete distribution, you must check that each cell, joint probabilities, are equal to the product of the marginal probability. Back to our joint pmf from above:
 
-Thus for our examples $f(x,y)=xy$ were independent while $f(x,y)=x+y$ were not.
+$$
+\renewcommand{\arraystretch}{1.1} \begin{array}{cc|ccc} & & \multicolumn{3}{c}{Y}\\ 
+& & 0 & 1 & 2  \\
+\cline{2-5}
+\multirow{3}{*}{X} & 0 & 0.10 & 0.08 & 0.11  \\
+& 1 & 0.18 & 0.20 & 0.12  \\
+& 2 & 0.07 & 0.05 & 0.09  \\
+\end{array} 
+$$
 
-## Conditional Expectation  
+The marginal pmf of $X$ is 
+
+$$
+f_X(x) = \left\{\begin{array}{ll} 0.29, & x=0 \\
+0.50, & x=1 \\
+0.21, & x=2 \\
+0, & \mbox{otherwise} 
+\end{array}\right.
+$$
+The marginal pmf of $Y$ is 
+
+$$
+f_Y(y) = \left\{\begin{array}{ll} 0.35, & y=0 \\
+0.33, & y=1 \\
+0.32, & y=2 \\
+0, & \mbox{otherwise} 
+\end{array}\right.
+$$
+Checking the first cell, we immediately see that $f_{X,Y}(x=0,y=0) \neq f_{X}(x=0)\cdot f_{Y}(y=0)$ so $X$ and $Y$ are not independent.  
+
+An easy way to determine if continuous variables are independent is to first check that the domain only contains constants, it is rectangular, and second that the joint pdf can be written as a product of a function of $X$ only and a function of $Y$ only.
+
+Thus for our examples above even though the domains were rectangular, in $f(x,y)=xy$, $X$ and $Y$ were independent while $f(x,y)=x+y$ they were not.
+
+## Conditional expectation  
 
 An important idea in graph theory, network analysis, Bayesian networks, and queuing theory is conditional expectation. We will only briefly introduce the ideas here so that you have a basic understanding. This does not imply it is not an important topic.
 
 Let's start with a simple example to illustrate the ideas.
 
 > *Example*:  
-Sam will read either one chapter of his history book or one chapter of his philosophy book. If the number of misprints in a chapter of his history book is Poisson with mean 2 and the if the number of misprints in a chapter of his philosophy book is Poisson with mean 5, then assuming Sam is equally likely to choose either book, what is the expected number of misprints that Same will find?  
+Sam will read either one chapter of his history book or one chapter of his philosophy book. If the number of misprints in a chapter of his history book is Poisson with mean 2 and if the number of misprints in a chapter of his philosophy book is Poisson with mean 5, then assuming Sam is equally likely to choose either book, what is the expected number of misprints that Sam will find?  
 
 Note: in the next lesson we are working with transformations and could attack the problem using that method. 
 
-First let's use simulation to get an idea and then use mathematics.
+First let's use simulation to get an idea what value the answer should be and then use mathematics.
 
 Simulate 5000 reads from the history book and 5000 from philosophy and combine
 
@@ -380,20 +437,20 @@ And now find the average.
 mean(~misprints,data=my_data)
 ```
 
-Now for a mathematical solution. Let $X$ stand for the number of misprints and $Y$ for the book, to make it a random variable let's call 0 history and 1 philosophy. Then $E[X|Y]$ is the expected number of misprints given the book. This is a conditional expectation. For example $E[X|Y=0]$ is the expected number of misprints in the history book.  
+Now for a mathematical solution. Let $X$ stand for the number of misprints and $Y$ for the book, to make $Y$ a random variable let's call 0 history and 1 philosophy. Then $E[X|Y]$ is the expected number of misprints given the book. This is a conditional expectation. For example $E[X|Y=0]$ is the expected number of misprints in the history book.  
 
-Now here is the tricky part, without specifying $Y$ this expectation function is a random variable that depends on $Y$. If we take the expected value of this random variable we get
-
-$$E[X]=E[E[X|Y]]$$
-
-The inner expectation is for the conditional distribution and the outer is for the marginal with respect to $Y$. This seems confusing, so let's go back to our example.
+Now here is the tricky part, without specifying a value of $Y$, called a realization, this expectation function is a random variable that depends on $Y$. In other words, if we don't know the book, the spectated number of misprints depends on $Y$ and thus is a random variable. If we take the expected value of this random variable we get
 
 $$E[X]=E[E[X|Y]]$$
-$$=E[X|Y=0]\Prob(Y=0)+E[X|Y=1]\Prob(Y=1)$$
+
+The inner expectation in the right hand side is for the conditional distribution and the outer is for the marginal with respect to $Y$. This seems confusing, so let's go back to our example.
+
+$$E[X]=E[E[X|Y]]$$
+$$=E[X|Y=0] \cdot \Prob(Y=0)+E[X|Y=1] \cdot \Prob(Y=1)$$
 $$=2*\frac{1}{2}+5*\frac{1}{2}=\frac{7}{2}=3.5$$
-These ideas are going to similar for continuous random variables. Note that we can also use conditional expectations to find probabilities but that is beyond the scope of this course.
+These ideas are going to be similar for continuous random variables. Note that we can also use conditional expectations to find probabilities but that is beyond the scope of this course.
 
-## File Creation Information 
+## File creation information 
 
   * File creation date: `r Sys.Date()`
   * Windows version: `r win.version()`

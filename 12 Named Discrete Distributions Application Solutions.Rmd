@@ -31,7 +31,7 @@ library(tidyverse)
 
 For each of the problems below, **_1)_** define a random variable that will help you answer the question, **_2)_** state the distribution and parameters of that random variable; **_3)_** determine the expected value and variance of that random variable, and **_4)_** use that random variable to answer the question. 
 
-We will demonstrate using 1.1. 
+We will demonstrate using 1a and 1b. 
 
 \indent 1. The T-6 training aircraft is used during UPT. Suppose that on each training sortie, aircraft return with a maintenance-related failure at a rate of 1 per 100 sorties. 
 

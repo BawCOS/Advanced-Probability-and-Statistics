@@ -30,7 +30,7 @@ library(tidyverse)
 
 ## Objectives
 
-1) Recognize when to use common continuous distributions (Uniform, Exponential, Gamma, Normal, Beta, Weibull), identify parameters, and find moments.  
+1) Recognize when to use common continuous distributions (Uniform, Exponential, Gamma, Normal, Beta), identify parameters, and find moments.  
 
 2) Use `R` to calculate probabilities and quantiles involving random variables with common continuous distributions.
 
@@ -40,7 +40,7 @@ library(tidyverse)
 
 ## Continuous distributions 
 
-In this lesson we will explore continuous distributions. This means we work with probability density functions and use them to find probabilities. Thus we must integrate, either numerical, graphically, or mathematically. The cumulative distribution function will also play an important role in this lesson. 
+In this lesson we will explore continuous distributions. This means we work with probability density functions and use them to find probabilities. Thus we must integrate, either numerically, graphically, or mathematically. The cumulative distribution function will also play an important role in this lesson. 
 
 There are many more distributions than the ones in this lesson but these are the most common and will set you up to learn and use any others in the future.
 
@@ -55,7 +55,7 @@ $$
 f_X(x)=\left\{\begin{array}{ll} \frac{1}{b-a}, & a\leq x \leq b \\ 0, & \mbox{otherwise} \end{array}\right.
 $$
 
-The mean of $X$ is $\E(X)=\frac{a+b}{2}$ and the variance is $\Var(X)=\frac{(b-a)^2}{12}$. The derivations of the mean is left to the Application. 
+The mean of $X$ is $\E(X)=\frac{a+b}{2}$ and the variance is $\Var(X)=\frac{(b-a)^2}{12}$. The derivation of the mean is left to the Application. 
 
 The most common uniform distribution is $U(0,1)$ which we have already used several times in this course. Again, notice that the plot of the **pdf** is a constant or uniform value.
 
@@ -75,7 +75,7 @@ integrate(function(x)dunif(x),0,1)
 
 Recall from the lesson on named discrete distributions, we discussed the Poisson process. If arrivals follow a Poisson process, we know that the number of arrivals in a specified amount of time follows a Poisson distribution, and the time until the next arrival follows the *exponential* distribution. In the Poisson distribution, the number of arrivals is random and the interval is fixed. In the exponential distribution we change this, the interval is random and the arrivals are fixed at 1. This is a subtle point but worth the time to make sure you understand. 
 
-Let $X$ be the number of arrivals in a time interval $T$, where arrivals occur according to a Poisson process with an average of $\lambda$ arrivals per time interval. From the previous lesson, we know that $X\sim \textsf{Poisson}(\lambda T)$. Now let $Y$ be the time until the next arrival. Then $Y$ follows the exponential distribution with parameter $\lambda$ which has units of inverse base time:
+Let $X$ be the number of arrivals in a time interval $T$, where arrivals occur according to a Poisson process with an average of $\lambda$ arrivals per unit time interval. From the previous lesson, we know that $X\sim \textsf{Poisson}(\lambda T)$. Now let $Y$ be the time until the next arrival. Then $Y$ follows the exponential distribution with parameter $\lambda$ which has units of inverse base time:
 
 $$
 Y \sim \textsf{Expon}(\lambda)
@@ -149,7 +149,7 @@ Both from the figure and the mean and median, we know that the exponential distr
 
 ### Memoryless property
 
-The Poisson process is known for its *memoryless* property. Essentially, this means that the time until the next arrival is independent of time since last arrival. Thus, the probability of an arrival within the next 5 minutes is the same regardless of whether an arrival just occurred or an arrival has not occurred for a long time. 
+The Poisson process is known for its *memoryless* property. Essentially, this means that the time until the next arrival is independent of the time since last arrival. Thus, the probability of an arrival within the next 5 minutes is the same regardless of whether an arrival just occurred or an arrival has not occurred for a long time. 
 
 To show this let's consider random variable $Y$ ( time until the next arrival in minutes) where $Y\sim\textsf{Expon}(\lambda)$. We will show that, given it has been at least $t$ minutes since the last arrival, the probability we wait at least $y$ additional minutes is equal to the marginal probability that we wait $y$ additional minutes. 
 
@@ -182,7 +182,7 @@ panel=function(x,y,...){
 })
 ```
 
-The number of events in a box is $X\sim \textsf{Poisson}(\lambda = 5)$. As you can see, some boxes have more than 5 and some less because 5 is the average number of arrivals. Also note that the spacing is not equal. The runs are just repeated simulations of the same process. We can spacing and clusters in each run.
+The number of events in a box is $X\sim \textsf{Poisson}(\lambda = 5)$. As you can see, some boxes have more than 5 and some less because 5 is the average number of arrivals. Also note that the spacing is not equal. The 8 different runs are just repeated simulations of the same process. We can see spacing and clusters in each run.
 
 
 ### Gamma distribution
@@ -210,7 +210,7 @@ $$
 
 There are some important properties of the gamma function. Notably, $\Gamma (\alpha)=(\alpha-1)\Gamma (\alpha -1)$, and if $\alpha$ is a non-negative integer, $\Gamma(\alpha)=(\alpha-1)!$. 
 
-Suppose $X \sim \textsf{Gamma}(\alpha,\lambda)$. The pdf of $X$ for various values of $X$ is shown below. 
+Suppose $X \sim \textsf{Gamma}(\alpha,\lambda)$. The pdf of $X$ for various values of $\alpha$ and $\lambda$ is shown below. 
 ```{r lesson11e,echo=F,fig.height=4,fig.width=5,fig.align='center',fig.cap="pdf of Gamma for various values of alpha and lambda"}
 curve(dgamma(x,1,1),from=0,to=10,ylab="f(x)")
 curve(dgamma(x,1,5),from=0,to=10,add=T,col=2)
@@ -240,6 +240,17 @@ qgamma(0.95,5,1)
 
 ```
 
+### Weibull distribution
+
+The last common distribution we will explore is the Weibull distribution. Like the gamma, the Weibull distribution is a generalization of the exponential distribution and is meant to model wait times. A random variable with the Weibull distribution has parameters $\alpha$ and $\beta$. In `R`, these are referred to as `shape` and `scale` respectively. Note that in some resources, these are represented by $k$ and $\lambda$ or even $k$ and $\theta$. 
+Let $X \sim \textsf{Weibull}(\alpha,\beta)$. The pdf of $X$ is given by:
+$$
+f_X(x)=\frac{\alpha}{\beta} \left(\frac{x}{\beta}\right)^{\alpha-1} e^{-\left(\frac{x}{\beta}\right)^\alpha}, \hspace{0.3cm} x\geq 0
+$$
+
+The mean and variance of a random variable with a Weibull distribution can be found by consulting `R` documentation. Look them up and make sure you can use them.
+
+
 ### Normal distribution
 
 The normal distribution (also referred to as Gaussian) is a common distribution found in natural processes. You have likely seen a *bell curve* in various contexts. The bell curve is often indicative of an underlying normal distribution. There are two parameters of the normal distribution: $\mu$ (the mean of $X$) and $\sigma$ (the standard deviation of $X$). 
@@ -250,7 +261,7 @@ $$
 f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}, \hspace{0.3cm} -\infty < x <\infty
 $$
 
-Some plots of normal distributions for different parameters are plotted in Fibure 3.
+Some plots of normal distributions for different parameters are plotted in Figure 3.
 
 ```{r lesson11g,fig.height=4,fig.width=5,fig.align='center',echo=F,fig.cap="pdf of Normal for various values of mu and sigma"}
 curve(dnorm(x,0,1),from=-7,to=7,ylim=c(0,0.8),ylab="f(x)")
@@ -332,15 +343,6 @@ What is the distribution if $\alpha=\beta=1$?
 It is the uniform. It is easy to verify that $\Gamma(1)=1$ so that $B(1,1)=1$.
 
 
-### Weibull distribution
-
-The last common distribution we will explore is the Weibull distribution. Like the gamma, the Weibull distribution is a generalization of the exponential distribution and is meant to model wait times. A random variable with the Weibull distribution has parameters $\alpha$ and $\beta$. In `R`, these are referred to as `shape` and `scale` respectively. Note that in some resources, these are represented by $k$ and $\lambda$ or even $k$ and $\theta$. 
-Let $X \sim \textsf{Weibull}(\alpha,\beta)$. The pdf of $X$ is given by:
-$$
-f_X(x)=\frac{\alpha}{\beta} \left(\frac{x}{\beta}\right)^{\alpha-1} e^{-\left(\frac{x}{\beta}\right)^\alpha}, \hspace{0.3cm} x\geq 0
-$$
-
-The mean and variance of a random variable with a Weibull distribution can be found by consulting `R` documentation. Look them up and make sure you can use them.
 
 
 ## File creation information 
