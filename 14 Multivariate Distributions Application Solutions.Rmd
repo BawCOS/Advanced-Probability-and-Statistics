@@ -141,9 +141,9 @@ $$
 &nbsp;
 
 
-\indent 2. In the Notes, we saw that $f_X(x)=f_{X|Y=y}(x)$ and $f_Y(y)=f_{Y|X=x}(y)$. What does this imply about $X$ and $Y$?  
+\indent 2. In the Notes, we saw an example where $f_X(x)=f_{X|Y=y}(x)$ and $f_Y(y)=f_{Y|X=x}(y)$. This is not common and is important. What does this imply about $X$ and $Y$?  
 
-Since the conditional density function is always equal to the marginal, it means that $X$ and $Y$ are independent of one another. Also, if the conditioning variable does not appear in the conditional density function and the support is rectangular, the random variables are independent. The variables in the previous problem are dependent, look at the conditional density functions to see that the conditional density depends on the conditioned variable.
+Since the conditional density function is always equal to the marginal, it means that $X$ and $Y$ are independent of one another. Also, if the conditioning variable does not appear in the conditional density function and the domain of the joint density is rectangular, the bounds of the two variables are constants, the random variables are independent. The variables in the previous problem are dependent, look at the conditional density functions to see that the conditional density depends on the conditioned variable.
 
 &nbsp;
 

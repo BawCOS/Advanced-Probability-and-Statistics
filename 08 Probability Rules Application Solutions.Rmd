@@ -239,6 +239,51 @@ $$
 30*10/(6^5)
 ```
 
+Simulating is tough so let's write some code that may help.
+
+
+```{r}
+set.seed(23)
+temp<-table(sample(1:6,size=5,replace=TRUE))
+temp
+```
+```{r}
+sum(temp==2) & sum(temp==3)
+```
+```{r}
+temp<-c(1,1,1,2,2)
+temp<-table(temp)
+temp
+```
+
+```{r}
+sum(temp==2) & sum(temp==3)
+```
+
+Let's write a function.
+
+```{r}
+full_house <-function(x){
+  temp<-table(x)
+  sum(temp==2) & sum(temp==3)
+}
+```
+
+
+
+```{r}
+temp<-c(1,1,1,2,2)
+full_house(temp)
+```
+
+```{r}
+set.seed(751)
+results<-do(10000)*full_house(sample(1:6,size=5,replace=TRUE))
+mean(~full_house,data=results)
+```
+
+
+
 ## File Creation Information 
 
   * File creation date: `r Sys.Date()`

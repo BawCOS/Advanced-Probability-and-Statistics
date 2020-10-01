@@ -70,7 +70,7 @@ b. Plot the pdf of $X$.
 
 ```{r warning=FALSE,message=FALSE}
 x<-seq(-3,3,0.001)
-fx<-x^2
+fx<-x^2/18
 gf_line(fx~x,ylab="f(x)",title="pdf of X") %>%
   gf_theme(theme_classic())
 ```

@@ -44,8 +44,6 @@ library(mosaicCalc)
 
 ## Multivariate distributions  
 
-This is one of the more mathematical sections of the course. There are some ways to reduce the mathematics using computational resources but by its nature this lesson is still mathematical.
-
 Multivariate situations are the more common in practice. We are often dealing with more than one variable. We have seen this in the previous block of material and will see multivariate distributions in the remainder of the course and through Math 378.
 
 The basic idea is that we want to determine the relationship between two or more variables to include variable(s) conditional on variables. 
@@ -56,7 +54,7 @@ Thus far, we have only considered situations involving one random variable. In s
 
 ### Discrete random variables
 
-In the discrete case, joint probability is described by the *joint probability mass function*. In the bivariate case, suppose $X$ and $Y$ are discrete random variables. The joint pmf is given by $f_{X,Y}(x,y)$ and represents $\Prob(X=x,Y=y) = \Prob(X=x \cap Y=y)$. Note: it is common in statistical and probability models to use a comma to represent **and**, if fact the `select()` function in `tidyverse` does this.
+In the discrete case, joint probability is described by the *joint probability mass function*. In the bivariate case, suppose $X$ and $Y$ are discrete random variables. The joint pmf is given by $f_{X,Y}(x,y)$ and represents $\Prob(X=x,Y=y) = \Prob(X=x \cap Y=y)$. Note: it is common in statistical and probability models to use a comma to represent **and**, in fact the `select()` function in `tidyverse` does this.
 
 The same rules of probability apply to the joint pmf. Each value of $f$ must be between 0 and 1, and the total probability must sum to 1:
 $$
@@ -68,6 +66,8 @@ If given a joint pmf, one can obtain the *marginal pmf* of individual variables.
 $$
 f_X(x)=\sum_{y \in S_Y}f_{X,Y}(x,y)
 $$
+
+Notice that in the above summation, we summed over only the $y$ values.
 
 Similarly,
 $$
@@ -94,7 +94,7 @@ $$
 
 a) Find the marginal pmfs of $X$ and $Y$.
 
-b) Find $f_{X|Y=0}(x)$ and $f_{Y|X=1}(y)$. 
+b) Find $f_{X|Y=0}(x)$ and $f_{Y|X=2}(y)$. 
 
 The marginal pmfs can be found by summing across the other variable. So, to find $f_X(x)$, we simply sum across the rows: 
 $$
@@ -163,7 +163,7 @@ Together, these pmfs can be used to find relevant probabilities. For example, se
 
 ### Continuous random variables
 
-Much of the ideas above for discrete random variables also applies to the case of multiple continuous random variables. Suppose $X$ and $Y$ are continuous random variables. Their joint probability is described by the *joint probability density function*. As in the discrete case, the joint pdf is represented by $f_{X,Y}(x,y)$. Recall that while pmfs return probabilities, pdfs return *densities*, which are not equivalent to probabilities. In order to obtain probability from a pdf, one has to integrate the pdf across the applicable subset of the domain. 
+Many of the ideas above for discrete random variables also apply to the case of multiple continuous random variables. Suppose $X$ and $Y$ are continuous random variables. Their joint probability is described by the *joint probability density function*. As in the discrete case, the joint pdf is represented by $f_{X,Y}(x,y)$. Recall that while pmfs return probabilities, pdfs return *densities*, which are not equivalent to probabilities. In order to obtain probability from a pdf, one has to integrate the pdf across the applicable subset of the domain. 
 
 The rules of a joint pdf are analogous to the univariate case. For all $x$ and $y$, $f_{X,Y}(x,y)\geq 0$ and the probability must sum to one:
 $$
@@ -220,6 +220,7 @@ f <- function(x) { (x[1] * x[2]) } # "x" is vector
 adaptIntegrate(f, lowerLimit = c(0, 0), upperLimit = c(1, 2))
 ```
 
+Notice the function `adaptIntegrate` returned four objects. You can read the help menu to learn more about them but we are only interested in the result contained in the object `integral`.
 
 b) Find $\Prob(X > 1, Y \leq 0.5)$.
 $$

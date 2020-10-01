@@ -33,7 +33,7 @@ library(mosaicCalc)
 
 # Exercises
 
-\indent 1. Let $X$ and $Y$ be continuous random variables with joint pmf: 
+\indent 1. Let $X$ and $Y$ be continuous random variables with joint pdf: 
 $$
 f_{X,Y}(x,y)=x + y
 $$
@@ -82,7 +82,7 @@ d. Find $\Var\left({X\over 2}+2Y\right)$.
 
 a. Write the joint probability mass function.
 
-b. Find the expected value of the product of your score and your friends score.
+b. Find the expected value of the product of your score and your friend's score.
 
 c. Verify the previous part using simulation.
 

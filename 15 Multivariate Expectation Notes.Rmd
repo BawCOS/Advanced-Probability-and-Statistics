@@ -54,19 +54,19 @@ $$
 
 (Note that $\sum\limits_{x}$ is shorthand for the sum across all possible values of $x$.) 
 
-In the case of continuous random variables with joint pdf $f_{X,Y}$, expectation becomes:
+In the case of continuous random variables with a joint pdf $f_{X,Y}(x,y)$, expectation becomes:
 $$
 \E[g(X,Y)]=\int_x\int_y g(x,y)f_{X,Y}(x,y)\diff y \diff x
 $$
 
 ### Expectation of discrete random variables
 
-Given a joint pmf or pdf, one can find the mean of $X$ by using the joint function or by finding the marginal pmf/pdf first and then using that to find $\E(X)$. In the end, both ways are the same. For the discrete case:
+Given a joint pmf, one can find the mean of $X$ by using the joint function or by finding the marginal pmf first and then using that to find $\E(X)$. In the end, both ways are the same. For the discrete case:
 $$
 \E(X)=\sum_x\sum_y xf_{X,Y}(x,y) = \sum_x x \sum_y f_{X,Y}(x,y)
 $$
 
-The $x$ can be moved outside the inner sum since the inner sum is with respect to variable $y$ and $x$ is a constant with respect to $y$. NOte that the inner sum is the expression for the marginal pmf of $X$. So,
+The $x$ can be moved outside the inner sum since the inner sum is with respect to variable $y$ and $x$ is a constant with respect to $y$. Note that the inner sum is the marginal pmf of $X$. So,
 $$
 \E(X)=\sum_x x \sum_y f_{X,Y}(x,y)=\sum_x x f_X(x)
 $$
@@ -86,12 +86,10 @@ $$
 \end{array} 
 $$
 
-
->*Example*:  
 Find $\E(X)$ 
 
 First we will use the joint pmf directly, then we find the marginal pmf of $X$ and use that as we would in a univariate case. 
-. 
+ 
 $$
 \E(X)=\sum_{x=0}^2 \sum_{y=0}^2 x f_{X,Y}(x,y)=0*0.10+0*0.08+0*0.11+1*0.18+...+2*0.09 = 0.92
 $$
@@ -111,6 +109,8 @@ $$
 
 So, $\E(X)=0*0.29+1*0.5+2*0.21=0.92$. 
 
+## Exercises to apply what we learned
+
 > **Exercise**:
 Let $X$ and $Y$ be defined above. Find $\E(Y)$, $\E(X+Y)$, $\E(XY)$, and $\E\left(\frac{1}{2X+Y+1}\right)$. 
 
@@ -119,7 +119,7 @@ Let $X$ and $Y$ be defined above. Find $\E(Y)$, $\E(X+Y)$, $\E(XY)$, and $\E\lef
 As with $\E(X)$, $\E(Y)$ can be found in two ways. We will use the marginal pmf of $Y$, which we will not derive:  
 
 $$
-\E(Y)=\sum_{y=0}^2 f_Y(y)=0*0.35+1*0.33+2*0.32 = 0.97
+\E(Y)=\sum_{y=0}^2 y \cdot f_Y(y)=0*0.35+1*0.33+2*0.32 = 0.97
 $$
 
 ### E(X+Y)
@@ -166,6 +166,9 @@ f_{X,Y}(x,y)=xy
 $$
 for $0\leq x \leq 2$ and $0 \leq y \leq 1$. 
 
+## Exercises to apply what we learned
+
+> **Exercise**: 
 Find $\E(X)$, $\E(X+Y)$, $\E(XY)$, and $\Var(XY)$. 
 
 ### E(X)
@@ -174,6 +177,7 @@ We found the marginal pdf of $X$ in a previous lesson, so we should use that now
 $$
 \E(X)=\int_0^2 x\frac{x}{2}\diff x = \frac{x^3}{6}\bigg|_0^2= \frac{4}{3} 
 $$
+
 ### E(X+Y)  
 
 To find $\E(X+Y)$, we could use the joint pdf directly, or use the marginal pdf of $Y$ to find $\E(Y)$ and then add the result to $\E(X)$. The reason this is valid is because when we integrate $x$ with the joint pdf, integrating with respect to $y$ first, we can treat $x$ as a constant and bring it out side the integral. Then we are integrating the joint pdf with respect $y$ which results in the marginal pdf of $X$.  
@@ -189,7 +193,7 @@ $$
 
 If we wanted to use simulation to find this expectation, we could simulate variables from the marginal of $X$ and $Y$ and then add them together to create a new variable. 
 
-The cdf for $X$ is $\frac{x}{2}$ so we simulation by sampling from a random uniform and then taking the inverse of the cdf. For $Y$ the cdf is $2y$.
+The cdf for $X$ is $\frac{x^2}{4}$ so we simulate a random variable from $X$ by sampling from a random uniform and then taking the inverse of the cdf. For $Y$ the cdf is $y^2$ and do a similar simulation.
 
 ```{r}
 set.seed(1820)
@@ -212,6 +216,7 @@ $$
 =\frac{x^3}{9}\bigg|_0^2 = \frac{8}{9}
 $$
 
+Or by simulating, we have: 
 
 ```{r}
 set.seed(191)
@@ -238,12 +243,15 @@ $$
 =\int_0^2 \frac{x^3y^4}{4}-\frac{16x^2y^3}{27}+\frac{32xy^2}{81}\bigg|_0^1 \diff x = \int_0^2 \frac{x^3}{4}-\frac{16x^2}{27}+\frac{32x}{81}\diff x 
 $$
 
+
 $$
 = \frac{x^4}{16}-\frac{16x^3}{81}+\frac{16x^2}{81}\bigg|_0^2 
 $$
 $$
 =\frac{16}{16}-\frac{128}{81}+\frac{64}{81}=0.2098765
 $$
+
+Next we will estimate the variance using a simulation: 
 
 ```{r}
 set.seed(816)
@@ -253,7 +261,7 @@ new_data %>%
   summarize(Var = mean(z))
 ```
 
-That was much easier. Notice that we are really just estimating these expectations with the simulations. The mathematical answers are the true population values while are simulations are sample estimates. In a few lessons we will discuss estimators in more detail.
+That was much easier. Notice that we are really just estimating these expectations with the simulations. The mathematical answers are the true population values while our simulations are sample estimates. In a few lessons we will discuss estimators in more detail.
 
 ## Covariance/Correlation
 
@@ -294,9 +302,9 @@ $$
 \rho = \frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(Y)}}
 $$
 
-While covariance could take on any real number, correlation is bounded by -1 and 1. Two random variables with a correlation of 1 are said to be perfectly positively correlated, while a correlation of -1 implies perfect negative correlation. Two random variables with a correlation (and thus covariance) of 0 are said to be uncorrelated, that is they do not have a linear relationship but could have a non-linear relationship. This last point is important, random variables with no relationship will have a 0 covariance. HOwever, a 0 covariance only implies that the random variables do not have a linear relationship. 
+While covariance could take on any real number, correlation is bounded by -1 and 1. Two random variables with a correlation of 1 are said to be perfectly positively correlated, while a correlation of -1 implies perfect negative correlation. Two random variables with a correlation (and thus covariance) of 0 are said to be uncorrelated, that is they do not have a linear relationship but could have a non-linear relationship. This last point is important; random variables with no relationship will have a 0 covariance. However, a 0 covariance only implies that the random variables do not have a linear relationship. 
 
-Let's look at some plots of different correlations. Remember that the correlation we are calculating in this section is for the population, while the plots are showing sample points from a population.
+Let's look at some plots, Figures 1 - 4, of different correlations. Remember that the correlation we are calculating in this section is for the population, while the plots are showing sample points from a population.
 
 
 ```{r echo=FALSE,fig.align='center',fig.cap="Correlation of 1",message=FALSE}
@@ -416,14 +424,24 @@ Sam will read either one chapter of his history book or one chapter of his philo
 
 Note: in the next lesson we are working with transformations and could attack the problem using that method. 
 
-First let's use simulation to get an idea what value the answer should be and then use mathematics.
+First let's use simulation to get an idea what value the answer should be and then use algebraic techniques and definitions we have learned in this course.
 
-Simulate 5000 reads from the history book and 5000 from philosophy and combine
+Simulate 5000 reads from the history book and 5000 from philosophy and combine:
 
 ```{r}
+set.seed(2011)
 my_data<-data.frame(misprints=c(rpois(5000,2),rpois(5000,5)))
 
 ```
+
+```{r}
+head(my_data)
+```
+
+```{r}
+dim(my_data)
+```
+
 
 Let's plot.
 
@@ -439,7 +457,7 @@ mean(~misprints,data=my_data)
 
 Now for a mathematical solution. Let $X$ stand for the number of misprints and $Y$ for the book, to make $Y$ a random variable let's call 0 history and 1 philosophy. Then $E[X|Y]$ is the expected number of misprints given the book. This is a conditional expectation. For example $E[X|Y=0]$ is the expected number of misprints in the history book.  
 
-Now here is the tricky part, without specifying a value of $Y$, called a realization, this expectation function is a random variable that depends on $Y$. In other words, if we don't know the book, the spectated number of misprints depends on $Y$ and thus is a random variable. If we take the expected value of this random variable we get
+Now here is the tricky part, without specifying a value of $Y$, called a realization, this expectation function is a random variable that depends on $Y$. In other words, if we don't know the book, the expected number of misprints depends on $Y$ and thus is a random variable. If we take the expected value of this random variable we get
 
 $$E[X]=E[E[X|Y]]$$
 
