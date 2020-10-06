@@ -446,8 +446,19 @@ dim(my_data)
 Let's plot.
 
 ```{r}
-gf_histogram(~misprints,data=my_data)
+gf_histogram(~misprints,data=my_data,breaks=seq(-0.5, 15.5, by=1)) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(x="Number of Misprints")
 ```
+
+Or
+
+```{r}
+gf_bar(~misprints,data=my_data)%>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(x="Number of Misprints")
+```
+
 
 And now find the average.
 

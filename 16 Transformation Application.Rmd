@@ -33,13 +33,15 @@ library(mosaicCalc)
 
 # Exercises
 
-\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. Give one example (excluding examples from our notes) of $X$ and $g$ where $\E[g(X)] \neq g(\E[X])$. What are $\E[g(X)]$ and $g(\E[X])$? Use `R` to find $\E[g(X)]$. 
+\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. 
+
+Let $X\sim \textsf{Expon}(\lambda=0.5)$ and $g(X)=X^2$. We know that $\E(X)=\frac{1}{0.5}=2$ so $g(\E(X))=\E(X)^2=4$. Use `R` to find $\E[g(X)]$. 
 
 
 &nbsp;
 
 
-\indent 2. (From Pruim 2011, Section 2.5) Let $X\sim \textsf{Binom}(n,\pi)$. What is the pmf for $X+3$? Make sure you specify the domain of $Y$. [Note, we have used $p$ for the probability of success in a binomial distribution. In the Pruim text, $\pi$ was used.]
+\indent 2. Let $X\sim \textsf{Binom}(n,\pi)$. What is the pmf for $Y = X+3$? Make sure you specify the domain of $Y$. [Note, we have used $p$ for the probability of success in a binomial distribution.]
 
 
 &nbsp;
@@ -52,4 +54,4 @@ library(mosaicCalc)
 
 \indent 4. ADVANCED: In exercise 3, you found the pdf of $Y=X^2$ when $X\sim \textsf{Expon}(\lambda)$. Rearrange the pdf to show that $Y\sim \textsf{Weibull}$ and find the parameters of that distribution. 
 
-\indent 5. PROBLEM MULTIVARIATE SIMULATION
+\indent 5. You are on a team of two. You are both tasked to complete an exercise. The time it takes you $T_1$, and likewise, your teammate $T_@$ are uniformly distributed on the interval of 10 to 30 minutes. You work independently of each other, simulate and plot the distribution of $T_1 + T_2$. This problem can be solved mathematically, but it is extremely algebraic intensive.

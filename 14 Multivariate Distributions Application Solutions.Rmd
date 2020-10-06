@@ -208,7 +208,7 @@ $$
 
 d) Find the probability of fewer than 3 complaints given there is no rain. 
 $$
-\Prob(Y<3|X=0)=\frac{0.133+0.086+0.081}{0.657}=0.457
+\Prob(Y<3|X=0)=\frac{0.133+0.086+0.081}{0.4}=0.75
 $$
 
 ## Optional for those of you that like Calc III and want a challenge. 

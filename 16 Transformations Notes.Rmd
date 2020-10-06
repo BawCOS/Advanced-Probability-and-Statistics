@@ -2,6 +2,7 @@
 title: "Transformations Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -91,20 +92,25 @@ f_Y(y)=\left\{\begin{array}{ll} 0.35, & y=0 \\
 0, & \mbox{otherwise} \end{array}\right.
 $$
 
-It also helps to confirm that these probabilities add to one. They do, in fact. This is the pmf of $Y=X^2$. 
+It also helps to confirm that these probabilities add to one, which they do. This is the pmf of $Y=X^2$. 
+
+The key idea is to find the domain of the new random variable and then go back to the original random variable and sum all the probabilities that get mapped into that new domain element. 
 
 ### Transformations of Continuous Random Variables
 
 The methodology above will not work directly in the case of continuous random variables. This is because in the continuous case, the pdf, $f_X(x)$, represents **density** and not **probability**. 
 
-The **cdf method** can be used for transformations of continuous random variables. Suppose $X$ is a continuous random variable with cdf $F_X(x)$. Let $Y=g(X)$. We can find the cdf of $Y$:
+The **cdf method** can be used for transformations of continuous random variables. The idea is to find the cdf of the new random variable and then by way of the fundamental theorem of calculus.
+
+Suppose $X$ is a continuous random variable with cdf $F_X(x)$. Let $Y=g(X)$. We can find the cdf of $Y$ as:
+
 $$
 F_Y(y)=\Prob(Y\leq y)=\Prob(g(X)\leq y)=\Prob(X\leq g^{-1}(y))=F_X(g^{-1}(y))
 $$
 
-To get the pdf of $Y$, one would need to take the derivative of the cdf. 
+To get the pdf of $Y$, we would need to take the derivative of the cdf. 
 
-This requires the transformation to have an inverse. Sometimes, we break the domain into regions where an inverse exists.
+This method requires the transformation function to have an inverse. Sometimes, we break the domain of the original random variables into regions where an inverse of the transformation function exists.
 
 > *Example*:
 
@@ -124,6 +130,8 @@ for $0\leq y \leq 1$ and 0 otherwise. We could verify this integrates to 1:
 $$
 \int_0^1 \frac{1}{2\sqrt{y}} \diff y = \sqrt{y}\bigg|_0^1 = 1
 $$
+Notice that since the domain of the original random variable was non-negative, the squared function had an inverse. 
+
 
 ### The pdf method
 
@@ -133,12 +141,17 @@ $$
 
 We can find the pdf of $Y$ by differentiating the cdf:
 $$
-f_Y(y)=\frac{\diff}{\diff y}F_Y(y)=\frac{\diff}{\diff y} F_X(g^{-1}(y)) = f_X(g^{-1}(y))\frac{\diff}{\diff y} g^{-1}(y)
+f_Y(y)=\frac{\diff}{\diff y}F_Y(y)=\frac{\diff}{\diff y} F_X(g^{-1}(y)) = f_X(g^{-1}(y))\bigg| \frac{\diff}{\diff y}  g^{-1}(y) \bigg|
 $$
 
 So, as long as $g^{-1}$ is differentiable, we can use this method to directly obtain the pdf of $Y$. 
 
-Note that in some texts, the portion of this expression $\frac{\diff}{\diff y} g^{-1}(y)$ is sometimes referred to as the *Jacobian*. 
+Note that in some texts, the portion of this expression $\frac{\diff}{\diff y} g^{-1}(y)$ is sometimes referred to as the *Jacobian*. We need to take the absolute value of the transformation function $g(x)$ because if it is a decreasing function, we have 
+
+$$
+F_Y(y)=\Prob(Y\leq y)=\Prob(g(X) \leq y)=\Prob(X \geq g^{-1}(y))= 1 - F_X(g^{-1}(y))
+$$
+
 
 > **Exercise**:  
 Repeat the previous example using the pdf method. 
@@ -150,9 +163,10 @@ $$
 
 ### Simulation  
 
-We can also get an idea of the by simulating the random variable. If we have the cdf and can find its inverse, then just like we did in earlier lessons, we sample from a uniform distribution and apply to inverse to get the distribution.
+We can also get an estimate of the distribution by simulating the random variable. If we have the cdf and can find its inverse, then just like we did in an earlier lesson, we sample from a uniform distribution and apply to inverse to get the distribution.
 
 In an earlier lesson we had
+
 > Let $X$ be a continuous random variable with $f_X(x)=2x$ where $0 \leq x \leq 1$. 
 
 Now let's find the distribution of $Y = \ln{X}$.
@@ -164,7 +178,10 @@ The cdf of $X$ is $F_X(x)=x^2$. Using our same code from before we have:
 results <- do(10000)*sqrt(runif(1))
 ```
 
-```{r}
+Remember, we are using the square root because we want the inverse of the cdf and not, for this method, the inverse of the transformation funciotn.
+
+
+```{r warning=FALSE,message=FALSE}
 inspect(results)
 ```
 
@@ -199,7 +216,7 @@ $$
 
 Let $X$ be your arrival time for dinner and $Y$ your friends arrival time. Assume you travel independently.
 
-Define $Z$ as a transformation of $X$ and $Y$ such that $Z=|X-Y|$. Thus $Z$ is the time difference between your arrivals. We would like to explore the distribution of $Z$. We could do this via Calc III methods but we will simulate instead.
+Define $Z$ as a transformation of $X$ and $Y$ such that $Z=|X-Y|$. Thus $Z$ is the absolute value of the time difference between your arrivals. We would like to explore the distribution of $Z$. We could do this via Calc III methods but we will simulate instead.
 
 We can use `R` to obtain simulated values from $X$ and $Y$ (and thus find $Z$). 
 
@@ -214,7 +231,7 @@ Complete the code on your own before looking at the code below.
 results <- do(100000)*abs(diff(runif(2,5,6)))
 ```
 
-Now, use the `gf` function of your choice to show the desired characteristics. 
+Now, plot the estimated distribuion. 
 
 ```{r}
 results %>%
@@ -263,7 +280,8 @@ z_cdf(5/60)
 Let's plot to see what it looks like.
 
 ```{r}
-gf_line(z_cdf(seq(0,1,.01))~seq(0,1,.01),xlab="Time Difference",ylab="CDF")
+gf_line(z_cdf(seq(0,1,.01))~seq(0,1,.01),xlab="Time Difference",ylab="CDF") %>%
+  gf_theme(theme_classic())
 ```
 
 It looks like some where around 15 minutes, a quarter of an hour.
