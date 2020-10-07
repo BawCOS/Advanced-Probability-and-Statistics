@@ -113,13 +113,12 @@ To get the pdf of $Y$, we would need to take the derivative of the cdf.
 This method requires the transformation function to have an inverse. Sometimes, we break the domain of the original random variables into regions where an inverse of the transformation function exists.
 
 > *Example*:
-Let $X\sim \textsf{Unif}(0,1)$ and let $Y=X^2$. Find the pdf of $Y$. 
 
-Before we start, let's think about this. We are randomly taking numbers between 0 and 1 and then squaring them. Squaring a positive number less than 1 makes it even smaller. We thus suspect the pdf of $Y$ will have larger density near 0 than 1. The shape is hard to determine so let's do some math.
+Let $X\sim \textsf{Unif}(0,1)$ and let $Y=X^2$. Find the pdf of $Y$. 
 
 Since $X$ has the uniform distribution, we know that $F_X(x)=x$ for $0\leq x \leq 1$. So,
 $$
-F_Y(y)=\Prob(Y\leq y)=\Prob(X^2\leq y)=\Prob(X\leq \sqrt{y})=F_X\left(\sqrt{y}\right)=\sqrt{y}
+F_Y(y)=\Prob(Y\leq y)=\Prob(X^2\leq y)=\Prob(X\leq \sqrt{y})=\sqrt{y}
 $$
 
 Taking the derivative of this yields:
@@ -127,41 +126,14 @@ $$
 f_Y(y)=\frac{1}{2\sqrt{y}}
 $$
 
-for $0 < y \leq 1$ and 0 otherwise. Notice we can't have $y=0$ since we would be dividing by zero. This is not a problem since we have a continuous distribution. We could verify this a proper pdf by determining if the pdf integrates to 1 over the domain: 
+for $0\leq y \leq 1$ and 0 otherwise. We could verify this integrates to 1: 
 $$
 \int_0^1 \frac{1}{2\sqrt{y}} \diff y = \sqrt{y}\bigg|_0^1 = 1
 $$
-We can also do this using `R` but we first have to create a function that can take vector input.
-
-```{r}
-y_pdf <- function(y) {
-  1/(2*sqrt(y))
-}
-```
+Notice that since the domain of the original random variable was non-negative, the squared function had an inverse. 
 
 
-```{r}
-y_pdf<- Vectorize(y_pdf)
-```
-
-
-```{r}
-integrate(y_pdf,0,1)
-```
-
-Notice that since the domain of the original random variable was non-negative, the squared function had an inverse.
-
-The pdf looks like:
-
-
-```{r}
-gf_line(y_pdf(seq(0.01,1,.01))~seq(0.01,1,.01),xlab="Y",ylab="pdf") %>%
-  gf_theme(theme_classic())
-```
-
-We can see that the density is much larger at we approach 0.
-
-### The pdf method - Optional
+### The pdf method
 
 The cdf method of transforming continuous random variables also yields to another method called the **pdf method**. Recall that the cdf method tells us that if $X$ is a continuous random variable with cdf $F_X$, and $Y=g(X)$, then $$
 F_Y(y)=F_X(g^{-1}(y))
@@ -186,12 +158,12 @@ Repeat the previous example using the pdf method.
 
 Since $X$ has the uniform distribution, we know that $f_X(x)=1$ for $0\leq x \leq 1$. Also, $g(x)=x^2$ and $g^{-1}(y)=\sqrt{y}$, which is differentiable. So,
 $$
-f_Y(y)=f_X(\sqrt{y})\bigg|\frac{\diff}{\diff y} \sqrt{y}\bigg| = \frac{1}{2\sqrt{y}}
+f_Y(y)=f_X(\sqrt{y})\frac{\diff}{\diff y} \sqrt{y} = \frac{1}{2\sqrt{y}}
 $$
 
 ### Simulation  
 
-We can also get an estimate of the distribution by simulating the random variable. If we have the cdf and can find its inverse, then just like we did in an earlier lesson, we sample from a uniform distribution and apply the inverse to get the distribution.
+We can also get an estimate of the distribution by simulating the random variable. If we have the cdf and can find its inverse, then just like we did in an earlier lesson, we sample from a uniform distribution and apply to inverse to get the distribution.
 
 In an earlier lesson we had
 
@@ -199,14 +171,14 @@ In an earlier lesson we had
 
 Now let's find the distribution of $Y = \ln{X}$.
 
-The cdf of $X$ is $F_X(x)=x^2$ where $0 \leq x \leq 1$. We will draw a uniform random and then take the square root. We will replicate this 10,000 times. In `R` our code, which we have done before, is:
+The cdf of $X$ is $F_X(x)=x^2$. Using our same code from before we have:
 
 
 ```{r}
 results <- do(10000)*sqrt(runif(1))
 ```
 
-Remember, we are using the square root because we want the inverse of the cdf and not, for this method, the inverse of the transformation function as when we were using the mathematical method. This can be a point of confusion. 
+Remember, we are using the square root because we want the inverse of the cdf and not, for this method, the inverse of the transformation function.
 
 
 ```{r warning=FALSE,message=FALSE}
@@ -242,9 +214,9 @@ $$
 X\sim \textsf{Unif}(5,6)\hspace{1.5cm} Y\sim \textsf{Unif}(5,6)
 $$
 
-Let $X$ be your arrival time for dinner and $Y$ your friends arrival time. We picked 5 to 6 because this is the time in the evening we want to meet. Assume you travel independently.
+Let $X$ be your arrival time for dinner and $Y$ your friends arrival time. Assume you travel independently.
 
-Define $Z$ as a transformation of $X$ and $Y$ such that $Z=|X-Y|$. Thus $Z$ is the absolute value of the difference between your arrival times. The units for $Z$ are hours. We would like to explore the distribution of $Z$. We could do this via Calc III methods but we will simulate instead.
+Define $Z$ as a transformation of $X$ and $Y$ such that $Z=|X-Y|$. Thus $Z$ is the absolute value of the time difference between your arrivals. We would like to explore the distribution of $Z$. We could do this via Calc III methods but we will simulate instead.
 
 We can use `R` to obtain simulated values from $X$ and $Y$ (and thus find $Z$). 
 
@@ -255,15 +227,9 @@ First, simulate 100,000 observations from the uniform distribution with paramete
 Complete the code on your own before looking at the code below.
 
 
-```{r}
-set.seed(354)
+```{r lesson16b}
 results <- do(100000)*abs(diff(runif(2,5,6)))
 ```
-
-```{r}
-head(results)
-```
-
 
 Now, plot the estimated distribution. 
 
@@ -305,26 +271,26 @@ z_cdf <- function(x) {
 ```{r}
 z_cdf<- Vectorize(z_cdf)
 ```
-Now test for 5 minutes to make sure our function is correct since we determined above that this value should be 0.15966.
+Now test for 5 minutes.
 
 ```{r}
 z_cdf(5/60)
 ```
 
-Let's plot to see what the cdg looks like.
+Let's plot to see what it looks like.
 
 ```{r}
 gf_line(z_cdf(seq(0,1,.01))~seq(0,1,.01),xlab="Time Difference",ylab="CDF") %>%
   gf_theme(theme_classic())
 ```
 
-It looks like some where around 15 minutes, a quarter of an hour. But we will find a better answer by finding the root. In the code that follows we want to find where the cdf equals 0.5. The function `uniroot()` solves the given equations for roots so we want to put in the cdf minus 0.5. In other words, `uniroot()` want to solve $f(x)=0$ for x.
+It looks like some where around 15 minutes, a quarter of an hour.
 
 ```{r}
 uniroot(function(x)z_cdf(x)-.5,c(.25,35))$root
 ```
 
-So it is actually 0.292 hours, 17.5 minutes. So round up and wait 18 minutes.
+So it is actually 17.4 minutes. So round up and wait 18 minutes.
 
 ### File Creation Information 
 
