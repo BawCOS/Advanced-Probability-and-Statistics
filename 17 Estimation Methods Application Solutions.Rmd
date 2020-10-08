@@ -2,6 +2,7 @@
 title: "Estimation Methods Application Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -49,7 +50,7 @@ thetamom
 
 b) What is wrong with this estimate? 
 
-The estimate for $\theta$ is 5, which is an impossible value for $\theta$, since one of our observations (5.1) is beyond this value. 
+For our distribution $\theta$ is the upper bound or largest value for the random variable. The estimate for $\theta$ is 5, which is an impossible value for $\theta$, since one of our observations (5.1) is beyond this value. 
 
 c) Show that this estimator is unbiased.
 
@@ -64,11 +65,14 @@ $$
 $$
 =\frac{2}{n}  \sum{E\left(X_i \right)} =\frac{2}{n}\sum{\frac{\theta}{2}}=\frac{n\theta}{n}=\theta
 $$
-Notice that in performing this derivation, we treated $X$ as a random variable and not as $x$ a data value.
+Notice that in performing this derivation, we treated $X$ as a random variable and not as $x$, a data value.
 
-d) ADVANCED: Use simulation in `R` to find out how often this happens ($\hat{\theta}_{MoM} < \max x$). Report an answer for various sizes of samples.
+\pagebreak
 
-Let's start by writing code for one sample size and then generalize.
+d) ADVANCED: Use simulation in `R` to find out how often the method of moment estimator is less the maximum observed value, ($\hat{\theta}_{MoM} < \max x$). Report an answer for various sizes of samples. You can just pick an arbitrary value for $\theta$ when you sample from the uniform. However, the minimum must be 0.
+
+
+Let's start by writing code for one sample size and then generalize. This function will take as input the number of data points, sample that many points from a uniform with a max of 5, and then return a logical value comparing the method of moments estimate to the observed maximum. The choice of a maximum value for the uniform distribution is arbitrary.
 
 ```{r}
 check <- function(n=10){
@@ -77,12 +81,24 @@ check <- function(n=10){
 }
 ```
 
+Let's test the function.
+
+```{r}
+set.seed(3030)
+temp<-runif(10,max=5)
+temp
+```
+```{r}
+2*mean(temp)
+```
+Reset the seed and run the function, we should get FALSE.
+
 ```{r}
 set.seed(3030)
 check(10)
 ```
 
-Now let's repeat
+Now let's repeat the test 10000 find the proportion of times the method of moments estimator is unrealistic.
 
 ```{r}
 (do(10000)*check(10)) %>%
@@ -90,11 +106,13 @@ Now let's repeat
   pull()
 ```
 
-Let's make `check` a vectorized function
+Let's make `check` a vectorized function for we can run for many sample sizes.
 
 ```{r}
 check <- Vectorize(check)
 ```
+
+Run 1000 replicates for each sample size. The rest of the code gets my data frame in the proper shape.
 
 ```{r}
 my_data<-(do(1000)*check(seq(10,200,5))) %>%
@@ -103,9 +121,18 @@ my_data<-(do(1000)*check(seq(10,200,5))) %>%
   mutate(Sample=seq(10,200,5))
 ```
 
+A quick look at the data.
+
+```{r}
+head(my_data)
+```
+
+Now we can plot the results of sample size versus
+
+
 ```{r}
 my_data %>%
-  gf_line(Percent~Sample,xlab="Sample Size",title="Percent When Estimator is Valid") %>%
+  gf_line(Percent~Sample,xlab="Sample Size",title="Percent When Estimator is Invalid") %>%
   gf_theme(theme = theme_minimal())
 ```
 
@@ -130,7 +157,7 @@ plot(t,persim,type="l")
 
 \indent 2. Let $x_1,x_2,...,x_n$ be a simple random sample from an exponentially distributed population with parameter $\lambda$. Find $\hat{\lambda}_{MoM}$. 
 
-Recall that $\E(X)={1\over \lambda}$. Thus,
+Recall that $\E(X)={1\over \lambda}$. Setting this equal to the sample moment $\bar{x}$ and solving for $\lambda$ yields the method of moment estimator. Thus,
 $$
 \hat{\lambda}_{MoM}={1\over \bar{x}}
 $$
@@ -155,7 +182,7 @@ $$
 l(\lambda;\boldsymbol{x})=n\log \lambda - \lambda \sum x_i
 $$
 
-Taking the derivative with respect to $\lambda$ and setting to 0:
+Taking the derivative with respect to $\lambda$ and setting equal to 0:
 $$
 {\diff l(\lambda;\boldsymbol{x})\over \diff \lambda}={n\over \lambda}-\sum x_i =0
 $$
@@ -169,7 +196,7 @@ $$
 
 
 
-\indent 4. It is mathematically difficult to determine if the estimators found in questions 2 and 3 are unbiased. Since the sum is in the denominator, mathematically we may have to work with the joint pdf. So instead, use simulation to get an sense of whether the method of moments estimator for the exponential distribution is unbaised.
+\indent 4. It is mathematically difficult to determine if the estimators found in questions 2 and 3 are unbiased. Since the sample mean is in the denominator; mathematically we may have to work with the joint pdf. So instead, use simulation to get an sense of whether the method of moments estimator for the exponential distribution is unbaised.
 
 We need to sample data from an exponential and then compare the the reciprocal of the mean to the parameter.
 

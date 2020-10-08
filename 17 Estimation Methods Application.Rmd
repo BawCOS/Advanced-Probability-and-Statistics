@@ -43,12 +43,11 @@ $$
 a) What is $\hat{\theta}_{MoM}$ for this sample? 
 
 
-
 b) What is an wrong with this estimate? 
 
 c) Show that this estimator is unbiased.
 
-d) ADVANCED: Use simulation in `R` to find out how often this happens ($\hat{\theta}_{MoM} < \max x$). Report an answer for various sizes of samples.
+d) ADVANCED: Use simulation in `R` to find out how often the method of moment estimator is less the maximum observed value, ($\hat{\theta}_{MoM} < \max x$). Report an answer for various sizes of samples. You can just pick an arbitrary value for $\theta$ when you sample from the uniform. However, the minimum must be 0.
 
 
 &nbsp;
@@ -62,7 +61,9 @@ d) ADVANCED: Use simulation in `R` to find out how often this happens ($\hat{\th
 
 \indent 3. Let $x_1,x_2,...,x_n$ be an iid random sample from an exponentially distributed population with parameter $\lambda$. Find $\hat{\lambda}_{MLE}$.
 
-\indent 4. It is mathematically difficult to determine if the estimators found in questions 2 and 3 are unbiased. Since the sum is in the denominator, mathematically we may have to work with the joint pdf. So instead, use simulation to get an sense of whether the method of moments estimator for the exponential distribution is unbaised.
+&nbsp;
+
+\indent 4. It is mathematically difficult to determine if the estimators found in questions 2 and 3 are unbiased. Since the sample mean is in the denominator; mathematically we may have to work with the joint pdf. So instead, use simulation to get an sense of whether the method of moments estimator for the exponential distribution is unbaised.
 
 
 &nbsp;
@@ -72,5 +73,4 @@ d) ADVANCED: Use simulation in `R` to find out how often this happens ($\hat{\th
 
 
 
-## File Creation Information 
 
