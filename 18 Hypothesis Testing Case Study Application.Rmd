@@ -80,7 +80,7 @@ b. What are the claims being tested? Use the same null and alternative hypothesi
 c.  The paragraph below describes the set up for such approach, if we were to do it without using statistical software. Fill in the blanks with a number or phrase, whichever is appropriate.
 
 \begin{adjustwidth}{2em}{2em}
-We write \textit{alive} on \rule{1cm}{0.5pt} cards representing patients who were alive at the end of the study, and \textit{dead} on \rule{2cm}{0.5pt} cards representing patients who were not. Then, we shuffle these cards and split them into two groups: one group of size \rule{2cm}{0.5pt} representing treatment, and another group of size \rule{2cm}{0.5pt} representing control. We calculate the difference between the proportion of \textit{dead} cards in the control and treatment groups (control - treatment), this is just so we have positive observed value, and record this value. We repeat this many times to build a distribution centered at \rule{2cm}{0.5pt}. Lastly, we calculate the fraction of simulations where the simulated differences in proportions are \rule{2cm}{0.5pt}. If this fraction of simulations, the empirical p-value, is low, we conclude that it is unlikely to have observed such an outcome by chance and that the null hypothesis should be rejected in favor of the alternative.
+We write \textit{alive} on \rule{1cm}{0.5pt} cards representing patients who were alive at the end of the study, and \textit{dead} on \rule{2cm}{0.5pt} cards representing patients who were not. Then, we shuffle these cards and split them into two groups: one group of size \rule{2cm}{0.5pt} representing treatment, and another group of size \rule{2cm}{0.5pt} representing control. We calculate the difference between the proportion of \textit{dead} cards in the control and treatment groups (control - treatment), this is just so we have positive observed value, and record this value. We repeat this many times to build a distribution centered at \rule{2cm}{0.5pt}. Lastly, we calculate the fraction of simulations where the simulated differences in proportions are \rule{2cm}{0.5pt} or \rule{2cm}{0.5pt}. If this fraction of simulations, the empirical p-value, is low, we conclude that it is unlikely to have observed such an outcome by chance and that the null hypothesis should be rejected in favor of the alternative.
 \end{adjustwidth}
 
 Next we will perform the simulation and use results to decide the effectiveness of the transplant program.
@@ -97,13 +97,13 @@ select(-orig.id)
 
 
 
-d.  Find observed value
+d.  Find observed value of the test statistic, which we decided to use the difference in proportions.
 
-f. Simulate 1000 values by using `shuffle` on group.
+f. Simulate 1000 values of the test statistic by using `shuffle()` on the variable `group`.
 
-g. Plot distribution of results.  
+g. Plot distribution of results. Include a vertical line for the observed value. Clean up the plot as if you were presenting to a decision maker.
 
-h. Find p-value.
+h. Find p-value. Think carefully about what more extreme would mean.
 
 i. Decide if the treatment is effective.
 

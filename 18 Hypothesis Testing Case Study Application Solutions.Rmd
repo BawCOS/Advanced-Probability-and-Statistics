@@ -2,6 +2,7 @@
 title: "Case Study for Hypothesis Testing Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -104,14 +105,14 @@ select(-orig.id)
 
 The data is in a file called **Stanford_heart_study.csv**. Read the data in and answer the following questions.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 heart<-read_csv("data/Stanford_heart_study.csv")
 ```
 
 
 a. What proportion of patients in the treatment group and what proportion of patients in the control group died?  
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(heart)
 ```
 
@@ -139,12 +140,12 @@ to chance and the heart transplant is effective.
 c.  The paragraph below describes the set up for such approach, if we were to do it without using statistical software. Fill in the blanks with a number or phrase, whichever is appropriate.
 
 \begin{adjustwidth}{2em}{2em}
-We write \textit{alive} on \textbf{28} cards representing patients who were alive at the end of the study, and \textit{dead} on \textbf{75} cards representing patients who were not. Then, we shuffle these cards and split them into two groups: one group of size \textbf{69} representing treatment, and another group of size \textbf{34} representing control. We calculate the difference between the proportion of \textit{dead} cards in the control and treatment groups (control - treatment), this is just so we have positive observed value, and record this value. We repeat this many times to build a distribution centered at \textbf{zero}. Lastly, we calculate the fraction of simulations where the simulated differences in proportions are \textbf{0.23}. If this fraction of simulations, the empirical p-value, is low, we conclude that it is unlikely to have observed such an outcome by chance and that the null hypothesis should be rejected in favor of the alternative.
+We write \textit{alive} on \textbf{28} cards representing patients who were alive at the end of the study, and \textit{dead} on \textbf{75} cards representing patients who were not. Then, we shuffle these cards and split them into two groups: one group of size \textbf{69} representing treatment, and another group of size \textbf{34} representing control. We calculate the difference between the proportion of \textit{dead} cards in the control and treatment groups (control - treatment), this is just so we have positive observed value, and record this value. We repeat this many times to build a distribution centered at \textbf{zero}. Lastly, we calculate the fraction of simulations where the simulated differences in proportions are \textbf{0.23} or \textbf{greater}. If this fraction of simulations, the empirical p-value, is low, we conclude that it is unlikely to have observed such an outcome by chance and that the null hypothesis should be rejected in favor of the alternative.
 \end{adjustwidth}
 
 Next we will perform the simulation and use results to decide the effectiveness of the transplant program.
 
-d.  Find observed value.
+d.  Find observed value of the test statistic, which we decided to use the difference in proportions.
 
 ```{r}
 obs<-diffprop(outcome~group,data=heart)
@@ -152,7 +153,7 @@ obs
 ```
 
 
-e. Simulate 1000 values by using `shuffle` on group.
+e. Simulate 1000 values of the test statistic by using `shuffle()` on the variable `group`.
 
 ```{r}
 set.seed(1213)
@@ -160,15 +161,19 @@ results <- do(1000)*diffprop(outcome~shuffle(group),data=heart)
 ```
 
 
-f. Plot distribution of results.   
+f. Plot distribution of results. Include a vertical line for the observed value. Clean up the plot as if you were presenting to a decision maker.
 
 ```{r warning=FALSE}
 results %>%
-  gf_histogram(~diffprop) %>%
-  gf_vline(xintercept =obs )
+  gf_histogram(~diffprop,xlab="Difference in proportions",ylab="Count",
+               title="Stanford Heart Study",
+               subtitle="Distribution of difference between control and treatment groups") %>%
+  gf_vline(xintercept =obs ) %>%
+  gf_theme(theme_classic())
+  
 ```
 
-g. Find p-value.
+g. Find p-value. Think carefully about what more extreme would mean.
 
 ```{r}
 results %>%

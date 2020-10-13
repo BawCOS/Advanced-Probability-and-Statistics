@@ -122,7 +122,7 @@ $$
 \int_{10}^{x} \frac{-t}{200}+\frac{3}{20} \diff t = \frac{-t^2}{400}+\frac{3t}{20}\bigg|_{10}^x = \frac{-x^2}{400}+\frac{3x}{20} - \frac{5}{4} 
 $$
 
-c. o use the cdf to simulate random variables from this distribution, we need the inverse of the cdf which means we have to solve a quadratic equation. We can do this mathematically or just use the function `uniroot()`. So first, we will make sure we understand how to use `uniroot()`. 
+c. To use the cdf to simulate random variables from this distribution, we need the inverse of the cdf which means we have to solve a quadratic equation. We can do this mathematically or just use the function `uniroot()`. So first, we will make sure we understand how to use `uniroot()`. 
 
 As a check, we know the median of the distribution is approximately 15.857. Here is code to show that 15.857 is approximately the median. We are integrating the pdf from 10 to 15.857 to confirm that this is 0.5.
 
