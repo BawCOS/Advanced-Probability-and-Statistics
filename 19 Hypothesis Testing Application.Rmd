@@ -50,7 +50,7 @@ An experiment conducted by the \textit{MythBusters}, a science entertainment TV 
 
 The data is in the file "yawn.csv".
 
-a. What are the hypotheses?  
+a. What are the hypotheses?
 b. Calculate the observed difference between the yawning rates under the two scenarios. Yes we are giving you the test statistic.
 c. Estimate the p-value using randomization.
 d. Plot the empirical sampling distribution.

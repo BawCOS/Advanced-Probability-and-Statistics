@@ -2,6 +2,7 @@
 title: "Hypothesis Testing Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -102,6 +103,7 @@ The p-value is much smaller! The test statistic matters in terms of efficiency o
 
 Based on our data, if there were really no difference in the distribution of lengths of commercials in 30 minute shows between basic and premium channels then the probability of finding our observed difference of means is 0.005. Since this is less than our significance level of 0.05, we reject the null in favor of the alternative that the basic channel has longer commercials.
 
+\pagebreak
 
 \indent 2. Is yawning contagious? 
 
@@ -140,7 +142,7 @@ yawn <- read_csv("data/yawn.csv")
 glimpse(yawn)
 ```
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(yawn)
 ```
 

@@ -217,8 +217,21 @@ Looks like it has the potential to be unbiased. We would need to investigate oth
 \indent 5. Find a maximum likelihood estimator for $\theta$ when $X\sim\textsf{Unif}(0,\theta)$. Compare this to the method of moments estimator we found. Hint: Do not take the derivative of the likelihood function. 
 
 $$
-L(\theta;\boldsymbol{x})={1\over \theta^n}, \hspace{0.5cm} \mbox{only if all }x_i\leq \theta
+L(\theta;\boldsymbol{x})=\frac{1}{\theta^n}, \hspace{0.5cm} \mbox{only if all }x_i\leq \theta
 $$
+
+A better way to write this is so as to see the answer is to let $M =max(x_i)$, then:
+
+$$
+L(\theta;\boldsymbol{x})=\left\{\begin{array}{ll} 0, & \theta < M= max(x_i) \\
+\frac{1}{\theta^n}, & \theta \geq M = max(x_i) \\
+\end{array}\right. 
+$$
+Figure 1 is a plot of this likelihood function and you can see that the maximum occurs at the maximum observed data point. 
+
+```{r echo=F,fig.align='center',fig.height=2,fig.width=3,fig.cap="A graph of the likelihood function"}
+include_graphics("figures/L_theta.png")
+```
 
 Recall that $f(x_i;\theta)={1\over \theta}$ if $x_i\in [0,\theta]$ and 0 elsewhere. And since the likelihood function is simply the product of these pdfs, if any $x_i$ is beyond $\theta$, then the entire likelihood function is 0. 
 

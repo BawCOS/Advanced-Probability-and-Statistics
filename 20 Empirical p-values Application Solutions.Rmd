@@ -2,6 +2,7 @@
 title: "Empirical p-values Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -74,7 +75,7 @@ yawn <- read_csv("data/yawn.csv")
 glimpse(yawn)
 ```
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(yawn)
 ```
 
@@ -86,7 +87,7 @@ The random variable is the number of control patients that yawned from a populat
 
 c. Find the p-value using the hypergeometric distribution.
 
-In this case we want to find $\Prob(X \leq 11)$ and double it since it is a two-sided test.
+In this case we want to find $\Prob(X \leq 4)$ and double it since it is a two-sided test.
 
 ```{r}
 phyper(4,16,34,14)
@@ -94,7 +95,7 @@ phyper(4,16,34,14)
 
 d. Plot the the sampling distribution.
 
-```{r}
+```{r warning=FALSE}
 gf_dist("hyper",m=16,n=34,k=14) %>%
   gf_vline(xintercept =4,color="red" )
 ```
@@ -108,6 +109,7 @@ f. Compare your results with the randomization test.
 
 This result is essentially the same as the randomization test.
 
+\pagebreak
 
 \indent 2. Repeat the golf ball example using a different test statistic.
 
@@ -117,7 +119,7 @@ a. State the null and alternative hypotheses.
 
 We think that the numbers are not all equally likely. The question of one-sided versus two-sided is not relevant in this test, you will see this when we write the hypotheses. 
 \begin{itemize}
-\item[$H_0$:] All of the numbers are equally likely.$\pi_1 = \pi_2 = \pi_3 = \pi_4$.Or $\pi_1 = \frac{1}{4}, \pi_2 =\frac{1}{4}, \pi_3 =\frac{1}{4}, \pi_4 =\frac{1}{4}$
+\item[$H_0$:] All of the numbers are equally likely.$\pi_1 = \pi_2 = \pi_3 = \pi_4$ or $\pi_1 = \frac{1}{4}, \pi_2 =\frac{1}{4}, \pi_3 =\frac{1}{4}, \pi_4 =\frac{1}{4}$
 \item[$H_A$:] The is some other distribution of percentages in the population. At least one population proportion is not $\frac{1}{4}$.
 \end{itemize}
 
@@ -168,6 +170,8 @@ prop1(~(max>=obs),data=results)
 d. Draw a conclusion.   
 
 Since this p-value is larger than 0.05, we do not reject the null hypothesis. That is, based on our data, we do not find statistically significant evidence against the claim that the number on the golf balls are equally likely. 
+
+\pagebreak
 
 \indent 3. Body Temperature
 

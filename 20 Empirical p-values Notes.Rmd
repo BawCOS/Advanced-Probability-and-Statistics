@@ -2,6 +2,7 @@
 title: "Empirical p-values Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -32,16 +33,16 @@ library(tidyverse)
 \newcommand{\diff}{\,\mathrm{d}}
 
 
-## Objectives
+## Objective
 
-1) Conduct a hypothesis test, all four steps, using probability models.
+Conduct a hypothesis test, all four steps, using probability models.
 
 
 ## Hypothesis testing using probability models  
 
-As a lead into the central limit theorem and mathematical sampling distributions, we will look at a class of hypothesis testing where the null hypothesis specifies a probability model. In some cases we can get an exact answer and in others we will use simulation to get an empirical p-value. By the way, the permutation test is an exact test, since the complete enumeration of all permutations is difficult we approximate it with randomization.  
+As a lead into the central limit theorem and mathematical sampling distributions, we will look at a class of hypothesis testing where the null hypothesis specifies a probability model. In some cases we can get an exact answer and in others we will use simulation to get an empirical p-value. By the way, the permutation test is an exact test, the p-value is not an approximation. However, since the complete enumeration of all permutations is difficult, we approximate it with randomization, simulation.  
 
-Let's use three examples to illustrate.
+Let's use three examples to illustrate the ideas of this lesson.
 
 ## Tappers and listeners
 
@@ -69,7 +70,7 @@ There is only one variable, if the listener is correct.
 
 In Newton's study, only 42, (we changed the number to make this problem more interesting from an educational perspective) out of 120 listeners ($\hat{p} = 0.35$) were able to guess the tune! From the perspective of the null hypothesis, we might wonder, how likely is it that we would get this result from chance alone? That is, what's the chance we would happen to see such a small fraction if $H_0$ were true and the true correct-guess rate is 0.50?
 
-Now before we use simulation, let's frame this as a probability model. The random variable $X$ is the number of correct our of 120. If the observations are independent and the probability of success is constant then we could use a binomial model. We can't answer the validity of these assumptions without knowing more about the experiment, the subjects, and the data collection. For educational purposes, we will assume they are valid. Thus our test statistic is the number of successes. The observed value is 9.
+Now before we use simulation, let's frame this as a probability model. The random variable $X$ is the number of correct out of 120. If the observations are independent and the probability of success is constant then we could use a binomial model. We can't answer the validity of these assumptions without knowing more about the experiment, the subjects, and the data collection. For educational purposes, we will assume they are valid. Thus our test statistic is the number of successes in 120 trials. The observed value is 9.
 
 ### Step 3 - Determine the p-value.
 
@@ -85,7 +86,7 @@ That is a small p-value.
 
 Based on our data, if the listeners were guessing correct 50\% of the time, there is less than a $0.0013$ probability that only 42 or less or 78 or more listeners would get it right. This is much less than 0.05, so we reject that the listeners are guessing correctly half of the time.
 
-This decision region looks like the pmf below, any observed value in the red lines would be consistent with the null hypothesis. Any value at the red or more extreme would be in the rejection region.
+This decision region looks like the pmf below, any observed values inside the red boundary lines would be consistent with the null hypothesis. Any values at the red line or more extreme would be in the rejection region.
 
 ```{r warning=FALSE}
 gf_dist("binom",size=120,prob=.5,xlim=c(50,115)) %>%
@@ -102,7 +103,7 @@ We will repeat the analysis using an empirical p-value. Step 1 is the same.
 
 ### Step 2 - Compute a test statistic. 
 
-We will use the proportion of listeners that get the song correct. 
+We will use the proportion of listeners that get the song correct instead of the number, this is a minor change since we are simply dividing by 120. 
 
 ```{r}
 obs<-42/120
@@ -141,7 +142,7 @@ head(results)
 ```{r warning=FALSE}
 results %>%
   gf_histogram(~mean) %>%
-  gf_vline(xintercept =obs,color="red")
+  gf_vline(xintercept =c(obs,1-obs),color="red")
 ```
 
 Notice how the sampling distribution is centered at 0.5 and looks symmetrical.
@@ -154,7 +155,7 @@ The p-value is found using the `prop1` function, in this problem we really need 
 
 ### Step 4 - Draw a conclusion 
 
-In these 10,000 simulations, we see vary few results close to 0.35.
+In these 10,000 simulations, we see vary few results close to 0.35. Based on our data, if the listeners were guessing correct 50\% of the time, there is less than a $0.0012$ probability that only 35% or less or 65% or more listeners would get it right. This is much less than 0.05, so we reject that the listeners are guessing correctly half of the time.
 
 >**Exercise**:
 In the context of the experiment, what is the p-value for the hypothesis test?^[The p-value is the chance of seeing the data summary or something more in favor of the alternative hypothesis given that guessing has a probability of success of 0.5. Since we didn't observe many even close to just 42 correct, the p-value will be small, around 1-in-1000 or smaller.]
@@ -225,9 +226,9 @@ Notice that in these first two examples, we had a test of a single proportion an
 
 ## Golf Balls  
 
-Out last example will be interesting because the distribution has multiple parameters and a test metrics is not obvious at this point.
+Out last example will be interesting because the distribution has multiple parameters and a test metric is not obvious at this point.
 
-The owners of a residence located along a golf course collected the first 500 golf balls that landed on their property. Most golf balls are labeled with the make of the golf ball and a number, for example "Nike 1" or "Titleist 3". the numbers are typically between 1 and 4, and the owners of the residence wondered if these numbers are equally likely (at least among golf balls used by golfers of poor enough quality that they lose them in the yards of the residences along the fairway.)
+The owners of a residence located along a golf course collected the first 500 golf balls that landed on their property. Most golf balls are labeled with the make of the golf ball and a number, for example "Nike 1" or "Titleist 3". The numbers are typically between 1 and 4, and the owners of the residence wondered if these numbers are equally likely (at least among golf balls used by golfers of poor enough quality that they lose them in the yards of the residences along the fairway.)
 
 We will use a significance level of $\alpha = 0.05$ since there is no reason to favor one error over the other.
 
@@ -235,7 +236,7 @@ We will use a significance level of $\alpha = 0.05$ since there is no reason to 
 
 We think that the numbers are not all equally likely. The question of one-sided versus two-sided is not relevant in this test, you will see this when we write the hypotheses. 
 \begin{itemize}
-\item[$H_0$:] All of the numbers are equally likely.$\pi_1 = \pi_2 = \pi_3 = \pi_4$.Or $\pi_1 = \frac{1}{4}, \pi_2 =\frac{1}{4}, \pi_3 =\frac{1}{4}, \pi_4 =\frac{1}{4}$
+\item[$H_0$:] All of the numbers are equally likely.$\pi_1 = \pi_2 = \pi_3 = \pi_4$ Or $\pi_1 = \frac{1}{4}, \pi_2 =\frac{1}{4}, \pi_3 =\frac{1}{4}, \pi_4 =\frac{1}{4}$
 \item[$H_A$:] The is some other distribution of percentages in the population. At least one population proportion is not $\frac{1}{4}$.
 \end{itemize}
 
@@ -258,7 +259,7 @@ write_csv(golf_balls,"data/golf_balls.csv")
 golf_balls <- read_csv("data/golf_balls.csv")
 ```
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 inspect(golf_balls)
 ```
 
@@ -293,14 +294,14 @@ obs
 
 We don't know the distribution of our test statistic so we will use simulation. We will simulate data from a multinomial under the null hypothesis and calculate a new value of the test statistic. We will repeat this 10000 times and this we give us an estimate of the sampling distribution.
 
-We will use the `sample()` function again. We are only using a sample size of 12 to keep the printout reasonable.
+We will use the `sample()` function again. To help us understand and build the code, We are only using a sample size of 12 to keep the printout reasonable and easy to read.
 
 ```{r}
 set.seed(3311)
 diff(range(table(sample(1:4,size=12,replace=TRUE))))
 ```
 
-Notice this is not use `tidyverse` coding ideas. We don't think we need tibbles or dataframes so we went straight nested `R` code. You can break this code down by starting with the code in the center.
+Notice this is not using `tidyverse` coding ideas. We don't think we need tibbles or dataframes so we went with straight nested `R` code. You can break this code down by starting with the code in the center.
 
 ```{r}
 set.seed(3311)
@@ -317,7 +318,7 @@ set.seed(3311)
 range(table(sample(1:4,size=12,replace=TRUE)))
 ```
 
-Let's simulated the data under the null hypothesis.
+We are now ready to ramp up to the full problem. Let's simulated the data under the null hypothesis. We are sampling 486 golf balls with the numbers 1 through 4 on them. Each number is equally likely. We then find the range, our test statistic. Finally we repeat this 10,000 to get an estimate of the sampling distribution of our test statistic. 
 
 ```{r}
 results <- do(10000)*diff(range(table(sample(1:4,size=486,replace=TRUE))))
@@ -334,7 +335,7 @@ results %>%
 
 Notice how this distribution is skewed to the right.
 
-The p-value is 0.14, this value is not extreme in either direction. The residents may want to repeat the study with more data.
+The p-value is 0.14, this value is greater than 0.05 so we fail to reject. However, it is not that much greater than 0.05, so the residents may want to repeat the study with more data.
 
 ```{r}
 prop1(~(diff>=obs),data=results)
@@ -350,7 +351,7 @@ The test statistic we developed helped but it seems week because we did not use 
 
 ### Step 2 - Compute a test statistic. 
 
-If each number we equally likely, we would have 121.5 balls in each bin. We can find a test statistic by looking at the deviation from 121.5.
+If each number we equally likely, we would have 121.5 balls in each bin. We can find a test statistic by looking at the deviation in each cell from 121.5.
 
 ```{r}
 tally(~number,data=golf_balls) -121.5
@@ -367,7 +368,7 @@ This will be our test statistic.
 
 ### Step 3 - Determine the p-value.
 
-We will similar code from above with our new metric.
+We will use similar code from above with our new metric.
 
 ```{r}
 set.seed(9697)
@@ -385,7 +386,7 @@ results %>%
 
 Notice how this distribution is skewed to the right and our test statistic seems to be more extreme.
 
-The p-value is 0.014, this value is much smaller than our previous result. The test statistic matters as nothing about this problem has changed except the test statistic.
+The p-value is 0.014, this value is much smaller than our previous result. The test statistic matters in our decision process as nothing about this problem has changed except the test statistic.
 
 ```{r}
 prop1(~(sum>=obs),data=results)
