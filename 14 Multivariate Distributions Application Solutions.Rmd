@@ -206,7 +206,7 @@ $$
 \Prob(Y<3)=0.205+0.195+0.257=0.657
 $$
 
-d) Find the probability of fewer than 3 complaints given there is no rain. 
+d. Find the probability of fewer than 3 complaints given there is no rain. 
 $$
 \Prob(Y<3|X=0)=\frac{0.133+0.086+0.081}{0.4}=0.75
 $$

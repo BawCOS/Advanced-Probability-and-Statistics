@@ -71,7 +71,7 @@ b. Repeat part (a) with the $t$ distribution. Add the pdf of a standard normal r
 
 &nbsp;
 
-\indent 4. In this lesson, we have used the expression *degrees of freedom* a lot. What does this expression mean? When we have sample of size $n$, why are there $n-1$ degrees of freedom? Give a short concise answer (about one paragraph). You will likely have to do a little research on your own. 
+\indent 4. In this lesson, we have used the expression *degrees of freedom* a lot. What does this expression mean? When we have sample of size $n$, why are there $n-1$ degrees of freedom for the $t$ distribution? Give a short concise answer (about one paragraph). You will likely have to do a little research on your own. 
 
 
 &nbsp;

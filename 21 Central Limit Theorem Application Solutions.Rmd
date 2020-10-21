@@ -187,7 +187,7 @@ e. Draw a conclusion.
 Since the p-value is larger than 0.05, we do not reject the null hypothesis. That is, there is not enough evidence to show the nutrition label has incorrect information.
 
 ### Extra material
-If we had used a normal model from the CLT our p-value would have been close to the value from the $t$ because our sample size is large.
+If we had used a normal model based on the CLT our p-value would have been close to the value from the $t$ because our sample size is large.
 
 ```{r}
 pnorm(1.39,lower.tail = F)
@@ -200,7 +200,7 @@ pnorm(1.39,lower.tail = F)
 
 \indent 3. Exploration of the chi-squared and $t$ distributions. 
 
-a) In `R`, plot the pdf of a random variable with the chi-squared distribution with 1 degree of freedom. On the same plot, include the pdfs with degrees of freedom of 5, 10 and 50. Describe how the behavior of the pdf changes with increasing degrees of freedom. 
+a. In `R`, plot the pdf of a random variable with the chi-squared distribution with 1 degree of freedom. On the same plot, include the pdfs with degrees of freedom of 5, 10 and 50. Describe how the behavior of the pdf changes with increasing degrees of freedom. 
 
 scale_color_manual(name = 'data source', 
                      values =c('b'='blue','a'='orange'), 
@@ -218,7 +218,7 @@ gf_dist("chisq",df=1,col=1) %>%
 The "bump" moves to the rights as the degrees of freedom increase.
 
 
-b) Repeat part (a) with the $t$ distribution. Add the pdf of a standard normal random variable as well. What do you notice? 
+b. Repeat part (a) with the $t$ distribution. Add the pdf of a standard normal random variable as well. What do you notice? 
 
 ```{r warning=FALSE}
 gf_dist("t",df=1,col="black") %>%
@@ -235,9 +235,9 @@ As degrees of freedom increases, the $t$-distribution approaches the standard no
 
 &nbsp;
 
-\indent 4. In this lesson, we have used the expression *degrees of freedom* a lot. What does this expression mean? When we have sample of size $n$, why are there $n-1$ degrees of freedom? Give a short concise answer (about one paragraph). You will likely have to do a little research on your own. 
+\indent 4. In this lesson, we have used the expression *degrees of freedom* a lot. What does this expression mean? When we have sample of size $n$, why are there $n-1$ degrees of freedom for the $t$ distribution? Give a short concise answer (about one paragraph). You will likely have to do a little research on your own.  
 
-Answers will vary. One possible explanation is that the degrees of freedom represents the number of indpendent pieces of information. For example, you'll notice that in order to get an unbiased estimate of $\sigma^2$, we have to divide by $n-1$. This is because in order to estimate $\sigma^2$, we need to first estimate $\mu$, which is done by obtaining the sample mean. Once we know the sample mean, we only have $n-1$ pieces of independent information. For example, suppose we have a sample of size 10, and we know the sample mean. Once we are given the first 9 observations, we know exactly what the 10th observation must be. 
+Answers will vary. One possible explanation is that the degrees of freedom represents the number of independent pieces of information. For example, you'll notice that in order to get an unbiased estimate of $\sigma^2$, we have to divide by $n-1$. This is because in order to estimate $\sigma^2$, we need to first estimate $\mu$, which is done by obtaining the sample mean. Once we know the sample mean, we only have $n-1$ pieces of independent information. For example, suppose we have a sample of size 10, and we know the sample mean. Once we are given the first 9 observations, we know exactly what the 10th observation must be. 
 
 
 \indent 5. Deborah Toohey is running for Congress, and her campaign manager claims she has more than 50\% support from the district's electorate. Ms. Toohey's opponent claimed that Ms. Toohey has **less** than 50\%. Set up a hypothesis test to evaluate who is right.
@@ -256,12 +256,13 @@ c. What level of significance are you going to use?
 
 $\alpha = 0.05$
 
-d. What are the assumptions of this test?  
+d. What are the assumptions of this test?   
 
-i. The observations are independent.  
-ii. There are at least 10 votes for her and 10 against.
+- The observations are independent.   
 
-Because this is a simple random sample that includes fewer than 10\% of the population, the observations are independent. In a single proportion hypothesis test, the success-failure condition is checked using the null proportion, $p_0=0.5$: $np_0 = n(1-p_0) = 500\times 0.5 = 250 \geq 10$. With these conditions verified, the normal model may be applied to $\hat{p}$.
+- There are at least 10 votes for and 10 against.
+
+Because this is a simple random sample that includes fewer than 10\% of the population, the observations are independent. In a single proportion hypothesis test, the success-failure condition is checked using the null proportion, $p_0=0.5$: $np_0 = n(1-p_0) = 500\times 0.5 = 250 \geq 10$. With these conditions verified, the normal model based on the CLT may be applied to $\hat{p}$.
 
 e. Calculate the test statistic.
 
@@ -272,7 +273,7 @@ The test statistic is $\bar{x}=0.52$
 
 f. Calculate a p-value.
 
-Based on the normal model, we can compute a one-sided p-value and then double to get the correct p-vlaue.
+Based on the normal model, we can compute a one-sided p-value and then double to get the correct p-value.
 
 The standard error can be computed. The null value is used again here, because this is a hypothesis test for a single proportion with the specified value for the probability of success. 
 
