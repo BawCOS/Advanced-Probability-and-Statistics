@@ -37,7 +37,7 @@ library(mosaicCalc)
 
 # Exercises
 
-\indent 1. Let $X$ and $Y$ be continuous random variables with joint pmf: 
+\indent 1. Let $X$ and $Y$ be continuous random variables with joint pdf: 
 $$
 f_{X,Y}(x,y)=x + y
 $$

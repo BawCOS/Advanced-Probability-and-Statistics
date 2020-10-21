@@ -195,7 +195,7 @@ sim_exercise <- tibble(T1=T(runif(10000)),T2=T(runif(10000)))
 
 g. Do a numerical summary of the data and plot a density plot of your exercise times to give us confidence that we simulated the process correctly.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(sim_exercise)
 ```
 

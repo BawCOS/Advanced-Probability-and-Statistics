@@ -83,27 +83,49 @@ inspect(yawn)
 tally(~outcome+group,data=yawn,margins = TRUE)
 ```
 
-The random variable is the number of control patients that yawned from a population of 16 control patients, 34 treatment patients, where a total of 14 survived.
+The random variable is the number of control patients that yawned from a population of 16 control patients, 34 treatment patients, where a total of 14 yawned.
 
 c. Find the p-value using the hypergeometric distribution.
 
 In this case we want to find $\Prob(X \leq 4)$ and double it since it is a two-sided test.
 
+
 ```{r}
 phyper(4,16,34,14)
 ```
+
+Doubling this will take us above 1, which is not valid. You might have seen this when we did the randomization test for this problem in a previous lesson. Again, since the hypergeometric is not symmetrical, we can't just double the p-value from the one-sided test. We could simply report the result as $\approx 1$. If we look at a plot of the pmf, see the figure, you see that $X=4$ is the highest probability outcome. Thus the p-value is 1 if we sum all the values less than or equal to $P(X=4)$. 
+
+
+```{r}
+gf_dist("hyper",m=16,n=34,k=14) %>%
+  gf_hline(yintercept = dhyper(4,16,34,14),color="red") %>%
+  gf_labs(title="Hypergeometric pmf",subtitle="Red line is P(X=4)",y="Probability")
+```
+
+
+```{r}
+fisher.test(tally(~group+outcome,data=yawn))
+```
+```{r}
+temp<-dhyper(0:14,16,34,14)
+sum(temp[temp<=dhyper(4,16,34,14)])
+```
+
 
 d. Plot the the sampling distribution.
 
 ```{r warning=FALSE}
 gf_dist("hyper",m=16,n=34,k=14) %>%
-  gf_vline(xintercept =4,color="red" )
+  gf_vline(xintercept =4,color="red" ) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Hypergeometric pmf",subtitle="Red line is X=4",y="Probability")
 ```
 
 
 e. Determine the conclusion of the hypothesis test.  
 
-Since p-value, 0.54, is high, larger than 0.05, we fail to reject the null hypothesis of yawning is not contagious. The data do not provide convincing evidence that people are more likely to yawn if a person near them yawns.
+Since p-value, 1, is high, larger than 0.05, we fail to reject the null hypothesis of yawning is not contagious. The data do not provide convincing evidence that people are more likely to yawn if a person near them yawns.
 
 f. Compare your results with the randomization test. 
 
@@ -224,7 +246,7 @@ temperature %>%
   count(temperature==98.6)
 ```
 
-We have ten observations each to 10, we will split this and make 5 have a positive difference and 5 have a negative difference. 
+We have ten observations equal to 98.6, we will split this and make 5 have a positive difference and 5 have a negative difference. 
 
 Next determine that number of subjects that have a positive difference.
 
@@ -255,7 +277,7 @@ Our p-value is 0.000071.
 
 f. Draw a conclusion.
 
-Based our data, if the true mean body temperature is 98.6, then the probability of have 86 or more subjects out 130 with temperatures below this 0.000071. This is too unlikely so we reject the hypothesis that the average body temperature is 98.6.
+Based on our data, if the true mean body temperature is 98.6, then the probability of having 86 or more subjects out of 130 with temperatures below this is 0.000071. This is too unlikely so we reject the hypothesis that the average body temperature is 98.6.
 
 
 This is a clever way to test the claim. Make sure you understand how we solved. In the coming lessons we will show you alternative ways to attack the problem.

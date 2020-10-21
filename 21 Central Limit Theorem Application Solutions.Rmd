@@ -2,6 +2,7 @@
 title: "Central Limit Theorem Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kriss Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:

@@ -35,12 +35,12 @@ library(tidyverse)
 
 ## Objective
 
-Conduct a hypothesis test, all four steps, using probability models.
+Conduct all four steps of a hypothesis test using probability models.
 
 
 ## Hypothesis testing using probability models  
 
-As a lead into the central limit theorem and mathematical sampling distributions, we will look at a class of hypothesis testing where the null hypothesis specifies a probability model. In some cases we can get an exact answer and in others we will use simulation to get an empirical p-value. By the way, the permutation test is an exact test, the p-value is not an approximation. However, since the complete enumeration of all permutations is difficult, we approximate it with randomization, simulation.  
+As a lead into the central limit theorem and mathematical sampling distributions, we will look at a class of hypothesis testing where the null hypothesis specifies a probability model. In some cases we can get an exact answer and in others we will use simulation to get an empirical p-value. By the way, a permutation test is an exact test; by this we mean we are finding all the possible permutations in the calculation of the p-value. However, since the complete enumeration of all permutations is often difficult, we approximate it with randomization, simulation. Thus the p-value from a randomization test is an approximation of the exact test.  
 
 Let's use three examples to illustrate the ideas of this lesson.
 
@@ -64,17 +64,17 @@ Is this a two-sided or one-sided hypothesis test? How many variables are in this
 
 The tappers think that listeners will guess the song 50\% of the time, so this is a two-sided test since we don't know before hand if listeners will be better or worse than this value. 
 
-There is only one variable, if the listener is correct.
+There is only one variable, is the listener correct?
 
 ### Step 2 - Compute a test statistic. 
 
 In Newton's study, only 42, (we changed the number to make this problem more interesting from an educational perspective) out of 120 listeners ($\hat{p} = 0.35$) were able to guess the tune! From the perspective of the null hypothesis, we might wonder, how likely is it that we would get this result from chance alone? That is, what's the chance we would happen to see such a small fraction if $H_0$ were true and the true correct-guess rate is 0.50?
 
-Now before we use simulation, let's frame this as a probability model. The random variable $X$ is the number of correct out of 120. If the observations are independent and the probability of success is constant then we could use a binomial model. We can't answer the validity of these assumptions without knowing more about the experiment, the subjects, and the data collection. For educational purposes, we will assume they are valid. Thus our test statistic is the number of successes in 120 trials. The observed value is 9.
+Now before we use simulation, let's frame this as a probability model. The random variable $X$ is the number of correct out of 120. If the observations are independent and the probability of success is constant then we could use a binomial model. We can't answer the validity of these assumptions without knowing more about the experiment, the subjects, and the data collection. For educational purposes, we will assume they are valid. Thus our test statistic is the number of successes in 120 trials. The observed value is 42.
 
 ### Step 3 - Determine the p-value.
 
-We now want to find the p-value from $\Prob(X \leq 48)$ given the null hypothesis is true, that the probability of success is 0.50. We will use `R` to get the one-sided value and then double.
+We now want to find the p-value as $2 \cdot \Prob(X \leq 42)$ where $X$ is a binomial with $p=0.5$ and $n=120$. Again, the p-value is the probability of the data or more extreme given the null hypothesis is true. Here the null hypothesis being true implies that the probability of success is 0.50. We will use `R` to get the one-sided p-value and then double to get the p-value for the problem. We selected $\Prob(X \leq 42)$ because more extreme means the observed values and values further from the value you would get if the null hypothesis were true, which is 60 for this problem.
 
 ```{r}
 2*pbinom(42,120,prob=0.5)
@@ -155,7 +155,7 @@ The p-value is found using the `prop1` function, in this problem we really need 
 
 ### Step 4 - Draw a conclusion 
 
-In these 10,000 simulations, we see vary few results close to 0.35. Based on our data, if the listeners were guessing correct 50\% of the time, there is less than a $0.0012$ probability that only 35% or less or 65% or more listeners would get it right. This is much less than 0.05, so we reject that the listeners are guessing correctly half of the time.
+In these 10,000 simulations, we see very few results close to 0.35. Based on our data, if the listeners were guessing correct 50\% of the time, there is less than a $0.0012$ probability that only 35% or less or 65% or more listeners would get it right. This is much less than 0.05, so we reject that the listeners are guessing correctly half of the time.
 
 >**Exercise**:
 In the context of the experiment, what is the p-value for the hypothesis test?^[The p-value is the chance of seeing the data summary or something more in favor of the alternative hypothesis given that guessing has a probability of success of 0.5. Since we didn't observe many even close to just 42 correct, the p-value will be small, around 1-in-1000 or smaller.]
@@ -197,7 +197,7 @@ tally(~group+outcome,data=thinner,margins = TRUE)
 
 ### Step 2 - Compute a test statistic. 
 
-In this case the data is from a **hypergeometric** distribution, this is really a binomial from a finite population. We can calculate the p-value using this probability distribution. The random variable is the number of control patients that survived from a population of 50 control patients, 40 treatment patients, where a total of 25 survived.
+In this case the data is from a **hypergeometric** distribution, this is really a binomial from a finite population. We can calculate the p-value using this probability distribution. The random variable is the number of control patients that survived from a population of 90, where 50 are control patients and 40 are treatment patients, and where a total of 25 survived.
 
 ### Step 3 - Determine the p-value.
 
@@ -206,14 +206,46 @@ In this case we want to find $\Prob(X \leq 11)$ and double it since it is a two-
 ```{r}
 2*phyper(11,50,40,25)
 ```
+Note: I could have picked the lower right cell as the reference cell. But now I want the $\Prob(X \geq 14)$ with the appropriate change in parameter values. Notice we get the same answer.
 
-Or since `R` has a built in function, `fisher.test`, we could use that.
+```{r}
+2*(1-phyper(13,40,50,25))
+```
+
+We could the same thing for the other two cells.
+
+```{r}
+2*phyper(26,40,50,65)
+```
+
+
+```{r}
+2*(1-phyper(38,50,40,65))
+```
+
+
+Or `R` has a built in function, `fisher.test()`, that we could use.
 
 ```{r}
 fisher.test(tally(~group+outcome,data=thinner))
 ```
 
-The p-value is slightly different since the `fisher.test` is not symmetric and finds and adds all probabilities less than or equal to $\Prob(X = 11)$.
+The p-value is slightly different since the **hypergeometric** is not symmetric. Doubling the p-value from the single side result is not quite right. The algorithm in `fisher.test()` finds and adds all probabilities less than or equal to value of $\Prob(X = 11)$. This is the correct p-value.
+
+```{r}
+gf_dist("hyper",m=50,n=40,k=25) %>%
+  gf_hline(yintercept = dhyper(11,50,40,25),color="red") %>%
+  gf_labs(title="Hypergeometric pmf",subtitle="Red line is P(X=11)",y="Probability")
+```
+
+This is how `fisher.test()` is calculating the p-value:
+
+```{r}
+temp<-dhyper(0:25,50,40,25)
+sum(temp[temp<=dhyper(11,50,40,25)])
+```
+
+
 
 The randomization test in the last lesson yielded a p-value of 0.257 so all tests are consistent.
 
@@ -226,7 +258,7 @@ Notice that in these first two examples, we had a test of a single proportion an
 
 ## Golf Balls  
 
-Out last example will be interesting because the distribution has multiple parameters and a test metric is not obvious at this point.
+Our last example will be interesting because the distribution has multiple parameters and a test metric is not obvious at this point.
 
 The owners of a residence located along a golf course collected the first 500 golf balls that landed on their property. Most golf balls are labeled with the make of the golf ball and a number, for example "Nike 1" or "Titleist 3". The numbers are typically between 1 and 4, and the owners of the residence wondered if these numbers are equally likely (at least among golf balls used by golfers of poor enough quality that they lose them in the yards of the residences along the fairway.)
 
@@ -237,10 +269,12 @@ We will use a significance level of $\alpha = 0.05$ since there is no reason to 
 We think that the numbers are not all equally likely. The question of one-sided versus two-sided is not relevant in this test, you will see this when we write the hypotheses. 
 \begin{itemize}
 \item[$H_0$:] All of the numbers are equally likely.$\pi_1 = \pi_2 = \pi_3 = \pi_4$ Or $\pi_1 = \frac{1}{4}, \pi_2 =\frac{1}{4}, \pi_3 =\frac{1}{4}, \pi_4 =\frac{1}{4}$
-\item[$H_A$:] The is some other distribution of percentages in the population. At least one population proportion is not $\frac{1}{4}$.
+\item[$H_A$:] There is some other distribution of percentages in the population. At least one population proportion is not $\frac{1}{4}$.
 \end{itemize}
 
-Notice that we switched to using $\pi$ instead of $p$ for the population parameter. There is no reason other than to make you aware that both are used. This problem is an extension of the binomial, instead of two outcomes, there are four outcomes. This is called a multinomial distribution. You can read more about it if you like, but our methods will not make it necessary to learn the probability mass function.
+Notice that we switched to using $\pi$ instead of $p$ for the population parameter. There is no reason other than to make you aware that both are used. 
+
+This problem is an extension of the binomial, instead of two outcomes, there are four outcomes. This is called a multinomial distribution. You can read more about it if you like, but our methods will not make it necessary to learn the probability mass function.
 
 
 Of the 500 golf balls collected, 486 of them had a number between 1 and 4. Let's get the data from `golf_balls.csv".
@@ -294,14 +328,14 @@ obs
 
 We don't know the distribution of our test statistic so we will use simulation. We will simulate data from a multinomial under the null hypothesis and calculate a new value of the test statistic. We will repeat this 10000 times and this we give us an estimate of the sampling distribution.
 
-We will use the `sample()` function again. To help us understand and build the code, We are only using a sample size of 12 to keep the printout reasonable and easy to read.
+We will use the `sample()` function again to simulate the distribution of numbers under the null hypothesis. To help us understand the process and build the code, we are only initially using a sample size of 12 to keep the printout reasonable and easy to read.
 
 ```{r}
 set.seed(3311)
 diff(range(table(sample(1:4,size=12,replace=TRUE))))
 ```
 
-Notice this is not using `tidyverse` coding ideas. We don't think we need tibbles or dataframes so we went with straight nested `R` code. You can break this code down by starting with the code in the center.
+Notice this is not using `tidyverse` coding ideas. We don't think we need tibbles or data frames so we went with straight nested `R` code. You can break this code down by starting with the code in the center.
 
 ```{r}
 set.seed(3311)
@@ -316,6 +350,12 @@ table(sample(1:4,size=12,replace=TRUE))
 ```{r}
 set.seed(3311)
 range(table(sample(1:4,size=12,replace=TRUE)))
+```
+
+
+```{r}
+set.seed(3311)
+diff(range(table(sample(1:4,size=12,replace=TRUE))))
 ```
 
 We are now ready to ramp up to the full problem. Let's simulated the data under the null hypothesis. We are sampling 486 golf balls with the numbers 1 through 4 on them. Each number is equally likely. We then find the range, our test statistic. Finally we repeat this 10,000 to get an estimate of the sampling distribution of our test statistic. 
@@ -347,11 +387,11 @@ Since this p-value is larger than 0.05, we do not reject the null hypothesis. Th
 
 ## Repeat with a different test statistic
 
-The test statistic we developed helped but it seems week because we did not use the information in all four cells. So let's devise a metric that does this. We will jump to step 2.
+The test statistic we developed helped but it seems weak because we did not use the information in all four cells. So let's devise a metric that does this. We will jump to step 2.
 
 ### Step 2 - Compute a test statistic. 
 
-If each number we equally likely, we would have 121.5 balls in each bin. We can find a test statistic by looking at the deviation in each cell from 121.5.
+If each number were equally likely, we would have 121.5 balls in each bin. We can find a test statistic by looking at the deviation in each cell from 121.5.
 
 ```{r}
 tally(~number,data=golf_balls) -121.5
@@ -380,7 +420,7 @@ results %>%
   gf_histogram(~sum) %>%
   gf_vline(xintercept = obs,color="red") %>%
   gf_labs(title="Sampling Distribution of Absolute Deviations",subtitle="Multinomial with equal probability",
-          x="Range") %>%
+          x="Absolute deviations") %>%
   gf_theme(theme_classic)
 ```
 
@@ -400,7 +440,7 @@ Since this p-value is smaller than 0.05, we reject the null hypothesis. That is,
 
 In this lesson we used probability models to help us make decisions from data. This lesson is different from the randomization section in that randomization had two variables and the null hypothesis of no difference. In the case of a 2 x 2 table, we were able to show that we could use the hypergeometric distribution to get an exact p-value under the assumptions of the model.
 
-We also found that the choice of test statistic has an impact on our decision. Even though we get valid p-values and the desired Type 1 error rate, if the information in the data is not used to its fullest, we will lose power. Remember power is the probability of rejecting when the alternative is true.
+We also found that the choice of test statistic has an impact on our decision. Even though we get valid p-values and the desired Type 1 error rate, if the information in the data is not used to its fullest, we will lose power. Note: **power** is the probability of rejecting the null hypothesis when the alternative hypothesis is true.
 
 In this next lesson we will learn about mathematical solutions to finding the sampling distribution. The key difference in all these methods is the selection of the test statistic and the assumptions made to derive a sampling distribution.
 
