@@ -37,14 +37,14 @@ library(tidyverse)
 
 1) Explain the central limit theorem and when you can use it for inference. 
 
-2) Conduct hypotheses test of a single mean and proportion using the CLT and `R`. 
+2) Conduct hypothesis tests of a single mean and proportion using the CLT and `R`. 
 
 3) Explain how the chi-squared and $t$ distributions relate to the normal distribution, where we use them, and describe the impact on the shape of the distribution when the parameters are changed. 
 
 
-## Central Limit Theorem
+## Central limit theorem
 
-We've encountered several research questions and associated hypotheses test so far in this block of material. While they differ in the settings, in their outcomes, and also in the technique we've used to analyze the data, many of them had something in common: for a certain class of test statistics, the general shape of the sampling distribution under the null hypothesis looks like a normal distribution.
+We've encountered several research questions and associated hypothesis tests so far in this block of material. While they differ in the settings, in their outcomes, and also in the technique we've used to analyze the data, many of them had something in common: for a certain class of test statistics, the general shape of the sampling distribution under the null hypothesis looks like a normal distribution.
 
 ### Null distribution
 
@@ -76,9 +76,9 @@ results %>%
 ```
 
 
-This similarity between the empirical and theoretical distributions is not a coincidence, but rather, is guaranteed by  mathematical theory. This lesson will be a little more mathematical than the previous lessons. However, the goal is to develop a tool that will help us find sampling distributions for test statistics and thus find p-values. This lesson is classical statistics often taught in AP high school classes as well as many introductory undergraduate statistics courses. Remember that before the advances of modern computing, these mathematical solutions were all that was available.
+This similarity between the empirical and theoretical distributions is not a coincidence, but rather, is guaranteed by  mathematical theory. This lesson will be a little more notation and algebra intensive than the previous lessons. However, the goal is to develop a tool that will help us find sampling distributions for test statistics and thus find p-values. This lesson is classical statistics often taught in AP high school classes as well as many introductory undergraduate statistics courses. Remember that before the advances of modern computing, these mathematical solutions were all that was available.
 
-### Theorem  
+### Theorem - cnetral limit theorem 
 
 Theorem: Let $X_1,X_2,...,X_n$ be a sequence of iid random variables from a distribution with mean $\mu$ and standard deviation $\sigma<\infty$. Then,
 $$
@@ -87,7 +87,7 @@ $$
 
 There is a lot going on in this theorem. First is that we are drawing independent samples from the same parent population. The central limit theorem (CLT) does not specify the form of this parent distribution, only that it has a finite variance. Then if we form a new random variable that involves the sum of the individual random variables, in this case the sample mean, the distribution of the new random variable is approximately normal. In the case of the sample mean, the expected value is the same mean as the parent population and the variance is the variance of the parent population divided by the sample size. Let's summarize these ideas.
 
-1. The process of creating a new random variable from the sum of independent identically distributed random variable is approximately normal.
+1. The process of creating a new random variable from the sum of independent identically distributed random variables is approximately normal.
 2. The approximation to a normal distribution improves with sample size $n$.
 3. The mean and variance of the sampling distribution are a function of the mean and variance of the parent population, the sample size $n$, and the form of the new random variable.
 
@@ -104,7 +104,8 @@ Suppose there is an upcoming election in Colorado and Proposition A is on the ba
 ```{r lesson23a}
 gf_dist("binom",size=1,prob=.65,plot_size=1) %>%
   gf_theme(theme_classic()) %>%
-  gf_theme(scale_x_continuous(breaks = c(0,1)))
+  gf_theme(scale_x_continuous(breaks = c(0,1))) %>%
+  gf_labs(y="Probability",x="X")
 ```
 
 This is clearly not normal, it is in fact discrete. The mean of $X$ is 0.65 and the standard deviation is $\sqrt{0.65(1-0.65)}=0.477$. 
@@ -116,7 +117,7 @@ set.seed(5501)
 results<-do(10000)*mean(rbinom(10,1,0.65))
 ```
 
-Since the we are summing iid variable, the distribution of the sampling distribution of the mean should look like a normal distribution. The mean should be close to 0.65, and the standard deviation $\sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{0.65(1-0.65)}{10}}=0.151$ 
+Since we are summing iid variables, the sampling distribution of the mean should look like a normal distribution. The mean should be close to 0.65, and the standard deviation $\sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{0.65(1-0.65)}{10}}=0.151$ 
 
 ```{r}
 favstats(~mean,data=results)
@@ -133,7 +134,7 @@ results %>%
 
 Note the sampling distribution of the sample mean has a bell-curvish shape, but with some skew to the left for this particular small sample size. That is why we state that the approximation improves with sample size. 
 
-As a way to determine the impact of the sample size on the inference to the population, let's record how often a sample of 10 failed to indicate support for the measure. (How often was the sample proportion less than or equal to 0.5?)
+As a way to determine the impact of the sample size on the inference to the population, let's record how often a sample of 10 failed to indicate support for the measure. (How often was the sample proportion less than or equal to 0.5?) Remember, in this artificial example, we know that the population is in favor of the measure, 65% approval. However, if our point estimate is below 0.5, we would be led to believe that the population does not support the measure. 
 
 ```{r}
 results %>%
@@ -185,7 +186,7 @@ In this example, we knew the true proportion of voters who supported the proposi
 
 Prior to using the CLT in hypothesis testing, we want to discuss other sampling distributions that are based on the CLT or normality assumptions. A large part of theoretical statistics has been mathematically deriving the distribution of sample statistics. In these methods we obtain a sample statistic, determine the distribution of that statistic under certain conditions, and then use that information to make a statement about the population parameter. 
 
-### Estimating variance
+### Chi-sqaured
 
 Recall that the central limit theorem tells us that for reasonably large sample sizes, $\bar{X}\overset{approx}{\sim}\textsf{Norm}(\mu,\sigma/\sqrt{n})$. However, this expression involves two unknowns: $\mu$ and $\sigma$. In the case of binary data, population variance is a function of population proportion ($\Var(X)=\pi(1-\pi)$), so there is really just one unknown. In the case of continuous data, the standard deviation would need to be estimated. 
 
@@ -209,7 +210,7 @@ This lemma can be used to draw inferences about $\sigma^2$. For a particular val
 
 In practice, one rarely estimates $\sigma$ for the purpose of inferring on $\sigma$. Typically, we are interested in estimating $\mu$ and we need to account for the added uncertainty in estimating $\sigma$ as well. That is what we will discuss in the next section. 
 
-### Estimating Mean
+### Student's t
 
 Let $X_1,X_2,...,X_n$ be an iid sequence of random variables, each with mean $\mu$ and standard deviation $\sigma$. Recall that the central limit theorem tells us that
 $$
@@ -317,7 +318,7 @@ binom.test(42,120)
 ```
 
 
-### Body Temperature
+### Body temperature
 
 We will repeat the body temperature analysis using the CLT. We will use $\alpha = 0.05$ 
 
@@ -358,7 +359,7 @@ We are over 5 standard deviation below the null hypothesis mean. We have some as
 
 #### Step 3 - Determine the p-value.
 
-We now want to find the p-value from $\Prob(t \leq -5.45)$ on 129 degrees of freedom.given the null hypothesis is true, which is that the probability of success is 0.50. We will use `R` to get the one-sided p-value.
+We now want to find the p-value from $\Prob(t \leq -5.45)$ on 129 degrees of freedom, given the null hypothesis is true, which is that the probability of success is 0.50. We will use `R` to get the one-sided p-value.
 
 ```{r}
 pt(-5.45,129)

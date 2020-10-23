@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  21 OCT 2020 10:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  21 OCT 2020 12:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -671,7 +671,7 @@ Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/unna
 med-chunk-3-1.pdf  used on input line 168.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-86.
+87.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -679,18 +679,18 @@ File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 186.
+(amsmath)                 on input line 187.
 
 [2 <./21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-3-1.pdf>]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 250.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 251.
 <21-Central-Limit-Theorem-Notes_files/figure-latex/lesson23a-1.pdf, id=126, 361
 .35pt x 216.81pt>
 File: 21-Central-Limit-Theorem-Notes_files/figure-latex/lesson23a-1.pdf Graphic
  file (type pdf)
 <use 21-Central-Limit-Theorem-Notes_files/figure-latex/lesson23a-1.pdf>
 Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/less
-on23a-1.pdf  used on input line 256.
+on23a-1.pdf  used on input line 258.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [3 <./21-Central-Limit-Theorem-Notes_files/figure-latex/lesson23a-1.pdf>]
 <21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-6-1.pdf, id=13
@@ -699,7 +699,7 @@ File: 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-6-1.pdf G
 raphic file (type pdf)
 <use 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-6-1.pdf>
 Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/unna
-med-chunk-6-1.pdf  used on input line 301.
+med-chunk-6-1.pdf  used on input line 303.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [4 <./21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-6-1.pdf>]
 <21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-9-1.pdf, id=15
@@ -708,7 +708,7 @@ File: 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-9-1.pdf G
 raphic file (type pdf)
 <use 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-9-1.pdf>
 Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/unna
-med-chunk-9-1.pdf  used on input line 338.
+med-chunk-9-1.pdf  used on input line 343.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 <21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-12-1.pdf, id=1
 54, 361.35pt x 216.81pt>
@@ -716,7 +716,7 @@ File: 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-12-1.pdf
 Graphic file (type pdf)
 <use 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-12-1.pdf>
 Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/unna
-med-chunk-12-1.pdf  used on input line 370.
+med-chunk-12-1.pdf  used on input line 375.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [5 <./21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-9-1.pdf>]
 [6 <./21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-12-1.pdf>
@@ -727,7 +727,7 @@ File: 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-13-1.pdf
 Graphic file (type pdf)
 <use 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-13-1.pdf>
 Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/unna
-med-chunk-13-1.pdf  used on input line 504.
+med-chunk-13-1.pdf  used on input line 509.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [8 <./21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-13-1.pdf>
 ] [9] [10] [11]
@@ -737,11 +737,11 @@ File: 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-23-1.pdf
 Graphic file (type pdf)
 <use 21-Central-Limit-Theorem-Notes_files/figure-latex/unnamed-chunk-23-1.pdf>
 Package pdftex.def Info: 21-Central-Limit-Theorem-Notes_files/figure-latex/unna
-med-chunk-23-1.pdf  used on input line 867.
+med-chunk-23-1.pdf  used on input line 872.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [12]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 8
-93.
+98.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -749,12 +749,12 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 df>] (./21-Central-Limit-Theorem-Notes.aux)
 Package rerunfilecheck Info: File `21-Central-Limit-Theorem-Notes.out' has not 
 changed.
-(rerunfilecheck)             Checksum: 3AC6766EF0DC8F6C988327B6E89B7965;2542.
+(rerunfilecheck)             Checksum: ECA67336D98EDE678A0528302F2F9A58;2611.
  ) 
 Here is how much of TeX's memory you used:
  11276 strings out of 481886
- 168554 string characters out of 5929965
- 450220 words of memory out of 5000000
+ 168576 string characters out of 5929965
+ 450232 words of memory out of 5000000
  27295 multiletter control sequences out of 15000+600000
  599906 words of font info for 76 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -785,7 +785,7 @@ exmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/Brad.Warner/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/Brad.Warner/AppD
 ata/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/Brad.
 Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on 21-Central-Limit-Theorem-Notes.pdf (13 pages, 495869 bytes).
+Output written on 21-Central-Limit-Theorem-Notes.pdf (13 pages, 496282 bytes).
 PDF statistics:
  346 PDF objects out of 1000 (max. 8388607)
  295 compressed objects within 3 object streams

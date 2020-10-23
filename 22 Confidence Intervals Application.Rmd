@@ -32,13 +32,16 @@ a. Create a 95\% confidence interval for the proportion of U.S. adults who live 
 
 b. Create a 99\% confidence interval for the proportion of U.S. adults who live with one or more chronic conditions. Also interpret the confidence interval in the context of the study.
 
-c. Identify each of the following statements as true or false. Provide an explanation to justify each of your answers.
+c. Identify each of the following statements as true or false. Provide an explanation to justify each of your answers.  
 
-i. We can say with certainty that the confidence interval from part a contains the true percentage of U.S. adults who suffer from a chronic illness.
-ii. If we repeated this study 1,000 times and constructed a 95\% confidence interval for each study, then approximately 950 of those confidence intervals would contain the true fraction of U.S. adults who suffer from chronic illnesses.
-iii. The poll provides statistically significant evidence (at the $\alpha = 0.05$ level) that the percentage of U.S. adults who suffer from chronic illnesses is not 50\%.
-iv. Since the standard error is 1.2\%, only 1.2\% of people in the study communicated uncertainty about their answer.
-v. Suppose the researchers had formed a one-sided hypothesis, they believed that the true proportion is less than 50\%. We could find an equivalent one-sided 95\% confidence interval by taking the upper bound of our two-sided 95\% confidence interval.
+
+- We can say with certainty that the confidence interval from part a contains the true percentage of U.S. adults who suffer from a chronic illness.
+- If we repeated this study 1,000 times and constructed a 95\% confidence interval for each study, then approximately 950 of those confidence intervals would contain the true fraction of U.S. adults who suffer from chronic illnesses.
+- The poll provides statistically significant evidence (at the $\alpha = 0.05$ level) that the percentage of U.S. adults who suffer from chronic illnesses is not 50\%.
+- Since the standard error is 1.2\%, only 1.2\% of people in the study communicated uncertainty about their answer.
+- Suppose the researchers had formed a one-sided hypothesis, they believed that the true proportion is less than 50\%. We could find an equivalent one-sided 95\% confidence interval by taking the upper bound of our two-sided 95\% confidence interval.
+
+\pagebreak 
 
 \indent 2. Vegetarian college students 
 
@@ -76,7 +79,8 @@ c. $H_{A}: \mu \ne \mu_{0}$, $n = 7$, $T = 0.83$
 d. $H_{A}: \mu > \mu_{0}$, $n = 28$, $T = 2.13$  
 
  
- 
+\pagebreak 
+
 \indent 6. Sleep habits of New Yorkers  
 
 New York is known as "the city that never sleeps". A random sample of 25 New Yorkers were asked how much sleep they get per night. Statistical summaries of these data are shown below. Do these data provide strong evidence that New Yorkers sleep more or less than 8 hours a night on average?

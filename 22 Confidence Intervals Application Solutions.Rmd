@@ -2,6 +2,7 @@
 title: "Confidence Interval Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -58,23 +59,23 @@ We are 99\% confident that 41.9\% to 48.1\% of U.S. adults live with one or more
 
 c. Identify each of the following statements as true or false. Provide an explanation to justify each of your answers.
 
-i. We can say with certainty that the confidence interval from part a contains the true percentage of U.S. adults who suffer from a chronic illness.
+- We can say with certainty that the confidence interval from part a contains the true percentage of U.S. adults who suffer from a chronic illness.
 
 False, we're only 95\% confident.
 
-ii. If we repeated this study 1,000 times and constructed a 95\% confidence interval for each study, then approximately 950 of those confidence intervals would contain the true fraction of U.S. adults who suffer from chronic illnesses.
+- If we repeated this study 1,000 times and constructed a 95\% confidence interval for each study, then approximately 950 of those confidence intervals would contain the true fraction of U.S. adults who suffer from chronic illnesses.
 
 True, this is the definition of the confidence level.
 
-iii. The poll provides statistically significant evidence (at the $\alpha = 0.05$ level) that the percentage of U.S. adults who suffer from chronic illnesses is not 50\%.
+- The poll provides statistically significant evidence (at the $\alpha = 0.05$ level) that the percentage of U.S. adults who suffer from chronic illnesses is not 50\%.
 
 True, the equivalent significance level of a two-sided hypothesis test for a 95\% confidence interval is indeed 2.5\%, and since the interval lies below 50\% this statement is correct.
 
-iv. Since the standard error is 1.2\%, only 1.2\% of people in the study communicated uncertainty about their answer.
+- Since the standard error is 1.2\%, only 1.2\% of people in the study communicated uncertainty about their answer.
 
 False, the 1.2\% measures the uncertainty associated with the sample proportion (the point estimate) not the uncertainty of individual observations, uncertainty in the sense of not being sure of one's answer to a survey question.
 
-v. Suppose the researchers had formed a one-sided hypothesis, they believed that the true proportion is less than 50\%. We could find an equivalent one-sided 95\% confidence interval by taking the upper bound of our two-sided 95\% confidence interval.
+- Suppose the researchers had formed a one-sided hypothesis, they believed that the true proportion is less than 50\%. We could find an equivalent one-sided 95\% confidence interval by taking the upper bound of our two-sided 95\% confidence interval.
 
 False. In constructing a one-sided confidence interval we need $\alpha$ to be in one tail. Only taking the upper value of a two-sided 95\% confidence interval leads to a 97.5\% one-sided confidence interval, a more conservative value.
 

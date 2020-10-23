@@ -2,6 +2,7 @@
 title: "Confidence Intervals Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -34,7 +35,7 @@ library(tidyverse)
 
 ## Objectives
 
-1) Using asymptotic method assuming a normal, obtain and interpret a confidence interval for an unknown parameter, based on a random sample. 
+1) Using asymptotic methods based on the normal distribution, construct and interpret a confidence interval for an unknown parameter. 
 
 2) Describe the relationships between confidence intervals, confidence level, and sample size. 
 
@@ -51,7 +52,7 @@ A plausible range of values for the population parameter is called a **confidenc
 If we report a point estimate, we probably will not hit the exact population parameter. On the other hand, if we report a range of plausible values -- a confidence interval -- we have a good shot at capturing the parameter.
 
 >**Exercise**:
-If we want to be very certain we capture the population parameter, should we use a wider interval or a smaller interval?^[If we want to be more certain we will capture the fish, we might use a wider net. Likewise, we use a wider confidence interval if we want to be more certain that we capture the parameter.]
+If we want to be very certain we capture the population parameter, should we use a wider interval or a smaller interval?^[If we want to be more certain we will capture the fish, we might use a wider net. Likewise, we use a wider confidence interval if we want to be more certain that we capture the parameter. A higher level of confidence implies a wider interval.]
 
 
 ### Constructing a confidence interval  
@@ -66,14 +67,19 @@ Generally, what you should know about building confidence intervals is laid out 
 
 3. Determine the distribution of your estimate or a function of your estimate. This tells us where our estimate *should* be if we knew the value of our parameter. (According to the central limit theorem, $\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim \textsf{Norm}(0,1)$ and $\frac{\bar{X}-\mu}{S/\sqrt{n}}\sim \textsf{t}(n-1)$). 
 
-4. Use this distribution to obtain a range of feasible values (confidence interval) for the parameter. (For $\mu$, we can solve for $\mu$ to find a reasonable range). 
+4. Use this distribution to obtain a range of feasible values (confidence interval) for the parameter. (For $\mu$, we can solve the equation in part 3 for $\mu$ to find a reasonable range). 
 
 > Constructing a 95\% confidence interval for the mean  
-When the sampling distribution of a point estimate can reasonably be modeled as normal, the point estimate we observe will be within 1.96 standard errors of the true value of interest about 95\% of the time. Thus, a **95\% confidence interval** for such a point estimate can be constructed:  
+When the sampling distribution of a point estimate can reasonably be modeled as normal, the point estimate we observe will be within 1.96 standard errors of the true value,of interest about 95\% of the time. Thus, a **95\% confidence interval** for such a point estimate can be constructed:  
 
 $$ \hat{\theta} \pm\ 1.96 \times SE_{\hat{\theta}}$$
 
-We can be **95\% confident** this interval captures the true value.
+We can be **95\% confident** this interval captures the true value. The 1.96 can be found using the `qnorm()` function. if we want .95 in the middle, that leave 0.25 in each tail. Thus we use .975 in the `qnorm()` function.
+
+```{r}
+qnorm(.975)
+```
+
 
 >**Exercise**:  
 Compute the area between -1.96 and 1.96 for a normal distribution with mean 0 and standard deviation 1.  
@@ -89,7 +95,7 @@ $$
 \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\overset{approx}{\sim}\textsf{Norm}(0,1)
 $$
 
-Let $0\leq \alpha \leq 1$ with the confidence level being $1-\alpha$, yes $\alpha$ is the same as the significance level in hypothesis testing.. Then,
+If the significance level is $0\leq \alpha \leq 1$ then the confidence level is $1-\alpha$, yes $\alpha$ is the same as the significance level in hypothesis testing.. Then,
 $$
 \Prob\left(-z_{\alpha/2}\leq {\bar{X}-\mu\over \sigma/\sqrt{n}} \leq z_{\alpha/2}\right)=1-\alpha
 $$
@@ -121,7 +127,7 @@ Nonetheless, the above expression gives us a nice interval for "reasonable" valu
 
 A $(1-\alpha)*100\%$ *confidence interval for the mean* is given by:
 $$
-\mu\in\left(\bar{X}\pm z_{\alpha/2}{\sigma\over\sqrt{n}}\right)
+\mu\in\left(\bar{x}\pm z_{\alpha/2}{\sigma\over\sqrt{n}}\right)
 $$
 
 In most applications, the most common value of $\alpha$ is 0.05. In that case, to construct a 95% confidence interval, we would need to find $z_{0.025}$ which can be found quickly with `qnorm()`:
@@ -140,12 +146,12 @@ When inferring about the population mean, we usually will have to estimate the u
 
 Thus, when $\sigma$ is unknown, a $(1-\alpha)*100\%$ confidence interval for the mean is given by: 
 $$
-\mu\in\left(\bar{X}\pm t_{\alpha/2,n-1}{s\over\sqrt{n}}\right)
+\mu\in\left(\bar{x}\pm t_{\alpha/2,n-1}{s\over\sqrt{n}}\right)
 $$
 
 Similar to the case above, $t_{\alpha/2,n-1}$ can be found using the `qt()` function in `R`. 
 
-In practice, if $X$ is close to symmetrical and unimodal, we can relax the assumption of normality. Always look at your sample data. Outliers or skewness can be causes of concern. You can always run other methods that don't require the assumption of normality, and compare results.
+In practice, if $X$ is close to symmetrical and unimodal, we can relax the assumption of normality. Always look at your sample data. Outliers or skewness can be causes of concern. You can always run other methods that don't require the assumption of normality and compare results.
 
 For large sample sizes, the choice of using the normal distribution or the $t$ distribution is irrelevant since they are close to each other. The $t$ distribution requires you to use the degrees of freedom so be careful.
 
@@ -171,29 +177,31 @@ temperature %>%
 
 The 95% confidence interval for $\mu$ is $(98.12,98.38)$. I am 95% *confident* that $\mu$, the average human body temperature, is in this interval. Also, we could say that 95% of similarly constructed intervals will contain the true mean, $\mu$. 
 
-Remember that when we used this data in a the hypothesis test, the null hypothesis was $H_0$:] The average body temperature is 98.6 $\mu = 98.6$. This null hypothesized value is not in the interval, so we could reject the null hypothesis with this confidence interval. There is a link between hypothesis testing and confidence intervals.
+Remember that when we used this data in a the hypothesis test, the null hypothesis was $H_0$: The average body temperature is 98.6 $\mu = 98.6$. This null hypothesized value is not in the interval, so we could reject the null hypothesis with this confidence interval. There is a link between hypothesis testing and confidence intervals.
 
-We could also use ` `R` to find the confidence interval.
+We could also use `R` to find the confidence interval and conduct the hypothesis test. Read about the function `t_test()` in the help menu to determine why we used the `mu` option.
 
 ```{r}
-t_test(~temperature,data=temperature)
+t_test(~temperature,data=temperature,mu=98.6)
 ```
 
 Or if you just want the interval:
 
 ```{r}
-confint(t_test(~temperature,data=temperature))
+confint(t_test(~temperature,data=temperature,mu=98.6))
 ```
 
 In reviewing the hypothesis test for a single mean, you can see how this confidence interval was formed by *inverting* the test statistic.
 
 ### One-sided Intervals
 
-If you remember the hypothesis test for temperature in the central limit theorem lesson, you may be crying foul. That was a one-sided hypothesis test and we just conducted a two-sided test. So far, we have discussed only "two-sided" intervals. These intervals have an upper and lower bound. Typically, $\alpha$ is apportioned equally between the two tails. (Thus, we look for $Z_{\alpha/2}$.) 
+If you remember the hypothesis test for temperature in the central limit theorem lesson, you may be crying foul. That was a one-sided hypothesis test and we just conducted a two-sided test. So far, we have discussed only "two-sided" intervals. These intervals have an upper and lower bound. Typically, $\alpha$ is apportioned equally between the two tails. (Thus, we look for $z_{\alpha/2}$.) 
 
-In "one-sided" intervals, we only bound the interval on one side. We construct one-sided intervals when we are concerned with whether a parameter exceeds or stays below some threshold. Building a one-sided interval is similar to building two-sided intervals, except rather than dividing $\alpha$ into two, you simply apportion all of $\alpha$ to the relevant side. The difficult part is to determine if I need an upper bound or lower bound.
+In "one-sided" intervals, we only bound the interval on one side. We construct one-sided intervals when we are concerned with whether a parameter exceeds or stays below some threshold. Building a one-sided interval is similar to building two-sided intervals, except rather than dividing $\alpha$ into two, you simply apportion all of $\alpha$ to the relevant side. The difficult part is to determine if we need an upper bound or lower bound.
 
-For the body temperature study, the alternative hypothesis was that the mean was less than 98.6. In our confidence interval, we want to find the largest value the mean could be and thus we want the upper bound. Repeating the analysis with this in mind.
+For the body temperature study, the alternative hypothesis was that the mean was less than 98.6. In our confidence interval, we want to find the largest value the mean could be and thus we want the upper bound. We are trying to reject the hypothesis by showing an alternative that is smaller than the null hypothesized value. Finding the lower limit does help us since the confidence interval indicates an interval that starts at the lower value and is unbounded above. Let's just make up some numbers; suppose the lower confidence bound is 97.5. All we know is the true average temperature is this value or greater. This is not helpful. However, if we do an upper confidence bound and the value is 98.1, we know the true average temperature cannot be larger than this value. This is much more helpful. 
+
+Repeating the analysis with this in mind.
 
 ```{r}
 temperature %>%
@@ -206,14 +214,14 @@ temperature %>%
 confint(t_test(~temperature,data=temperature,alternative="less"))
 ```
 
-Notice that upper bound is smaller since all 0.05 is going into the right tail.
+Notice that upper bound is smaller than the upper bound in the two-sided interval since all 0.05 is going into the lower tail.
 
 
 ## Confidence intervals for two proportions  
 
-In hypothesis testing we had several examples of two proportions. We tested this with a permutation test. In our notes or homework, we have not presented the hypothesis test for two proportions using the asympotic distribution, the central limit theorem. So in this section we will present three methods to answering our research question, a permutation test, a hypothesis test using the normal distribution, and a confidence interval.
+In hypothesis testing we had several examples of two proportions. We tested these problems with a permutation test or using a hypergeometric. In our notes or applications, we have not presented the hypothesis test for two proportions using the asymptotic normal distribution, the central limit theorem. So in this section we will present three methods to answering our research question, a permutation test, a hypothesis test using the normal distribution, and a confidence interval.
 
-Earlier this semester, in fact in the first lesson, we encountered an experiment that examined whether implanting a stent in the brain of a patient at risk for a stroke helps reduce the risk of a stroke. The results from the first 30 days of this study, which included 451 patients, are summarized in the `R` code below. These results are surprising! The point estimate suggests that patients who received stents may have a **higher** risk of stroke: $p_{trmt} - p_{control} = 0.090$.
+Earlier this semester, in fact in the first lesson notes, we encountered an experiment that examined whether implanting a stent in the brain of a patient at risk for a stroke helps reduce the risk of a stroke. The results from the first 30 days of this study, which included 451 patients, are summarized in the `R` code below. These results are surprising! The point estimate suggests that patients who received stents may have a **higher** risk of stroke: $p_{trmt} - p_{control} = 0.090$.
 
 ```{r message=FALSE}
 stent <- read_csv("data/stent_study.csv")
@@ -232,7 +240,7 @@ obs<-diffprop(outcome30~group,data=stent)
 obs
 ```
 
-Notice that because uses the variables by names in alphabetic order we have $p_{control} - p_{trmt} = - 0.090$. This is not a problem.
+Notice that because `R` uses the variables by names in alphabetic order we have $p_{control} - p_{trmt} = - 0.090$. This is not a problem. We could fix this by changing the variables to factors.
 
 ### Permutation test for two proportions  
 
@@ -260,7 +268,7 @@ set.seed(2027)
 results <- do(10000)*diffprop(outcome30~shuffle(group),data=stent)
 ```
 
-We now create a visual summary of the test statistic under the null hypothesis, the sampling distribution.
+We now create a visual summary of the distribution of the test statistics generated under the null hypothesis, the sampling distribution.
 
 ```{r warning=FALSE}
 results %>%
@@ -323,7 +331,9 @@ The p-value is
 2*pnorm(-3.16)
 ```
 
-Which is close to what we got with permutation test. This should not surprise us as the sampling distribution under the permutation test looked normal. We plot the empirical sampling distribution from the permutation test again with a normal density curve overlayed.
+Which is close to what we got with permutation test. This should not surprise us as the sampling distribution under the permutation test looked normal. 
+
+We next plot the empirical sampling distribution from the permutation test again with a normal density curve overlayed.
 
 ```{r}
 results %>%
@@ -363,7 +373,7 @@ Of course, `R` has a built in function to calculate the hypothesis test and conf
 prop_test(outcome30~group,data=stent)
 ```
 
-The p-value is a little different from the one we calculated and closer to the permutation test, which is an exact test, because a correction factor was applied. Read online about this correction to learn more. We run the code below with the correction factor off and get the same p-value. The confidence interval is a little different because the function used no stroke as its event, but since zero is not in the interval, we get the same conclusion.
+The p-value is a little different from the one we calculated and closer to the randomization test, which is an approximation of the exact permutation test, because a correction factor was applied. Read online about this correction to learn more. We run the code below with the correction factor off and get the same p-value as we calculated above. The confidence interval is a little different because the function used *no stroke* as its success event, but since zero is not in the interval, we get the same conclusion.
 
 ```{r}
 prop_test(outcome30~group,data=stent,correct=FALSE)
@@ -376,7 +386,7 @@ As with hypothesis tests, confidence intervals are imperfect. About 1-in-20 prop
 
 ## Changing the confidence level
 
-Suppose we want to consider confidence intervals where the confidence level is somewhat higher than 95\%: perhaps we would like a confidence level of 99\%. Think back to the analogy about trying to catch a fish: if we want to be more sure that we will catch the fish, we should use a wider net. To create a 99\% confidence level, we must also widen our 95\% interval. On the other hand, if we want an interval with lower confidence, such as 90\%, we could make our original 95\% interval slightly slimmer.
+Suppose we want to consider confidence intervals where the confidence level is somewhat higher than 95\%; perhaps we would like a confidence level of 99\%. Think back to the analogy about trying to catch a fish: if we want to be more sure that we will catch the fish, we should use a wider net. To create a 99\% confidence level, we must also widen our 95\% interval. On the other hand, if we want an interval with lower confidence, such as 90\%, we could make our original 95\% interval slightly slimmer.
 
 The 95\% confidence interval structure provides guidance in how to make intervals with new confidence levels. Below is a general 95\% confidence interval for a point estimate that comes from a nearly normal distribution:
 
