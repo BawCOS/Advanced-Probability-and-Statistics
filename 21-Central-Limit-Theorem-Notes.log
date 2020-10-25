@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  21 OCT 2020 12:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  23 OCT 2020 11:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -749,7 +749,7 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 df>] (./21-Central-Limit-Theorem-Notes.aux)
 Package rerunfilecheck Info: File `21-Central-Limit-Theorem-Notes.out' has not 
 changed.
-(rerunfilecheck)             Checksum: ECA67336D98EDE678A0528302F2F9A58;2611.
+(rerunfilecheck)             Checksum: 23318970EB90149FCF91152E3E68A876;2611.
  ) 
 Here is how much of TeX's memory you used:
  11276 strings out of 481886
@@ -785,7 +785,7 @@ exmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/Brad.Warner/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/Brad.Warner/AppD
 ata/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/Brad.
 Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on 21-Central-Limit-Theorem-Notes.pdf (13 pages, 496282 bytes).
+Output written on 21-Central-Limit-Theorem-Notes.pdf (13 pages, 496994 bytes).
 PDF statistics:
  346 PDF objects out of 1000 (max. 8388607)
  295 compressed objects within 3 object streams

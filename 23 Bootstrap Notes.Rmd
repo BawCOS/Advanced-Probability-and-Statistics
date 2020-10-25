@@ -2,6 +2,7 @@
 title: "Bootstrap Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -34,16 +35,16 @@ library(tidyverse)
 
 ## Objectives
 
-1) Use the bootstrap to estimate the standard error, the standard deviation of the sample statistic.
+1) Use the bootstrap to estimate the standard error, the standard deviation, of the sample statistic.
 
 2) Using bootstrap methods, obtain and interpret a confidence interval for an unknown parameter, based on a random sample. 
 
 3) Describe the advantages, disadvantages, and assumptions behind using bootstrapping for confidence intervals. 
 
 
-## Confidence Intervals
+## Confidence intervals
 
-Last lesson, we introduced the concept of confidence intervals. As a reminder, confidence intervals are used to describe uncertainty around an estimate. A confidence interval can be interpreted as a range of feasible values for an unknown parameter, given a representative sample of the population. 
+In the last lesson, we introduced the concept of confidence intervals. As a reminder, confidence intervals are used to describe uncertainty around an estimate of a parameter. A confidence interval can be interpreted as a range of feasible values for an unknown parameter, given a representative sample of the population. 
 
 Recall the four general steps of building a confidence interval: 
 
@@ -55,7 +56,7 @@ Recall the four general steps of building a confidence interval:
 
 4) Use this distribution to obtain a range of feasible values (confidence interval) for the parameter.  
 
-Last lesson, we learned that we could use the central limit theorem to determine the distribution of our estimate. This lesson, we will build *bootstrap distribution* of sample estimates.
+We previously used the central limit theorem to determine the distribution of our estimate. This lesson, we will build *bootstrap distribution* of sample estimates.
 
 ## Bootstrapping
 
@@ -63,15 +64,18 @@ In many contexts, the sampling distribution of a sample statistic is either unkn
 
 The theory required to quantify the uncertainty of the sample median is complex. In an ideal world, we would sample data from the population again and recompute the median with this new sample. Then we could do it again. And again. And so on until we get enough median estimates that we have a good sense of the precision of our original estimate. This is an ideal world where sampling data is free or extremely cheap. That is rarely the case, which poses a challenge to this "resample from the population" approach.
 
-However, we can sample from the sample. *Bootstrapping* allows us to simulate the sampling distribution by **resampling** from the sample. Suppose $x_1,x_2,...,x_n$ is an iid random sample from the population. First we define the empirical distribution function of $X$ by assigning an equal probability to each $x_i$. Then, we sample from this empirical function. In practice, this simply means sampling from your original sample *with replacement*. 
+However, we can sample from the sample. *Bootstrapping* allows us to simulate the sampling distribution by **resampling** from the sample. Suppose $x_1,x_2,...,x_n$ is an iid random sample from the population. First we define the empirical distribution function of $X$ by assigning an equal probability to each $x_i$. Then, we sample from this empirical probability mass function. In practice, this simply means sampling from your original sample *with replacement*. Thus we are treating our sample as a discrete uniform random variable. 
 
 The general procedure for bootstrapping is to sample with replacement from your original sample, calculate and record the sample statistic for that bootstrapped sample, then repeat the process many times. The collection of sample statistics comprises a *bootstrap distribution* of the sample statistic. Generally, this procedure works quite well, provided that the sample is representative of the population. Otherwise, any bias or misrepresentation is simply amplified throughout the bootstrap process. Further, for very small sample sizes, bootstrap distributions become "choppy" and hard to interpret. Thus is small sample cases, we must use permutation or mathematical methods to determine the sampling distribution.   
 
-Once you have completed the procedure, the bootstrap distribution can be used to build a confidence interval for the population parameter. 
+Once you have completed the procedure, the bootstrap distribution can be used to build a confidence interval for the population parameter or estimate the standard error. We are not using the bootstrap to find p-values. 
 
 ## Bootstrap example
 
-To help us understand the bootstrap, let's use an example of a single mean. We would like to estimate the mean height of students at a local college. We collect a sample of size 50 (stored in vector `heights` below). Using both asymptotic, CLT, and the bootstrap method, find 95% confidence intervals for $\mu$. Compare the two intervals. 
+To help us understand the bootstrap, let's use an example of a single mean. We would like to estimate the mean height of students at a local college. We collect a sample of size 50 (stored in vector `heights` below). 
+
+> **Exercise**
+Using both an asymptotic method, via the CLT, and the bootstrap method, find 95% confidence intervals for $\mu$. Compare the two intervals. 
 
 ```{r}
 heights<-c(62.0,73.8,59.8,66.9,75.6,63.3,64.0,63.1,65.0,67.2,73.0,
@@ -128,7 +132,8 @@ head(heights)
 
 ```{r}
 heights %>%
-  summarise(mean=mean(height),stand_dev=sd(height),n=n(),ci=mean+c(-1,1)*qt(0.975,n-1)*stand_dev/sqrt(n))
+  summarise(mean=mean(height),stand_dev=sd(height),n=n(),
+            ci=mean+c(-1,1)*qt(0.975,n-1)*stand_dev/sqrt(n))
 ```
 
 ### Bootstrap
@@ -161,13 +166,14 @@ boot_results %>%
   gf_histogram(~mean) %>%
   gf_vline(xintercept = 68.938)
 ```
-Now there are two ways we could go from here. The first is called the percentile method and we go into the bootstrap distribution and find the appropriate quantiles.
+
+And a summary of the bootstrap distribution:  
 
 ```{r}
 favstats(~mean,data=boot_results)
 ```
 
-
+Now there are two ways we could go from here to calculate a confidence interval. The first is called the percentile method where we go into the bootstrap distribution and find the appropriate quantiles. The second is call the t interval with bootstrap error. In this second method you construct a confidence interval like you would using the CLT except you use the bootstrap estimate of standard error.
 
 #### Bootstrap percentile
 
@@ -183,14 +189,15 @@ qdata(~mean,data=boot_results,p=c(0.025,0.975))
 ```
 #### t interval with bootstrap standard error  
 
-Since the bootstrap distribution looks like a $t$ distribution, we can use a $t$ interval with the bootstrap standard error. The standard deviation of the bootstrap distribution is the standard error of the sample mean. We will divide by $\sqrt{n}$ since we are dealing with the distribution of the mean directly.
+Since the bootstrap distribution looks like a $t$ distribution, we can use a $t$ interval with the bootstrap standard error. The standard deviation of the bootstrap distribution is the standard error of the sample mean. We will not have to divide by $\sqrt{n}$ since we are dealing with the distribution of the mean directly.
 
 ```{r}
 xbar<-mean(boot_results$mean)
 SE<-sd(boot_results$mean)
 xbar+c(-1,1)*qt(.975,49)*SE
 ```
-We did it this way to show another way to subset; you could of course use tidyverse but we must change the column name.
+
+You could of course use tidyverse but we must change the column name.
 
 ```{r}
 boot_results %>%
@@ -207,7 +214,7 @@ confint(boot_results, method = c("percentile", "stderr"))
 
 The three intervals are very similar. 
 
-## Non-standard Sample Statistics
+## Non-standard sample statistics
 
 One of the huge advantages of simulation-based methods is the ability to build confidence intervals on parameters whose estimates don't have nice tidy distributions. 
 
@@ -230,6 +237,9 @@ boot_results %>%
   gf_vline(xintercept = 67.6)
 ```
 
+The bootstrap sampling distribution is not symmetrical so we would not want to use the t interval approach. We will still calculate the confidence interval based on the assumption of symmetry. 
+
+
 ```{r}
 cdata(~median,data=boot_results,p=0.90)
 ```
@@ -238,14 +248,16 @@ cdata(~median,data=boot_results,p=0.90)
 confint(boot_results, method = c("percentile", "stderr"),level=0.9)
 ```
 
+
+
 ### Summary bootstrap
 
 The key idea behind the bootstrap is that we estimate the population with the sample, this is called the *plug in principle*. We can then generate new samples from this population estimate. The bootstrap does not improve the accuracy of the original estimate, in fact the bootstrap distribution is centered on the original sample estimate. Instead we only get information about the variability of the sample estimate. Some people are suspicious that we are using the data over and over. But remember we are just getting estimates of variability. In traditional statistics, when we calculate the sample standard deviation, we are using sample mean. Thus we are using the data twice. Always think of the bootstrap as providing a way to find the variability in an estimate.
 
 
-## Confidence Interval for Difference in Means
+## Confidence interval for difference in means
 
-To bring all the ideas we have learned so far in this block, we will work an example of testing for a difference of two means. In our opinion, the easiest to understand is the permutation test and the most difficult is the one based on the CLT, because of the assumptions necessary to get a mathematical solution for the sampling distribution.  of the first test we used was a test of two means. We will also introduce the bootstrap to get a confidence interval.
+To bring all the ideas we have learned so far in this block, we will work an example of testing for a difference of two means. In our opinion, the easiest method to understand is the permutation test and the most difficult is the one based on the CLT, because of the assumptions necessary to get a mathematical solution for the sampling distribution.  We will also introduce the bootstrap to get a confidence interval.
 
 ### Health evaluation and linkage of primary care
 
@@ -278,7 +290,7 @@ There might be a slight difference in the means, but is it statistically signifi
 
 ### Permutation test
 
-The permutation test is ideally for a hypothesis test so we will conduct that first and then see if we can generate a confidence interval.
+The permutation test is ideally suited for a hypothesis test so we will conduct that first and then see if we can generate a confidence interval.
 
 The hypothesis for 
 
@@ -305,7 +317,7 @@ results <- do(10000)*diffmean(age~shuffle(sex),data=HELP_sub)
 ```{r}
 favstats(~diffmean,data=results)
 ```
-The sampling distribution is centered on the null value of 0, more or less, and the standard deviation is 0.849. This is an estimate of the variability of the differ
+The sampling distribution is centered on the null value of 0, more or less, and the standard deviation is 0.849. This is an estimate of the variability of the difference in mean ages.
 
 ```{r}
 results %>%
@@ -320,41 +332,46 @@ Our test statistic does not appear to be too extreme.
 ```{r}
 2*prop1(~(diffmean <= obs_stat),data=results)
 ```
-Now to construct a confidence interval
+
+Based on this p-value, we would fail to reject the null hypothesis.
+
+Now to construct a confidence interval we have to be careful and think about this. The object `results` has the distribution of difference in means assuming there is no difference. To get a confidence interval, we want to center this difference on the observed difference in means and not on zero.
 
 ```{r}
 cdata(~(diffmean+obs_stat),data=results)
 ```
 
+We are 95% confident that the true difference in mean ages between female and male participants in the study is between -2.45 and 0.88. Since 0 in in the confidence interval, we would fail to reject the null hypothesis.
+
 We are assuming that the test statistic can be transformed. It turns out that the percentile method is transformation invariant so we can do the transform of shifting the null distribution by the observed value.
 
 ### CLT  
 
-Using the CLT becomes difficult because we have to find a way to calculate the standard error. There have been many proposed methods, you are welcome to research them, but we will only present a couple of ideas in this section. Let's summarize the process for both hypothesis testing and confidence intervals in the case of the difference of two means.
+Using the CLT becomes difficult because we have to find a way to calculate the standard error. There have been many proposed methods, you are welcome to research them, but we will only present a couple of ideas in this section. Let's summarize the process for both hypothesis testing and confidence intervals in the case of the difference of two means using the CLT.
 
 ### Hypothesis tests 
 
 When applying the $t$ distribution for a hypothesis test, we proceed as follows:  
-1. Write appropriate hypotheses.
-2. Verify conditions for using the $t$ distribution.  
- For a difference of means when the data are not paired: each sample mean must separately satisfy the one-sample conditions for the $t$ distribution, and the data in the groups must also be independent. Just like in the one-sample case, slight skewness will not be a problem for different sample sizes. We can have moderate skewness and be fine if our sample is 30 or more. We can have extreme skewness if our sample is 60 or more.
+1. Write appropriate hypotheses.  
+2. Verify conditions for using the $t$ distribution.   
+ For a difference of means when the data are not paired: each sample mean must separately satisfy the one-sample conditions for the $t$ distribution, and the data in each group must also be independent. Just like in the one-sample case, slight skewness will not be a problem for larger sample sizes. We can have moderate skewness and be fine if our sample is 30 or more. We can have extreme skewness if our sample is 60 or more.  
 3. Compute the point estimate of interest, the standard error, and the degrees of freedom. 
-4. Compute the T score and p-value.
-5. Make a conclusion based on the p-value, and write a conclusion in context and in plain language so anyone can understand the result.
+4. Compute the T score and p-value.  
+5. Make a conclusion based on the p-value, and write a conclusion in context and in plain language so anyone can understand the result.  
 
 We added the extra step of checking the assumptions.
 
 
 
-#### Confidence intervals  
+### Confidence intervals  
 
 Similarly, the following is how we generally computed a confidence interval using a $t$ distribution:
-1. Verify conditions for using the $t$ distribution. (See above.)
-2. Compute the point estimate of interest, the standard error, the degrees of freedom, and $t^{\star}_{df}$.
-3. Calculate the confidence interval using the general formula, point estimate $\pm\ t_{df}^{\star} SE$.
+1. Verify conditions for using the $t$ distribution. (See above.)  
+2. Compute the point estimate of interest, the standard error, the degrees of freedom, and $t^{\star}_{df}$.  
+3. Calculate the confidence interval using the general formula, point estimate $\pm\ t_{df}^{\star} SE$.  
 4. Put the conclusions in context and in plain language so even non-statisticians can understand the results.
 
-If the assumptions above are met, each sample mean can itself be modeled using a $t$ distribution and the samples are independent, then the sample difference of two means, $\bar{x}_1 - \bar{x}_2$, can be modeled using the $t$ distribution and the standard error
+If the assumptions above are met, each sample mean can itself be modeled using a $t$ distribution and if the samples are independent, then the sample difference of two means, $\bar{x}_1 - \bar{x}_2$, can be modeled using the $t$ distribution and the standard error
 $$SE_{\bar{x}_{1} - \bar{x}_{2}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
 
 To calculate the degrees of freedom, use statistical software or the smaller of $n_1 - 1$ and $n_2 - 1$.
@@ -375,12 +392,15 @@ The distribution of males tends to have longer tails than a normal and the femal
 favstats(age~sex,data=HELP_sub)
 ```
 
+
+Let's find the confidence interval first. 
+
 ```{r}
 (35.47-36.25)+c(-1,1)*qt(.975,106)*sqrt(7.58^2/107+7.75^2/346)
 ```
-This very close to what we got with the permutation test. 
+This very close to what we got with the permutation test.
 
-We could use the sample process to find the p-value.
+Now let's find the p-value for the hypothesis test.
 
 The test statistic is: 
 $$T = \frac{\text{point estimate} - \text{null value}}{SE}$$ 
@@ -469,10 +489,12 @@ Again, similar results.
 Yes! There are many excellent bootstrap techniques. We have only chosen to present two bootstrap techniques that could be explained in a single lesson and is also reasonably reliable. There are many adjustments that can be made to speed up and improve accurate. Packages such as `resample` and `boot` are more appropriate for these situations.
 
 
-2. I've heard a technique called the percentile bootstrap that is very robust.  
+2. I've heard the percentile bootstrap is very robust.  
+
 It is a **commonly** held belief that the percentile bootstrap is a robust bootstrap method. That is false. The percentile method is one of the least reliable bootstrap methods. However, it is easy to use and understand and can give a first attempt at a solution before more accurate methods are used.
 
 3. I should use 1000 replicates in my bootstrap and permutation tests.  
+
 The  randomization and bootstrap distributions involve a random component from the sampling process and thus p-values and confidence intervals computed from the same data will vary. The amount of this **Monte Carlo** variability depends on the number of replicates used to create the randomization or bootstrap distribution. It is important that we not use too few as this will introduce too much random noise into p-value and confidence interval calculations. But each replicate costs time, and the marginal gain for each additional replicate decreases as the number of replicates increases. There is little reason to use millions of replicates (unless the goal is to estimate
 very small p-values). We generally use roughly 1000 for routine or preliminary work and increase this to 10,000
 when we want to reduce the effects of Monte Carlo variability.

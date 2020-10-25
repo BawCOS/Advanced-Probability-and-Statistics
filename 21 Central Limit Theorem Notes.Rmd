@@ -78,7 +78,7 @@ results %>%
 
 This similarity between the empirical and theoretical distributions is not a coincidence, but rather, is guaranteed by  mathematical theory. This lesson will be a little more notation and algebra intensive than the previous lessons. However, the goal is to develop a tool that will help us find sampling distributions for test statistics and thus find p-values. This lesson is classical statistics often taught in AP high school classes as well as many introductory undergraduate statistics courses. Remember that before the advances of modern computing, these mathematical solutions were all that was available.
 
-### Theorem - cnetral limit theorem 
+### Theorem - central limit theorem 
 
 Theorem: Let $X_1,X_2,...,X_n$ be a sequence of iid random variables from a distribution with mean $\mu$ and standard deviation $\sigma<\infty$. Then,
 $$
@@ -268,7 +268,7 @@ Here are the two hypotheses:
 The test statistic that we want to use is the sample mean $\bar{X}$, this is a method of moments estimate of the probability of success. Since these are independent samples from the same binomial distribution, by the CLT
 
 $$
-\bar{X} \overset{approx}{\sim}\textsf{Norm}\left(\pi,\frac{\pi(1-\pi)}{\sqrt{n}}\right)
+\bar{X} \overset{approx}{\sim}\textsf{Norm}\left(\pi,\sqrt\frac{\pi(1-\pi)}{n}\right)
 $$
 
 As we learned, this approximation improves with sample size. As a rule of thumb, most analysts are comfortable with using the CLT for this problem if the number of success and failures are both 10 or greater.

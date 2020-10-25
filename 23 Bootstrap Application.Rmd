@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Exercises
 
 \indent 1. Poker  
-An aspiring poker player recorded her winnings and losses over 50 evenings of play, the data is in the `openintro` package in the object `poker`. The poker player would like to better understand the volatility in her long term play.
+An aspiring poker player recorded her winnings and losses over 50 evenings of play, the data is in the `data` folder in the file `poker.csv`. The poker player would like to better understand the volatility in her long term play.
 
 a. Load the data and plot a histogram.  
 b. Find the summary statistics.  
@@ -39,13 +39,14 @@ g. ADVANCED: Do you think sample MAD is an unbiased estimator of population MAD?
 
 &nbsp;
 
+\pagebreak
 
 \indent 2. Bootstrap hypothesis testing  
 
-Bootstrap hypothesis testing is relative undeveloped, and is generally not as accurate as permutation testing. Therefore in general avoid it. But for our problem in the notes, it may work. We will sample in a way that is consistent with the null hypothesis, then calculate a P-value as a tail probability like we do in permutation tests. This example does not generalize well to other applications like relative risk, correlation, regression, or categorical data.
+Bootstrap hypothesis testing is relatively undeveloped, and is generally not as accurate as permutation testing. Therefore in general avoid it. But for our problem in the notes, it may work. We will sample in a way that is consistent with the null hypothesis, then calculate a P-value as a tail probability like we do in permutation tests. This example does not generalize well to other applications like relative risk, correlation, regression, or categorical data.
 
-a. Using the `HELPrct` data set, store the observed value of the difference of means for male and female.
-b. The null hypothesis requires the means to be equal. Pick one group to adjust. Subtract the sample mean of this group and then add the sample mean of the other group to each data point in the group. Store in a new object called `HELP_null`.
+a. Using the `HELPrct` dataThe null hypothesis requires the means of each group to be equal. Pick one group to adjust, either `male` or `female`. First zero the mean of the selected group by subtracting the sample mean of this group from data points only in this group. Then add the sample mean of the other group to each data point in the selected group. Store in a new object called `HELP_null`. set, store the observed value of the difference of means for male and female.
+b. 
 c. Run `favstats()` to check that the means are equal.
 d. On this new adjusted data set, generate a bootstrap distribution of the difference in sample means.
 e. Plot the bootstrap distribution and a line at the observed difference in sample means.
@@ -57,7 +58,7 @@ g. How does the p-value compare with those in the notes.
 
 Are textbooks actually cheaper online? Here we compare the price of textbooks at the University of California, Los Angeles' (UCLA's) bookstore and prices at Amazon.com. Seventy-three UCLA courses were randomly sampled in Spring 2010, representing less than 10\% of all UCLA courses. When a class had multiple books, only the most expensive text was considered.
 
-The data is in the `openintro` package in the object `textbooks`.
+The data is in the file `textbooks.csv` under the data folder.
 
 Each textbook has two corresponding prices in the data set: one for the UCLA bookstore and one for Amazon. Therefore, each textbook price from the UCLA bookstore has a natural correspondence with a textbook price from Amazon. When two sets of observations have this special correspondence, they are said to be **paired**.
 
@@ -71,7 +72,7 @@ The hypotheses are:
 $H_0$: $\mu_{diff}=0$. There is no difference in the average textbook price.
 $H_A$: $\mu_{diff} \neq 0$. There is a difference in average prices.
  
-d. To use a $t$ distribution, the variable `diff` has to independent and normally distributed. Since the 73 books represent less than 10\% of the population, the random sample is independent. Check normality using `qqnorsim()` from the `openintro` package. It generates 8 qq plots of simulated normal data that you can use to judge the `diff` variable.
+d. To use a $t$ distribution, the variable `diff` has to independent and normally distributed. Since the 73 books represent less than 10\% of the population, the assumption that the random sample is independent is reasonable. Check normality using `qqnorsim()` from the `openintro` package. It generates 8 qq plots of simulated normal data that you can use to judge the `diff` variable.
 e. Run a $t$ test on the `diff` variable. Report the p-value and conclusion.
 f. Create a bootstrap distribution and generate a 95\% confidence interval on the mean of the differences, the `diff` column.
 g. If there is really no differences between book sources, the variable `more` is a binomial and under the null the probably of success is $\pi = 0.5$. Run a hypothesis test using the variable `more`.

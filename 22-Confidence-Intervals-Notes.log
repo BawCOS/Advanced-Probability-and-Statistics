@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  22 OCT 2020 17:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  25 OCT 2020 15:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -637,14 +637,20 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 111
 b.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+31.
+
+(c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 159.
+(Font)              <10> on input line 162.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 159.
+(Font)              <7> on input line 162.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 159.
+(Font)              <5> on input line 162.
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-90.
+93.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -652,18 +658,12 @@ File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 
 {c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap
 /pdftex.map}]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-10.
-
-(c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 216.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 219.
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 251.
+(amsmath)                 on input line 254.
 
 <22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-3-1.pdf, id=81,
  361.35pt x 216.81pt>
@@ -671,32 +671,32 @@ File: 22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-3-1.pdf Gr
 aphic file (type pdf)
 <use 22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: 22-Confidence-Intervals-Notes_files/figure-latex/unnam
-ed-chunk-3-1.pdf  used on input line 258.
+ed-chunk-3-1.pdf  used on input line 261.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [2] [3 <./22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-3-1.pd
 f>] [4] [5] [6]
 <22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-18-1.pdf, id=12
-5, 361.35pt x 216.81pt>
+6, 361.35pt x 216.81pt>
 File: 22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-18-1.pdf G
 raphic file (type pdf)
 <use 22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-18-1.pdf>
 Package pdftex.def Info: 22-Confidence-Intervals-Notes_files/figure-latex/unnam
-ed-chunk-18-1.pdf  used on input line 600.
+ed-chunk-18-1.pdf  used on input line 603.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [7 <./22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-18-1.pdf>]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 6
-42.
+45.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [8]
 <22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-21-1.pdf, id=15
-0, 361.35pt x 216.81pt>
+1, 361.35pt x 216.81pt>
 File: 22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-21-1.pdf G
 raphic file (type pdf)
 <use 22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-21-1.pdf>
 Package pdftex.def Info: 22-Confidence-Intervals-Notes_files/figure-latex/unnam
-ed-chunk-21-1.pdf  used on input line 718.
+ed-chunk-21-1.pdf  used on input line 721.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [9 <./22-Confidence-Intervals-Notes_files/figure-latex/unnamed-chunk-21-1.pdf>]
 [10] [11] [12] (./22-Confidence-Intervals-Notes.aux)
@@ -705,13 +705,13 @@ hanged.
 (rerunfilecheck)             Checksum: CC332939F0753714376B512A371A92D6;2843.
  ) 
 Here is how much of TeX's memory you used:
- 11206 strings out of 481886
- 165773 string characters out of 5929965
+ 11207 strings out of 481886
+ 165779 string characters out of 5929965
  450988 words of memory out of 5000000
  27254 multiletter control sequences out of 15000+600000
  600227 words of font info for 77 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,8n,66p,451b,410s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,8n,66p,451b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
 m-mathsy.enc}{c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc
 /dvips/lm/lm-mathit.enc}{c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dis
@@ -743,10 +743,10 @@ fb><c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/
 lm/lmtk10.pfb><c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/ty
 pe1/public/lm/lmtt10.pfb><c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-di
 st/fonts/type1/public/lm/lmtt8.pfb>
-Output written on 22-Confidence-Intervals-Notes.pdf (12 pages, 428523 bytes).
+Output written on 22-Confidence-Intervals-Notes.pdf (12 pages, 428944 bytes).
 PDF statistics:
- 277 PDF objects out of 1000 (max. 8388607)
- 233 compressed objects within 3 object streams
- 53 named destinations out of 1000 (max. 500000)
+ 278 PDF objects out of 1000 (max. 8388607)
+ 234 compressed objects within 3 object streams
+ 54 named destinations out of 1000 (max. 500000)
  120 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -39,6 +39,8 @@ library(tidyverse)
 
 2) Describe the relationships between confidence intervals, confidence level, and sample size. 
 
+3) For proportions, be able to calculate the four different approaches for confidence intervals using `R`.
+
 
 ## Confidence interval
 

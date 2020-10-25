@@ -83,7 +83,7 @@ d. $H_{A}: \mu > \mu_{0}$, $n = 28$, $T = 2.13$
 
 \indent 6. Sleep habits of New Yorkers  
 
-New York is known as "the city that never sleeps". A random sample of 25 New Yorkers were asked how much sleep they get per night. Statistical summaries of these data are shown below. Do these data provide strong evidence that New Yorkers sleep more or less than 8 hours a night on average?
+New York is known as "the city that never sleeps". A random sample of 25 New Yorkers were asked how much sleep they get per night. Statistical summaries of these data are shown below. Do these data provide strong evidence that New Yorkers sleep less than 8 hours a night on average?
 
 \begin{center}
 \begin{tabular}{rrrrrr}
