@@ -39,7 +39,7 @@ library(tidyverse)
 
 2) Describe the relationships between confidence intervals, confidence level, and sample size. 
 
-3) For proportions, be able to calculate the four different approaches for confidence intervals using `R`.
+3) For proportions, be able to calculate the three different approaches for confidence intervals using `R`.
 
 
 ## Confidence interval
@@ -67,16 +67,19 @@ Generally, what you should know about building confidence intervals is laid out 
 
 2. Identify a good estimate for that parameter (sample mean, $\bar{X}$). 
 
-3. Determine the distribution of your estimate or a function of your estimate. This tells us where our estimate *should* be if we knew the value of our parameter. (According to the central limit theorem, $\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim \textsf{Norm}(0,1)$ and $\frac{\bar{X}-\mu}{S/\sqrt{n}}\sim \textsf{t}(n-1)$). 
+3. Determine the distribution of your estimate or a function of your estimate.  
 
-4. Use this distribution to obtain a range of feasible values (confidence interval) for the parameter. (For $\mu$, we can solve the equation in part 3 for $\mu$ to find a reasonable range). 
+4. Use this distribution to obtain a range of feasible values (confidence interval) for the parameter. (For example if $\mu$ is the parameter of interest and we are using the CLT, then $\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim \textsf{Norm}(0,1)$. We can solve the equation for $\mu$ to find a reasonable range of feasible values.)
+
+Let's do an example to solidify these ideas.
 
 > Constructing a 95\% confidence interval for the mean  
-When the sampling distribution of a point estimate can reasonably be modeled as normal, the point estimate we observe will be within 1.96 standard errors of the true value,of interest about 95\% of the time. Thus, a **95\% confidence interval** for such a point estimate can be constructed:  
+When the sampling distribution of a point estimate can reasonably be modeled as normal, the point estimate we observe will be within 1.96 standard errors of the true value of interest about 95\% of the time. Thus, a **95\% confidence interval** for such a point estimate can be constructed:  
 
 $$ \hat{\theta} \pm\ 1.96 \times SE_{\hat{\theta}}$$
+Where $\hat{\theta}$ is our estimate of the parameter and $SE_{\hat{\theta}}$ is the standard error of that estimate. 
 
-We can be **95\% confident** this interval captures the true value. The 1.96 can be found using the `qnorm()` function. if we want .95 in the middle, that leave 0.25 in each tail. Thus we use .975 in the `qnorm()` function.
+We can be **95\% confident** this interval captures the true value. The 1.96 can be found using the `qnorm()` function. If we want .95 in the middle, that leaves 0.025 in each tail. Thus we use .975 in the `qnorm()` function.
 
 ```{r}
 qnorm(.975)
@@ -97,7 +100,7 @@ $$
 \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\overset{approx}{\sim}\textsf{Norm}(0,1)
 $$
 
-If the significance level is $0\leq \alpha \leq 1$ then the confidence level is $1-\alpha$, yes $\alpha$ is the same as the significance level in hypothesis testing.. Then,
+If the significance level is $0\leq \alpha \leq 1$, then the confidence level is $1-\alpha$. Yes $\alpha$ is the same as the significance level in hypothesis testing. Thus
 $$
 \Prob\left(-z_{\alpha/2}\leq {\bar{X}-\mu\over \sigma/\sqrt{n}} \leq z_{\alpha/2}\right)=1-\alpha
 $$
@@ -116,7 +119,7 @@ text(3,0.08,expression(paste("Prob=",alpha,"/2",sep="")))
 arrows(3,0.06,2.25,0.02,length=0.1)
 ```
 
-So, I know that $(1-\alpha)*100\%$ of the time, ${\bar{X}-\mu\over \sigma/\sqrt{n}}$ will be between $-z_{\alpha/2}$ and $z_{\alpha/2}$. 
+So, we know that $(1-\alpha)*100\%$ of the time, ${\bar{X}-\mu\over \sigma/\sqrt{n}}$ will be between $-z_{\alpha/2}$ and $z_{\alpha/2}$. 
 
 By rearranging the expression above and solving for $\mu$, we get:
 $$
@@ -167,7 +170,7 @@ Find a 95% confidence interval for the body temperature data from last lesson.
 temperature <- read_csv("data/temperature.csv")
 ```
 
-We need the mean, standard deviation, and sample size from this data. The following `R` calculates the confidence interval, make sure you can follow the code.
+We need the mean, standard deviation, and sample size from this data. The following `R` code calculates the confidence interval, make sure you can follow the code.
 
 ```{r}
 temperature %>%
@@ -177,9 +180,9 @@ temperature %>%
             upper_bound=mean+qt(0.975,129)*sd/sqrt(n))
 ```
 
-The 95% confidence interval for $\mu$ is $(98.12,98.38)$. I am 95% *confident* that $\mu$, the average human body temperature, is in this interval. Also, we could say that 95% of similarly constructed intervals will contain the true mean, $\mu$. 
+The 95% confidence interval for $\mu$ is $(98.12,98.38)$. We am 95% *confident* that $\mu$, the average human body temperature, is in this interval. Also, we could say that 95% of similarly constructed intervals will contain the true mean, $\mu$. 
 
-Remember that when we used this data in a the hypothesis test, the null hypothesis was $H_0$: The average body temperature is 98.6 $\mu = 98.6$. This null hypothesized value is not in the interval, so we could reject the null hypothesis with this confidence interval. There is a link between hypothesis testing and confidence intervals.
+There is a link between hypothesis testing and confidence intervals. Remember when we used this data in a hypothesis test, the null hypothesis was $H_0$: The average body temperature is 98.6 $\mu = 98.6$. This null hypothesized value is not in the interval, so we could reject the null hypothesis with this confidence interval. 
 
 We could also use `R` to find the confidence interval and conduct the hypothesis test. Read about the function `t_test()` in the help menu to determine why we used the `mu` option.
 
@@ -193,7 +196,11 @@ Or if you just want the interval:
 confint(t_test(~temperature,data=temperature,mu=98.6))
 ```
 
-In reviewing the hypothesis test for a single mean, you can see how this confidence interval was formed by *inverting* the test statistic.
+In reviewing the hypothesis test for a single mean, you can see how this confidence interval was formed by *inverting* the test statistic. As a reminder, the following equation inverts the test statistic.
+
+$$
+\Prob\left(\bar{X}-z_{\alpha/2}{\sigma\over\sqrt{n}}\leq \mu \leq \bar{X}+z_{\alpha/2}{\sigma\over\sqrt{n}}\right)=1-\alpha
+$$
 
 ### One-sided Intervals
 
@@ -201,7 +208,7 @@ If you remember the hypothesis test for temperature in the central limit theorem
 
 In "one-sided" intervals, we only bound the interval on one side. We construct one-sided intervals when we are concerned with whether a parameter exceeds or stays below some threshold. Building a one-sided interval is similar to building two-sided intervals, except rather than dividing $\alpha$ into two, you simply apportion all of $\alpha$ to the relevant side. The difficult part is to determine if we need an upper bound or lower bound.
 
-For the body temperature study, the alternative hypothesis was that the mean was less than 98.6. In our confidence interval, we want to find the largest value the mean could be and thus we want the upper bound. We are trying to reject the hypothesis by showing an alternative that is smaller than the null hypothesized value. Finding the lower limit does help us since the confidence interval indicates an interval that starts at the lower value and is unbounded above. Let's just make up some numbers; suppose the lower confidence bound is 97.5. All we know is the true average temperature is this value or greater. This is not helpful. However, if we do an upper confidence bound and the value is 98.1, we know the true average temperature cannot be larger than this value. This is much more helpful. 
+For the body temperature study, the alternative hypothesis was that the mean was less than 98.6. In our confidence interval, we want to find the largest value the mean could be and thus we want the upper bound. We are trying to reject the hypothesis by showing an alternative that is smaller than the null hypothesized value. Finding the lower limit does not help us since the confidence interval indicates an interval that starts at the lower value and is unbounded above. Let's just make up some numbers; suppose the lower confidence bound is 97.5. All we know is the true average temperature is this value or greater. This is not helpful. However, if we find an upper confidence bound and the value is 98.1, we know the true average temperature is most likely no larger than this value. This is much more helpful. 
 
 Repeating the analysis with this in mind.
 
@@ -216,12 +223,12 @@ temperature %>%
 confint(t_test(~temperature,data=temperature,alternative="less"))
 ```
 
-Notice that upper bound is smaller than the upper bound in the two-sided interval since all 0.05 is going into the lower tail.
+Notice the upper bound in the one-sided interval is smaller than the upper bound in the two-sided interval since all 0.05 is going into the upper tail.
 
 
 ## Confidence intervals for two proportions  
 
-In hypothesis testing we had several examples of two proportions. We tested these problems with a permutation test or using a hypergeometric. In our notes or applications, we have not presented the hypothesis test for two proportions using the asymptotic normal distribution, the central limit theorem. So in this section we will present three methods to answering our research question, a permutation test, a hypothesis test using the normal distribution, and a confidence interval.
+In hypothesis testing we had several examples of two proportions. We tested these problems with a permutation test or using a hypergeometric. In our notes or applications, we have not presented the hypothesis test for two proportions using the asymptotic normal distribution, the central limit theorem. So in this section we will present three methods of answering our research question, a permutation test, a hypothesis test using the normal distribution, and a confidence interval.
 
 Earlier this semester, in fact in the first lesson notes, we encountered an experiment that examined whether implanting a stent in the brain of a patient at risk for a stroke helps reduce the risk of a stroke. The results from the first 30 days of this study, which included 451 patients, are summarized in the `R` code below. These results are surprising! The point estimate suggests that patients who received stents may have a **higher** risk of stroke: $p_{trmt} - p_{control} = 0.090$.
 
@@ -275,7 +282,10 @@ We now create a visual summary of the distribution of the test statistics genera
 ```{r warning=FALSE}
 results %>%
   gf_dhistogram(~diffprop) %>%
-  gf_vline(xintercept =obs ) 
+  gf_vline(xintercept =obs ) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Sampling distribution of randomization test",
+          x="Difference in proportions")
 ```
 
 ```{r}
@@ -301,18 +311,17 @@ The difference $\hat{p}_1 - \hat{p}_2$ tends to follow a normal model when
 
 #### Standard error 
 
+For our research question the conditions must be verified. Because each group is a simple random sample from less than 10\% of the population, the observations are independent, both within the samples and between the samples. The success-failure condition also holds for each sample, at least 10 in each cell is the easiest way to think about it. Because all conditions are met, the normal model can be used for the point estimate of the difference in proportion of strokes
+
+
+$$p_{control} - p_{trmt} = 0.05726872 - 0.14732143 = - 0.090$$
 The standard error of the difference in sample proportions is
 $$ SE_{\hat{p}_1 - \hat{p}_2}
 	= \sqrt{SE_{\hat{p}_1}^2 + SE_{\hat{p}_2}^2}$$
 $$	= \sqrt{\frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}}$$
 where $p_1$ and $p_2$ represent the population proportions, and $n_1$ and $n_2$ represent the sample sizes.
 
-For our research question the conditions must be verified. Because each group is a simple random sample from less than 10\% of the population, the observations are independent, both within the samples and between the samples. The success-failure condition also holds for each sample, at least 10 in each cell is the easiest way to think about it. Because all conditions are met, the normal model can be used for the point estimate of the difference in proportion of strokes
-
-
-$$p_{control} - p_{trmt} = 0.05726872 - 0.14732143 = - 0.090$$
-
-The calculation of the standard error must be done carefully. Remember in hypothesis testing, we assume the null hypothesis is true; this means the proportions of strokes must be the same. 
+The calculation of the standard error for our problem must be done carefully. Remember in hypothesis testing, we assume the null hypothesis is true; this means the proportions of strokes must be the same. 
 
 $$SE = \sqrt{\frac{p(1-p)}{n_{control}} + \frac{p(1-p)}{n_{trmt}}}$$
 We don't know the exposure rate, $p$, but we can obtain a good estimate of it by **pooling** the results of both samples:
@@ -321,7 +330,7 @@ This is called the *pooled estimate* of the sample proportion, and we use it to 
 
 $$SE \approx \sqrt{\frac{\hat{p}(1-\hat{p})}{n_{control}} + \frac{\hat{p}(1-\hat{p})}{n_{trmt}}}$$
 
-m
+
 $$SE \approx \sqrt{\frac{0.102(1-0.102)}{227} + \frac{0.102(1-0.102)}{224}} = 0.0285$$
 
 The test statistic is 
@@ -337,11 +346,15 @@ Which is close to what we got with permutation test. This should not surprise us
 
 We next plot the empirical sampling distribution from the permutation test again with a normal density curve overlayed.
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 results %>%
   gf_dhistogram(~diffprop) %>%
   gf_vline(xintercept =obs ) %>%
-  gf_dist("norm",sd=0.0285,color="red")
+  gf_dist("norm",sd=0.0285,color="red") %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Sampling distribution of randomization test",
+          subtitle="Reference normal distribution in red",
+          x="Difference in proportions")
 ```
 
 ### Confidence interval for two proportions using normal model
@@ -383,7 +396,7 @@ prop_test(outcome30~group,data=stent,correct=FALSE)
 
 Essentially, confidence intervals and hypothesis tests serve similar purposes, but answer slightly different questions. A confidence interval gives you a range of feasible values of a parameter given a particular sample. A hypothesis test tells you whether a specific value is feasible given a sample. Sometimes you can informally conduct a hypothesis test simply by building an interval and observing whether the hypothesized value is contained in the interval. The disadvantage to this approach is that it does not yield a specific $p$-value. The disadvantage of the hypothesis test is that it does not give a range of values for the test statistic.
 
-As with hypothesis tests, confidence intervals are imperfect. About 1-in-20 properly constructed 95\% confidence intervals will fail to capture the parameter of interest. This is similar idea to our Type 1 error. 
+As with hypothesis tests, confidence intervals are imperfect. About 1-in-20 properly constructed 95\% confidence intervals will fail to capture the parameter of interest. This is a similar idea to our Type 1 error. 
 
 
 ## Changing the confidence level

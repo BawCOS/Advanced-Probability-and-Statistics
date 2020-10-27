@@ -129,16 +129,18 @@ obs
 
 b. The null hypothesis requires the means of each group to be equal. Pick one group to adjust, either `male` or `female`. First zero the mean of the selected group by subtracting the sample mean of this group from data points only in this group. Then add the sample mean of the other group to each data point in the selected group. Store in a new object called `HELP_null`.
 
-This is tricky, we doing some data wrangling here.
+This is tricky, we are doing some data wrangling here.
 
 ```{r}
 means<-mean(age~sex,data=HELP_sub)
 means
 ```
+
 ```{r}
 means['female']
-```
-Let's get all the female and adjust the mean.
+``` 
+
+Let's get all the female observations and adjust the mean to equal that of the males.
 
 ```{r}
 H_female <- HELP_sub %>%
@@ -158,9 +160,6 @@ HELP_sub_new<-HELP_sub %>%
   filter(sex=="male") %>%
   rbind(H_female)
 ```
-
-
-
 
 
 c. Run `favstats()` to check that the means are equal.
@@ -237,7 +236,9 @@ c. Make a histogram of the differences in price.
 
 ```{r}
 textbooks %>%
-  gf_histogram(~diff)
+  gf_histogram(~diff) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Distribution of price differences",x="Price difference between UCLA and Amazon")
 ```
 The distribution is skewed.
 
@@ -245,7 +246,7 @@ The hypotheses are:
 $H_0$: $\mu_{diff}=0$. There is no difference in the average textbook price.  
 $H_A$: $\mu_{diff} \neq 0$. There is a difference in average prices.  
  
-d. To use a $t$ distribution, the variable `diff` has to independent and normally distributed. Since the 73 books represent less than 10\% of the population, the assumption that the random sample is independent is reasonable. Check normality using `qqnorsim()` from the `openintro` package. It generates 8 qq plots of simulated normal data that you can use to judge the `diff` variable. 
+d. To use a $t$ distribution, the variable `diff` has to be independent and normally distributed. Since the 73 books represent less than 10\% of the population, the assumption that the random sample is independent is reasonable. Check normality using `qqnorsim()` from the `openintro` package. It generates 8 qq plots of simulated normal data that you can use to judge the `diff` variable. 
 
 ```{r}
 qqnormsim(diff,textbooks)
@@ -288,11 +289,13 @@ set.seed(843)
 results<-do(1000)*mean(~diff,data=resample(textbooks))
 ```
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 results %>%
   gf_dhistogram(~mean) %>%
   gf_dist("norm",mean=12.76,sd=14/sqrt(72),color="red") %>%
-  gf_vline(xintercept = obs_stat)
+  gf_vline(xintercept = obs_stat) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Sampling distribution of the mean of differences in price",x="Mean of differences in price")
 ```
 
 ```{r}
@@ -322,6 +325,7 @@ Yes, but you have to be careful because you want to keep the pairing so you can'
 ```{r}
 sample(c(-1,1),size=73,replace = TRUE)
 ```
+
 ```{r}
 set.seed(406)
 results <- do(1000)*mean((~diff*sample(c(-1,1),size=73,replace = TRUE)),data=textbooks)
@@ -329,7 +333,10 @@ results <- do(1000)*mean((~diff*sample(c(-1,1),size=73,replace = TRUE)),data=tex
 
 ```{r}
 results %>%
-  gf_histogram(~mean)
+  gf_histogram(~mean) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Randomization sampling distribution of mean of differences in price",
+          x="Mean of price difference")
 ```
 
 ```{r}

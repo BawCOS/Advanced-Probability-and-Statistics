@@ -56,7 +56,7 @@ Recall the four general steps of building a confidence interval:
 
 4) Use this distribution to obtain a range of feasible values (confidence interval) for the parameter.  
 
-We previously used the central limit theorem to determine the distribution of our estimate. This lesson, we will build *bootstrap distribution* of sample estimates.
+We previously used the central limit theorem to determine the distribution of our estimate. This lesson, we will build *bootstrap distribution*s of sample estimates.
 
 ## Bootstrapping
 
@@ -66,7 +66,7 @@ The theory required to quantify the uncertainty of the sample median is complex.
 
 However, we can sample from the sample. *Bootstrapping* allows us to simulate the sampling distribution by **resampling** from the sample. Suppose $x_1,x_2,...,x_n$ is an iid random sample from the population. First we define the empirical distribution function of $X$ by assigning an equal probability to each $x_i$. Then, we sample from this empirical probability mass function. In practice, this simply means sampling from your original sample *with replacement*. Thus we are treating our sample as a discrete uniform random variable. 
 
-The general procedure for bootstrapping is to sample with replacement from your original sample, calculate and record the sample statistic for that bootstrapped sample, then repeat the process many times. The collection of sample statistics comprises a *bootstrap distribution* of the sample statistic. Generally, this procedure works quite well, provided that the sample is representative of the population. Otherwise, any bias or misrepresentation is simply amplified throughout the bootstrap process. Further, for very small sample sizes, bootstrap distributions become "choppy" and hard to interpret. Thus is small sample cases, we must use permutation or mathematical methods to determine the sampling distribution.   
+The general procedure for bootstrapping is to sample with replacement from your original sample, calculate and record the sample statistic for that bootstrapped sample, then repeat the process many times. The collection of sample statistics comprises a *bootstrap distribution* of the sample statistic. Generally, this procedure works quite well, provided that the sample is representative of the population. Otherwise, any bias or misrepresentation is simply amplified throughout the bootstrap process. Further, for very small sample sizes, bootstrap distributions become "choppy" and hard to interpret. Thus in small sample cases, we must use permutation or mathematical methods to determine the sampling distribution.   
 
 Once you have completed the procedure, the bootstrap distribution can be used to build a confidence interval for the population parameter or estimate the standard error. We are not using the bootstrap to find p-values. 
 
@@ -290,9 +290,9 @@ There might be a slight difference in the means, but is it statistically signifi
 
 ### Permutation test
 
-The permutation test is ideally suited for a hypothesis test so we will conduct that first and then see if we can generate a confidence interval.
+The permutation test is ideally suited for a hypothesis test. So we will conduct that first and then see if we can generate a confidence interval.
 
-The hypothesis for 
+The hypotheses are: 
 
 $H_0$: There is no difference in average age for men and women in the detoxification unit. In statistical notation: $\mu_{male} - \mu_{female} = 0$, where $\mu_{female}$ represents female inpatients and $\mu_{male}$ represents the male inpatients.  
 $H_A$: There is some difference in average age for men and women in the detoxification unit ($\mu_{male} - \mu_{female} \neq 0$).
@@ -355,8 +355,8 @@ When applying the $t$ distribution for a hypothesis test, we proceed as follows:
 1. Write appropriate hypotheses.  
 2. Verify conditions for using the $t$ distribution.   
  For a difference of means when the data are not paired: each sample mean must separately satisfy the one-sample conditions for the $t$ distribution, and the data in each group must also be independent. Just like in the one-sample case, slight skewness will not be a problem for larger sample sizes. We can have moderate skewness and be fine if our sample is 30 or more. We can have extreme skewness if our sample is 60 or more.  
-3. Compute the point estimate of interest, the standard error, and the degrees of freedom. 
-4. Compute the T score and p-value.  
+3. Compute the point estimate of interest, the standard error, and the degrees of freedom.  
+4. Compute the T score and p-value.   
 5. Make a conclusion based on the p-value, and write a conclusion in context and in plain language so anyone can understand the result.  
 
 We added the extra step of checking the assumptions.
@@ -365,7 +365,7 @@ We added the extra step of checking the assumptions.
 
 ### Confidence intervals  
 
-Similarly, the following is how we generally computed a confidence interval using a $t$ distribution:
+Similarly, the following is how we generally computed a confidence interval using a $t$ distribution:  
 1. Verify conditions for using the $t$ distribution. (See above.)  
 2. Compute the point estimate of interest, the standard error, the degrees of freedom, and $t^{\star}_{df}$.  
 3. Calculate the confidence interval using the general formula, point estimate $\pm\ t_{df}^{\star} SE$.  
@@ -398,7 +398,8 @@ Let's find the confidence interval first.
 ```{r}
 (35.47-36.25)+c(-1,1)*qt(.975,106)*sqrt(7.58^2/107+7.75^2/346)
 ```
-This very close to what we got with the permutation test.
+
+This result is very close to what we got with the permutation test.
 
 Now let's find the p-value for the hypothesis test.
 
@@ -439,7 +440,7 @@ The benefits of pooling the standard deviation are realized through obtaining a 
 > **Caution**  
 Pooling standard deviations should be done only after careful research  
 
-A pooled standard deviation is only appropriate when background research indicates the population standard deviations are nearly equal. When the sample size is large and the condition may be adequately checked with data, the benefits of pooling the standard deviations greatly diminishes.}
+A pooled standard deviation is only appropriate when background research indicates the population standard deviations are nearly equal. When the sample size is large and the condition may be adequately checked with data, the benefits of pooling the standard deviations greatly diminishes.
 
 In `R` we can before the difference of two means with equal variance using `var.equal`.
 
@@ -456,13 +457,14 @@ Finally, we will construct a confidence interval through the use of the bootstra
 ```{r}
 favstats(age ~ sex, data = resample(HELP_sub))
 ```
- and
+ 
+and
  
 ```{r}
-favstats(age ~ sex, data = resample(HELPrct,groups=sex))
+favstats(age ~ sex, data = resample(HELP_sub,groups=sex))
 ```
  
-Notice in the second, we are keeping the samples the same size.
+Notice in the second line of code, we are keeping the samples the same size within the `sex` variable.
 
 Let's get our bootstrap distribution.
 
@@ -475,6 +477,7 @@ results <- do(1000) * diffmean(age ~ sex, data = resample(HELP_sub, groups = sex
 results %>%
   gf_histogram(~diffmean)
 ```
+
 ```{r}
 cdata( ~ diffmean, p = 0.95, data = results)
 ```
@@ -486,7 +489,7 @@ Again, similar results.
 
 1. There are more types of bootstrap techniques, right?  
 
-Yes! There are many excellent bootstrap techniques. We have only chosen to present two bootstrap techniques that could be explained in a single lesson and is also reasonably reliable. There are many adjustments that can be made to speed up and improve accurate. Packages such as `resample` and `boot` are more appropriate for these situations.
+Yes! There are many excellent bootstrap techniques. We have only chosen to present two bootstrap techniques that could be explained in a single lesson and that are also reasonably reliable. There are many adjustments that can be made to speed up and improve accuracy. Packages such as `resample` and `boot` are more appropriate for these situations.
 
 
 2. I've heard the percentile bootstrap is very robust.  

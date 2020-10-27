@@ -116,8 +116,7 @@ $$ SE_{\hat{p}}
 	\approx \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
 	$$=\sqrt{\frac{.08(.92)}{125}} = 0.0243$$
 
-A $\hat{p}$ of 0.12 is only $\frac{0:12 - 0:08}{0.0243} = 1.65$ standard errors away from the mean, which would
-not be considered unusual.
+A $\hat{p}$ of 0.12 is only $\frac{0.12 - 0.08}{0.0243} = 1.65$ standard errors away from the mean, which would not be considered unusual.
 
 The p-value is:
 
@@ -135,7 +134,7 @@ $$ SE_{\hat{p}}
 
 Notice that doubling the sample size only reduced the standard error by $\sqrt{2}$.
 
-A $\hat{p}$ of 0.12 is $\frac{0:12 - 0:08}{0.0172} = 2.32$ standard errors away from the mean, which might be considered unusual.
+A $\hat{p}$ of 0.12 is $\frac{0.12 - 0.08}{0.0172} = 2.32$ standard errors away from the mean, which might be considered unusual.
 
 The p-value is:
 
@@ -210,7 +209,7 @@ qt(.95,24)
 
 Lastly, using the margin of error and the critical value we can solve for $s$:
 $$ ME = t_{24}\times \frac{s}{\sqrt{n}}$$
-$$6 = 1:71\times \frac{s}{\sqrt{25}}$$
+$$6 = 1.71\times \frac{s}{\sqrt{25}}$$
 $$s = 17.54$$
 
 

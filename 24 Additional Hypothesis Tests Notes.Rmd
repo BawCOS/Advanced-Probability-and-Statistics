@@ -2,6 +2,7 @@
 title: "Additional Hypothesis Tests Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -35,7 +36,7 @@ library(tidyverse)
 
 ## Objectives
 
-1) Conduct and interpret a hypothesis test for testing equality of two or more means; both permutation and using the $F$ distribution. 
+1) Conduct and interpret a hypothesis test for equality of two or more means using both permutation and the $F$ distribution. 
 
 2) Conduct and interpret a goodness of fit test using both Pearson's chi-squared to evaluate the independence between two categorical variables. 
 
@@ -47,27 +48,27 @@ library(tidyverse)
 
 The purpose of this lesson is to put all we learned in the block into perspective and then to also add a couple of new tests to demonstrate other statistical tests.
 
-Remember that we have been using data to answer research questions. So far, we can do this with hypothesis tests or confidence intervals. There is a close link between these two methods. The key ideas have been to generate a single number metric to use in answering our question and then to obtain the sampling distribution of this metric. 
+Remember that we have been using data to answer research questions. So far we can do this with hypothesis tests or confidence intervals. There is a close link between these two methods. The key ideas have been to generate a single number metric to use in answering our research question and then to obtain the sampling distribution of this metric. 
 
-In obtaining the sampling distribution we used permutation exact tests, probability models, mathematical models, and the bootstrap. Each of these had different assumptions and different areas that they can be applied. In some cases, several methods can be applied to the problem to get a since of the robustness to the assumptions.
+In obtaining the sampling distribution we used randomization as an approximation to permutation exact tests, probability models, mathematical models, and the bootstrap. Each of these had different assumptions and different areas where they could be applied. In some cases, several methods can be applied to the problem to get a sense of the robustness to the different assumptions. For example, if you run a randomization test and a test using the CLT and they both give you similar results, you can feel better about your decision.
 
-Finding a single number metric has been difficult. For example, in the homework for last lesson, we wanted to determine if the prices of books at a campus bookstore were different from Amazon's prices. The metric we decided to use was the mean of the differences in prices. But is this the best way to answer the question? This metric has been used historically because of the need to use the $t$ distribution. But there are other ways in which the prices of books can differ. Jack Welch was the CEO of GE for years and he made the claim that customers don't care about average but they do care about variability. The average temperature setting of your GE refrigerator could be off and you would adapt. However if the temperature had great variability, then you would be upset. So maybe metrics that incorporate variability might be good. In our bootstrap notes, we look at the ages of males and females in the HELP study. In the permutation test, we are assuming there is no difference in the distribution of ages between males and females. However, in the alternative we measured the difference using means. The means of these two populations could be equal but the distributions differ in other ways, for example variability. We could conduct a separate test for variances but we have to be careful about multiple comparisons, because the type 1 is inflated.
+Finding a single number metric to answer our research question can be difficult. For example, in the homework for last lesson, we wanted to determine if the prices of books at a campus bookstore were different from Amazon's prices. The metric we decided to use was the mean of the differences in prices. But is this the best way to answer the question? This metric has been used historically because of the need to use the $t$ distribution. However, there are other ways in which the prices of books can differ. Jack Welch was the CEO of GE for years and he made the claim that customers don't care about average but they do care about variability. The average temperature setting of your GE refrigerator could be off and you would adapt. However if the temperature had great variability, then you would be upset. So maybe metrics that incorporate variability might be good. In our bootstrap notes, we looked at the ages of males and females in the HELP study. In using a randomization permutation test, we assumed there was no difference in the distribution of ages between males and females. However, in the alternative we measured the difference in the distributions using only means. The means of these two populations could be equal but the distributions differ in other ways, for example variability. We could conduct a separate test for variances but we have to be careful about multiple comparisons because in that case the Type 1 is inflated.
 
-In addition, the use of the information in the data impacts the power of the test. In the golf ball example, when we used range as our metric, we did not have the same power as looking at the differences from expected values under the null hypothesis. There is some mathematical theory that leads to better estimators, they are called likelihood ratio tests, but this is beyond the scope of the class. What you can do, is create a simulation where you simulate data from the alternative hypothesis and then measure the power. This will give you a sense of the quality of your metric.
+We also learned that the use of the information in the data impacts the power of the test. In the golf ball example, when we used range as our metric, we did not have the same power as looking at the differences from expected values under the null hypothesis. There is some mathematical theory that leads to better estimators, they are called likelihood ratio tests, but this is beyond the scope of the class. What you can do is create a simulation where you simulate data from the alternative hypothesis and then measure the power. This will give you a sense of the quality of your metric. We only briefly looked at measuring power in one lesson earlier and will not go further into this idea in this class.
 
-We will finish by examining problems with two variables. In the first case they will both be categorical but at least one of the categorical variables has more than two levels. In the second case, we will examine two variables where one is numeric and the other categorical. The categorical variable has more than two levels.
+We will finish this block by examining problems with two variables. In the first case they will both be categorical but at least one of the categorical variables has more than two levels. In the second case, we will examine two variables where one is numeric and the other categorical. The categorical variable has more than two levels.
 
 ## Categorical data
 
-It is worth spending some time on common approaches to categorical data that you may come across. We have already dealt with categorical data to some extent. We have performed hypothesis tests and built confidence intervals for $\pi$, the population proportion of "success" in binary cases (support for a local measure in a vote). This is a single variable. Also, the golf ball example involved counts of four types of golf ball. This is considered categorical data because each observation is characterized by a qualitative value (type of ball). The data are summarized by counting how many balls in a sample belong to each type. This again was a single variable. 
+It is worth spending some time on common approaches to categorical data that you may come across. We have already dealt with categorical data to some extent in this course. We have performed hypothesis tests and built confidence intervals for $\pi$, the population proportion of "success" in binary cases (for example, support for a local measure in a vote). This problem had a single variable. Also, the golf ball example involved counts of four types of golf ball. This is considered categorical data because each observation is characterized by a qualitative value (number on the ball). The data are summarized by counting how many balls in a sample belong to each type. This again was a single variable. 
 
-In another scenario, suppose we are presented with two qualitative variables and would like to know if they are correlated. For example, we have discussed methods for determining whether a coin could be fair. What if we wanted to know whether flipping the coin during the day or night changes the fairness of the coin? In this case, we have two categorical variables with two levels each: result of coin flip (heads vs tails) and time of day (day vs night). We have solved this problem by looking at a difference in probabilities of success. We also used a hypergeometric distribution. 
+In another scenario, suppose we are presented with two qualitative variables and would like to know if they are correlated. For example, we have discussed methods for determining whether a coin could be fair. What if we wanted to know whether flipping the coin during the day or night changes the fairness of the coin? In this case, we have two categorical variables with two levels each: result of coin flip (heads vs tails) and time of day (day vs night). We have solved this type of problem by looking at a difference in probabilities of success using randomization and the CLT. We also used a hypergeometric distribution to obtain an exact p-value. 
 
-We look at a scenario that involves categorical data, but where at least one variable has more than two levels. We will merely scratch the surface. You could take an entire course on statistical methods for categorical data. But with your inferential knowledge, you know the differences are only in the test statistic and distribution used to evaluate the hypotheses. 
+We will next explore a scenario that involves categorical data with two variables but where at least one variable has more than two levels. However, note that we are only merely scratching the surface in our studies. You could take an entire course on statistical methods for categorical data. This course is giving you a solid foundation to learn more advanced methods in other courses. 
 
 ### HELP example  
 
-Let’s return to Health Evaluation and Linkage to Primary Care data set. We looked at the differences in ages between males and females, let's now do the same thing for the substance they were admitted to the program for. 
+Let’s return to Health Evaluation and Linkage to Primary Care data set, `HELPrct` in the `mosaicData` package. Previously, we looked at the differences in ages between males and females, let's now do the same thing for the variable `substance`, the primary substance of abuse. 
 
 There are three substances: alcohol, cocaine, and heroin. We’d like to know if there is evidence that these proportions differ for men and for women. In our data set, we observe modest differences.
 
@@ -75,12 +76,13 @@ There are three substances: alcohol, cocaine, and heroin. We’d like to know if
 tally( substance ~ sex, data = HELPrct,
 format="prop", margins = TRUE)
 ```
-But we need a test statistic.
+But we need a test statistic to test if there is a difference in substance of abuse between males and females.
 
 
-#### Test statistic 
+### Test statistic  
 
-To help us understand the test statistic, let's simplify and use a simple example. 
+
+To help us develop and understand a test statistic, let's simplify and use a simple theoretical example. 
 
 Suppose we have a 2 x 2 contingency table like the one below. 
 $$
@@ -91,22 +93,34 @@ $$
 \end{array}
 $$
 
-If our null hypothesis is that the two variables are independent, a typical test statistic used is the Pearson chi-squared test statistic ($X^2$). Let $e_{ij}$ be the expected count in the $i$th row and $j$th column under the null hypothesis: 
+If our null hypothesis is that the two variables are independent, a classical test statistic used is the Pearson chi-squared test statistic ($X^2$). This is similar to the one we used in our golf ball example. Let $e_{ij}$ be the expected count in the $i$th row and $j$th column under the null hypothesis, then the test statistic is: 
 $$
 X^2=\sum_{i=1}^2 \sum_{j=1}^2 {(n_{ij}-e_{ij})^2\over e_{ij}}
 $$
 
-But what is $e_{ij}$? What do we expect the count to be under $H_0$. To find this, we recognize that under $H_0$ (independence), joint probability is equal to the product of the marginal probabilities. Let $\pi_{ij}$ be the probability of an outcome appearing in row $i$ and column $j$. Our best guess at $\pi_{ij}$ is $\hat{\pi}_{ij}={n_{ij}\over n}$, where $n$ is the total sample size. But under independence, $\pi_{ij}=\pi_{i+}\pi_{+j}$ where $\pi_{i+}$ represents the total probability of ending up in row $i$ and $\pi_{+j}$ represents the total probability of ending up in column $j$. Note that $\pi_{i+}$ is estimated by $\hat{\pi}_{i+}$ and 
+But how do we find $e_{ij}$? What do we expect the count to be under $H_0$? To find this, we recognize that under $H_0$ (independence), a joint probability is equal to the product of the marginal probabilities. Let $\pi_{ij}$ be the probability of an outcome appearing in row $i$ and column $j$. In the absence of any other information, our best guess at $\pi_{ij}$ is $\hat{\pi}_{ij}={n_{ij}\over n}$, where $n$ is the total sample size. But under the null hypothesis we have the assumption of independence, thus $\pi_{ij}=\pi_{i+}\pi_{+j}$ where $\pi_{i+}$ represents the total probability of ending up in row $i$ and $\pi_{+j}$ represents the total probability of ending up in column $j$. Note that $\pi_{i+}$ is estimated by $\hat{\pi}_{i+}$ and 
+$$
+\hat{\pi}_{i+}={n_{i+}\over n}
+$$
+Thus for our simple 2 x 2 example, we have: 
+
 $$
 \hat{\pi}_{i+}={n_{i+}\over n}={n_{i1}+n_{i2}\over n}
 $$
 
-So, under $H_0$, our best guess for $\pi_{ij}$ is:
+And for Group 1 we would have:
+
 $$
-\hat{\pi}_{ij}=\hat{\pi}_{i+}\hat{\pi}_{+j}={n_{i+}\over n}{n_{+j}\over n}
+\hat{\pi}_{1+}={n_{1+}\over n}={n_{11}+n_{12}\over n}
 $$
 
-So, under $H_0$, 
+So, under $H_0$, our best guess for $\pi_{ij}$ is:
+$$
+\hat{\pi}_{ij}=\hat{\pi}_{i+}\hat{\pi}_{+j}={n_{i+}\over n}{n_{+j}\over n} = {n_{i1}+n_{i2}\over n}{n_{1j}+n_{2j}\over n}
+$$
+
+Continuing, under $H_0$ the expected cell count is: 
+
 $$
 e_{ij}=n\hat{\pi}_{ij}=n{n_{i+}\over n}{n_{+j}\over n}={n_{i+}n_{+j}\over n}
 $$
@@ -157,11 +171,11 @@ $$
 
 
 
-As you can probably tell, $X^2$ is essentially comparing the observed counts with the expected counts under $H_0$. The larger the difference between observed and expected, the larger the value of $X^2$. It is normalized by dividing by the expected counts since more data leads to a larger contribution. Under $H_0$, this statistic follows the chi-squared distribution with $(R-1)(C-1)$, in this case 1, degree of freedom ($R$ is the number of rows and $C$ is the number of columns). 
+As you can probably tell, $X^2$ is essentially comparing the observed counts with the expected counts under $H_0$. The larger the difference between observed and expected, the larger the value of $X^2$. It is normalized by dividing by the expected counts since more data in a cell leads to a larger contribution to the sum. Under $H_0$, this statistic follows the chi-squared distribution with $(R-1)(C-1)$, in this case 1, degrees of freedom ($R$ is the number of rows and $C$ is the number of columns). 
 
 #### p-value
 
-To find the Pearson chi-squared ($X^2$) in `R`: 
+To find the Pearson chi-squared ($X^2$) and p-value in `R` use the following code: 
 
 ```{r}
 e<-c(19.5,19.5,20.5,20.5)
@@ -175,7 +189,7 @@ x2
 
 Again, the $p$-value suggests there is not enough evidence to say these two variables are dependent.
 
-Of course there is a 
+Of course there is a built in function in `R` that will make the calculations easier. It is `chisq.test()`.
 
 ```{r}
 coin <- tibble(time = c(rep("Day",40),rep("Night",40)),
@@ -200,7 +214,7 @@ chisq(~time+result,data=coin)
 
 ### Extension to Larger Tables
 
-The advantage of using the Pearson chi-squared is that it can be extended to larger contingency tables. Suppose we are comparing two categorical variables, one with $r$ levels and the other with $c$ levels. Then,
+The advantage of using the Pearson chi-squared is that it can be extended to larger **contingency tables**, the name given to these tables of multiple categorical variables. Suppose we are comparing two categorical variables, one with $r$ levels and the other with $c$ levels. Then,
 $$
 X^2=\sum_{i=1}^r \sum_{j=1}^c {(n_{ij}-e_{ij})^2\over e_{ij}}
 $$
@@ -214,34 +228,40 @@ Note that to use this test statistic, the expected cell counts must be reasonabl
 
 ### Permutation test
 
-We will complete our analysis of the HELP data using a permutation test first.
+We will complete our analysis of the HELP data first using a randomization, approximate permutation, test.
 
-First let write the hypotheses
+First let write the hypotheses:
 
 $H_0$: The variables sex and substance are independent.  
 $H_a$: The variables sex and substance are dependent.
 
-We will use the chi squared test statistic.
+We will use the chi squared test statistic as our test statistic. We could use a different test statistic such as using the absolute value function instead of the square function but then we would need to write a custom function.
+
+First, let's get the observed value for the test statistic:
 
 ```{r}
 obs <- chisq(substance~sex,data=HELPrct)
 obs
 ```
-Next we will use a permutation randomization to find the sampling distribution.
+
+Next we will use a permutation randomization process to find the sampling distribution of our test statistics.
 
 ```{r}
 set.seed(2720)
 results <- do(1000)*chisq(substance~shuffle(sex),data=HELPrct)
 ```
 
-A visual summary of the results helps us to gain some intuition about the p-value.
+A visual summary of the results helps us to gain some intuition about the p-value. We also plot the theoretical Chi-squared distribution as a dark blue overlay.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 results %>%
   gf_dhistogram(~X.squared) %>%
   gf_vline(xintercept = obs,color="red") %>%
   gf_theme(theme_classic()) %>%
-  gf_dist("chisq",df=2,color="darkblue")
+  gf_dist("chisq",df=2,color="darkblue") %>%
+  gf_labs(title="Sampling distribution of Pearson Chi-squared test statistic",
+          subtitle="For the variables sex and substance in the HELPrct data set",
+          x="Test statistic")
 ```
 
 We find the p-value using `prop1()`.
@@ -249,21 +269,22 @@ We find the p-value using `prop1()`.
 ```{r}
 prop1((~X.squared>=obs),data=results)
 ```
-We don't double it because the chi-squared is a one sided test due to the fact that we squared the differences.
 
-We fail to reject that the variables are independent.
+We don't double this value because the chi-squared is a one sided test due to the fact that we squared the differences.
+
+Based on this p-value, we fail to reject the hypothesis that the variables are independent.
 
 ### Chi-squared test
 
-We will jump straight to the function.
+We will jump straight to using the function `chisq.test()`.
 
 ```{r}
 chisq.test(tally(substance~sex,data=HELPrct))
 ```
 
-We get a p-value very close to the one from the permutation test.
+We get a p-value very close to the one from the randomization permutation test.
 
-Notice that if the null hypothesis is true the test statistic is the minimum value of zero. We can't use a bootstrap confidence interval on this problem because zero will not be in the interval. It can be on the edge.
+Notice that if the null hypothesis is true the test statistic has the minimum value of zero. We can't use a bootstrap confidence interval on this problem because zero will never be in the interval. It can only be on the edge of an interval.
 
 ## Numerical data
 
@@ -283,9 +304,10 @@ mlb_data<-tibble(position=gp,obp=unlist(out))
 #write_csv(mlb_data,"data/mlb_obp.csv")
 ```
 
-Sometimes we want to compare means across many groups. We might initially think to do pairwise comparisons; for example, if there were three groups, we might be tempted to compare the first mean with the second, then with the third, and then finally compare the second and third means for a total of three comparisons. However, this strategy can be treacherous. If we have many groups and do many comparisons, it is likely that we will eventually find a difference just by chance, even if there is no difference in the populations.
+Sometimes we want to compare means across many groups. In this case we have two variable where one is continuous and the other categorical. We might initially think to do pairwise comparisons, two sample t-tests, as a solution; for example, if there were three groups, we might be tempted to compare the first mean with the second, then with the third, and then finally compare the second and third means for a total of three comparisons. However, this strategy can be treacherous. If we have many groups and do many comparisons, it is likely that we will eventually find a difference just by chance, even if there is no difference in the populations.
 
-In this section, we will learn a new method called **analysis of variance** (ANOVA) and a new test statistic called $F$. ANOVA uses a single hypothesis test to check whether the means across many groups are equal:  
+In this section, we will learn a new method called **analysis of variance** (ANOVA) and a new test statistic called $F$. ANOVA uses a single hypothesis test to check whether the means across many groups are equal. The hypotheses are:
+
 \begin{itemize}
 \setlength{\itemsep}{0mm}
 \item[$H_0$:] The mean outcome is the same across all groups. In statistical notation, $\mu_1 = \mu_2 = \cdots = \mu_k$ where $\mu_i$ represents the mean of the outcome for observations in category $i$.
@@ -307,7 +329,7 @@ When these three conditions are met, we may perform an ANOVA to determine whethe
 ### MLB batting performance
 
 
-We would like to discern whether there are real differences between the batting performance of baseball players according to their position: outfielder (`OF`), infielder (`IF`), designated hitter (`DH`), and catcher (`C`). We will use a data set `mlbbat10` from the `openintro` package. The data is in the `mlb_obp.csv` which has been modified from the original data set to include only those with more than 200 at bats. The batting performance will be measured with the on-base percentage. The on-base percentage roughly represents the fraction of the time a player successfully gets on base or hits a home run.
+We would like to discern whether there are real differences between the batting performance of baseball players according to their position: outfielder (`OF`), infielder (`IF`), designated hitter (`DH`), and catcher (`C`). We will use a data set `mlbbat10` from the `openintro` package. The data is in the file `mlb_obp.csv` which has been modified from the original data set to include only those with more than 200 at bats. The batting performance will be measured with the on-base percentage. The on-base percentage roughly represents the fraction of the time a player successfully gets on base or hits a home run.
 
 
 Read the data into `R`.
@@ -316,11 +338,13 @@ Read the data into `R`.
 mlb_obp <- read_csv("data/mlb_obp.csv")
 ```
 
-```{r}
+Let's review our data:
+
+```{r warning=FALSE,message=FALSE}
 inspect(mlb_obp)
 ```
 
-Let's change `position` to a factor.
+Next change the variable `position` to a factor to give us greater control.
 
 ```{r}
 mlb_obp <- mlb_obp %>%
@@ -347,7 +371,8 @@ Construct side-by-side boxplots.
 mlb_obp %>%
   gf_boxplot(obp~position) %>%
   gf_labs(x="Position Played",y="On Base Percentage") %>%
-  gf_theme(theme_bw())
+  gf_theme(theme_bw()) %>%
+  gf_labs(title="Comparison of OBP for different positions")
 ```
 
 The largest difference between the sample means is between the designated hitter and the catcher positions. Consider again the original hypotheses:  
@@ -369,11 +394,12 @@ In the next section we will learn how to use the $F$ statistic and ANOVA to test
 ### Analysis of variance (ANOVA) and the F test  
 
 The method of analysis of variance in this context focuses on answering one question: is the variability in the sample means so large that it seems unlikely to be from chance alone? This question is different from earlier testing procedures since we will *simultaneously* consider many groups, and evaluate whether their sample means differ more than we would expect from natural variation. We call this variability the **mean square between groups** ($MSG$), and it has an associated degrees of freedom, $df_{G}=k-1$ when there are $k$ groups. The $MSG$ can be thought of as a scaled variance formula for means. If the null hypothesis is true, any variation in the sample means is due to chance and shouldn't be too large. Details of $MSG$ calculations are provided in the footnote,^[Let $\bar{x}$ represent the mean of outcomes across all groups. Then the mean square between groups is computed as
-
-$$MSG = \frac{1}{df_{G}}SSG = \frac{1}{k-1}\sum_{i=1}^{k} n_{i}\left(\bar{x}_{i} - \bar{x}\right)^2$$  
+$$
+MSG = \frac{1}{df_{G}}SSG = \frac{1}{k-1}\sum_{i=1}^{k} n_{i}\left(\bar{x}_{i} - \bar{x}\right)^2
+$$ 
 where $SSG$ is called the **sum of squares between groups** and $n_{i}$ is the sample size of group $i$.] however, we typically use software for these computations.
 
-The mean square between the groups is, on its own, quite useless in a hypothesis test. We need a benchmark value for how much variability should be expected among the sample means if the null hypothesis is true. To this end, we compute a pooled variance estimate, often abbreviated as the **mean square error** ($MSE$)}, which has an associated degrees of freedom value $df_E=n-k$. It is helpful to think of $MSE$ as a measure of the variability within the groups. Details of the computations of the $MSE$ are provided in the footnote^[Let $\bar{x}$ represent the mean of outcomes across all groups. Then the **sum of squares total** ($SST$)} is computed as
+The mean square between the groups is, on its own, quite useless in a hypothesis test. We need a benchmark value for how much variability should be expected among the sample means if the null hypothesis is true. To this end, we compute a pooled variance estimate, often abbreviated as the **mean square error** ($MSE$), which has an associated degrees of freedom value $df_E=n-k$. It is helpful to think of $MSE$ as a measure of the variability within the groups. Details of the computations of the $MSE$ are provided in the footnote^[Let $\bar{x}$ represent the mean of outcomes across all groups. Then the **sum of squares total** ($SST$)} is computed as
 $SST = \sum_{i=1}^{n} \left(x_{i} - \bar{x}\right)^2$,
 where the sum is over all observations in the data set. Then we compute the **sum of squared errors** ($SSE$)} in one of two equivalent ways:
 $$
@@ -385,15 +411,15 @@ When the null hypothesis is true, any differences among the sample means are onl
 
 $$F = \frac{MSG}{MSE}$$ 
 
-The $MSG$ represents a measure of the between-group variability, and $MSE$ measures the variability within each of the groups. Using a permutation test, we could look at the difference in the mean squared errors.
+The $MSG$ represents a measure of the between-group variability, and $MSE$ measures the variability within each of the groups. Using a permutation test, we could look at the difference in the mean squared errors as a test statistic instead of the ratio.
 
 
-We can use the $F$ statistic to evaluate the hypotheses in what is called an **F test**. A p-value can be computed from the $F$ statistic using an $F$ distribution, which has two associated parameters: $df_{1}$ and $df_{2}$. For the $F$ statistic in ANOVA, $df_{1} = df_{G}$ and $df_{2}= df_{E}$. The $F$ is really a ratio of chi-squared distributions. Using a permutation test we could look at the difference in variances.
+We can use the $F$ statistic to evaluate the hypotheses in what is called an **F test**. A p-value can be computed from the $F$ statistic using an $F$ distribution, which has two associated parameters: $df_{1}$ and $df_{2}$. For the $F$ statistic in ANOVA, $df_{1} = df_{G}$ and $df_{2}= df_{E}$. The $F$ is really a ratio of chi-squared distributions. 
 
 The larger the observed variability in the sample means ($MSG$) relative to the within-group observations ($MSE$), the larger $F$ will be and the stronger the evidence against the null hypothesis. Because larger values of $F$ represent stronger evidence against the null hypothesis, we use the upper tail of the distribution to compute a p-value.
 
 
-> The $F$ statistic and the $F$ test  
+> **The $F$ statistic and the $F$ test**  
 Analysis of variance (ANOVA) is used to test whether the mean outcome differs across 2 or more groups. ANOVA uses a test statistic $F$, which represents a standardized ratio of variability in the sample means relative to the variability within the groups. If $H_0$ is true and the model assumptions are satisfied, the statistic $F$ follows an $F$ distribution with parameters $df_{1}=k-1$ and $df_{2}=n-k$. The upper tail of the $F$ distribution is used to represent the p-value.
 
 #### ANOVA
@@ -403,7 +429,7 @@ We will use `R` to perform the calculations for the ANOVA. But let's check our a
 There are three conditions we must check for an ANOVA analysis: all observations must be independent, the data in each group must be nearly normal, and the variance within each group must be approximately equal.
 
 >**Independence**  
-If the data are a simple random sample from less than 10\% of the population, this condition is satisfied. For processes and experiments, carefully consider whether the data may be independent (e.g. no pairing). In our MLB data, the data were not sampled. However, there are not obvious reasons why independence would not hold for most or all observations. This is a bit of hand waving but remember independence is difficult to assess.  
+If the data are a simple random sample from less than 10\% of the population, this condition is reasonable. For processes and experiments, carefully consider whether the data may be independent (e.g. no pairing). In our MLB data, the data were not sampled. However, there are not obvious reasons why independence would not hold for most or all observations. This is a bit of hand waving but remember independence is difficult to assess.  
 
 >**Approximately normal**  
 As with one- and two-sample testing for means, the normality assumption is especially important when the sample size is quite small. The normal probability plots for each group of the MLB data are shown below; there is some deviation from normality for infielders, but this isn't a substantial concern since there are over 150 observations in that group and the outliers are not extreme. Sometimes in ANOVA there are so many groups or so few observations per group that checking normality for each group isn't reasonable. One solution is to combine the groups into one set of data. First calculate the **residuals** of the baseball data, which are calculated by taking the observed values and subtracting the corresponding group means. For example, an outfielder with OBP of 0.435 would have a residual of $0.435 - \bar{x}_{OF} = 0.082$. Then to check the normality condition, create a normal probability plot using all the residuals simultaneously.
@@ -414,7 +440,7 @@ mlb_obp %>%
   gf_qqline()
 ```
 >**Constant variance**  
-The last assumption is that the variance in the groups is about equal from one group to the next. This assumption can be checked by examining a side-by-side box plot of the outcomes across the groups which we did previously. In this case, the variability is similar in the four groups but not identical. We also see in the output of `favstats` that the standard deviation varies a bit from one group to the next. Whether these differences are from natural variation is unclear, so we should report this uncertainty ofmeeting this assumption with the final results. The permutation test does not have this assumption and can be used to verify the results from the ANOVA.
+The last assumption is that the variance in the groups is about equal from one group to the next. This assumption can be checked by examining a side-by-side box plot of the outcomes across the groups which we did previously. In this case, the variability is similar in the four groups but not identical. We also see in the output of `favstats` that the standard deviation varies a bit from one group to the next. Whether these differences are from natural variation is unclear, so we should report this uncertainty of meeting this assumption when the final results are reported. The permutation test does not have this assumption and can be used to as a check on the results from the ANOVA.
 
 In summary, independence is always important to an ANOVA analysis. The normality condition is very important when the sample sizes for each group are relatively small. The constant variance condition is especially important when the sample sizes differ between groups.
 
@@ -440,14 +466,16 @@ Let's look at a plot of the $F$ distribution.
 
 ```{r message=FALSE}
 gf_dist("f",df1=3,df2=323) %>%
-  gf_vline(xintercept = 1.994,color="red")
+  gf_vline(xintercept = 1.994,color="red") %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="F distribution",x="F value")
 ```
 
 #### Permutation test 
 
-We can repeat the same analysis using a permutation test. We will first run it using a ratio of variances and then for interest a difference in variances.
+We can repeat the same analysis using a permutation test. We will first run it using a ratio of variances and then for interest as a difference in variances.
 
-We need a way to extract the mean squared errors from the output. There is a package called `broom` that cleans up output from functions and makes them into dataframes.
+We need a way to extract the mean squared errors from the output. There is a package called `broom` and within it a function called `tidy()` that cleans up output from functions and makes them into dataframes.
 
 ```{r}
 library(broom)
@@ -475,7 +503,8 @@ obs<-aov(obp~position,data=mlb_obp) %>%
   pull()
 obs
 ```
-Let's put it into a function.
+
+Let's put our test statistic into a function to include shuffling the `position` variable.
 
 ```{r}
 f_stat <- function(x){
@@ -491,29 +520,32 @@ f_stat(mlb_obp)
 ```
 
 
-Next, permute the position variable. There is an easier way to do this with the `purrr` package.
+Next we run the randomization test using the `do()` function. There is an easier way to do all of this work with the `purrr` package but we will not introduce those ideas in this course.
 
 ```{r}
 set.seed(5321)
 results<-do(1000)*(f_stat(mlb_obp))
 ```
 
-That was slow in executing because we are using slow functions. We could optimize using `purrr`.
+That was slow in executing because we are using tidyverse functions that are slow. Again, we could optimize using the `purrr` package.
 
 ```{r}
 results %>%
   gf_dhistogram(~result) %>%
-  gf_dist("f",df1=3,df2=323,color="red")
-  
+  gf_dist("f",df1=3,df2=323,color="red") %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Randomization test sampling distribution",
+          subtitle="F distribution is overlayed in red",
+          x="Test statistic")
 ```
 The p-value is
 
 ```{r}
 prop1(~(result>=obs),results)
 ```
-This is a similar p-value.
+This is a similar p-value from the ANOVa output.
 
-Repeat the analysis but use the difference in variance.
+Now let's repeat the analysis but use the difference in variance as our test statistic.
 
 ```{r}
 f_stat2 <- function(x){
@@ -532,9 +564,13 @@ results<-do(1000)*(f_stat2(mlb_obp))
 
 ```{r}
 results %>%
-  gf_dhistogram(~result)
+  gf_dhistogram(~result) %>%
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Randomization test sampling distribution",
+          subtitle="Test statistic is the difference in variances",
+          x="Test statistic")
 ```
-
+We need the observed value to find a p-value.
 
 ```{r}
 obs<-aov(obp~position,data=mlb_obp) %>%
@@ -549,9 +585,9 @@ The p-value is
 prop1(~(result>=obs),results)
 ```
 
-A similar p-value.
+Again a similar p-value.
 
-If we reject in the ANOVA test, we know there is a difference in at least one mean but we don't know which ones. How would you approach answering that question?
+If we reject in the ANOVA test, we know there is a difference in at least one mean but we don't know which ones. How would you approach answering that question, which means are different?
 
 
 
