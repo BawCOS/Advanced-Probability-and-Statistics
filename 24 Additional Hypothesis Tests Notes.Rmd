@@ -38,9 +38,9 @@ library(tidyverse)
 
 1) Conduct and interpret a hypothesis test for equality of two or more means using both permutation and the $F$ distribution. 
 
-2) Conduct and interpret a goodness of fit test using both Pearson's chi-squared to evaluate the independence between two categorical variables. 
+2) Conduct and interpret a goodness of fit test using both Pearson's chi-squared and randomization to evaluate the independence between two categorical variables. 
 
-3) Conduct and interpret a hypothesis test for a equality of two variances. 
+3) Conduct and interpret a hypothesis test for the equality of two variances. 
 
 4) Know and check assumptions for the tests in this lesson.
 
@@ -52,7 +52,7 @@ Remember that we have been using data to answer research questions. So far we ca
 
 In obtaining the sampling distribution we used randomization as an approximation to permutation exact tests, probability models, mathematical models, and the bootstrap. Each of these had different assumptions and different areas where they could be applied. In some cases, several methods can be applied to the problem to get a sense of the robustness to the different assumptions. For example, if you run a randomization test and a test using the CLT and they both give you similar results, you can feel better about your decision.
 
-Finding a single number metric to answer our research question can be difficult. For example, in the homework for last lesson, we wanted to determine if the prices of books at a campus bookstore were different from Amazon's prices. The metric we decided to use was the mean of the differences in prices. But is this the best way to answer the question? This metric has been used historically because of the need to use the $t$ distribution. However, there are other ways in which the prices of books can differ. Jack Welch was the CEO of GE for years and he made the claim that customers don't care about average but they do care about variability. The average temperature setting of your GE refrigerator could be off and you would adapt. However if the temperature had great variability, then you would be upset. So maybe metrics that incorporate variability might be good. In our bootstrap notes, we looked at the ages of males and females in the HELP study. In using a randomization permutation test, we assumed there was no difference in the distribution of ages between males and females. However, in the alternative we measured the difference in the distributions using only means. The means of these two populations could be equal but the distributions differ in other ways, for example variability. We could conduct a separate test for variances but we have to be careful about multiple comparisons because in that case the Type 1 is inflated.
+Finding a single number metric to answer our research question can be difficult. For example, in the homework for last lesson, we wanted to determine if the prices of books at a campus bookstore were different from Amazon's prices. The metric we decided to use was the mean of the differences in prices. But is this the best way to answer the question? This metric has been used historically because of the need to use the $t$ distribution. However, there are other ways in which the prices of books can differ. Jack Welch was the CEO of GE for years and he made the claim that customers don't care about average but they do care about variability. The average temperature setting of your GE refrigerator could be off and you would adapt. However if the temperature had great variability, then you would be upset. So maybe metrics that incorporate variability might be good. In our bootstrap notes, we looked at the ages of males and females in the HELP study. In using a randomization permutation test, we assumed there was no difference in the distribution of ages between males and females. However, in the alternative we measured the difference in the distributions using only means. The means of these two populations could be equal but the distributions differ in other ways, for example variability. We could conduct a separate test for variances but we have to be careful about multiple comparisons because in that case the Type 1 error is inflated.
 
 We also learned that the use of the information in the data impacts the power of the test. In the golf ball example, when we used range as our metric, we did not have the same power as looking at the differences from expected values under the null hypothesis. There is some mathematical theory that leads to better estimators, they are called likelihood ratio tests, but this is beyond the scope of the class. What you can do is create a simulation where you simulate data from the alternative hypothesis and then measure the power. This will give you a sense of the quality of your metric. We only briefly looked at measuring power in one lesson earlier and will not go further into this idea in this class.
 
@@ -175,7 +175,7 @@ As you can probably tell, $X^2$ is essentially comparing the observed counts wit
 
 #### p-value
 
-To find the Pearson chi-squared ($X^2$) and p-value in `R` use the following code: 
+To find the Pearson chi-squared statistic ($X^2$) and corresponding p-value from the chi-squared distribution in `R` use the following code: 
 
 ```{r}
 e<-c(19.5,19.5,20.5,20.5)
@@ -183,9 +183,14 @@ o<-c(22,17,18,23)
 x2<-sum(((o-e)^2)/e)
 
 x2
+```
 
+
+```{r}
 1-pchisq(x2,1)
 ```
+Note that the chi-squared test statistic is a sum of squared differences. Thus its distribution, a chi-squared, is skewed right and bounded on the left at zero. A departure from the null hypothesis means a value further in the right tail of the distribution. This is why we use one minus the CDF in the calculation of the p-value.
+
 
 Again, the $p$-value suggests there is not enough evidence to say these two variables are dependent.
 
@@ -212,7 +217,7 @@ chisq(~time+result,data=coin)
 ```
 
 
-### Extension to Larger Tables
+### Extension to larger tables
 
 The advantage of using the Pearson chi-squared is that it can be extended to larger **contingency tables**, the name given to these tables of multiple categorical variables. Suppose we are comparing two categorical variables, one with $r$ levels and the other with $c$ levels. Then,
 $$
@@ -220,7 +225,7 @@ X^2=\sum_{i=1}^r \sum_{j=1}^c {(n_{ij}-e_{ij})^2\over e_{ij}}
 $$
 
 
-Under the null hypothesis of independence, $X^2$ follow the chi-squared distribution with $(r-1)(c-1)$ degrees of freedom. 
+Under the null hypothesis of independence, the $X^2$ test statistic follows the chi-squared distribution with $(r-1)(c-1)$ degrees of freedom. 
 
 #### Assumptions
 
@@ -230,12 +235,12 @@ Note that to use this test statistic, the expected cell counts must be reasonabl
 
 We will complete our analysis of the HELP data first using a randomization, approximate permutation, test.
 
-First let write the hypotheses:
+First let's write the hypotheses:
 
 $H_0$: The variables sex and substance are independent.  
-$H_a$: The variables sex and substance are dependent.
+$H_a$: The variables sex and substance are dependent.  
 
-We will use the chi squared test statistic as our test statistic. We could use a different test statistic such as using the absolute value function instead of the square function but then we would need to write a custom function.
+We will use the chi-squared test statistic as our test statistic. We could use a different test statistic such as using the absolute value function instead of the square function but then we would need to write a custom function.
 
 First, let's get the observed value for the test statistic:
 
@@ -251,7 +256,7 @@ set.seed(2720)
 results <- do(1000)*chisq(substance~shuffle(sex),data=HELPrct)
 ```
 
-A visual summary of the results helps us to gain some intuition about the p-value. We also plot the theoretical Chi-squared distribution as a dark blue overlay.
+A visual summary of the results helps us to gain some intuition about the p-value. We also plot the theoretical chi-squared distribution as a dark blue overlay.
 
 ```{r warning=FALSE,message=FALSE}
 results %>%
@@ -259,7 +264,7 @@ results %>%
   gf_vline(xintercept = obs,color="red") %>%
   gf_theme(theme_classic()) %>%
   gf_dist("chisq",df=2,color="darkblue") %>%
-  gf_labs(title="Sampling distribution of Pearson Chi-squared test statistic",
+  gf_labs(title="Sampling distribution of chi-squared test statistic",
           subtitle="For the variables sex and substance in the HELPrct data set",
           x="Test statistic")
 ```
@@ -282,7 +287,7 @@ We will jump straight to using the function `chisq.test()`.
 chisq.test(tally(substance~sex,data=HELPrct))
 ```
 
-We get a p-value very close to the one from the randomization permutation test.
+We get a p-value very close to the one from the randomization permutation test. Remember in the randomization test we shuffled the variable `sex` over many replications and calculated a value for the test statistic for each replication. We did this shuffling because the null hypothesis assumed independence of the two variables. This process led to an empirical estimate of the sampling distribution, the grey histogram in the previous graph. In this section, under the null hypothesis and the appropriate assumptions, the sampling distribution is a chi-squared, the blue line in the previous graph. We used it to calculate the p-value directly.
 
 Notice that if the null hypothesis is true the test statistic has the minimum value of zero. We can't use a bootstrap confidence interval on this problem because zero will never be in the interval. It can only be on the edge of an interval.
 
@@ -304,7 +309,7 @@ mlb_data<-tibble(position=gp,obp=unlist(out))
 #write_csv(mlb_data,"data/mlb_obp.csv")
 ```
 
-Sometimes we want to compare means across many groups. In this case we have two variable where one is continuous and the other categorical. We might initially think to do pairwise comparisons, two sample t-tests, as a solution; for example, if there were three groups, we might be tempted to compare the first mean with the second, then with the third, and then finally compare the second and third means for a total of three comparisons. However, this strategy can be treacherous. If we have many groups and do many comparisons, it is likely that we will eventually find a difference just by chance, even if there is no difference in the populations.
+Sometimes we want to compare means across many groups. In this case we have two variables where one is continuous and the other categorical. We might initially think to do pairwise comparisons, two sample t-tests, as a solution; for example, if there were three groups, we might be tempted to compare the first mean with the second, then with the third, and then finally compare the second and third means for a total of three comparisons. However, this strategy can be treacherous. If we have many groups and do many comparisons, it is likely that we will eventually find a difference just by chance, even if there is no difference in the populations.
 
 In this section, we will learn a new method called **analysis of variance** (ANOVA) and a new test statistic called $F$. ANOVA uses a single hypothesis test to check whether the means across many groups are equal. The hypotheses are:
 
@@ -440,7 +445,7 @@ mlb_obp %>%
   gf_qqline()
 ```
 >**Constant variance**  
-The last assumption is that the variance in the groups is about equal from one group to the next. This assumption can be checked by examining a side-by-side box plot of the outcomes across the groups which we did previously. In this case, the variability is similar in the four groups but not identical. We also see in the output of `favstats` that the standard deviation varies a bit from one group to the next. Whether these differences are from natural variation is unclear, so we should report this uncertainty of meeting this assumption when the final results are reported. The permutation test does not have this assumption and can be used to as a check on the results from the ANOVA.
+The last assumption is that the variance in the groups is about equal from one group to the next. This assumption can be checked by examining a side-by-side box plot of the outcomes across the groups which we did previously. In this case, the variability is similar in the four groups but not identical. We also see in the output of `favstats` that the standard deviation varies a bit from one group to the next. Whether these differences are from natural variation is unclear, so we should report this uncertainty of meeting this assumption when the final results are reported. The permutation test does not have this assumption and can be used as a check on the results from the ANOVA.
 
 In summary, independence is always important to an ANOVA analysis. The normality condition is very important when the sample sizes for each group are relatively small. The constant variance condition is especially important when the sample sizes differ between groups.
 
@@ -529,21 +534,23 @@ results<-do(1000)*(f_stat(mlb_obp))
 
 That was slow in executing because we are using tidyverse functions that are slow. Again, we could optimize using the `purrr` package.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 results %>%
   gf_dhistogram(~result) %>%
-  gf_dist("f",df1=3,df2=323,color="red") %>%
+  gf_dist("f",df1=3,df2=323,color="darkblue") %>%
+  gf_vline(xintercept = 1.994,color="red") %>%
   gf_theme(theme_classic()) %>%
   gf_labs(title="Randomization test sampling distribution",
-          subtitle="F distribution is overlayed in red",
+          subtitle="F distribution is overlayed in blue",
           x="Test statistic")
 ```
 The p-value is
 
 ```{r}
 prop1(~(result>=obs),results)
-```
-This is a similar p-value from the ANOVa output.
+```  
+
+This is a similar p-value from the ANOVA output.
 
 Now let's repeat the analysis but use the difference in variance as our test statistic.
 
@@ -562,9 +569,10 @@ set.seed(5321)
 results<-do(1000)*(f_stat2(mlb_obp))
 ```
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 results %>%
   gf_dhistogram(~result) %>%
+  gf_vline(xintercept = 0.001255972,color="red") %>%
   gf_theme(theme_classic()) %>%
   gf_labs(title="Randomization test sampling distribution",
           subtitle="Test statistic is the difference in variances",

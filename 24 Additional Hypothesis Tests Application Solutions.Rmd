@@ -135,7 +135,7 @@ Now the confidence interval for the F-statistic is:
 cdata(~f_boot,data=results)
 ```
 
-We are 95\% confident that the $F$ statistic is in the interval $(0.35,8.72)$ which includes 1 so we fail to reject.
+We are 95\% confident that the $F$ statistic is in the interval $(0.35,8.72)$ which includes 1 so we fail to reject the null hypothesis of equal means. Remember under the null hypothesis the ratio of the variance between means to the pooled variance within categories should be 1. 
 
 
 \indent 3. Test of variance
@@ -165,7 +165,7 @@ mlb_prob3 %>%
 ```
 The hypotheses are:  
 $H_0$: $\sigma^2_{IF}=\sigma^2{OF}$. There is no difference in the variance of on base percentage for infielders and outfielders.  
-$H_A$: $\sigma^2_{IF}\neq \sigma^2{OF}$. There is a difference in variances.
+$H_A$: $\sigma^2_{IF}\neq \sigma^2_{OF}$. There is a difference in variances.
  
 c. Use the differences in sample standard deviations as your test statistic. Using a permutation test, find the p-value and discuss your decision.  
 
