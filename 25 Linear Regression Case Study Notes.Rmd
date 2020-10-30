@@ -24,7 +24,6 @@ knitr::opts_chunk$set(out.width = "75%")
 library(knitr)
 library(mosaic)
 library(tidyverse)
-library(oilabs)
 ```
 
 \newcommand{\E}{\mbox{E}}
@@ -47,7 +46,7 @@ It serves as a rough objective measure for the relationships between the differe
 types of freedom - whether it's political, religious, economical or personal freedom -
 and other social and economic circumstances. The Human Freedom Index is an annually
 co-published report by the Cato Institute, the Fraser Institute, and the Liberales
-Institut at the Friedrich Naumann Fourndation for Freedom.
+Institut at the Friedrich Naumann Foundation for Freedom.
 
 In this case study, you'll be analyzing data from Human Freedom Index reports from 2008-2016.
 Your aim will be to summarize a few of the relationships within the data both 
@@ -86,9 +85,9 @@ dim(hfi)
 There are 1458 observations and 123 variables in the data frame. 
 
 >**Exercise**  
-Create summaries of the first 10 variables in the data. We just don't want a large printou.
+Create summaries of the first 10 variables in the data. We just don't want a large printout.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 inspect(hfi[,1:10])
 ```
 
@@ -118,7 +117,7 @@ ggplot(hfi,aes(x=pf_expression_control,y=pf_score))+
           x="Political pressures and controls on media",
           y="Personal freedom score")
 ```
-The relationship does look linear. I would be uncomfortable using the model at the end points. 
+The relationship does look linear. We should be uncomfortable using the model at the end points. That is because there are less points at the edge and and linear estimation has larger variance at the endpoints, the predictions at the endpoints is more suspect. 
 
 > **Exercise**  
 The relationship looks linear, quantify the strength of the
@@ -173,9 +172,9 @@ We used the function `slice_sample()` to ensure we have unique values of `pf_exp
 >**Exercise**  
 In your `R` council, run the code above to create the object `hfi_sub`. You are going to have to load packages and read in the `hfi` data set. Then execute the next set of code. Pick two locations in the plot to create a line. Record the sum of squares.
 
-```{r eval=FALSE,echo=FALSE}
+```{r echo=FALSE}
 # If you need a function to do this, here it is
-my_plot_ss <- function (x, y, data, showSquares = FALSE, leastSquares = FALSE) 
+plot_ss <- function (x, y, data, showSquares = FALSE, leastSquares = FALSE) 
 {
     x <- eval(substitute(x), data)
     y <- eval(substitute(y), data)

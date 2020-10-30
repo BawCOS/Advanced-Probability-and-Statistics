@@ -2,6 +2,7 @@
 title: "Linear Regression Basics Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -31,12 +32,12 @@ library(tidyverse)
 
 \indent 1. Nutrition at Starbucks  
 
-In the `openintro` package there is a data set called `starbucks`. Use it to answer the questions below.
+In the `data` folder is a file named `starbucks.csv`. Use it to answer the questions below.
 
 a. Create a scatterplot of between number of calories and amount of carbohydrates. 
 
 ```{r}
-library(openintro)
+starbucks <- read_csv("data/starbucks.csv")
 ```
 
 ```{r}

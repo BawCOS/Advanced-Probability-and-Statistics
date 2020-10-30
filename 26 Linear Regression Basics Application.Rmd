@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 \indent 1. Nutrition at Starbucks  
 
-In the `openintro` package there is a data set called `starbucks`. Use it to answer the questions below.
+In the `data` folder is a file named `starbucks.csv`. Use it to answer the questions below.
 
 a. Create a scatterplot of between number of calories and amount of carbohydrates.
 b. Describe the relationship in the graph.
