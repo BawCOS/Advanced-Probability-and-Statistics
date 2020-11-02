@@ -1,5 +1,5 @@
 ---
-title: "Additional Hypothesis Test Applications Solutions"
+title: "Linear Regression Case Study Solutions"
 author:
 - Lt Col Ken Horton
 - Lt Col Kris Pruitt
@@ -36,7 +36,7 @@ library(tidyverse)
 
 \indent 1. HFI   
 
-Choose another freedom variable and a variable you think would strongly correlate with it. The `openintro` package contains the data set `hfi`. Type `?openintro::hfi` in the Console window in RStudio to learn more about the variables. 
+Choose another freedom variable and a variable you think would strongly correlate with it. Note: even though some of the variables will appear to be quantitative, they don't take on enough different values and thus appear to be categorical. So choose with some caution. The `openintro` package contains the data set `hfi`. Type `?openintro::hfi` in the Console window in RStudio to learn more about the variables. 
     
 
 ```{r warning=FALSE,message=FALSE}
@@ -82,7 +82,7 @@ d. How does this relationship compare to the relationship between
     model summaries to compare. Does your independent variable seem to predict
     your dependent one better? Why or why not?
     
-    The adjuste $R^2$ is a little smaller so the fit is not as good.
+    The adjusted $R^2$ is a little smaller so the fit is not as good.
     
 e. Display the model diagnostics for the regression model analyzing this relationship.
 
@@ -97,7 +97,7 @@ ggplot(data = m2, aes(x = .fitted, y = .resid)) +
   theme_bw()
 ```
 
-There does appear to be some type of fluctuation but so the linear model may not be appropriate. 
+There does appear to be some type of fluctuation so the linear model may not be appropriate. 
 
 **Nearly normal residuals**: 
 

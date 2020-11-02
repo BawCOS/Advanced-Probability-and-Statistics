@@ -1,5 +1,5 @@
 ---
-title: "Additional Hypothesis Tests Notes"
+title: "Linear Regression Case Study Notes"
 author:
 - Lt Col Ken Horton
 - Lt Col Kris Pruitt
@@ -94,10 +94,7 @@ inspect(hfi[,1:10])
 >**Exercise**  
 Create a scatter plot to display the relationship between the personal
     freedom score, `pf_score`, as the response and `pf_expression_control` as the predictor.
-    Does the relationship look linear? If you knew a country's `pf_expression_control`,
-    or its score out of 10, with 0 being the most, of political pressures and 
-    controls on media content, would you be comfortable using a linear model to
-    predict the personal freedom score?
+    Does the relationship look linear? 
 
 
 ```{r warning=FALSE}
@@ -127,6 +124,8 @@ relationship with the correlation coefficient.
 hfi %>%
   summarise(cor(pf_expression_control, pf_score, use = "complete.obs"))
 ```
+
+The sample correlation coefficient, indicates a strong positive linear relationship between the variables. 
 
 Note that we set the `use` argument to "complete.obs" since there are some observations with missing values, NA.
 
@@ -244,7 +243,7 @@ intercept of your line as well as the sum of squares.
 >**Exercise**:  
  Using `plot_ss`, choose a line that does a good job of minimizing the sum of
     squares. Run the function several times. What was the smallest sum of 
-    squares that you got? How does it compare to your neighbors?
+    squares that you got?
 
 ## The linear model
 
@@ -331,7 +330,7 @@ used to compute the residuals.
 
 >**Exercise**:  
 If someone saw the least squares regression line and not the actual data, how
-    would they predict a country's personal freedom school for one with a 6.75 rating
+    would they predict a country's personal freedom score for one with a 6.75 rating
     for `pf_expression_control`? Is this an overestimate or an underestimate, and
     by how much? In other words, what is the residual for this prediction?
 
@@ -418,7 +417,9 @@ ggplot(data = m1, aes(sample = .resid)) +
 Note that the syntax for making a normal probability plot is a bit different 
 than what you're used to seeing: we set `sample` equal to the residuals instead 
 of `x`, and we set a statistical method `qq`, which stands for "quantile-quantile",
-another name commonly used for normal probability plots.
+another name commonly used for normal probability plots. 
+
+It is a little difficult at first to understand how the `qq` plot indicated that the distribution was skewed to the left. The points indicate the quantile from the sample, standardized to have mean zero and standard deviation one, plotted against the same quantiles from a standard normal. It the sample matched a standard normal the points would align on the 45-degree line. From the plot, we see that has the theoretical quantile get larger, further from zero, the sample do not. That is why the trajectory of the points in the upper right looks flat, below the 45-degree line. Thus the distribution is compressed on the right making it skewed to the left. 
 
 > **Exercise**: 
 Based on the histogram and the normal probability plot, does the nearly 
@@ -433,4 +434,17 @@ Based on the residuals vs. fitted plot, does the constant variability condition
     appear to be met?
 
 Yes, the width of the plot seems constant.
+
+## Brief summary  
+
+This case study introduced simple linear regression. We look at the criteria to find a best fit linear line between two variables. We also used `R` to fit the line. We examined the output from `R` and used it to explain and predict with our model. In the remainder of this block we will develop these ideas further and extend to multiple predictors and binary outcomes. This is a perfect introduction for Math 378.
+
+## File Creation Information 
+
+  * File creation date: `r Sys.Date()`
+  * Windows version: `r win.version()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * `tidyverse` package version: `r packageVersion("tidyverse")`
+ 
 
