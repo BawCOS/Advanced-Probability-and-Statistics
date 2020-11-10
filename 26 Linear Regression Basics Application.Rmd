@@ -28,11 +28,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In the `data` folder is a file named `starbucks.csv`. Use it to answer the questions below.
 
-a. Create a scatterplot of between number of calories and amount of carbohydrates.
+a. Create a scatterplot of number of calories and amount of carbohydrates.
 b. Describe the relationship in the graph.
 c. In this scenario, what are the explanatory and response variables?
 d. Why might we want to fit a regression line to these data?
-e. Create a scatterplot of between number of calories and amount of carbohydrates with the regression line included.
+e. Create a scatterplot of number of calories and amount of carbohydrates with the regression line included.
 f. Using 'lm()` fit a least squares line to the data.
 g. Report and interpret the slope coefficient.  
 h. For a menu item with 51 g of carbs, what is the estimated calorie count?

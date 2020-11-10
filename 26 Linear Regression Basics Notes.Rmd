@@ -50,7 +50,7 @@ library(tidyverse)
 
 The rest of this block will serve as a brief introduction to linear models. In general, a model estimates the relationship between one variable (a **response**) and one or more other variables (**predictors**). Models typically serve two purposes: *prediction* and *inference*. A model allows us to predict the value of a response given particular values of predictors. Also, a model allows us to make inferences about the relationship between the response and the predictors. 
 
-Not all models work are used or built on the same principles. Some models are better for inference and others are better for prediction. Some models are better for qualitative responses and others are better for quantitative responses. Also, many models require making assumptions about the nature of the relationship between variables. If these assumptions are violated, the model loses usefulness. In Math 378, we will cover a wide array of models, most of which we will explore for the purpose of prediction. 
+Not all models are used or built on the same principles. Some models are better for inference and others are better for prediction. Some models are better for qualitative responses and others are better for quantitative responses. Also, many models require making assumptions about the nature of the relationship between variables. If these assumptions are violated, the model loses usefulness. In Math 378, we will cover a wide array of models, most of which we will explore for the purpose of prediction. 
 
 In this block, we will focus on *linear models* and the use of linear regression to produce and evaluate the model. Linear regression is a very powerful statistical technique. Many people have some familiarity with regression just from reading the news, where graphs with straight lines are overlaid on scatterplots, much like we did in the last lesson. Linear models can be used for prediction or to evaluate whether there is a linear relationship between two numerical variables.  
 
@@ -64,34 +64,40 @@ $$
 Y=\beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p
 $$
 
-This model is often referred to as a **linear regression** model. (When there is only one predictor variable, we often refer to it as a **simple linear regression** model.) The $\beta_j$ terms are referred to as **coefficients**; note that the coefficients are **parameters**. They are Greek letters, which implies they are random variables. We typically don't know the true values of $\beta_j$, so we have to estimate them with samples from the population of $X$ and $Y$. We consider the models above to be linear models because they are linear in the **parameters**. This means that the following model is also a linear model:
+This model is often referred to as a **linear regression** model. (When there is only one predictor variable, we often refer to it as a **simple linear regression** model.) The $\beta_j$ terms are referred to as **coefficients**. Note that the coefficients are **parameters** and thus represented as Greek letters. We typically don't know the true values of $\beta_j$, so we have to estimate them with samples from the population of $X$ and $Y$, our data. Estimating these parameters and using them for prediction and inference will be the majority of the work of this last block.  
+
+We consider the models above to be linear models because they are linear in the **parameters**. This means that the following model is also a linear model:
 
 $$
 Y=\beta_0+\beta_1 X^2
 $$
 
-Even if we expect two random variables $X$ and $Y$ to share a linear relationship, we also expect some scatter, that is the will not typically be a perfect linear relationship between the response and predictor(s). For example, consider the head length and total length of 104 brushtail possums from Australia. The data is in the file `possum.csv` in the data folder. 
+Technically, we can write the parameters as a vector and the explanatory variables as a matrix. The response will then be an inner product of this vector and matrix and thus a linear combination.
 
-The head and total length variables are associated. Possums with an above average total length also tend to have above average head lengths. To visual this data, we will use a scatterplot, we have used these multiple times this semester. Scatterplots are a graphical technique to present two numerical variables simultaneously. Such plots permit the relationship between the variables to be examined with ease. The following figure shows a scatterplot for the head length and total length of the possums. Each point represents a single possum from the data. First we will read in the data, convert character variables to factors, and then plot a scatter plot.
+Even if we expect two random variables $X$ and $Y$ to share a linear relationship, we don't expect it to be perfect. There will be some scatter around the estimated line. For example, consider the head length and total length of 104 brushtail possums from Australia. The data is in the file `possum.csv` in the `data` folder. 
+
+>**Exercise**:  
+Read in the data from `data/possum.csv` and look at the first few rows of data.
+
 
 ```{r message=FALSE,warning=FALSE}
 possum<-read_csv("data/possum.csv")
-```
-```{r}
-head(possum)
-```
-
-Let's change the variables `pop` and `sex` into factors.
-
-```{r}
-possum<- possum %>%
-  mutate(pop=factor(pop),sex=factor(sex))
 ```
 
 ```{r}
 glimpse(possum)
 ```
 
+```{r}
+head(possum)
+```
+
+
+We think the head and total length variables are linearly associated. Possums with an above average total length also tend to have above average head lengths. To visual this data, we will use a scatterplot, we have used these multiple times this semester. Scatterplots are a graphical technique to present two numerical variables simultaneously. Such plots permit the relationship between the variables to be examined with ease. The following figure shows a scatterplot for the head length and total length of the possums. Each point represents a single possum from the data. 
+
+
+>**Exercise**:  
+Create a scatterplot of head length and total length.
 
 ```{r}
 possum %>%
@@ -115,7 +121,7 @@ $$ \text{Data} = \text{Fit} + \text{Residual} $$
 
 and what will change in our modeling process is how we specify the $\text{Fit}$.
 
-The error term is assumed to follow a normal distribution with mean 0 and constant standard deviation $\sigma$ is we want to use the normal distribution for inference. Note: the assumption of normality is only for inference using the $t$ and $F$ distributions and we can relax this assumption with randomization testing. Among other things, these assumptions imply that a linear model should only be used when the response variable is continuous in nature. There are other approaches for non-continuous response variables (discriminant analysis, logistic regression, etc.).
+The error term is assumed to follow a normal distribution with mean 0 and constant standard deviation $\sigma$. Note: the assumption of normality is only for inference using the $t$ and $F$ distributions and we can relax this assumption with using a bootstrap. Among other things, these assumptions imply that a linear model should only be used when the response variable is continuous in nature. There are other approaches for non-continuous response variables (discriminant analysis, logistic regression, etc.).
 
 ### Estimation
 
@@ -175,6 +181,8 @@ $$
 \hat{\beta}_0=\bar{y}-\hat{\beta}_1\bar{x}
 $$
 
+Notice that this implies that the line will always go through the point $\left(\bar{x},\bar{y} \right)$.  
+
 And 
 
 $$
@@ -190,14 +198,12 @@ $$
 where $R$ is the correlation between the two variables, and $s_x$ and $s_y$ are the sample standard deviations of the explanatory variable and response, respectively. Thus the slope is proportional to the correlation.
 
 
-Notice that this implies that the line will always go through the point $\left(\bar{x},\bar{y} \right)$.
-
 You may also be interested in estimating $\sigma$, the standard deviation of the error:
 $$
 \hat{\sigma}=\sqrt{{1\over n-2} \sum_{i=1}^n \hat{e}_i^2}
 $$
 
-where $\hat{e}_i$ is the observed $i$th **residual** ($\hat{e}_i=y_i-\hat{\beta}_0-\hat{\beta}_1x_i$). This estimate is valid only under the assumption of constant variance.
+where $\hat{e}_i$ is the observed $i$th **residual** ($\hat{e}_i=y_i-\hat{\beta}_0-\hat{\beta}_1x_i$). This estimate is based only on the assumption of constant variance.
 
 ### Possum example  
 
@@ -237,7 +243,7 @@ possum %>%
 
 ### Interpretation
 
-Interpreting parameters in a regression model is often one of the most important steps in the analysis. The intercept term, $\beta_0$, is usually uninteresting. It represents the *average** value of the response when the predictor is 0. Unless we center our predictor variable around 0, the actual value of the intercept is usually not important; it typically just gives the slope more flexibility to fit the data. The slope term, $\beta_1$ represents the *average** increase in the response variable per unit increase in the predictor variable. We keep using the word *average** in our discussion. With the assumption of a mean of 0 for the residuals, which least squares ensures with a line going through the point $\left(\bar{x},\bar{y} \right)$, the output of the model is the expected or average response for the given input. Mathematically we have:
+Interpreting parameters in a regression model is often one of the most important steps in the analysis. The intercept term, $\beta_0$, is usually uninteresting. It represents the **average** value of the response when the predictor is 0. Unless we center our predictor variable around 0, the actual value of the intercept is usually not important; it typically just gives the slope more flexibility to fit the data. The slope term, $\beta_1$ represents the **average** increase in the response variable per unit increase in the predictor variable. We keep using the word **average** in our discussion. With the assumption of a mean of 0 for the residuals, which least squares ensures with a line going through the point $\left(\bar{x},\bar{y} \right)$, the output of the model is the expected or average response for the given input. Mathematically we have:
 
 $$
 E(Y)=E(\beta_0+\beta_1X+e) = E(\beta_0+\beta_1X)+E(e)=\beta_0+\beta_1X
@@ -247,7 +253,7 @@ Predicting a value of the response variable simply becomes a matter of substitut
 
 > **Exercise**: The slope and intercept estimates for the possum data are 0.5729 and 42.7098. What do these numbers really mean, interpret them?
 
-Interpreting the slope parameter is helpful in almost any application. For each additional 1 cm of total length of a possum, we would expect the possum's head to 0.5729 mm longer on average. Note that a longer total length corresponds to longer head because the slope coefficient is positive. We must be cautious in this interpretation: while there is a real association, we cannot interpret a causal connection between the variables because these data are observational. That is, increasing a possum's total length may not cause the possum's head to be longer. 
+Interpreting the slope parameter is helpful in almost any application. For each additional 1 cm of total length of a possum, we would expect the possum's head to be 0.5729 mm longer on average. Note that a longer total length corresponds to longer head because the slope coefficient is positive. We must be cautious in this interpretation: while there is a real association, we cannot interpret a causal connection between the variables because these data are observational. That is, increasing a possum's total length may not cause the possum's head to be longer. 
 
 The estimated intercept $b_0=42.7$ describes the average head length of a possum with zero total length! The meaning of the intercept is irrelevant to this application since a possum can not practically have a total length of 0.
 
@@ -430,7 +436,9 @@ The second data set shows a pattern in the residuals. There is some curvature in
 
 In the last plot the spread, variance of the data, seems to increase as the explanatory variable increases. We can see this clearly in the residual plot. To make inference using the $t$ or $F$ distribution would require a transformation to equalize the variance.
 
+### Summary  
 
+We have introduced the ideas of linear regression in this lesson. There are many new terms as well as new `R` functions to learn. We will continue to use these ideas in the remainder of this block of material. Next we will learn about inference and prediction.
 
 ## File Creation Information 
 

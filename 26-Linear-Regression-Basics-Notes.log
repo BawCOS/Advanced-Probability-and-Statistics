@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  30 OCT 2020 16:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  9 NOV 2020 16:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -648,106 +648,106 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 {c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap
 /pdftex.map}]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-96.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+02.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 211.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 212.
 [2]
-<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-5-1.pdf, id
-=72, 361.35pt x 216.81pt>
-File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-5-1.pd
+<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-4-1.pdf, id
+=76, 361.35pt x 216.81pt>
+File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-4-1.pd
 f Graphic file (type pdf)
-<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-5-1.pdf
+<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-4-1.pdf
 >
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/u
-nnamed-chunk-5-1.pdf  used on input line 270.
+nnamed-chunk-4-1.pdf  used on input line 277.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
-[3 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-5-1.pd
+[3 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-4-1.pd
 f>]
-<26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32a-1.pdf, id=84, 3
+<26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32a-1.pdf, id=88, 3
 61.35pt x 216.81pt>
 File: 26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32a-1.pdf Grap
 hic file (type pdf)
 <use 26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32a-1.pdf>
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/l
-esson32a-1.pdf  used on input line 338.
+esson32a-1.pdf  used on input line 344.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [4 <./26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32a-1.pdf>]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 377.
+(amsmath)                 on input line 386.
 
 [5]
-<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-9-1.pdf, id
-=112, 361.35pt x 216.81pt>
-File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-9-1.pd
+<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-8-1.pdf, id
+=116, 361.35pt x 216.81pt>
+File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-8-1.pd
 f Graphic file (type pdf)
-<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-9-1.pdf
+<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-8-1.pdf
 >
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/u
-nnamed-chunk-9-1.pdf  used on input line 483.
+nnamed-chunk-8-1.pdf  used on input line 489.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
-[6] [7 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-9-
+[6] [7 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-8-
 1.pdf>] [8] [9]
-<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.pdf, i
-d=142, 361.35pt x 216.81pt>
-File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.p
+<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-14-1.pdf, i
+d=146, 361.35pt x 216.81pt>
+File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-14-1.p
 df Graphic file (type pdf)
-<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.pd
+<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-14-1.pd
 f>
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/u
-nnamed-chunk-15-1.pdf  used on input line 710.
+nnamed-chunk-14-1.pdf  used on input line 717.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
-<26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32d-1.pdf, id=143, 
+<26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32d-1.pdf, id=147, 
 361.35pt x 216.81pt>
 File: 26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32d-1.pdf Grap
 hic file (type pdf)
 <use 26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32d-1.pdf>
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/l
-esson32d-1.pdf  used on input line 761.
+esson32d-1.pdf  used on input line 768.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
-[10 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.
+[10 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-14-1.
 pdf>]
-<26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32e-1.pdf, id=157, 
+<26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32e-1.pdf, id=161, 
 361.35pt x 216.81pt>
 File: 26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32e-1.pdf Grap
 hic file (type pdf)
 <use 26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32e-1.pdf>
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/l
-esson32e-1.pdf  used on input line 772.
+esson32e-1.pdf  used on input line 779.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [11 <./26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32d-1.pdf> <.
 /26-Linear-Regression-Basics-Notes_files/figure-latex/lesson32e-1.pdf>]
-<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-16-1.pdf, i
-d=172, 361.35pt x 216.81pt>
-File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-16-1.p
+<26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.pdf, i
+d=176, 361.35pt x 216.81pt>
+File: 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.p
 df Graphic file (type pdf)
-<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-16-1.pd
+<use 26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-1.pd
 f>
 Package pdftex.def Info: 26-Linear-Regression-Basics-Notes_files/figure-latex/u
-nnamed-chunk-16-1.pdf  used on input line 805.
+nnamed-chunk-15-1.pdf  used on input line 812.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 8
-27.
+42.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [12 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-16-
+) [12 <./26-Linear-Regression-Basics-Notes_files/figure-latex/unnamed-chunk-15-
 1.pdf>] (./26-Linear-Regression-Basics-Notes.aux)
 Package rerunfilecheck Info: File `26-Linear-Regression-Basics-Notes.out' has n
 ot changed.
-(rerunfilecheck)             Checksum: 254F7C1161F61AB4AF3291995C0291AE;1397.
+(rerunfilecheck)             Checksum: BBDBD174F8C4C132DEBA9024197DC610;1488.
  ) 
 Here is how much of TeX's memory you used:
- 11182 strings out of 481886
- 166279 string characters out of 5929965
- 455457 words of memory out of 5000000
- 27237 multiletter control sequences out of 15000+600000
+ 11186 strings out of 481886
+ 166319 string characters out of 5929965
+ 454490 words of memory out of 5000000
+ 27239 multiletter control sequences out of 15000+600000
  591915 words of font info for 74 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  60i,8n,66p,293b,466s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -776,11 +776,11 @@ onts/type1/public/lm/lmsy10.pfb><c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/t
 exmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/Brad.Warner/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/Brad.Warner/App
 Data/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on 26-Linear-Regression-Basics-Notes.pdf (12 pages, 397869 bytes
+Output written on 26-Linear-Regression-Basics-Notes.pdf (12 pages, 398580 bytes
 ).
 PDF statistics:
- 263 PDF objects out of 1000 (max. 8388607)
- 216 compressed objects within 3 object streams
- 47 named destinations out of 1000 (max. 500000)
- 116 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 269 PDF objects out of 1000 (max. 8388607)
+ 222 compressed objects within 3 object streams
+ 49 named destinations out of 1000 (max. 500000)
+ 124 words of extra memory for PDF output out of 10000 (max. 10000000)
 

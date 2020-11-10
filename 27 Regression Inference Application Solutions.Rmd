@@ -2,6 +2,7 @@
 title: "Regression Inference Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kirs Pruitt 
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -38,12 +39,12 @@ The two intervals are describing different parameters. A 95% confidence interval
 
 \indent 2. Beer and blood alcohol content 
 
-Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood. The data is in the `openintro` package under `bac`.
+Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood. The data is in the `bac.csv` file under the `data` folder.
 
 a. Create a scatterplot for cans of beer and blood alcohol level.  
 
 ```{r message=FALSE,eval=FALSE}
-library(openintro)
+bac <- read_csv("data/bac.csv")
 ```
 
 ```{r}
@@ -82,7 +83,8 @@ $H_a$: The true slope coefficient of number of beers is greater than zero ($\bet
 The p-value for the two-sided alternative hypothesis ($\beta_1 \neq 0$) is approximately 0. (Note that this output doesn't mean the p-value is exactly zero, only that when rounded to four decimal places it is zero.) Therefore the p-value for the one-sided hypothesis will also be very small, it is one half of the p-value reported in the `R` output. With such a small p-value, we reject $H_0$ and conclude that the data provide convincing evidence that number of cans of beer consumed and blood alcohol content are positively correlated and the true slope parameter is indeed greater than 0.
 
 
-e. Build a 95% confidence interval for the slope and interpret it in the context of your hypothesis test from part d. 
+e. Build a 95% confidence interval for the slope and interpret it in the context of your hypothesis test from part d.  
+
 ```{r}
 confint(bac_mod)
 ```

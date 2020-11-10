@@ -24,6 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.align='center')
 knitr::opts_chunk$set(out.width = "75%")
 library(knitr)
+library(broom)
 library(mosaic)
 library(tidyverse)
 ```
@@ -34,7 +35,7 @@ library(tidyverse)
 
 In the `data` folder is a file named `starbucks.csv`. Use it to answer the questions below.
 
-a. Create a scatterplot of between number of calories and amount of carbohydrates. 
+a. Create a scatterplot of number of calories and amount of carbohydrates. 
 
 ```{r}
 starbucks <- read_csv("data/starbucks.csv")
@@ -67,7 +68,7 @@ d. Why might we want to fit a regression line to these data?
 With a regression line, we can predict the amount of calories for a given number of carbohydrates. This may be useful if you are concerned about your carb intake and its impact on calorie consumption. Typically you can get both on the menu so this model might not be that valuable. 
 
 
-e. Create a scatterplot of between number of calories and amount of carbohydrates with the regression line included.
+e. Create a scatterplot of number of calories and amount of carbohydrates with the regression line included.
 
 ```{r}
 starbucks %>%
@@ -113,7 +114,18 @@ The maximum carb value is 80 so 100 is outside of the observed data. It would be
 
 j. Does the assumption of constant variance seem reasonable for this problem?  
 
-It seems that the variance in the second group is larger that the first, so it may not be a reasonable assumption.  
+
+```{r warning=FALSE,message=FALSE}
+augment(star_mod) %>%
+  gf_point(.resid~carb) %>%
+  gf_hline(yintercept = 0) %>%
+  gf_theme(theme_bw()) %>%
+  gf_labs(title="Residual plot",x="Carbohydrates",y="Residual")
+```
+
+
+It seems that the variance in the second group is larger that the first, so it may not be a reasonable assumption. Also note that the linearity assumption is also questionable. 
+
 
 k. Verify that the line passes through the mean carb and mean calories, do this mathematically.
 

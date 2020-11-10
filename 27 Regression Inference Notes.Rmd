@@ -2,6 +2,7 @@
 title: "Regression Inference Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -43,17 +44,17 @@ library(tidyverse)
 
 ## Introduction  
 
-In this lesson we discuss uncertainty in the estimates of the slope and y-intercept for a regression line. This will allow us to perform inference and predictions. Just as we identified standard errors for point estimates in previous lessons, we first discuss standard errors for these new estimates. However, in the case of regression, we will identify standard errors using statistical software.
+In this lesson we discuss uncertainty in the estimates of the slope and y-intercept for a regression line. This will allow us to perform inference and predictions. Just as we identified standard errors for point estimates in previous lessons, we first discuss standard errors for these new estimates. This lesson is a classical lesson in the sense that we will be using the normal distribution. We will assume that the errors are normally distributed with constant variance. Later in the course, we will relax these assumptions.
 
 ### Regression  
 
 
-Last lesson, we introduced linear models and the simple linear regression:
+Last lesson, we introduced linear models using the simple linear regression model:
 $$
 Y=\beta_0+\beta_1X+e
 $$
 
-where the error term follows a normal distribution with mean 0 and constant standard deviation $\sigma$. Using the method of least squares, we obtain estimates of $\beta_0$ and $\beta_1$: 
+where here we assume the error term follows a normal distribution with mean 0 and constant standard deviation $\sigma$. Using the method of least squares, which does not require the assumption of normality, we obtain estimates of $\beta_0$ and $\beta_1$: 
 $$
 \hat{\beta}_1 = {\sum x_i y_i - n\bar{x}\bar{y} \over \sum x_i^2 -n\bar{x}^2}
 $$
@@ -66,20 +67,26 @@ $$
 \hat{Y}_*=\hat{\beta}_0+\hat{\beta}_1x_*
 $$
 
-It should be abundantly clear by now that $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ are ***estimates***. Being estimates, they are dependent on our random sample $\{\boldsymbol{x},\boldsymbol{y}\}$. If we collect a new random sample from the same population, we will get new estimates. Thus, we can think of $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ as **random variables**. Like all random variables, they have distributions. We can use the distribution of an estimate to build confidence intervals and conduct hypothesis tests about the true values of the parameter it is intended to estimate. 
+The reason this model returns the expected value of the response at the given value of the predictor is because the error term has an expected value of zero. As a review of the properties of expectation:
 
-If these estimates are unbiased, then they should be centered around the actual values of $Y$, $\beta_0$ and $\beta_1$, respectively. It turns out, these estimates are, in fact, unbiased. 
+$$
+E(Y)=E(\beta_0+\beta_1X+e)=Y=\beta_0+\beta_1X+E(e)=\beta_0+\beta_1X
+$$
+because $\beta_0$, $\beta_1$, and $X$ are constants.
+
+
+It should be abundantly clear by now that $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ are ***estimates***. Being estimates, they are dependent on our random sample, our data. If we collect a new random sample from the same population, we will get new estimates. Thus, we can think of $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ as **random variables**. Like all random variables, they have distributions. We can use the distribution of an estimate to build confidence intervals and conduct hypothesis tests about the true values of the parameter it is intended to estimate. These estimates are unbiased, they are centered around the actual values of $Y$, $\beta_0$ and $\beta_1$, respectively.
 
 ### Review of assumptions
 
 We will review the assumptions of the least squares model because they are important for inference. Refer to the figure below which plots the linear regression in the top row and the residuals in the second row. We generally assume the following:
 
-1. Linearity.  The data should show a linear trend. If there is a nonlinear trend, an advanced regression method from Math 378 should be applied. The left column is an example of a nonlinear relationship.    
-2. Nearly normal residuals.  Generally the residuals must be nearly normal for inference that uses a $t$ or $F$. When this condition is found to be unreasonable, it is usually because of **outliers** or concerns about **influential** points. An example of non-normal residuals is shown in the second column of the figure.  
-3. Constant variability.  The variability of points around the least squares line remains roughly constant. An example of non-constant variability is shown in the third panel of the figure.
-4. Independent observations.  Be cautious about applying regression to data collected sequentially in what is called a **time series**. Such data may have an underlying structure that should be considered in a model and analysis. An example of a time series where independence is violated is shown in the fourth panel of the figure.  
+1. **Linearity**.  The data should show a linear trend. If there is a nonlinear trend, a transformation of the explanatory variable or an advanced regression method from Math 378 should be applied. When looking at the residual plot, if the trend is linear, we should see a spread of points that are flat. The left column is an example of a nonlinear relationship. The top plot is the regression plot and we can see what looks like a quadratic relationship instead of a linear one. The residual plot, the plot in the lower left corner, also exhibits this non-linear trend.     
+2. **Nearly normal residuals**.  Generally the residuals must be nearly normal to use a $t$ or $F$ for inference. When this assumption is found to be unreasonable, it is usually because of **outliers** or concerns about **influential** points. An example of non-normal residuals is shown in the second column of the figure. A **qq** plot is also useful as a diagnostic tool as we have seen. We can still use the **bootstrap** as an inference tool if the normality assumption is unreasonable.    
+3. **Constant variability**.  The variability of points around the least squares line remains roughly constant. An example of non-constant variability is shown in the third panel of the figure.  The constant variability assumption is needed for the $t$ and $F$ distributions. It is not required for the bootstrap method.  
+4. **Independent observations**.  Be cautious about applying regression to data collected sequentially in what is called a **time series**. Such data may have an underlying structure that should be considered in a model and analysis. An example of a time series where independence is violated is shown in the fourth panel of the figure. More advanced methods are required for time series data even including using a bootstrap. 
 
-In a future lesson we will have more regression diagnostics.
+In a future lesson we will explore more regression diagnostics.
 
 ```{r echo=FALSE,message=FALSE}
 makeTube <- function(x, y, Z=2, R=1, col='#00000022', border='#00000000', type=c('lin', 'quad', 'robust'), homosk=TRUE, length.out=99, bw='default', plotTube=TRUE, addLine=TRUE, ...){
@@ -324,9 +331,9 @@ makeTubeAdv(x,y, col=COL[7,3])
 
 
 
-### Estimate distribution   
+### Estimates' probability distributions   
 
-With the assumption that the error term is normally distributed, we can find the distributions of our estimates:  
+With the assumption that the error term is normally distributed, we can find the distributions of our estimates, which turn out to be normal:  
 
 $$
 \hat{\beta}_0\sim N\left(\beta_0, \sigma\sqrt{{1\over n}+{\bar{x}^2\over \sum (x_i-\bar{x})^2}}\right)
@@ -339,6 +346,8 @@ $$
 $$
 \hat{Y}_* \sim N\left(\beta_0+\beta_1x_*, \sigma\sqrt{{1\over n}+{(x_*-\bar{x})^2\over \sum (x_i-\bar{x})^2}}\right)
 $$
+
+Notice that all three of these are unbiased, the expected value is equal to the parameter being estimated. Looking at the variance of the slope estimate we can see that is a function of the underlying unexplained variance, $\sigma^2$ and the data. The denominator is increased by having a larger spread in the explanatory variable. The slope of the estimated line is more stable, less variable, if the independent variables has high variance. That is interesting. If you are designing an experiment, this gives you insight in how to select the range of values for your explanatory variable. Math 359 is a course that discusses this point in detail. 
 
 ## Inference
 
@@ -385,11 +394,31 @@ Similarly, we can use the distribution of $\hat \beta_0$ to build a confidence i
 
 ### Starbucks
 
-That was a great of mathematics and theory. Let's put it to use on our example of from Starbucks.
+That was a great deal of mathematics and theory. Let's put it to use on the example from Starbucks. In the file `data/starbucks.csv` we have nutritional facts for several Starbucks food items. We used this data in the homework for last lesson. We will use this data again to illustrate the ideas we have introduced in this section.  
 
-```{r eval=FALSE}
-library(openintro)
+Read in the data.
+
+```{r warning=FALSE,message=FALSE}
+starbucks <- read_csv("data/starbucks.csv")  %>%
+  mutate(type=factor(type))
 ```
+
+>**Exercise**  
+Summarize and explore the data.
+
+Let's look at a summary of the data.
+
+```{r}
+glimpse(starbucks)
+```
+```{r warning=FALSE}
+inspect(starbucks)
+```
+
+>**Exercise**  
+Create a scatterplot of calories and carbohydrate, carbs, content.  
+
+Let's predict calories from the carbohydrate content. Let's use a scatterplot to examine the relationship.
 
 ```{r}
 starbucks %>%
@@ -397,6 +426,9 @@ starbucks %>%
   gf_labs(x="Carbohydrates",y="Calories") %>%
   gf_theme(theme_classic())
 ```
+>**Exercise**
+Use `R` to fit a linear regression model by regressing `calories` on `carb`.
+
 The results of fitting a linear least squares model is stored in the `star_mod` object.
 
 ```{r}
@@ -424,7 +456,8 @@ The denominator is the standard error of the estimate. The estimate of the resid
 ```{r}
 sighat<-sqrt(sum((star_mod$residuals)^2)/75)
 sighat
-```
+```  
+
 The standard error of the slope estimate is, and confirmed in the table:
 
 ```{r}
@@ -446,12 +479,12 @@ We reject $H_0$ in favor of $H_A$ because the data provide strong evidence that 
 
 The computer software uses zero in the null hypothesis, if you wanted to test another value of the slope then you would have to do the calculations step by step like we did above.
 
-By the way, this was not a `tidy` way to do the calculation. The Datacamp course will help you learn how to do this.
+By the way, this was not a `tidy` way to do the calculation. The `broom` package makes it easier to use `tidy` ideas on the regression model.
 
 
 #### Confidence interval 
 
-We could calculate the confidence interval from the point estimate, standard error, and critical value but we will `R` do it for us.
+We could calculate the confidence interval from the point estimate, standard error, and critical value but we will let `R` do it for us.
 
 ```{r}
 confint(star_mod)
@@ -477,7 +510,7 @@ $$
 
 ### Starbucks 
 
-Continuing with the `starbucks` example. In plotting the data, we can have `R` plot the confidence and prediction bands where we will observe the width increase as we move away from the center of the data and prediction intervals are wider.
+Continuing with the `starbucks` example. In plotting the data, we can have `R` plot the confidence and prediction bands. We will observe the width of these intervals increase as we move away from the center of the data and also that prediction intervals are wider.
 
 ```{r}
 starbucks %>%
@@ -488,24 +521,34 @@ starbucks %>%
   gf_theme(theme_classic())
 ```
 
-We have not done diagnostics, the using a linear regression model for this data may not be appropriate. But for the sake of learning we will continue. To find these confidence intervals we need a value for `carb` so let's use 60 and 70.
+We have not done diagnostics yet and it may be that using a linear regression model for this data may not be appropriate. But for the sake of learning we will continue. To find these confidence intervals we need a value for `carb` so let's use 60 and 70.
 
-We create a dataframe with the values of `carb` in it.
+We create a dataframe with the values of `carb` in it. Then we will use the `predict` function to find the confidence interval. Using the option `interval` set to `confidence` will return a confidence interval for the average calorie content for each value in the new dataframe.
 
 ```{r}
 new_carb <- data.frame(carb=c(60,70))
 predict(star_mod, newdata = new_carb, interval = 'confidence')
 ```
 
-We are 95\% confident that the average calories in a Starbuck's menu item with 60 grams of carbs is between 379.7 and 428.0.
+As an example, we are 95\% confident that the average calories in a Starbuck's menu item with 60 grams of carbs is between 379.7 and 428.0.
 
-And the prediction interval
+>**Exercise**
+Give the 95% confidence interval of average calories for 70 grams of carbohydrates.  
+
+We are 95\% confident that the average calories in a Starbuck's menu item with 70 grams carbs is between 414.4 and 479.3.
+
+For the prediction interval, we simply need to change the option in `interval`:
 
 ```{r}
 new_carb <- data.frame(carb=c(60,70))
 predict(star_mod, newdata = new_carb, interval = 'prediction')
 ```
-We are 95\% confident the next Starbuck's menu item that has 60 grams of carbs will have a calorie content between 246 and 561.  Notice how prediction intervals are wider since they are intervals on individual observations and not means.
+
+We are 95\% confident the next Starbuck's menu item that has 60 grams of carbs will have a calorie content between 246 and 561.  Notice how prediction intervals are wider since they are intervals on individual observations and not an averages.
+
+### Summary 
+
+This lesson has introduced the process of inference for a simple linear regression model. We tested the slope estimate as well as generated confidence intervals for average and individual predicted values. 
 
 
 ## File Creation Information 
