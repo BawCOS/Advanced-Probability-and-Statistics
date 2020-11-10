@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  9 NOV 2020 17:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.15)  10 NOV 2020 10:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -652,17 +652,17 @@ Package amsmath Warning: Foreign command \over;
 
 {c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap
 /pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 203--213
+Underfull \hbox (badness 10000) in paragraph at lines 209--219
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 213--222
+Underfull \hbox (badness 10000) in paragraph at lines 219--228
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 222--228
+Underfull \hbox (badness 10000) in paragraph at lines 228--234
 
  []
 
@@ -672,28 +672,28 @@ File: 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-3-1.pdf Gr
 aphic file (type pdf)
 <use 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: 27-Regression-Inference-Notes_files/figure-latex/unnam
-ed-chunk-3-1.pdf  used on input line 239.
+ed-chunk-3-1.pdf  used on input line 245.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [2] [3 <./27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-3-1.pd
 f>]
-Underfull \hbox (badness 10000) in paragraph at lines 293--297
+Underfull \hbox (badness 10000) in paragraph at lines 299--303
 
  []
 
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 2
-98.
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 3
+04.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
-31.
+39.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 340.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 348.
 [4]
 <27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-7-1.pdf, id=108
 , 361.35pt x 216.81pt>
@@ -701,42 +701,42 @@ File: 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-7-1.pdf Gr
 aphic file (type pdf)
 <use 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-7-1.pdf>
 Package pdftex.def Info: 27-Regression-Inference-Notes_files/figure-latex/unnam
-ed-chunk-7-1.pdf  used on input line 412.
+ed-chunk-7-1.pdf  used on input line 421.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
 [5] [6 <./27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-7-1.pd
 f>] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 580--585
+Underfull \hbox (badness 10000) in paragraph at lines 631--636
 
  []
 
-<27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-15-1.pdf, id=13
-0, 361.35pt x 216.81pt>
-File: 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-15-1.pdf G
+[8]
+<27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-18-1.pdf, id=13
+8, 361.35pt x 216.81pt>
+File: 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-18-1.pdf G
 raphic file (type pdf)
-<use 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-15-1.pdf>
+<use 27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-18-1.pdf>
 Package pdftex.def Info: 27-Regression-Inference-Notes_files/figure-latex/unnam
-ed-chunk-15-1.pdf  used on input line 608.
+ed-chunk-18-1.pdf  used on input line 660.
 (pdftex.def)             Requested size: 352.3176pt x 211.39055pt.
-[8] [9 <./27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-15-1.p
-df>]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 6
-79.
+[9 <./27-Regression-Inference-Notes_files/figure-latex/unnamed-chunk-18-1.pdf>]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 7
+55.
 
 (c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [10] (./27-Regression-Inference-Notes.aux)
 Package rerunfilecheck Info: File `27-Regression-Inference-Notes.out' has not c
 hanged.
-(rerunfilecheck)             Checksum: 6E4F50DD6F4FBEF01171A180AD5C0B7B;1436.
+(rerunfilecheck)             Checksum: 7A3F2AEC9DA0A331E8C1500A38A42F51;1409.
  ) 
 Here is how much of TeX's memory you used:
  11187 strings out of 481886
- 165003 string characters out of 5929965
- 452523 words of memory out of 5000000
+ 164993 string characters out of 5929965
+ 453517 words of memory out of 5000000
  27246 multiletter control sequences out of 15000+600000
  598197 words of font info for 75 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,6n,66p,334b,394s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,6n,66p,411b,392s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
 m-ts1.enc}{c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dv
 ips/lm/lm-ec.enc}{c:/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts
@@ -765,7 +765,7 @@ ppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/Bra
 d.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c
 :/Users/Brad.Warner/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lm
 tt10.pfb>
-Output written on 27-Regression-Inference-Notes.pdf (10 pages, 406723 bytes).
+Output written on 27-Regression-Inference-Notes.pdf (10 pages, 408651 bytes).
 PDF statistics:
  237 PDF objects out of 1000 (max. 8388607)
  199 compressed objects within 2 object streams

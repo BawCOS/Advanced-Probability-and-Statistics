@@ -26,7 +26,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 \indent 1. Identify relationships 
 
-For each of the six plots, identify the strength of the relationship (e.g. weak, moderate, or strong) in the data and whether fitting a linear model would be reasonable.
+For each of the six plots, identify the strength of the relationship (e.g. weak, moderate, or strong) in the data and whether fitting a linear model would be reasonable.  When we ask about the strength of the relationship, we mean:
+
+- is there a relationship between $x$ and $y$ and
+- does that relationship explain most of the variance?
+
 \begin{center}
 \includegraphics[width=0.32\textwidth]{./figures/association1.pdf}
 \includegraphics[width=0.32\textwidth]{./figures/association2.pdf}
@@ -42,7 +46,7 @@ For each of the six plots, identify the strength of the relationship (e.g. weak,
 
 \indent 2. Beer and blood alcohol content 
 
-We will use the blood alcohol content data again. As a reminder his is the description: *Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood.* 
+We will use the blood alcohol content data again. As a reminder this is the description of the data: *Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood.* 
 
 The data is in the `bac.csv` file under the `data` folder.
 
@@ -54,7 +58,7 @@ b. Evaluate the assumptions of this model. Do we have anything to be concerned a
 
 \indent 3. Outliers 
 
-Identify the outliers in the scatterplots shown below and determine what type of outliers they are. Explain your reasoning.
+Identify the outliers in the scatterplots shown below and determine what type of outliers they are. Explain your reasoning. The labels are off so treat the bottom row as (d), (e), and (f).
 
 \begin{center}
 \includegraphics[width=0.32\textwidth]{./figures/outInf1.pdf}

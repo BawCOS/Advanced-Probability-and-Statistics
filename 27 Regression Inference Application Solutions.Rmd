@@ -85,11 +85,13 @@ The p-value for the two-sided alternative hypothesis ($\beta_1 \neq 0$) is appro
 
 e. Build a 95% confidence interval for the slope and interpret it in the context of your hypothesis test from part d.  
 
+We need a lower confidence bound since the alternative is $\beta_1 > 0$. For a 95% lower confidence bound, we need at 90\% confidence interval and then just ignore the upper value.
+
 ```{r}
-confint(bac_mod)
+confint(bac_mod,level=0.9)
 ```
 
-We are 95% confident that the true value of the slope is between 0.012 and 0.023. This interval does not contain 0, so it appears that number of beers and BAC are linearly related. 
+We are 95% confident that the true value of the slope is greater than 0.014. This bound does not contain 0, so it appears that number of beers and BAC are linearly related in a positive direction. 
 
 
 f. Suppose we visit a bar, ask people how many drinks they have had, and also take their BAC. Do you think the relationship between number of drinks and BAC would be as strong as the relationship found in the Ohio State study? 
