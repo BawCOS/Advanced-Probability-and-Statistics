@@ -93,7 +93,7 @@ head(possum)
 ```
 
 
-We think the head and total length variables are linearly associated. Possums with an above average total length also tend to have above average head lengths. To visual this data, we will use a scatterplot, we have used these multiple times this semester. Scatterplots are a graphical technique to present two numerical variables simultaneously. Such plots permit the relationship between the variables to be examined with ease. The following figure shows a scatterplot for the head length and total length of the possums. Each point represents a single possum from the data. 
+We think the head and total length variables are linearly associated. Possums with an above average total length also tend to have above average head lengths. To visualize this data, we will use a scatterplot. We have used scatterplots multiple times this semester. Scatterplots are a graphical technique to present two numerical variables simultaneously. Such plots permit the relationship between the variables to be examined with ease. The following figure shows a scatterplot for the head length and total length of the possums. Each point represents a single possum from the data. 
 
 
 >**Exercise**:  
@@ -107,7 +107,7 @@ possum %>%
 ```
 
 
-While the relationship is not perfectly linear, it could be helpful to partially explain the connection between these variables with a straight line. However, this relationship will not be deterministic. Some longer possums will have shorter heads and some shorter possums will have longer heads. Thus, there is no straight line that can go through all these point. We expect some deviation from the linear fit. This deviation is represented by random variable $e$, which we refer to as an error term:
+While the relationship is not perfectly linear, it could be helpful to partially explain the connection between these variables with a straight line. However, this relationship will not be deterministic. Some longer possums will have shorter heads and some shorter possums will have longer heads. Thus, there is no straight line that can go through all these point. We expect some deviation from the linear fit. This deviation is represented by random variable $e$ (this is not Euler number), which we refer to as an error term or residual:
 
 $$
 Y=\beta_0+\beta_1X+e
@@ -125,7 +125,7 @@ The error term is assumed to follow a normal distribution with mean 0 and consta
 
 ### Estimation
 
-We want to describe the relationship between the head length and total length variables in the possum data set using a line. In this example, we will use the total length as the predictor variable, $x$, to predict a possum's head length, $y$. Just as a side note, the choice of the predictor and response are not arbitrary. The response is typically what we want to predict or in the case of experiments is the casual result of the predictor(s). 
+We want to describe the relationship between the head length and total length variables in the possum data set using a line. In this example, we will use the total length as the predictor variable, $x$, to predict a possum's head length, $y$. Just as a side note, the choice of the predictor and response are not arbitrary. The response is typically what we want to predict or in the case of experiments is the causal  result of the predictor(s). 
 
 In the possum data we have $n = 104$ observations: $(x_1,y_1), (x_2,y_2),...,(x_n,y_n)$. Then for each observation the implied linear model is:  
 
@@ -137,7 +137,7 @@ We could fit the linear relationship by eye like we did in the case study and ob
 
 We begin by thinking about what we mean by ``best''. Mathematically, we want a line that has small residuals. There are multiple methods, but the most common is *method of least squares*. In this method, our goal is to find the values of $\beta_0$ and $\beta_1$ that minimize the squared vertical distance between the points and the resulting line, the **residuals**. See the plot for a visual representation involving only four observations from *made up* data. 
 
-```{r lesson32a, echo=F}
+```{r echo=F}
 x<-c(1,2,3,4)
 y<-c(2,1,4,3)
 plot(x,y,xlim=c(0,5),ylim=c(0,5))
@@ -181,7 +181,7 @@ $$
 \hat{\beta}_0=\bar{y}-\hat{\beta}_1\bar{x}
 $$
 
-Notice that this implies that the line will always go through the point $\left(\bar{x},\bar{y} \right)$.  
+Notice that this implies that the line will always go through the point $\left(\bar{x},\bar{y} \right)$. As a reminder $\bar{x}$ is the sample mean of the explanatory variable and $\bar{y}$ is the sample mean of the response.  
 
 And 
 
@@ -228,13 +228,19 @@ summary(poss_mod)
 ```
 
 
+The model object, `poss_mod`, contains much more information. Using the function `names()` function on the model objects, gives you a list of other quantities available, such as residuals.
+
+```{r}
+names(poss_mod)
+```
+
+
 We can plot the data points and least squares line together.
 
 ```{r}
 possum %>%
   gf_point( head_l ~ total_l) %>%
   gf_lm(color="black") %>%
-  gf_labs(x="Total Length (cm)",y="Head Length (mm)") %>%
   gf_labs(x="Total Length (cm)",y="Head Length (mm)") %>%
   gf_labs(title="Possum data including regression line") %>%
   gf_theme(theme_classic()) 
@@ -246,7 +252,7 @@ possum %>%
 Interpreting parameters in a regression model is often one of the most important steps in the analysis. The intercept term, $\beta_0$, is usually uninteresting. It represents the **average** value of the response when the predictor is 0. Unless we center our predictor variable around 0, the actual value of the intercept is usually not important; it typically just gives the slope more flexibility to fit the data. The slope term, $\beta_1$ represents the **average** increase in the response variable per unit increase in the predictor variable. We keep using the word **average** in our discussion. With the assumption of a mean of 0 for the residuals, which least squares ensures with a line going through the point $\left(\bar{x},\bar{y} \right)$, the output of the model is the expected or average response for the given input. Mathematically we have:
 
 $$
-E(Y)=E(\beta_0+\beta_1X+e) = E(\beta_0+\beta_1X)+E(e)=\beta_0+\beta_1X
+E(Y|X=x)=E(\beta_0+\beta_1x+e) = E(\beta_0+\beta_1x)+E(e)=\beta_0+\beta_1x
 $$
 
 Predicting a value of the response variable simply becomes a matter of substituting the value of the predictor variable into the estimated regression equation. Again, it is important to note that for a given value of $x$, the predicted response, $\hat{y}$ is what we expect the average value of $y$ to be given that specific value of the predictor. 
@@ -275,7 +281,7 @@ possum %>%
 *Stephen Colbert*
 April 6th, 2010^[http://www.colbertnation.com/the-colbert-report-videos/269929/]
 
-Linear models can be used to approximate the relationship between two variables and is built on an observed random sample.  These models have real limitations as linear regression is simply a modeling framework. The truth is almost always much more complex than our simple line. *Extrapolation* occurs when one tries to make a prediction of a response given a value of the predictor that is outside the range of values used to build the model. We only have information about the relationship between two variables in the region around our observed data. We do not know how the data outside of our limited window will behave. Be careful about extrapolating. 
+Linear models can be used to approximate the relationship between two variables and are built on an observed random sample.  These models have real limitations as linear regression is simply a modeling framework. The truth is almost always much more complex than our simple line. *Extrapolation* occurs when one tries to make a prediction of a response given a value of the predictor that is outside the range of values used to build the model. We only have information about the relationship between two variables in the region around our observed data. We do not know how the data outside of our limited window will behave. Be careful about extrapolating. 
 
 ### Reading computer output  
 
@@ -285,7 +291,7 @@ We stored the results of our linear regression model for the possum data in the 
 summary(poss_mod)
 ```
 
-The first line repeats the model formula. The second line is a descriptive summary of the residuals, plots of the residuals are more useful than this summary. We then have a table of the model fit. The first column of numbers provides estimates for ${b}_0$ and ${b}_1$, respectively. For the next columns, we'll describe the meaning of the columns using the second row, which corresponds to $\beta_1$. Again, the first column provides the point estimate for $\beta_1$. The second column is a standard error for this point estimate. The third column is a $t$ test statistic for the null hypothesis that $\beta_1 = 0$: $T=9.657$. The last column is the p-value for the $t$ test statistic for the null hypothesis $\beta_1=0$ and a two-sided alternative hypothesis. We will get into more of these details in the next lessons. 
+The first line repeats the model formula. The second line is a descriptive summary of the residuals, plots of the residuals are more useful than this summary. We then have a table of the model fit. The first column of numbers provides estimates for $\beta_0$ and $\beta_1$, respectively. For the next columns, we'll describe the meaning of the columns using the second row, which corresponds to information about the slope estimate. Again, the first column provides the point estimate for $\beta_1$. The second column is a standard error for this point estimate. The third column is a $t$ test statistic for the null hypothesis that $\beta_1 = 0$: $T=9.657$. The last column is the p-value for the $t$ test statistic for the null hypothesis $\beta_1=0$ and a two-sided alternative hypothesis. We will get into more of these details in the next lessons. 
 
 The row with the residual standard error is an estimate of the unexplained variance. The next rows give a summary of the model fit and we will discuss in the next lessons.
 
@@ -332,16 +338,16 @@ The estimated slope term, $\hat{\beta}_1$ is equal to 3.9. This means that for a
 c) Report the estimated common standard deviation of the residuals. 
 
 
-The estimated error variance, $\hat{\sigma}$ is equal to 15.4. 
+The estimated standard deviation of the error (residual), $\hat{\sigma}$ is equal to 15.4. 
 
 
 ### Assumptions
 
 Anytime we build a model, there are assumptions behind it that, if violated, could invalidate the conclusions of the model. In the description of simple linear regression, we briefly mentioned these assumptions. Next lesson, we will discuss how to validate these assumptions. 
 
-**Linearity**. When we build a simple linear regression, we assume that the relationship between the response and the predictor is roughly linear. Suppose two variables are non-linearly related (see plot). While we could build a linear regression model between the two, the resulting model would not be very useful. 
+**Fit**. When we build a simple linear regression, we assume that the relationship between the response and the predictor is as we specify in the fit formula. This in simple linear regression is often just a liner relationship. Suppose two variables are non-linearly related (see plot). While we could build a linear regression model between the two, the resulting model would not be very useful. If we built a model with the fit formulated as a quadratic, a similar plot of the residuals would look flat. We will discuss this more in a later lesson.
 
-```{r lesson32d, echo=F}
+```{r echo=F}
 set.seed(2003)
 x<-runif(50,1,5)
 y<-(x-3)^2+rnorm(50,0,0.3)
@@ -356,7 +362,7 @@ text(2.5,2,paste("y=",round(b0,3),"+",round(b1,3),"* x"))
 
 **Independent Observations**. Another assumption is that all observations in a data set are independent of one another. A common way this assumption is violated is by using time as the predictor variable. For example, suppose we were interested in how an individual's weight changes over time. While it may be tempting to plot this and fit a regression line through the data, the resulting model is inappropriate, as simple linear regression assumes that each observation is independent.
 
-```{r lesson32e,echo=F}
+```{r echo=F}
 set.seed(2003)
 x<-1:36
 y<-rep(0,36)
@@ -377,7 +383,7 @@ text(10,196,paste("y=",round(b0,3),"+",round(b1,3),"* x"))
 
 **Normality of Errors**. Again, we assume that the residuals are normally distributed. Normality of residuals is not easy to see graphically, so we have to use other diagnostics to check this assumption. 
 
-The last three assumptions are important not necessarily for estimating the relationship, but for *inferring* about the relationship. In future lessons, we will discuss how to use a model for prediction, and how to build a confidence/prediction interval around a prediction. Also, we will discuss inference about the coefficient estimates in a model. Violation of one of the last three assumptions will impact how we can make estimate variability around an estimate. 
+The last three assumptions are important not necessarily for estimating the relationship, but for *inferring* about the relationship. In future lessons, we will discuss how to use a model for prediction, and how to build a confidence/prediction interval around a prediction. Also, we will discuss inference about the coefficient estimates in a model. Violation of one of the last three assumptions will impact our ability to conduct inference about the population parameters. 
 
 ### Residual plots 
 

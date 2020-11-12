@@ -1,7 +1,8 @@
 ---
 title: "Simulation Based Regression Notes"
 author:
-- Lt Col Ken Horton
+- Lt Col Ken Horton 
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -20,7 +21,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.align='center')
 knitr::opts_chunk$set(out.width = "75%")
-library(openintro)
+library(infer)
 library(knitr)
 library(mosaic)
 library(tidyverse)
@@ -35,7 +36,7 @@ library(tidyverse)
 
 ## Objectives
 
-1) Using the bootstrap generate confidence and estimates of standard error for estimates from a linear regression model.
+1) Using the bootstrap, generate confidence and estimates of standard error for parameter estimates from a linear regression model.
 
 2) Generate and interpret bootstrap confidence and prediction intervals for predicted values.
 
@@ -45,27 +46,22 @@ library(tidyverse)
 
 ## Introduction
 
-There are at least two ways we can consider creating a bootstrap distribution for a linear model. We can easily
-fit a linear model to a resampled data set. But in some situations this may have undesirable features. Influential
-observations, for example, will appear duplicated in some resamples and be missing entirely from other resamples.
-Another option is to use “residual resampling". In residual resampling, the new data set has all of the predictor
-values from the original data set and a new response is created by adding to the fitted function a resampled
-residual.
+In the last couple of lessons we examined how to perform inference for a simple linear regression model assuming the errors were independent normally distributed random variables. We examined diagnostic tools to check assumptions and look for outliers. In this lesson we will use the **bootstrap** to create confidence and prediction intervals.
 
-Suppose we have $n$ observations, each with $Y$ and some number of $X$'s, with each observation stored as a row in a data set. The two basic procedures when bootstrapping regression are:
-a. bootstrap observations, and  
+There are at least two ways we can consider creating a bootstrap distribution for a linear model. We can easily fit a linear model to a resampled data set. But in some situations this may have undesirable features. Influential observations, for example, will appear duplicated in some resamples and be missing entirely from other resamples.  
+
+Another option is to use “residual resampling". In residual resampling, the new data set has all of the predictor values from the original data set and a new response is created by adding to the fitted function a resampled residual.
+
+In summary, suppose we have $n$ observations, each with $Y$ and some number of $X$'s, with each observation stored as a row in a data set. The two basic procedures when bootstrapping regression are:  
+a. bootstrap observations, and   
 b. bootstrap residuals.  
-The latter is a special case of a more general rule:  
-- sample $Y$ from its estimated conditional distribution given $X$.   
+The latter is a special case of a more general rule: sample $Y$ from its estimated conditional distribution given $X$.   
 
-In bootstrapping observations, we sample with replacement from the rows of the data; each $Y$ comes with the corresponding $X$'s. In any bootstrap sample some observations may be repeated multiple times, and others not
-included.  
+In bootstrapping observations, we sample with replacement from the rows of the data; each $Y$ comes with the corresponding $X$'s. In any bootstrap sample some observations may be repeated multiple times, and others not included. This is the same idea we used before when we used the bootstrap for hypothesis testing.   
 
-In bootstrapping residuals, we fit the regression model, compute predicted values $\hat{Y}_i$ and residuals $e_i = Y_i - \hat{Y}_i$, then create a bootstrap sampling using the same $X$ values as in the original data, but with new $Y$ values obtained using the prediction plus a random residual, $Y^{*}_i = \hat{Y}_i + e^{*}_i$, where
-the residuals $e^{*}_i$ are sampled randomly with replacement from the original residuals.   
+In bootstrapping residuals, we fit the regression model, compute predicted values $\hat{Y}_i$ and residuals $e_i = Y_i - \hat{Y}_i$, then create a bootstrap sample using the same $X$ values as in the original data, but with new $Y$ values obtained using the prediction plus a random residual, $Y^{*}_i = \hat{Y}_i + e^{*}_i$, where the residuals $e^{*}_i$ are sampled randomly with replacement from the original residuals. We still have the chance of selecting a large residual from an outlier, but if it paired with an $x$ value near $\bar{x}$, it will have little leverage.   
 
-Bootstrapping residuals corresponds to a designed experiment, where the $x$ values are fixed and only $Y$ is random, and bootstrapping observations to randomly sampled data where both $X$ and $Y$ are sampled. By the principle
-of sampling the way the data were drawn, we would bootstrap observations if the $X$'s were random. But we don't have to.
+Bootstrapping residuals corresponds to a designed experiment, where the $x$ values are fixed and only $Y$ is random. If we bootstrap observations, then in essentially both $X$ and $Y$ are sampled. By the principle of sampling the way the data were drawn, the second method implies that both $Y$ and $X$ are random.
 
 ## Confidence intervals for parameters  
 
@@ -73,85 +69,148 @@ To build a confidence interval for the slope parameter, we will resample the dat
 
 ### Resampling  
 
-Let's use the Starbucks data again.  
+To make this ideas more salient, let's use the Starbucks example again.
 
-```{r eval=FALSE}
-library(openintro)
+First read the data into `R`:
+
+```{r warning=FALSE,message=FALSE}
+starbucks <- read_csv("data/starbucks.csv")
 ```
+
+Build the model:
 
 ```{r}
 star_mod <- lm(calories~carb,data=starbucks)
 ```
 
+Let's see the output of the model:
+
 ```{r}
-star_mod
+summary(star_mod)
 ```
 
 
-Let's see how `do()` treats a linear model object.
+In preparation for resampling, let's see how `do()` treats a linear model object.
 
 ```{r}
+set.seed(401)
 obs<-do(1)*star_mod
 obs
 ```
 
-Nice. To resample the data we use `do()` with `resample()`.
+Nice. To resample the data we use `do()` with `resample()`. This will sample the rows, what we were refering to above as the first method.
 
 ```{r}
 do(2)*lm(calories~carb,data=resample(starbucks))
 ```
 
-We are ready to go.
+Perfect, we are ready to scale up.
 
 ```{r}
 set.seed(532)
 results <- do(1000)*lm(calories~carb,data=resample(starbucks))
 ```
 
+Now let's look at the first 6 rows of `results`.
+
 ```{r}
 head(results)
 ```
 
-With all this data, we can generate confidence intervals for the slope, $R$-squared, and $F$.
+With all this data in `results`, we can generate confidence intervals for the slope, $R$-squared, and $F$.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 results %>%
   gf_histogram(~carb) %>%
   gf_vline(xintercept = obs$carb,color="red") %>%
-  gf_theme(theme_classic())
+  gf_theme(theme_bw())
 ```
 
 The confidence interval is found using `cdata()`.
 
 ```{r}
-cdata(~carb,data=results)
+cdata(~carb,data=results,p=0.95)
 ```
-We are 95% confident that the true slope is between 3.17 and 5.37. As a reminder, using the normality assumption we had a 95% confidence interval of $(3.21,5.38)$.
+We are 95% confident that the true slope is between 3.17 and 5.37. As a reminder, using the normality assumption we had a 95% confidence interval of $(3.21,5.38)$:
 
 ```{r}
 confint(star_mod)
 ```
-The confidence interval for $R$-squared is
+The bootstrap confidence interval for $R$-squared is:
 
 ```{r}
 cdata(~r.squared,data=results)
 ```
-```{r}
+
+And the bootstrap sampling distribution of $R$-squared is:
+
+```{r warning=FALSE,message=FALSE}
 results %>%
   gf_histogram(~r.squared) %>%
   gf_vline(xintercept = obs$r.squared,color="red") %>%
   gf_theme(theme_classic())
 ```
 
-This is nice.
+This is nice work. So powerful.
+
+Let's see how we could accomplish this same work using the `infer` package.
+
+```{r eval=FALSE}
+library(infer)
+```
+
+To check that we can use this package, let's find the slope estimate.
+
+```{r}
+slope_estimate <- starbucks %>%
+  specify(calories ~ carb) %>%
+  calculate(stat="slope")
+```
+
+
+```{r}
+slope_estimate
+```
+
+Good, let's get the bootstrap sampling distribution of the regression slope.
+
+```{r}
+results2 <- starbucks %>%
+  specify(calories~carb) %>%
+  generate(reps=1000,type="bootstrap") %>%
+  calculate(stat="slope")
+head(results)
+```
+
+Next the confidence interval.
+
+
+```{r warning=FALSE,message=FALSE}
+(slope_ci<-get_confidence_interval(results2,point_estimate = slope_estimate))
+```
+
+This matches the work we have already done. Finally, let's visualize the results.
+
+
+```{r}
+results2 %>%
+  visualize() +
+  shade_confidence_interval(slope_ci,color="blue",fill="lightblue") +
+  geom_vline(xintercept = slope_estimate$stat,color="black",size=2) +
+  theme_bw()
+```
+
 
 ### Resample residuals
 
-We could also resample the residuals instead of the data. This makes a stronger assumption about the applicability of the linear model. However, it guarantees that every $X$ value is in the resample dataframe.
+We could also resample the residuals instead of the data. This makes a stronger assumption that the linear model is appropriate. However, it guarantees that every $X$ value is in the resample dataframe. In the `lm` function, we send the model instead of the data to resample the residuals.
 
-```{r message=FALSE}
-results_resid <- do(1000) * lm( calories~carb, data = resample(star_mod)) # resampled residuals
+```{r message=FALSE,warning=FALSE}
+results_resid <- do(1000)*lm( calories~carb, data = resample(star_mod)) # resampled residuals
+head(results_resid)
 ```
+
+Next a plot of the bootstrap sampling distribution:
 
 ```{r message=FALSE,warning=FALSE}
 results_resid %>%
@@ -159,7 +218,7 @@ results_resid %>%
   gf_vline(xintercept = obs$carb,color="red") %>%
   gf_theme(theme_classic())
 ```
-
+And finally the confidence interval for the slope.
 
 ```{r}
 cdata(~carb,data=results_resid)
@@ -169,7 +228,7 @@ Similar to the previous bootstrap confidence interval just a little narrower.
 
 ## Confidence intervals for prediction  
 
-We now want to generate a confidence interval for the average calories from a 60 grams of carbohydrates.  
+We now want to generate a confidence interval for the average calories from 60 grams of carbohydrates.  
 
 Using the normal assumption, we had
 
@@ -177,11 +236,13 @@ Using the normal assumption, we had
 predict(star_mod,newdata = data.frame(carb=60),interval="confidence")
 ```
 
-We have the slope and intercept in the `results` object. We can use `tidyverse` functions to find the confidence interval.
+We have all the bootstrap slope and intercept estimates in the `results` object. We can use `tidyverse` functions to find the confidence interval by predicting the response for each of these slope and intercept estimate.
 
 ```{r}
 head(results)
 ```
+
+
 
 ```{r}
 results %>%
@@ -195,7 +256,7 @@ This is similar to the interval we found last lesson. We are 95% confident that 
 
 The prediction interval is more difficult. We have to account for the variability of the slope but also the residual since this is an individual observation. What we are going to do is sample with replacement from the residuals and then add this value to the predicted value in the last step.
 
-First as a reminder, the prediction interval at 60 grams of `carb`.
+First as a reminder, the prediction interval at 60 grams of `carb` using the assumption of normally distributed errors from last lesson is:
 
 ```{r}
 predict(star_mod,newdata = data.frame(carb=60),interval="prediction")
@@ -210,68 +271,78 @@ results %>%
   cdata(~pred_ind,data=.)
 ```
 
-Close, just a little bit different.
+Close, just a little bit different as it is skewed to the right of what we got last lesson.
 
 ## Categorical predictor  
 
 We want to finish up simple linear regression by discussing a categorical predictor. It changes our interpretation somewhat.
 
-Thus far, we have only discussed regression in the context of a quantitative, continuous response AND a quantitative, continuous predictor. We can build linear models with categorical predictor variables as well. 
+Thus far, we have only discussed regression in the context of a quantitative, continuous, response AND a quantitative, continuous, predictor. We can build linear models with categorical predictor variables as well. 
 
-In the case of a binary covariate, nothing about the linear model changes. The two levels of the binary covariate are typically coded as 1 and 0, and the model is built, evaluated and interpreted in an analogous fashion as before. 
+In the case of a binary covariate, nothing about the linear model changes. The two levels of the binary covariate are typically coded as 1 and 0, and the model is built, evaluated and interpreted in an analogous fashion as before. The difference between the continuous predictor and categorical is that there are only two values the predictor can take and the regression model will simply predict the average value of the response within each value of the predictor.
 
-In the case of a categorical covariate with $k$ levels, where $k>2$, we need to include $k-1$ *dummy variables* in the model. Each of these dummy variables takes the value 0 or 1. For example, if a covariate has $k=3$ categories or levels (say A, B or C), we create two dummy variables, $X_1$ and $X_2$, each of which can only take values 1 or 0. If $X_1=1$, the covariate takes the value A. If $x_2=1$, the covariate takes the value B. If both $X_1=0$ and $X_2=0$, this is known as the reference category, and in this case the covariate takes the value C. The arrangement of the levels of the categorical covariate are arbitrary and can be adjusted by the user. This coding is called **contrasts** and again is typically taught in a course on linear models.
+In the case of a categorical covariate with $k$ levels, where $k>2$, we need to include $k-1$ *dummy variables* in the model. Each of these dummy variables takes the value 0 or 1. For example, if a covariate has $k=3$ categories or levels (say A, B or C), we create two dummy variables, $X_1$ and $X_2$, each of which can only take values 1 or 0. We arbitrarily state that if $X_1=1$, it represents the covariate has the value A. Likewise if $x_2=1$, then we state that the covariate takes the value B. If both $X_1=0$ and $X_2=0$, this is known as the reference category, and in this case the covariate takes the value C. The arrangement of the levels of the categorical covariate are arbitrary and can be adjusted by the user. This coding of the covariate into dummy variables is called **contrasts** and again is typically taught in a more advanced course on linear models.
 
-The linear model is $Y=\beta_0 + \beta_1X_1 + \beta_2X_2+e$. 
+In the case $k=3$, the linear model is $Y=\beta_0 + \beta_1X_1 + \beta_2X_2+e$. 
 
-When the covariate takes the value A, $\E(Y)=\beta_0 + \beta_1$. 
+When the covariate takes the value A, $\E(Y|X=A)=\beta_0 + \beta_1$. 
 
-When the covariate takes the value B, $\E(Y)=\beta_0 + \beta_2$. 
+When the covariate takes the value B, $\E(Y|X=B)=\beta_0 + \beta_2$. 
 
-When the covariate takes the value C, $\E(Y)=\beta_0$. 
+When the covariate takes the value C, $\E(Y|X=C)=\beta_0$. 
 
 Based on this, think about how you would interpret the coefficients $\beta_0$, $\beta_1$, and $\beta_2$. 
 
 ### Lending Club 
 
-This data set represents thousands of loans made through the Lending Club platform, which is a platform that allows individuals to lend to other individuals. Of course, not all loans are created equal. Someone who is a essentially a sure bet to pay back a loan will have an easier time getting a loan with a low interest rate than someone who appears to be riskier. And for people who are very risky? They may not even get a loan offer, or they may not have accepted the loan offer due to a high interest rate. It is important to keep that last part in mind, since this data set only represents loans actually made, i.e. do not mistake this data for loan applications! The data set is `loans_full_schema` from the `openintro` package.
+Let's do an example with some data.  
 
-```{r eval=FALSE}
-library(openintro)
+The Lending Club data set represents thousands of loans made through the Lending Club platform, which is a platform that allows individuals to lend to other individuals. Of course, not all loans are created equal. Someone who is a essentially a sure bet to pay back a loan will have an easier time getting a loan with a low interest rate than someone who appears to be riskier. And for people who are very risky? They may not even get a loan offer, or they may not have accepted the loan offer due to a high interest rate. It is important to keep that last part in mind, since this data set only represents loans actually made, i.e. do not mistake this data for loan applications! The data set is `loans.csv` from the `data` folder.
+
+```{r warning=FALSE,message=FALSE}
+loans <- read_csv("data/loans.csv")
 ```
 
+Let's look at the size of the data:
+
 ```{r}
-dim(loans_full_schema)
+dim(loans)
 ```
 
-This is a big data set. For educational purposes, we will sample 100 points from the original data. We need to drop the extra factor levels in `homeownership` that have zero observations.
+This is a big data set. For educational purposes, we will sample 100 points from the original data. We only need the variables `interest_rate` and `homeownership`. First let's break down the `homeownership` variable.
 
 ```{r}
-tally(~homeownership,data=loans_full_schema,format="proportion")
+tally(~homeownership,data=loans,format="proportion")
 ```
-We to sample the data so that each level of home ownership has the same proportion as the original, a stratified sample.
+We want to sample the data so that each level of home ownership has the same proportion as the original, a stratified sample.
 
 ```{r}
-loans100 <- loans_full_schema %>%
+set.seed(905)
+loans100 <- loans %>%
   select(interest_rate,homeownership) %>%
-  droplevels() %>%
+  mutate(homeownership=factor(homeownership)) %>%
   group_by(homeownership) %>%
   slice_sample(prop=0.01) %>%
   ungroup()
 ```
 
 ```{r}
+dim(loans100)
+```
+Not quite a 100 observations, but we preserved the proportion of homeownership.
+
+```{r}
 tally(~homeownership,data=loans100,format="proportion")
 ```
 
-Let's look at the data.
+Let's look at the data with a boxplot.
 
 ```{r}
 loans100 %>%
   gf_boxplot(interest_rate~homeownership) %>%
-  gf_theme(theme_classic())
+  gf_theme(theme_classic()) %>%
+  gf_labs(title="Lending Club",x="Homeownership",y="Interest Rate")
 ```
-
 
 It appears that there is some evidence that home ownership impacts the interest rate. We can build a linear model to explore whether this difference in significant. We can use the `lm()` function in `R`, but in order to include a categorical predictor, we need to make sure that variable is stored as a "factor" type. If it is not, we'll need to convert it. 
 
@@ -286,7 +357,7 @@ loan_mod<-lm(interest_rate ~ homeownership,data=loans100)
 summary(loan_mod)
 ```
 
-Note that by default, `R` set the `MORTGAGE` level as the reference category. This is because it is first alphabetically. You can control this by changing the order of the factor levels. The package `forcats` helps with this effort. 
+Note that by default, `R` set the `MORTGAGE` level as the reference category. This is because it is first value when sorted alphabetically. You can control this by changing the order of the factor levels. The package `forcats` helps with this effort. 
 
 How would we interpret this output? Since `MORTGAGE` is reference category, the intercept is effectively the estimated, average, interest rate for home owners with a mortgage. 
 
@@ -296,7 +367,7 @@ loans100 %>%
   summarise(average=mean(interest_rate))
 ```
 
-The other terms represent the expected difference in delivery times for the other locations. 
+The other terms represent the expected difference in average interest rates for the ownership types. 
 
 ```{r}
 loans100 %>%
@@ -305,20 +376,20 @@ loans100 %>%
 ```
 
 
-Specifically, on average, interest rates for home owners who own the house is 3.193 percent less than those with a mortgage those who rent is 0.8564 percent higher on average. 
+Specifically, on average, loan interest rates for home owners who own their home is 2.61 percentage points higher than those with a mortgage. Those who rent is 2.36 percent higher on average. The highest interest rate is for those who own their own home. This seems odd but it is interesting.
 
 >**Exercise**:  
 Using the coefficient from the regression model, how do we find the difference in average interest rates between home owners and renters?  
 
-The first coefficient $\beta_{homeownershipOWN} = \mu_{OWN} - \mu_{MORTGAGE}$ and $\beta_{homeownershipRENT} = \mu_{RENT} - \mu_{MORTGAGE}$. Thus $\mu_{OWN} -\mu_{RENT} = \beta_{homeownershipOWN} - \beta_{homeownershipRENT}$, the difference in coefficients.
+The first coefficient $\beta_\text{homeownershipOWN} = \mu_\text{OWN} - \mu_\text{MORTGAGE}$ and $\beta_\text{homeownershipRENT} = \mu_\text{RENT} - \mu_\text{MORTGAGE}$. Thus $\mu_\text{OWN} -\mu_\text{RENT} = \beta_\text{homeownershipOWN} - \beta_\text{homeownershipRENT}$, the difference in coefficients.
 
 The model is not fitting a line to the data but just estimating average with the coefficients representing difference from the reference level.
 
-The `Std.Error`, `t value`, and `Pr(>|t|)` values can be used to conduct inference about the respective estimates. It appears that a significant difference in mean interest rates between owners and those with a mortgage exists. 
+The `Std.Error`, `t value`, and `Pr(>|t|)` values can be used to conduct inference about the respective estimates. Both p-values are significant. This is similar to the ANOVA analysis we conducted last block except that hypothesis test was simulataneously testing all coefficents and here we are testing them pairwise. 
 
 ### Bootstrap
 
-From the boxplots, the biggest difference in means is between home owners and renters. However, in the regression output there is not p-value to test this difference. An easy solution would be to change the reference level but what if you had many levels? How would you know which ones to test? In the next section we will look at multiple comparisons but before then we can use the bootstrap to help us.
+From the boxplots, the biggest difference in means is between home owners and those with a mortgage. However, in the regression output there is no p-value to test the difference between owners and renters. An easy solution would be to change the reference level but what if you had many levels? How would you know which ones to test? In the next section we will look at multiple comparisons but before then we can use the bootstrap to help us.
 
 Let's bootstrap the regression.
 
@@ -364,7 +435,7 @@ results %>%
   cdata(~own_rent,data=.)
 ```
 
-Done! From this interval we can infer that home owners have a significantly lower interest rate than renters.
+Done! From this interval we can infer that home owners that own their home and those that rent do not have significantly different interest rates.
 
 ### ANOVA Table
 
@@ -385,7 +456,7 @@ We can obtain these pairwise comparisons using the `TukeyHSD()` function in `R`.
 TukeyHSD(aov(interest_rate~homeownership, data=loans100))
 ```
 
-According to this output, only the average interest rate for owners is different from renters. 
+According to this output, only the average interest rate for those with a mortgage is different from renters. 
 
 ## Assumptions
 

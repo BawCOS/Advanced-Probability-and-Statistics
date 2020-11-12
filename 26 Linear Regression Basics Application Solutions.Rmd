@@ -92,7 +92,7 @@ summary(star_mod)
 
 g. Report and interpret the slope coefficient.  
 
-The estimated slope is 4.297 so one additional gram of carbohydrates results in an average increase in calories of 4.297.
+The estimated slope is 4.297 so one additional gram of carbohydrates results in an average increase in calories of 4.297. 
 
 
 h. For a menu item with 51 g of carbs, what is the estimated calorie count? 
@@ -113,6 +113,12 @@ The maximum carb value is 80 so 100 is outside of the observed data. It would be
 
 
 j. Does the assumption of constant variance seem reasonable for this problem?  
+
+We are going to use the `broom` package to get the residuals and corresponding independent variable values. You could also get the residuals from the model object and the independent variable values from the original dataframe.
+
+```{r eval=FALSE}
+library(broom)
+```
 
 
 ```{r warning=FALSE,message=FALSE}

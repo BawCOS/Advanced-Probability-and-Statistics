@@ -2,6 +2,7 @@
 title: "Simulation Based Regression Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -22,7 +23,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.align='center')
 knitr::opts_chunk$set(out.width = "75%")
-library(openintro)
+library(broom)
 library(knitr)
 library(mosaic)
 library(tidyverse)
