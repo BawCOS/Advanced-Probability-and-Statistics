@@ -38,7 +38,7 @@ library(tidyverse)
 
 1) Using the bootstrap, generate confidence and estimates of standard error for parameter estimates from a linear regression model.
 
-2) Generate and interpret bootstrap confidence and prediction intervals for predicted values.
+2) Generate and interpret bootstrap confidence intervals for predicted values.
 
 3) Generate bootstrap samples from sampling rows of the data or sampling residuals. Explain why you might prefer one over the other.
 
@@ -179,7 +179,7 @@ results2 <- starbucks %>%
   specify(calories~carb) %>%
   generate(reps=1000,type="bootstrap") %>%
   calculate(stat="slope")
-head(results)
+head(results2)
 ```
 
 Next the confidence interval.
@@ -197,6 +197,7 @@ results2 %>%
   visualize() +
   shade_confidence_interval(slope_ci,color="blue",fill="lightblue") +
   geom_vline(xintercept = slope_estimate$stat,color="black",size=2) +
+  labs(x="Estimated Slope") +
   theme_bw()
 ```
 
@@ -254,14 +255,15 @@ This is similar to the interval we found last lesson. We are 95% confident that 
 
 ### Prediction interval  
 
-The prediction interval is more difficult. We have to account for the variability of the slope but also the residual since this is an individual observation. What we are going to do is sample with replacement from the residuals and then add this value to the predicted value in the last step.
+The prediction interval is more difficult to perform with a bootstrap. We would have to account for the variability of the slope but also the residual variability since this is an individual observation. We can't just add the residual to the predicted value. Remember the variance of a sum of independent variables is the sum of the variances. But here we have standard deviations and we can't just add them. 
 
-First as a reminder, the prediction interval at 60 grams of `carb` using the assumption of normally distributed errors from last lesson is:
+Let's look at what would happen if we try. First as a reminder, the prediction interval at 60 grams of `carb` using the assumption of normally distributed errors from last lesson is:
 
 ```{r}
 predict(star_mod,newdata = data.frame(carb=60),interval="prediction")
 ```
 If we are generating a bootstrap of size 1000, we will resample from the residuals 1000 times.
+
 
 ```{r}
 results %>%
@@ -271,7 +273,7 @@ results %>%
   cdata(~pred_ind,data=.)
 ```
 
-Close, just a little bit different as it is skewed to the right of what we got last lesson.
+This prediction interval appears to be biased. Thus generating a prediction interval is beyond the scope of this class.
 
 ## Categorical predictor  
 

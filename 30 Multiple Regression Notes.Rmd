@@ -2,6 +2,7 @@
 title: "Multiple Regression Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -47,7 +48,7 @@ library(tidyverse)
 
 ## Introduction to multiple regression  
 
-The principles of simple linear regression lay the foundation for more sophisticated regression methods used in a wide range of challenging settings. In our last two lessons, we explore multiple regression, which introduces the possibility of more than one predictor.
+The principles of simple linear regression lay the foundation for more sophisticated regression methods used in a wide range of challenging settings. In our last two lessons, we will explore multiple regression, which introduces the possibility of more than one predictor.
 
 ## Multiple regression  
 
