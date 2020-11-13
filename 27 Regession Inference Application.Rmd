@@ -40,7 +40,7 @@ c. Write the equation of the regression line. Interpret the slope and intercept 
 d. Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol? State the null and alternative hypotheses, report the p-value, and state your conclusion.
 e. Build a 95% confidence interval for the slope and interpret it in the context of your hypothesis test from part d.
 f. Suppose we visit a bar, ask people how many drinks they have had, and also take their BAC. Do you think the relationship between number of drinks and BAC would be as strong as the relationship found in the Ohio State study?
-g. Predict the average BAC after two beer and build a 90% confidence interval around that prediction. 
+g. Predict the average BAC after two beers and build a 90% confidence interval around that prediction. 
 h. Repeat except build a 90% prediction interval and interpret.
 i. Plot the data points with a regression line, confidence band, and prediction band.  
 

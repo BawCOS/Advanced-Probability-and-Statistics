@@ -72,18 +72,18 @@ $$
 The reason this model returns the expected value of the response at the given value of the predictor is because the error term has an expected value of zero. As a review of the properties of expectation as well as last lesson, we have:
 
 $$
-E(Y)=E(\beta_0+\beta_1X+e)=Y=\beta_0+\beta_1X+E(e)=\beta_0+\beta_1X
+E(Y|X=x)=E(\beta_0+\beta_1x+e)=Y=\beta_0+\beta_1x+E(e)=\beta_0+\beta_1x
 $$
-because $\beta_0$, $\beta_1$, and $X$ are constants.
+because $\beta_0$, $\beta_1$, and $x$ are constants.
 
 
-It should be abundantly clear by now that $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ are ***estimates***. Being estimates, they are dependent on our random sample, our data. If we collect a new random sample from the same population, we will get new estimates. Thus, we can think of $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ as **random variables**. Like all random variables, they have distributions. We can use the distribution of an estimate to build confidence intervals and conduct hypothesis tests about the true values of the parameter it is intended to estimate. These estimators are unbiased, their distributions are centered around the actual values of $Y$, $\beta_0$ and $\beta_1$, respectively.
+It should be abundantly clear by now that $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ are ***estimators***. Being estimators, they are dependent on our random sample, our data. If we collect a new random sample from the same population, we will get new estimates from these estimators. Thus, we can think of $\hat{Y}_*$, $\hat{\beta}_0$, and $\hat{\beta}_1$ as **random variables**. Like all random variables, they have distributions. We can use the distribution of an estimator to build confidence intervals and conduct hypothesis tests about the true values of the parameter it is intended to estimate. These estimators are unbiased, their distributions are centered around the actual values of $Y$, $\beta_0$ and $\beta_1$, respectively.
 
 ### Review of assumptions
 
 We will review the assumptions of the least squares model because they are important for inference. Refer to the figure below which plots the linear regression in the top row and the residuals in the second row. We generally assume the following:
 
-1. **Linearity**.  The data should show a linear trend. If there is a nonlinear trend, a transformation of the explanatory variable or an advanced regression method from Math 378 should be applied. When looking at the residual plot, if the trend is linear, we should see a spread of points that are flat. The left column is an example of a nonlinear relationship. The top plot is the regression plot and we can see what looks like a quadratic relationship instead of a linear one. The residual plot, the plot in the lower left corner, also exhibits this non-linear trend.     
+1. **Fit**.  The data should show a linear trend. If there is a nonlinear trend, a transformation of the explanatory variable or an advanced regression method from Math 378 should be applied. When looking at the residual plot, if the trend is linear, we should see a spread of points that are flat. The left column is an example of a nonlinear relationship. The top plot is the regression plot and we can see what looks like a quadratic relationship instead of a linear one. The residual plot, the plot in the lower left corner, also exhibits this non-linear trend.     
 2. **Nearly normal residuals**.  Generally the residuals must be nearly normal to use a $t$ or $F$ for inference. When this assumption is found to be unreasonable, it is usually because of **outliers** or concerns about **influential** points. An example of non-normal residuals is shown in the second column of the figure. A **qq** plot is also useful as a diagnostic tool as we have seen. We can still use the **bootstrap** as an inference tool if the normality assumption is unreasonable.    
 3. **Constant variability**.  The variability of points around the least squares line remains roughly constant. An example of non-constant variability is shown in the third panel of the figure.  The constant variability assumption is needed for the $t$ and $F$ distributions. It is not required for the bootstrap method.  
 4. **Independent observations**.  Be cautious about applying regression to data collected sequentially in what is called a **time series**. Such data may have an underlying structure that should be considered in a model and analysis. An example of a time series where independence is violated is shown in the fourth panel of the figure. More advanced methods are required for time series data even including using a bootstrap. 
@@ -353,7 +353,7 @@ Notice that all three of these are unbiased, the expected value is equal to the 
 
 ## Inference
 
-Now that we know how the coefficient estimates and the average predicted values behave, we can perform inference on their true values. Let's take $\hat{\beta}_1$ for demonstration:
+Now that we know how the coefficient estimates and the average predicted values behave, we can perform inference on their true values. Let's take $\hat{\beta}_1$ for demonstration:  
 $$
 \hat{\beta}_1\sim N\left(\beta_1, {\sigma \over \sqrt{ \sum (x_i-\bar{x})^2}}\right)
 $$
@@ -379,7 +379,7 @@ We only have $n-2$ degrees of freedom because in the estimation of $\sigma^2$ we
 
 We can use this information to build a $(1-\alpha)*100\%$ confidence interval for $\beta_1$. First, we recognize that 
 $$
-\Prob\left(-t_{\alpha/2,n-2} \leq {\hat{\beta}_1-\beta_1 \over {\hat \sigma \over \sqrt{ \sum (x_i-\bar{x})^2}}}\leq t_{\alpha/2,n-2} \right) = \alpha
+\Prob\left(-t_{\alpha/2,n-2} \leq {\hat{\beta}_1-\beta_1 \over {\hat \sigma \over \sqrt{ \sum (x_i-\bar{x})^2}}}\leq t_{\alpha/2,n-2} \right) = 1-\alpha
 $$
 
 Solving the expression inside the probability statement for $\beta_1$ yields a confidence interval of 
@@ -449,7 +449,7 @@ summary(star_mod)
 In the second row of the **Coefficients** portion of the table we have our point estimate, standard error, test statistic, and p-value for the slope.
 
 The hypotheses for this output is  
-$H_0$: $\beta_1 = 0$. The true linear model has slope zero.  
+$H_0$: $\beta_1 = 0$. The true linear model has slope zero. The carb content has no impact on the the calorie content.  
 $H_A$: $\beta_1 \neq 0$. The true linear model has a slope different than zero. The higher the carb content, the greater the average calorie content or vice-versa.
 
 Our estimate of the slope is 4.297 with a standard error of 0.5424. Just for demonstration purposes, we will use `R` to calculate the test statistic and p-value as a series of steps. The test statistic under the null hypothesis is:
@@ -513,7 +513,7 @@ We could calculate the confidence interval from the point estimate, standard err
 confint(star_mod)
 ```
 
-This confidence interval does not contain the value 0. This suggests that a value of 0 is probably not a feasible for $\beta_1$.
+This confidence interval does not contain the value 0. This suggests that a value of 0 is probably not feasible for $\beta_1$.
 
 In the end, we would declare that carbohydrate and calorie content of Starbucks menu items are linearly correlated. However, we DID NOT prove causation. We simply showed that the two variables are correlated. 
 
@@ -577,7 +577,7 @@ We changed the confidence level. Since we are less confident, the interval will 
 ```{r}
 predict(star_mod, newdata = new_carb, level=0.9, interval = 'prediction')
 ```
-We are 95\% confident the next Starbuck's menu item that has 70 grams of carbs will have a calorie content between 313.7 and 579.9.
+We are 90\% confident the next Starbuck's menu item that has 70 grams of carbs will have a calorie content between 313.7 and 579.9.
 
 
 

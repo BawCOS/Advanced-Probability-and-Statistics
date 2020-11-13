@@ -73,7 +73,7 @@ summary(bac_mod)
 
 $$\text{BAC} = -0.0127 + 0.0180 \times \text{beers} $$
 Slope: For each additional can of beer consumed, the model predicts an additional 0.0180 grams per deciliter BAC on average.  
-Intercept: Students who don't have any beer are expected to have a blood alcohol content of -0.0127. This value can be interpreted as how much BAC drops in the time between drinking the beers and when BAC is measured.
+Intercept: Students who don't have any beer are expected to have a blood alcohol content of -0.0127. This value could be interpreted as how much BAC drops in the time between drinking the beers and when BAC is measured. But it also could be that the intercept is really zero but our estimate is different because of variability in our estimator.
 
 d. Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol? State the null and alternative hypotheses, report the p-value, and state your conclusion.  
 
@@ -91,14 +91,14 @@ We need a lower confidence bound since the alternative is $\beta_1 > 0$. For a 9
 confint(bac_mod,level=0.9)
 ```
 
-We are 95% confident that the true value of the slope is greater than 0.014. This bound does not contain 0, so it appears that number of beers and BAC are linearly related in a positive direction. 
+We are 95% confident that the true value of the slope is greater than 0.014. This bound does not contain 0, so it appears that number of beers and BAC are linearly related in a positive direction. Notice the confidence interval for the intercept does include zero as we discussed above.
 
 
 f. Suppose we visit a bar, ask people how many drinks they have had, and also take their BAC. Do you think the relationship between number of drinks and BAC would be as strong as the relationship found in the Ohio State study? 
 
 It would probably be weaker. This study had people of very similar ages, and they also had identical drinks. In bars and elsewhere, drinks vary widely in the amount of alcohol they contain.
 
-g. Predict the average BAC after two beer and build a 90% confidence interval around that prediction. 
+g. Predict the average BAC after two beers and build a 90% confidence interval around that prediction. 
 
 ```{r}
 new_bac <- data.frame(beers=2)

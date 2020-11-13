@@ -275,6 +275,7 @@ results %>%
 
 This prediction interval appears to be biased. Thus generating a prediction interval is beyond the scope of this class.
 
+
 ## Categorical predictor  
 
 We want to finish up simple linear regression by discussing a categorical predictor. It changes our interpretation somewhat.
