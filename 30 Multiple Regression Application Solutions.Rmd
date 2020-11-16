@@ -50,14 +50,14 @@ $$
 
 Each coefficient represents the expected increase in `mpg` for a unit increase in the respective variable, leaving all other variables constant. 
 
-b) Given your model, what is the expected mpg for a vehicle with a displacement of 170, a horsepower of 100, a `drat` of 3.80 and a wt of 2,900 lbs. Construct a 95% confidence interval and prediction interval for that expected mpg. 
+b) Given your model, what is the expected, average, mpg for a vehicle with a displacement of 170, a horsepower of 100, a `drat` of 3.80 and a wt of 2,900 lbs. Construct a 95% confidence interval and prediction interval for that expected mpg. 
 
 ```{r}
 predict(cars_mod,newdata=data.frame(disp=170,hp=100,drat=3.8,wt=2.9),interval="confidence")
 predict(cars_mod,newdata=data.frame(disp=170,hp=100,drat=3.8,wt=2.9),interval="prediction")
 ```
 
-c. Repeat part (b) with a bootstrap.
+c. Repeat part (b) with a bootstrap for the confidence interval.
 
 ```{r}
 set.seed(732)
@@ -75,21 +75,13 @@ mutate(pred=Intercept+disp*170+hp*100+drat*3.8+wt*2.9) %>%
 cdata(~pred,data=.)
 ```
 
-```{r}
-results %>%
-mutate(pred=Intercept+disp*170+hp*100+drat*3.8+wt*2.9) %>%
-cbind(resid=sample(cars_mod$residuals,size=1000,replace = TRUE)) %>%
-mutate(pred_ind=pred+resid) %>%
-cdata(~pred_ind,data=.)
-```
-
 
 
 &nbsp;
 
-\indent 2. Is that the best model for predicting mpg? With your group, try a variety of different models. You could explore higher order terms or even interactions. One place to start is my using the `pairs()` function on `mtcars` to plot a large pairwise scatterplot. How high could you get adjusted $R$-squared? Keep in mind that is only one measure of fit. 
+\indent 2. Is that the best model for predicting mpg? Try a variety of different models. You could explore higher order terms or even interactions. One place to start is my using the `pairs()` function on `mtcars` to plot a large pairwise scatterplot. How high could you get adjusted $R$-squared? Keep in mind that is only one measure of fit. 
 
-Answers will vary, but I tried this and got 0.8694. 
+Answers will vary, but we tried this and got 0.8694. 
 
 ```{r}
 summary(lm(mpg~disp+I(disp^2)+hp+I(hp^2)+wt,data=mtcars))

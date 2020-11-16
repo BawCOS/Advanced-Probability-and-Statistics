@@ -57,7 +57,7 @@ To explore and explain these ideas, we will consider Ebay auctions of a video ga
 
 The data set is in the file `mariokart.csv` in the `data` folder. This data set includes results from 141 auctions.^[Diez DM, Barr CD, and \c{C}etinkaya-Rundel M. 2012. `openintro`: OpenIntro data sets and supplemental functions. http://cran.r-project.org/web/packages/openintro] Ten observations from this data set are shown in the `R` code below. Just as in the case of simple linear regression, multiple regression also allows for categorical variables with many levels. Although we do have this type of variable in this data set, we will leave the discussion of these types of variables in multiple regression for Math 378.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 mariokart <-read_csv("data/mariokart.csv")
 head(mariokart,n=10)
 ```
@@ -119,7 +119,7 @@ mariokart %>%
   gf_point(total_pr~cond) %>%
   gf_theme(theme_classic())
 ```
-That outlier is driving the relationship in the model. If we find the mean and median for the two groups, we will see this.
+That outlier probably is significantly impacting the relationship in the model. If we find the mean and median for the two groups, we will see this.
 
 
 ```{r}
@@ -128,9 +128,9 @@ mariokart %>%
   summarize(xbar=mean(total_pr), stand_dev=sd(total_pr),xmedian=median(total_pr))
 ```
 
-It appears that **used** items have a higher average price solely because of the one extreme point.
+It appears that **used** items have a higher average price solely because of at least one of the outliers.
 
-There two outliers in the plot. Let's gather more information about them.
+There are least two outliers in the plot. Let's gather more information about them.
 
 ```{r}
 mariokart %>%
@@ -183,7 +183,7 @@ The model does seem reasonable although prices for new items appears to be skewe
 plot(mario_mod2,2)
 ```
 
-This somewhat suspect but we have more than 100 data points so the short tails of the distribution are not a concern.
+The normality assumption is somewhat suspect but we have more than 100 data points so the short tails of the distribution are not a concern. The shape of this curve indicates a positive skew.
 
 ```{r}
 plot(mario_mod2,3)
@@ -271,7 +271,7 @@ Using this output, we identify the point estimates $b_i$ of each $\beta_i$, just
 \end{tabular}
 \end{table}
 
-
+\pagebreak
 
 > **Multiple regression model**  
 A multiple regression model is a linear model with many predictors. In general, we write the model as
@@ -314,10 +314,22 @@ We estimated a coefficient for `cond` as $b_1 = - 10.90$ with a standard error o
 
 If we examined the data carefully, we would see that some predictors are correlated. For instance, when we estimated the connection of the outcome `total_pr` and predictor `cond` using simple linear regression, we were unable to control for other variables like the number of Wii wheels included in the auction. That model was biased by the confounding variable `wheels`. When we use both variables, this particular underlying and unintentional bias is reduced or eliminated (though bias from other confounding variables may still remain).
 
-> *Example*: The previous example describes a common issue in multiple regression: correlation among predictor variables. We say the two predictor variables are **collinear** (pronounced as **co-linear**) when they are correlated, and this collinearity complicates model estimation. While it is impossible to prevent collinearity from arising in observational data, experiments are usually designed to prevent predictors from being collinear.
+The previous example describes a common issue in multiple regression: correlation among predictor variables. We say the two predictor variables are **collinear** (pronounced as **co-linear**) when they are correlated, and this collinearity complicates model estimation. While it is impossible to prevent collinearity from arising in observational data, experiments are usually designed to prevent predictors from being collinear.
 
 > **Exercise**:  
 The estimated value of the intercept is 41.34, and one might be tempted to make some interpretation of this coefficient, such as, it is the model's predicted price when each of the variables take a value of zero: the game is new, the primary image is not a stock photo, the auction duration is zero days, and there are no wheels included. Is there any value gained by making this interpretation?^[Three of the variables (`cond`, `stock_photo`, and `wheels`) do take value 0, but the auction duration is always one or more days. If the auction is not up for any days, then no one can bid on it! That means the total auction price would always be zero for such an auction; the interpretation of the intercept in this setting is not insightful.]
+
+### Inference  
+
+From the printout of the model summary, we can see that both the `stock_photo` and `duration` variables are not significantly different from zero. Thus we may want to drop them from the model. In Math 378, we will explore ways to determine the best model including the use of p-values. 
+
+Likewise, we could generate confidence intervals for the coefficients:
+
+```{r}
+confint(mario_mod_multi)
+```
+
+This confirms that the `stock_photo` and `duration` may not have an impact on total price.
 
 ### Adjusted $R^2$ as a better estimate of explained variance
 
@@ -352,7 +364,7 @@ summary(mario_mod_multi)$r.squared
 
 This strategy for estimating $R^2$ is acceptable when there is just a single variable. However, it becomes less helpful when there are many variables. The regular $R^2$ is actually a biased estimate of the amount of variability explained by the model. To get a better estimate, we use the adjusted $R^2$.
 
->Adjusted $\mathbf{R^2}$ as a tool for model assessment:    
+>**Adjusted $\mathbf{R^2}$ as a tool for model assessment**:    
 The adjusted $\mathbf{R^2}$ is computed as: 
 $$
 R_{adj}^{2} = 1-\frac{Var(e_i) / (n-k-1)}{Var(y_i) / (n-1)}
@@ -370,23 +382,80 @@ summary(mario_mod_multi)$adj.r.squared
 ```
 
 > **Exercise**:  
-Suppose you added another predictor to the model, but the variance of the errors $Var(e_i)$ didn't go down. What would happen to the $R^2$? What would happen to the adjusted $R^2$?^[The unadjusted $R^2$ would stay the same and the adjusted $R^2$ would go down.
+Suppose you added another predictor to the model, but the variance of the errors $Var(e_i)$ didn't go down. What would happen to the $R^2$? What would happen to the adjusted $R^2$?^[The unadjusted $R^2$ would stay the same and the adjusted $R^2$ would go down. Note that unadjusted $R^2$ never decreases by adding another predictor, it can only stay the same or increase. The adjusted $R^2$ increases only if the addition of a predictor reduces the variance of the error larger than add one to $k$ in denominator.]
 
 Again, in Math 378 we will spend more time on how to select models. Using internal metrics of performance such as p-values or adjusted $R$ squared are one way but using external measures of predictive performance such as **cross validation** or **hold out** sets will be introduced.
 
+### REduced model
+
+Now let's drop `duration` from the model and compare to our previous model
+
+```{r}
+mario_mod_multi2 <- lm(total_pr~cond+stock_photo+wheels, data=mariokart_new)
+```
+
+And the summary:
+
+```{r}
+summary(mario_mod_multi2)
+```
+As a reminder, the previous model summary is:
+
+```{r}
+summary(mario_mod_multi)
+```
+NOtice that the adjusted $R^2$ improved by dropping `duration`. Finally, let's drop `stock_photo`.
+
+
+```{r}
+mario_mod_multi3 <- lm(total_pr~cond+wheels, data=mariokart_new)
+```
+
+
+```{r}
+summary(mario_mod_multi3)
+```
+
+There is relatively little change in the adjusted $R^2$, so we will go with this model. Again, Math 378 will go more into depth about model selection.
+
+### Confidence and prediction intervals
+
+Let's suppose we want to predict the average total price for a Mario Kart sale with 2 wheels and in new condition. We can again use the `predict()` function.
+
+```{r}
+predict(mario_mod_multi3,newdata=data.frame(cond="new",wheels=2),interval = "confidence")
+```
+
+We are 95\% confident that the average price of a Mario Kart sale for a new item with 2 wheels will be between 55.50 and 58.17.
+
+>**Exercise**:
+Find and interpret the prediction interval for a new Mario Kart with 2 wheels.  
+
+```{r}
+predict(mario_mod_multi3,newdata=data.frame(cond="new",wheels=2),interval = "prediction")
+```
+We are 95\% confident that the price of a Mario Kart sale for a new item with 2 wheels will be between 47.07 and 66.59.
+
+### Diagnostics
+
+The diagnostics for the model are similar to what we did in a previous lesson. Nothing in these plots gives us concern.
+
+```{r}
+plot(mario_mod_multi3)
+```
+
+
 ## Interaction and Higher Order Terms
 
-As a final short topic we want to explore **feature engineering**. Thus far we have not done any transformation to the predictors in the data set except maybe making categorical variables into factors. In data analysis competitions, such as Kaggle, often one of the most important steps is feature engineering. In Math 378, we will look at different tools but in this class we will look at simple transformations such as higher order terms and interactions. 
+As a final short topic we want to explore **feature engineering**. Thus far we have not done any transformation to the predictors in the data set except maybe making categorical variables into factors. In data analysis competitions, such as Kaggle, feature engineering is often one of the most important steps. In Math 378, we will look at different tools but in this class we will look at simple transformations such as higher order terms and interactions. 
 
-Unfortunately, our `mariokart` data set does not have a quantitative variable that takes on many values, we are going to switch to a different data set.
-
-Load the library `ISLR`, this is a package that you will use a great deal in Math 378.
+To make this this section more relevant, we are going to switch to a different data set. Load the library `ISLR`, this is a package that you will use a great deal in Math 378.
 
 ```{r}
 library(ISLR)
 ```
 
-The data set of interest is `Credit`, use the help menu to read about the variables. This is a simulated data set of credit card debt.
+The data set of interest is `Credit`. Use the help menu to read about the variables. This is a simulated data set of credit card debt.
 
 ```{r}
 glimpse(Credit)
@@ -419,7 +488,6 @@ augment(credit_mod1) %>%
 >**Exercise**:  
 Write the equation for the regression model.
 
-In this case, we would want to include an interaction term in the model: 
 
 $$
 \E(Balance)=\beta_0 + \beta_1*\text{Income}+ \beta_2*\text{(Student=Yes)} 
@@ -433,7 +501,7 @@ $$
 
 If the observation is a student, then the intercept is increased by 382.67.
 
-an **interaction** term allows the slope to change as well. To include an interaction term when building a model in `R`, we use `\*`. 
+In this case, we would want to include an interaction term in the model: an **interaction** term allows the slope to change as well. To include an interaction term when building a model in `R`, we use `\*`. 
 
 ```{r}
 credit_mod2<-lm(Balance~Income*Student,data=Credit)
@@ -450,7 +518,7 @@ augment(credit_mod2) %>%
   gf_line(.fitted~Income,data=subset(augment(credit_mod2), Student == "No"),color=~Student)
 ```
 
-Now we have a different slope and intercept for each case of the `Student` variable. Thus there is a synergy or interaction between these variables. The student status changes the impact of `Income` on `Balance`. If you are a student, then for every increase in income of 1 the balance increase by 4.219. If you are not a student, every increase in income of 1 increases the balance by 6.2182. 
+Now we have a different slope and intercept for each case of the `Student` variable. Thus there is a synergy or interaction between these variables. The student status changes the impact of `Income` on `Balance`. If you are a student, then for every increase in income of 1 the balance increase by 4.219 on average. If you are not a student, every increase in income of 1 increases the average balance by 6.2182. 
 
 Furthermore, if you suspect that perhaps a curved relationship exists between two variables, we could include a higher order term. As an example, let's add a quadratic term for `Income` to our model (without the interaction). To do this in `R`, we need to wrap the higher order term in `I()`. If we include a higher order term, we usually want to include the lower order terms as well, in Math 378 you will make the decision on what to include using predictive performance.
 
@@ -470,7 +538,9 @@ augment(credit_mod3) %>%
 
 There is not much a a quadratic relationship.
 
+### Summary  
 
+In this lesson we have extended the linear regression model by allowing multiple predictors. This allows to account for confounding variables and make more sophisticated models. The interpretation and evaluation of the model changes.
 
 ## File Creation Information 
 
