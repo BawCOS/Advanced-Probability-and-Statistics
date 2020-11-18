@@ -104,7 +104,7 @@ e. Using the $t$ distribution:
 ```{r}
 confint(int_rate_mod)
 ```
-We are 96\% confident the true slope is between -4.592357e-05 and 1.008748e-04.  
+We are 95\% confident the true slope is between -4.592357e-05 and 1.008748e-04.  
 
 
 ```{r}
@@ -196,7 +196,7 @@ There is a significant difference between the average interest rate based on the
 
 c. Write out the estimated linear model. In words, interpret the coefficient estimate.   
 
-The intercept $\beta_\text{Intercept} = \mu_\text{36}$ is the average interest rate for a 36 month loan. And $\beta_\text{trem60} = \mu_\text{term60} - \mu_\text{term36}$ is the difference in average interest rates between loan length. In this case, a 60 month loan is 4.66 percentage points higher on average than a 36 month loan.
+The intercept $\beta_\text{Intercept} = \mu_\text{term36}$ is the average interest rate for a 36 month loan. And $\beta_\text{term60} = \mu_\text{term60} - \mu_\text{term36}$ is the difference in average interest rates between loan length. In this case, a 60 month loan is 4.66 percentage points higher on average than a 36 month loan.
 
 d. Construct a bootstrap confidence interval on the coefficient.  
 

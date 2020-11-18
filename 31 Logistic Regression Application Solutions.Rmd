@@ -2,6 +2,7 @@
 title: "Logistic Regression Applications Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -36,15 +37,144 @@ Let's investigate the `possum` data set again. This time we want to model a bina
 
 We use logistic regression to differentiate between possums in these two regions. The outcome variable, called `pop`, takes value `Vic` when a possum is from Victoria and `other` when it is from New South Wales or Queensland. We consider five predictors: `sex`, `head_l`, `skull_w`, `total_l`, and `tail_l`. 
 
-a. Explore the data by making histograms of the quantitative variables, and bar charts of the discrete variables.  
-Are there any outliers that are likely to have a very large influence on the logistic regression model?
-b. Build a logistic regression model with all the variable.  
-c. Using the p-values decide if you want to remove a variable(S) and if so build that model.
-d. For any variable you decide to remove, build a bootstrap 95% confidence interval.
-e. Explain why the remaining parameter estimates change between the two models.
-f. Write out the form of the model. Also identify which of the following variables are positively associated (when controlling for other variables) with a possum being from Victoria: `head_l`, `skull_w`, `total_l`, and `tail_l`.
+a. Explore the data by making histograms of the quantitative variables, and bar charts of the discrete variables.  Are there any outliers that are likely to have a very large influence on the logistic regression model?  
+
+```{r warning=FALSE,message=FALSE}
+possum <- read_csv("data/possum.csv") %>%
+  select(pop,sex,head_l,skull_w,total_l,tail_l) %>%
+  mutate(pop=factor(pop),sex=factor(sex))
+```
+
+```{r warning=FALSE,message=FALSE}
+inspect(possum)
+```
+
+```{r}
+possum %>%
+  gf_props(~pop) %>%
+  gf_theme(theme_bw())
+```
+```{r}
+possum %>%
+  gf_props(~sex) %>%
+  gf_theme(theme_bw())
+```
+```{r}
+possum %>%
+  gf_boxplot(~head_l) %>%
+  gf_theme(theme_bw())
+```
+```{r}
+possum %>%
+  gf_boxplot(~skull_w) %>%
+  gf_theme(theme_bw())
+```
+
+```{r}
+possum %>%
+  gf_boxplot(~total_l) %>%
+  gf_theme(theme_bw())
+```
+```{r}
+possum %>%
+  gf_boxplot(~tail_l) %>%
+  gf_theme(theme_bw())
+```
+
+There are some potential outliers for skull width but otherwise not much concern.
+
+```{r}
+pairs(possum[,3:6],lower.panel = panel.smooth)
+```
+We can see that `head_l` is correlated with the other three variables. This will cause some multicollinearity problems.
+
+b. Build a logistic regression model with all the variable.  Report a summary of the model. 
+
+```{r}
+possum_mod <- glm(pop=="Vic"~.,data=possum,family="binomial")
+```
+
+```{r}
+summary(possum_mod)
+```
+
+```{r}
+confint(possum_mod)
+```
+
+
+c. Using the p-values decide if you want to remove a variable(S) and if so build that model. 
+
+Let's remove `head_l` first.
+
+```{r}
+possum_mod_red <- glm(pop=="Vic"~sex+skull_w+total_l+tail_l,data=possum,family="binomial")
+```
+
+```{r}
+summary(possum_mod_red)
+```
+Since `head_l` was correlated with the other variables, removing it has increased the precision, decreased the standard error, of the other predictors. There p-values are all now less than 0.05. 
+
+d. For any variable you decide to remove, build a 95% confidence interval for the parameter.
+
+```{r}
+confint(possum_mod)
+```
+We are 95\% confident that the true slope coefficient for `head_l` is between -0.44 and 0.108.
+
+The bootstrap is not working for this problem. It may be that we have convergence issues when we resample the data. This is a reminder that we need to be careful and not just run methods without checking results. Here is the code:
+
+```{r warning=FALSE,message=FALSE}
+set.seed(952)
+results<-do(1000)*glm(pop=="Vic"~.,data=resample(possum),family="binomial")
+```
+
+```{r}
+head(results)
+```
+
+```{r}
+confint(results)
+```
+
+These intervals are much too large.
+
+e. Explain why the remaining parameter estimates change between the two models. 
+
+When coefficient estimates are sensitive to which variables are included in the model, this typically indicates that some variables are collinear. For example, a possum's gender may be related to its head length, which would explain why the coefficient (and p-value) for sex male changed when we removed the head length variable. Likewise, a possum's skull width is likely to be related to its head length, probably even much more closely related than the head length was to gender.
+
+
+f. Write out the form of the model. Also identify which of the following variables are positively associated (when controlling for other variables) with a possum being from Victoria: `head_l`, `skull_w`, `total_l`, and `tail_l`.  
+
+We dropped `head_l` from the model. Here is the equation:
+
+$$
+\log_{e}\left( \frac{p_i}{1-p_i} \right)
+	= 33.5 - 1.42 \text{ sex} -0.28 \text{ skull width}  + 0.57 \text{ total length} - 1.81 \text{ tail length}
+$$  
+
+Only `total_l` is positively association with the probability of being from Victoria. 
+
 g. Suppose we see a brushtail possum at a zoo in the US, and a sign says the possum had been captured in the wild in Australia, but it doesn't say which part of Australia. However, the sign does indicate that the possum is male, its skull is about 63 mm wide, its tail is 37 cm long, and its total length is 83 cm. What is the reduced model's computed probability that this possum is from Victoria? How confident are you in the model's accuracy of this probability calculation?
 
+Let's predict the outcome. We use `response` for the type to put the answer in the form of a probability. See the help menu on `predict.glm` for more information.  
+
+```{r}
+predict(possum_mod_red,newdata = data.frame(sex="m",skull_w=63,tail_l=37,total_l=83),
+        type="response",se.fit = TRUE)
+```
+
+
+While the probability, 0.006, is very near zero, we have not run diagnostics on the model. We should also have a little skepticism that the model will hold for a possum found in a US zoo. However, it is encouraging that the possum was caught in the wild.
+
+As a rough sense of the accuracy, we will use the standard error. The errors are really binomial but we are trying to use a normal approximation. If you remember back to our block on probability, with such a low probability, this assumption of normality is suspect. However, we will use it to give us an upper bound.
+
+```{r}
+0.0062+c(-1,1)*1.96*.008
+```
+
+So at most, the probability of the possum being from Victoria is 2\%.
 
 
 ## File Creation Information 
