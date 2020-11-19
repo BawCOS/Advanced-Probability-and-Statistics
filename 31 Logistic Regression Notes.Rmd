@@ -345,7 +345,7 @@ The first condition of the logistic regression model is not easily checked witho
 
 Let's first visualize these data by plotting the true classification of the emails against the model's fitted probabilities. 
 
-First get the predicted values using `augment()` from the `broom` package. We have to convert the frist column from a logic variable into a numeric variable and changed `.fitted` into a predicted probability. If the first assumption is valid we would expect a 45 degree line which is close to what we have.
+First get the predicted values using `augment()` from the `broom` package. We have to convert the first column from a logic variable into a numeric variable and changed `.fitted` into a predicted probability. If the first assumption is valid we would expect a 45 degree line which is close to what we have.
 
 
 
@@ -379,6 +379,23 @@ augment(email_mod2) %>%
 Many of the emails, including those that are truly spam, have fitted probabilities below 0.5. This may at first seem very discouraging: we have fit a logistic model to create a spam filter, but few emails have a fitted probability of being spam above 0.5. Don't despair; we will discuss ways to improve the model in Math 378.
 
 We'd like to assess the quality of our model. For example, we might ask: if we look at emails that we modeled as having a 10\% chance of being spam, do we find about 10\% of them actually are spam? In Math 378 you will learn about ROC curves and smoothing splines that may help to assess the quality of the fit. That is beyond the scope of this class.
+
+The problem with this data is that essential all the predictors are binary. Some like `dollar` and `password` are counting variables but most of the values are zero. However, we will use the variable `passwords` to show how we can tell if the variable is linear on the logit scale.
+
+```{r}
+email$logit <- log(email_mod2$fitted.values/(1-email_mod2$fitted.values))
+```
+
+
+```{r warning=FALSE}
+# Graph the logit variable against password
+ggplot(data = email, aes(x = password, y = logit))+
+  geom_point(color = "gray") +
+  geom_smooth(method = "lm", se = FALSE, color = "gray") + 
+  theme_bw() 
+```
+
+Again, not enough data for the larger counts to make this plot of value.
 
 We could evaluate the second logistic regression model assumption -- independence of the outcomes -- using the model residuals. The residuals for a logistic regression model are calculated the same way as with multiple regression: the observed outcome minus the expected outcome. For logistic regression, the expected value of the outcome is the fitted probability for the observation, and the residual may be written as
 

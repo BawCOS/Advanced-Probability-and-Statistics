@@ -2,6 +2,7 @@
 title: "Transformations Application Solutions"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -35,7 +36,7 @@ library(mosaicCalc)
 
 # Exercises
 
-\indent 1. 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. 
+\indent 1. Let $X$ be a random variable and let $g$ be a function. By this point, it should be clear that $\E[g(X)]$ is not necessarily equal to $g(\E[X])$. 
 
 Let $X\sim \textsf{Expon}(\lambda=0.5)$ and $g(X)=X^2$. We know that $\E(X)=\frac{1}{0.5}=2$ so $g(\E(X))=\E(X)^2=4$. Use `R` to find $\E[g(X)]$. Make use of the fact that `R` has `rexp()` built into it, so you don't have to create your own random variable generator.  
 
