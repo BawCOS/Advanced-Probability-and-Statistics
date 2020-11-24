@@ -177,7 +177,7 @@ It looks like there is a difference in interest rate based on the length of the 
 loans200 %>%
   gf_dens(~interest_rate,group=~term,color=~term) %>%
   gf_theme(theme_classic()) %>%
-  gf_labs(title="Lending Club",x="Length of Loan",y="Interest Rate")
+  gf_labs(title="Lending Club",x="Interest Rate",y="Density")
 ```
 Just as we thought.
 

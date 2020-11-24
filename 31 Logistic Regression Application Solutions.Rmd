@@ -131,7 +131,7 @@ results<-do(1000)*glm(pop=="Vic"~.,data=resample(possum),family="binomial")
 ```
 
 ```{r}
-head(results)
+head(results[,1:5])
 ```
 
 ```{r}

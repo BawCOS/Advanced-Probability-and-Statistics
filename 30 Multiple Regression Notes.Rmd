@@ -39,7 +39,7 @@ library(tidyverse)
 
 2) Generate and interpret confidence intervals for estimates.
 
-3) Explain adjusted $R^2$ and and multi-collinearity.
+3) Explain adjusted $R^2$ and multi-collinearity.
 
 4) Interpret regression coefficients for a linear model with multiple predictors.  
 
@@ -130,14 +130,14 @@ mariokart %>%
 
 It appears that **used** items have a higher average price solely because of at least one of the outliers.
 
-There are least two outliers in the plot. Let's gather more information about them.
+There are at least two outliers in the plot. Let's gather more information about them.
 
 ```{r}
 mariokart %>%
   filter(total_pr > 100)
 ```
 
-If you look at the variable `title` there were additional items in the sale for these two observations. Let's remove those two outliers and run the model again. Note that the reason we are removing them is not because the our annoying us and messing up our model. It is because we don't think they are representative of the population of interest.
+If you look at the variable `title` there were additional items in the sale for these two observations. Let's remove those two outliers and run the model again. Note that the reason we are removing them is not because they are annoying us and messing up our model. It is because we don't think they are representative of the population of interest.
 
 ```{r}
 mariokart_new <- mariokart %>%
@@ -201,7 +201,7 @@ No need to check linearity, we only have two different values for the explanator
 > *Example*: Interpretation  
 Interpret the coefficient for the game's condition in the model. Is this coefficient significantly different from 0?
 
-Note that since `cond` is a two-level categorical variable and the reference level is `new`. So - 10.90 means that the model predicts an extra \$10.90 on average for those games that are new versus those that are used. Examining the regression output, we can see that the p-value for `cond` is very close to zero, indicating there is strong evidence that the coefficient is different from zero when using this simple one-variable model.
+Note that `cond` is a two-level categorical variable and the reference level is `new`. So - 10.90 means that the model predicts an extra \$10.90 on average for those games that are new versus those that are used. Examining the regression output, we can see that the p-value for `cond` is very close to zero, indicating there is strong evidence that the coefficient is different from zero when using this simple one-variable model.
 
 ### Including and assessing many variables in a model  
 
@@ -245,7 +245,7 @@ The formula `total_pr~.` uses a *dot*. This means we want to use all the predict
 mario_mod_multi <- lm(total_pr~cond+stock_photo+duration+wheels, data=mariokart_new)
 ```
 
-The `+` symbol does mean to literally add the predictors together. It is not a mathematical operation but a formula operation that means to include the predictor.
+Recall, the `+` symbol does not mean to literally add the predictors together. It is not a mathematical operation but a formula operation that means to include the predictor.
 
 ```{r}
 summary(mario_mod_multi)
@@ -386,9 +386,9 @@ Suppose you added another predictor to the model, but the variance of the errors
 
 Again, in Math 378 we will spend more time on how to select models. Using internal metrics of performance such as p-values or adjusted $R$ squared are one way but using external measures of predictive performance such as **cross validation** or **hold out** sets will be introduced.
 
-### REduced model
+### Reduced model
 
-Now let's drop `duration` from the model and compare to our previous model
+Now let's drop `duration` from the model and compare to our previous model:
 
 ```{r}
 mario_mod_multi2 <- lm(total_pr~cond+stock_photo+wheels, data=mariokart_new)
@@ -404,7 +404,7 @@ As a reminder, the previous model summary is:
 ```{r}
 summary(mario_mod_multi)
 ```
-NOtice that the adjusted $R^2$ improved by dropping `duration`. Finally, let's drop `stock_photo`.
+Notice that the adjusted $R^2$ improved by dropping `duration`. Finally, let's drop `stock_photo`.
 
 
 ```{r}
@@ -416,7 +416,7 @@ mario_mod_multi3 <- lm(total_pr~cond+wheels, data=mariokart_new)
 summary(mario_mod_multi3)
 ```
 
-There is relatively little change in the adjusted $R^2$, so we will go with this model. Again, Math 378 will go more into depth about model selection.
+Though the adjusted $R^2$dropped a little, it is only in the fourth decimal place and thus essentially the same value. We therefor will go with this model. Again, Math 378 will go more into depth about model selection.
 
 ### Confidence and prediction intervals
 
@@ -449,7 +449,7 @@ plot(mario_mod_multi3)
 
 As a final short topic we want to explore **feature engineering**. Thus far we have not done any transformation to the predictors in the data set except maybe making categorical variables into factors. In data analysis competitions, such as Kaggle, feature engineering is often one of the most important steps. In Math 378, we will look at different tools but in this class we will look at simple transformations such as higher order terms and interactions. 
 
-To make this this section more relevant, we are going to switch to a different data set. Load the library `ISLR`, this is a package that you will use a great deal in Math 378.
+To make this section more relevant, we are going to switch to a different data set. Load the library `ISLR`, this is a package that you will use a great deal in Math 378.
 
 ```{r}
 library(ISLR)
@@ -501,7 +501,7 @@ $$
 
 If the observation is a student, then the intercept is increased by 382.67.
 
-In this case, we would want to include an interaction term in the model: an **interaction** term allows the slope to change as well. To include an interaction term when building a model in `R`, we use `\*`. 
+In this case, we would want to include an interaction term in the model: an **interaction** term allows the slope to change as well. To include an interaction term when building a model in `R`, we use `*`. 
 
 ```{r}
 credit_mod2<-lm(Balance~Income*Student,data=Credit)
@@ -536,11 +536,11 @@ augment(credit_mod3) %>%
   gf_line(.fitted~Income)
 ```
 
-There is not much a a quadratic relationship.
+There is not much of a quadratic relationship.
 
 ### Summary  
 
-In this lesson we have extended the linear regression model by allowing multiple predictors. This allows to account for confounding variables and make more sophisticated models. The interpretation and evaluation of the model changes.
+In this lesson we have extended the linear regression model by allowing multiple predictors. This allows us to account for confounding variables and make more sophisticated models. The interpretation and evaluation of the model changes.
 
 ## File Creation Information 
 

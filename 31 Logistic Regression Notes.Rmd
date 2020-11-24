@@ -2,6 +2,7 @@
 title: "Logistic Regression Notes"
 author:
 - Lt Col Ken Horton
+- Lt Col Kris Pruitt
 - Professor Bradley Warner
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -227,7 +228,7 @@ If there is more than one address listed in the **To** field, then the right sid
 
 Notice that we could examine -2.12 and -3.93 in our logistic graph above to estimate the probability before formally calculating the value.
 
-To convert from values on the regression-scale (e.g. -2.12 and -3.93 in our example}), we used the following formula, which is the result of solving for $p_i$ in the regression model:
+To convert from values on the regression-scale (e.g. -2.12 and -3.93 in our example), we used the following formula, which is the result of solving for $p_i$ in the regression model:
 
 $$
 p_i
@@ -248,7 +249,7 @@ While the information about whether the email is addressed to multiple people is
 > **Exercise**: 
 Fit a logistic regression model with all ten predictors listed above. 
 
-Let's build the model and summarize it.
+Let's build the model and summarize it. As a reminder, we can use `.` on the right-hand side of the formula to tell `R` to include all predictors.  
 
 ```{r}
 email_mod2 <- glm(spam=="spam"~.,data=email,family="binomial")
@@ -265,7 +266,8 @@ In Math 378 we will learn more about tuning models but in this lesson we will do
 Take out `exclaim_subj` because it has largest p-value. 
 
 ```{r}
-email_mod2 <- glm(spam=="spam"~to_multiple+cc+attach+dollar+winner+inherit+password+format+re_subj,
+email_mod2 <- glm(spam=="spam"~to_multiple+cc+attach+dollar+winner+
+                  inherit+password+format+re_subj,
                   data=email,family="binomial")
 summary(email_mod2)
 ```
@@ -273,11 +275,12 @@ summary(email_mod2)
 Take out `cc` because it has largest p-value. 
 
 ```{r}
-email_mod2 <- glm(spam=="spam"~to_multiple+attach+dollar+winner+inherit+password+format+re_subj,
+email_mod2 <- glm(spam=="spam"~to_multiple+attach+dollar+winner+
+                  inherit+password+format+re_subj,
                   data=email,family="binomial")
 summary(email_mod2)
 ```
-Now `inherit` is significant but since we are generating multiple p-values we may want to adjust these p-values for the multiple comparison problem. This p-value is close to the 0.05 threshold. We can do this adjustment using the `broom` package.
+Now `inherit` is significant but since we are generating multiple p-values we may want to adjust these p-values for the multiple comparison problem.^[For a further discussion on the multiple comparison problem see the linked [video.](https://www.youtube.com/watch?v=dzi1CSvzCoU)] This p-value is close to the 0.05 threshold. We can do this adjustment using the `broom` package.
 
 ```{r}
 library(broom)
@@ -380,7 +383,7 @@ Many of the emails, including those that are truly spam, have fitted probabiliti
 
 We'd like to assess the quality of our model. For example, we might ask: if we look at emails that we modeled as having a 10\% chance of being spam, do we find about 10\% of them actually are spam? In Math 378 you will learn about ROC curves and smoothing splines that may help to assess the quality of the fit. That is beyond the scope of this class.
 
-The problem with this data is that essential all the predictors are binary. Some like `dollar` and `password` are counting variables but most of the values are zero. However, we will use the variable `passwords` to show how we can tell if the variable is linear on the logit scale.
+The problem with this data is that essentially all the predictors are binary. Some like `dollar` and `password` are counting variables but most of the values are zero. However, we will use the variable `passwords` to show how we can tell if the variable is linear on the logit scale.
 
 ```{r}
 email$logit <- log(email_mod2$fitted.values/(1-email_mod2$fitted.values))
@@ -392,7 +395,9 @@ email$logit <- log(email_mod2$fitted.values/(1-email_mod2$fitted.values))
 ggplot(data = email, aes(x = password, y = logit))+
   geom_point(color = "gray") +
   geom_smooth(method = "lm", se = FALSE, color = "gray") + 
-  theme_bw() 
+  theme_bw() +
+  labs(title="Linearity check of passwords",
+            x="Passwords", y="logit scale")
 ```
 
 Again, not enough data for the larger counts to make this plot of value.
@@ -409,9 +414,9 @@ We could plot these residuals against a variety of variables or in their order o
 
 In this section we will generate confidence intervals. This section is experimental since we are not sure how `do()` from the `mosaic` package will work with the `glm()` function, but let's experiment.  
 
-### Confidence intervals for parameter
+### Confidence intervals for a parameter
 
-First, let's use `R` the built in function `confint()` to find the confidence interval for the simple logistic regression model.
+First, let's use the `R` built-in function `confint()` to find the confidence interval for the simple logistic regression model.
 
 ```{r}
 confint(email_mod)
@@ -435,7 +440,8 @@ Again, it looks like what we expect. Now let's bootstrap the coefficient.
 
 ```{r}
 set.seed(5011)
-results <- do(1000)*glm(formula = spam=="spam" ~ to_multiple, family = "binomial", data = resample(email))
+results <- do(1000)*glm(formula = spam=="spam" ~ to_multiple, 
+                        family = "binomial", data = resample(email))
 ```
 
 ```{r}
@@ -474,7 +480,7 @@ We are 95% confident that expected probability an email with more than one recip
 
 ### Bootstrap for multiple logistic regression
 
-As a reminder, the output from out multiple logistic regression model is:   
+As a reminder, the output from our multiple logistic regression model is:   
 
 ```{r}
 summary(email_mod2)
@@ -486,7 +492,6 @@ Let's see if the `do()` function works on this model:
 do(1)*glm(formula = spam=="spam" ~ to_multiple + attach + dollar + winner + 
     inherit + password + format + re_subj, family = "binomial", 
     data = email)
-
 ```
 This looks good. Let's bootstrap the data.
 
@@ -528,7 +533,7 @@ Take a few minutes to think about additional variables that might be useful in i
 \item[(3)] A third indicator variable could flag emails that contain links included in previous spam messages. If such a link is found, then set the variable to~1 for the email. Otherwise, set it to~0.
 \end{enumerate}  
 
-The variables described above take one of two approaches. Variable (1) is specially designed to capitalize on the fact that spam is rarely sent between individuals that have two-way communication. Variables~(2) and~(3) are specially designed to flag common spammers or spam messages. While we would have to verify using the data that each of the variables is effective, these seem like promising ideas.
+The variables described above take one of two approaches. Variable (1) is specially designed to capitalize on the fact that spam is rarely sent between individuals that have two-way communication. Variables (2) and (3) are specially designed to flag common spammers or spam messages. While we would have to verify using the data that each of the variables is effective, these seem like promising ideas.
 
 The table below shows a contingency table for spam and also for the new variable described in (1) above. If we look at the 1,090 emails where there was correspondence with the sender in the preceding 30 days, not one of these message was spam. This suggests variable (1) would be very effective at accurately classifying some messages as not spam. With this single variable, we would be able to send about 28\% of messages through to the inbox with confidence that almost none are spam.
 
