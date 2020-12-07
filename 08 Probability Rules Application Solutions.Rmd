@@ -71,7 +71,8 @@ $$
 
 \indent 3. The Birthday Problem Revisited. 
 
-a. Suppose there are $n=20$ people in a classroom. My birthday is April 3rd. What is the probability that at least one other person shares my birthday? Assume only 365 days in a year and assume that all birthdays are equally likely.  
+a. Suppose there are $n=20$ students in a classroom. My birthday, the instructor, is April 3rd. What is the probability that at least one student shares my birthday? Assume only 365 days in a year and assume that all birthdays are equally likely.  
+
 $$
 \Prob(\mbox{at least one other person shares my bday})=1-\Prob(\mbox{no one else has my bday}) = 1-\left( \frac{364}{365}\right)^{20} = 0.0534
 $$
