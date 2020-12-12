@@ -209,6 +209,9 @@ In `R` we use the `glm()` function to fit a logistic regression model. It has th
 email_mod <- glm(spam=="spam"~to_multiple,data=email,family="binomial")
 ```
 
+Notice in the code chunk that the left hand side of the formula has a logical argument, this gives a 0/1 output with 1 being the value we want to predict.
+
+
 ```{r}
 summary(email_mod)
 ```
@@ -348,36 +351,26 @@ The first condition of the logistic regression model is not easily checked witho
 
 Let's first visualize these data by plotting the true classification of the emails against the model's fitted probabilities. 
 
-First get the predicted values using `augment()` from the `broom` package. We have to convert the first column from a logic variable into a numeric variable and changed `.fitted` into a predicted probability. If the first assumption is valid we would expect a 45 degree line which is close to what we have.
-
-
+First get the predicted values using `augment()` from the `broom` package. We have to convert the first column from a logic variable into a numeric variable and changed `.fitted` into a predicted probability. If the first assumption is valid we would expect a 45 degree line which is close to what we have. Note we could use the code option `type.predict = "response"` in the `augment()` function to have `R` calculate the probability of success directly.
 
 ```{r}
-augment(email_mod2) %>%
-  mutate(p_hat=exp(.fitted)/(1+exp(.fitted)),spam_num=as.numeric(`spam == "spam"`)) %>%
-  gf_point(spam_num~p_hat,alpha=.2) %>%
-  gf_theme(theme_bw()) %>%
-  gf_labs(title="Predicted propabailites of Spam",x="Predicted Probabilities",
-          y="Spam") %>%
-  gf_lm() 
+mod_data <- augment(email_mod2) %>%
+  mutate(p_hat=exp(.fitted)/(1+exp(.fitted)),spam_num=as.numeric(`spam == "spam"`))
 ```
 
-There is too much overlap on the points so let's add some noise to separate the data points just to visualize better.
+Now we can plot the data, since there is significant overlap, we will use the `gf_jitter()` geom to move the data point in the vertical direction to create visual separation. We also add the fitted line from using a `glm` model.
 
 ```{r}
-set.seed(3012)
-noise <- rnorm(3921, sd=0.08)
-```
-
-```{r warning=FALSE,message=FALSE}
-augment(email_mod2) %>%
-  mutate(p_hat=exp(.fitted)/(1+exp(.fitted)),spam_num=as.numeric(`spam == "spam"`)) %>%
-  gf_point((spam_num+noise)~p_hat,alpha=.2) %>%
+gf_jitter(mod_data,spam_num~p_hat,width=0,height=0.05,alpha=0.2)  %>% 
   gf_theme(theme_bw()) %>%
-  gf_labs(title="Predicted propabailites of Spam", subtitle="Jitter for spam condition",
+  gf_labs(title="Predicted probabilites of Spam",
+           subtitle="Jitter for spam condition",
           x="Predicted Probabilities",
-          y="Spam")
+          y="Spam") %>%
+  gf_smooth(method = "glm", se = FALSE, 
+            color = "red",method.args = list(family = "binomial")) 
 ```
+
 
 Many of the emails, including those that are truly spam, have fitted probabilities below 0.5. This may at first seem very discouraging: we have fit a logistic model to create a spam filter, but few emails have a fitted probability of being spam above 0.5. Don't despair; we will discuss ways to improve the model in Math 378.
 

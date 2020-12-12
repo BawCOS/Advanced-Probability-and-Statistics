@@ -39,3 +39,25 @@ e. Explain why the remaining parameter estimates change between the two models.
 f. Write out the form of the model. Also identify which of the following variables are positively associated (when controlling for other variables) with a possum being from Victoria: `head_l`, `skull_w`, `total_l`, and `tail_l`.
 g. Suppose we see a brushtail possum at a zoo in the US, and a sign says the possum had been captured in the wild in Australia, but it doesn't say which part of Australia. However, the sign does indicate that the possum is male, its skull is about 63 mm wide, its tail is 37 cm long, and its total length is 83 cm. What is the reduced model's computed probability that this possum is from Victoria? How confident are you in the model's accuracy of this probability calculation?
 
+\indent 2. Medical school admission
+
+The file `MedGPA.csv` in the `data` folder has information on medical school admission status and GPA and standardized test scores gathered on 55 medical school applicants from a liberal arts college in the Midwest.
+
+The variables are:
+
+`Accept Status`: A=accepted to medical school or D=denied admission
+`Acceptance`:	Indicator for Accept: 1=accepted or 0=denied
+`Sex`: F=female or M=male
+`BCPM`:	Bio/Chem/Physics/Math grade point average
+`GPA`:	College grade point average
+`VR`:	Verbal reasoning (subscore)
+`PS`:	Physical sciences (subscore)
+`WS`:	Writing sample (subcore)
+`BS`:	Biological sciences (subscore)
+`MCAT`:	Score on the MCAT exam (sum of CR+PS+WS+BS)
+`Apps`:	Number of medical schools applied to
+
+a. Build a logistic regression model to predict `Acceptance` from `GPA`.
+b. Plot `Acceptance` versus `GPA`, add *jitter* in the vertical direction. 
+c. Repeat the plot in part b but add linear and logistic fitted line to the plot.
+d. Check the linearity assumption by plotting `GPA` versus the logit of `Acceptance`, the response on the logit scale.

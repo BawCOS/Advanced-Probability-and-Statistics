@@ -27,6 +27,7 @@ library(openintro)
 library(knitr)
 library(mosaic)
 library(tidyverse)
+library(broom)
 ```
 
 # Exercises
@@ -175,6 +176,95 @@ As a rough sense of the accuracy, we will use the standard error. The errors are
 ```
 
 So at most, the probability of the possum being from Victoria is 2\%.
+
+\indent 2. Medical school admission
+
+The file `MedGPA.csv` in the `data` folder has information on medical school admission status and GPA and standardized test scores gathered on 55 medical school applicants from a liberal arts college in the Midwest.
+
+The variables are:
+
+`Accept Status`: A=accepted to medical school or D=denied admission
+`Acceptance`:	Indicator for Accept: 1=accepted or 0=denied
+`Sex`: F=female or M=male
+`BCPM`:	Bio/Chem/Physics/Math grade point average
+`GPA`:	College grade point average
+`VR`:	Verbal reasoning (subscore)
+`PS`:	Physical sciences (subscore)
+`WS`:	Writing sample (subcore)
+`BS`:	Biological sciences (subscore)
+`MCAT`:	Score on the MCAT exam (sum of CR+PS+WS+BS)
+`Apps`:	Number of medical schools applied to
+
+a. Build a logistic regression model to predict `Acceptance` from `GPA`.  
+
+```{r warning=FALSE,message=FALSE}
+MedGPA <- read_csv("data/MedGPA.csv")
+```
+
+```{r}
+glimpse(MedGPA)
+```
+```{r}
+MedGPA <- MedGPA %>%
+  mutate(Accept=factor(Accept),Sex=factor(Sex))
+```
+
+
+```{r}
+glimpse(MedGPA)
+```
+
+```{r}
+med_mod<-glm(Acceptance~GPA,data=MedGPA,family=binomial)
+```
+
+```{r}
+summary(med_mod)
+```
+
+
+b. Plot `Acceptance` versus `GPA`, add *jitter* in the vertical direction. 
+
+```{r}
+ggplot(data = MedGPA, aes(x = GPA, y = Acceptance)) +   
+  geom_jitter(width = 0, height = 0.05, alpha = 0.5) +
+  labs(title="GPA versus Acceptance to medical school") +
+  theme_bw()
+```
+c. Repeat the plot in part b but add linear and logistic fitted line to the plot.
+
+
+```{r warning=FALSE,message=FALSE}
+ggplot(data = MedGPA, aes(x = GPA, y = Acceptance)) +   
+  geom_jitter(width = 0, height = 0.05, alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +   geom_smooth(method = "glm", se = FALSE, color = "red",               method.args = list(family = "binomial")) +
+  labs(title="GPA versus Acceptance to medical school") +
+  theme_bw()
+```
+d. Check the linearity assumption by plotting `GPA` versus the logit of `Acceptance`, the response on the logit scale. 
+
+We will use `augment()` to help us.
+
+
+```{r}
+ggplot(augment(med_mod),aes(x=GPA,y=.fitted)) +
+  geom_point() +
+  theme_bw() +
+  labs(title="Check of linearity assumption",
+       y="Logit values")
+```
+We have too few data points to make this plot useful. We need to be able to bin the data points together to create an $n$ greater than 1. See https://online.stat.psu.edu/stat504/node/160/ for more information. 
+
+If the model fits well a smooth fit between the predicted probabilities and actual values should be close to linear.  In the following plot, we may not hae a good fit.  
+
+```{r}
+ggplot(augment(med_mod,type.predict = "response"),aes(x=.fitted,y=Acceptance)) +
+  geom_point()+
+  geom_smooth(method="loess") +
+  theme_bw() +
+  labs(title="Check of fit",
+       x="Predicted probabilities")
+```
 
 
 ## File Creation Information 
